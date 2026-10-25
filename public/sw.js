@@ -1,6 +1,6 @@
 // Offline support, same approach as KeepUp: pages come from the network so updates arrive,
 // falling back to the saved copy after 2.5 s or when offline. Built files are cached on first use.
-const CACHE = 'dose-v1';
+const CACHE = 'dose-v2';
 self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(['/', '/manifest.webmanifest', '/icons/icon.svg'])).then(() => self.skipWaiting())); });
 self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
 function pageFirst(e) {

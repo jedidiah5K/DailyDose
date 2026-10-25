@@ -1,6 +1,15 @@
 // The night city that ties Daily Dose together: stars, a moon, and a skyline where each game
 // owns a building with its own neon sign. Everything is seeded, so it looks the same on every visit.
 
+// The sky follows the player's own clock: dawn, day, dusk, night. ?sky=day (etc.) forces one, for testing.
+export function skyPhase(h = new Date().getHours()) {
+  const forced = new URLSearchParams(location.search).get('sky');
+  if (['dawn', 'day', 'dusk', 'night'].includes(forced)) return forced;
+  return h >= 5 && h < 8 ? 'dawn' : h >= 8 && h < 17 ? 'day' : h >= 17 && h < 20 ? 'dusk' : 'night';
+}
+// How many ordinary windows are lit at each time of day.
+const LIT = { night: .38, dusk: .26, dawn: .14, day: .04 };
+
 // Small seeded random, so the skyline doesn't reshuffle each time you open the app.
 const rnd = seed => () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
 
@@ -24,7 +33,7 @@ export const icon = (k, cls = '') => `<svg class="gi ${cls}" viewBox="0 0 24 24"
 
 // A skyline of `count` buildings. `signs` = [{ at, k, label, on, lit }]: a game's sign sits on the
 // building at index `at`; `lit` turns that building's windows warm (you finished it today).
-export function skyline(signs = [], count = 22, seed = 11) {
+export function skyline(signs = [], count = 22, seed = 11, phase = 'night') {
   const r = rnd(seed), bySpot = Object.fromEntries(signs.map((s, n) => [s.at, { ...s, n }]));
   const far = Array.from({ length: 30 }, () => `<i style="height:${(18 + r() * 40).toFixed(0)}%;flex:${(1 + r() * 2).toFixed(2)}"></i>`).join('');
   const near = Array.from({ length: count }, (_, i) => {
@@ -32,7 +41,7 @@ export function skyline(signs = [], count = 22, seed = 11) {
     const s = bySpot[i], h = s ? (s.n % 2 ? 54 : 80) + r() * 6 : 22 + r() * 55, w = (1 + r() * 1.6).toFixed(2);
     const roof = r() > .86 ? '<b class="ant"></b>' : '';
     const sign = s ? `<span class="sign g-${s.k}${s.on ? '' : ' off'}">${icon(s.k)}${s.label}</span>` : '';
-    return `<i class="bld${s?.lit || (!s && r() > .62) ? ' lit' : ''}${s ? ' has-sign' : ''}" ${s ? `data-k="${s.k}"` : ''} style="height:${h.toFixed(0)}%;flex:${w}">${roof}${sign}</i>`;
+    return `<i class="bld${s?.lit || (!s && r() < LIT[phase]) ? ' lit' : ''}${s ? ' has-sign' : ''}" ${s ? `data-k="${s.k}"` : ''} style="height:${h.toFixed(0)}%;flex:${w}">${roof}${sign}</i>`;
   }).join('');
   return `<div class="city" aria-hidden="true"><div class="far">${far}</div><div class="near">${near}</div></div>`;
 }

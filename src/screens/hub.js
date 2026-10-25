@@ -2,7 +2,7 @@ import { countdown, puzzleNo } from '../lib/day.js';
 import { resultFor, streak, freezeUsedThisWeek } from '../lib/store.js';
 import { playingToday } from '../lib/cloud.js';
 import { SOUNDS, buzz } from '../ui/feedback.js';
-import { stars, skyline, icon } from '../ui/sky.js';
+import { stars, skyline, icon, skyPhase } from '../ui/sky.js';
 import { clock, rewireLine } from './rewire.js';
 import { hunchLine } from './hunch.js';
 import { dropLine } from './drop.js';
@@ -46,8 +46,9 @@ export function hub(app) {
   const next = open.find(g => !resultFor(g.k));
   const signs = GAMES.filter(g => g.at != null).map(g => ({ at: g.at, k: g.k, label: g.sign, on: !g.soon, lit: !!resultFor(g.k) }));
 
+  const phase = skyPhase();
   app.innerHTML = `<main class="screen hub">
-    <section class="sky">
+    <section class="sky ph-${phase}">
       <div class="stars">${stars()}</div>
       <i class="moon" aria-hidden="true"></i>
       <i class="shoot" aria-hidden="true"></i>
@@ -60,7 +61,7 @@ export function hub(app) {
           <span class="pill" id="live" hidden></span>
         </div>
       </header>
-      ${skyline(signs)}
+      ${skyline(signs, 22, 11, phase)}
     </section>
     <div class="street">
       ${nextUp(next, played, open)}
@@ -73,6 +74,7 @@ export function hub(app) {
         </button></li>`).join('')}
       </ol>
       <p class="hint">Same puzzles for everyone on Earth. New ones at midnight UTC.</p>
+      <p class="legal"><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a></p>
     </div>
   </main>`;
 

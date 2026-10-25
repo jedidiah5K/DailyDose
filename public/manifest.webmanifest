@@ -1,7 +1,7 @@
 {
   "name": "Daily Dose",
   "short_name": "Daily Dose",
-  "description": "Three daily games. Same puzzles for everyone, new ones every day.",
+  "description": "Five daily games. Same puzzles for everyone, new ones every night.",
   "id": "/",
   "start_url": "/",
   "scope": "/",
@@ -10,5 +10,10 @@
   "categories": ["games", "puzzle"],
   "background_color": "#070912",
   "theme_color": "#070912",
-  "icons": [{ "src": "/icons/icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+  "icons": [
+    { "src": "/icons/icon.svg", "sizes": "any", "type": "image/svg+xml" },
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
 }

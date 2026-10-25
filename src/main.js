@@ -38,4 +38,18 @@ setInterval(() => {
 }, 1000);
 show();
 
-if ('serviceWorker' in navigator && import.meta.env.PROD) navigator.serviceWorker.register('/sw.js');
+// Updates: the new version installs in the background; when it takes over, offer a one-tap refresh.
+// Coming back to the app checks for a newer version.
+if ('serviceWorker' in navigator && import.meta.env.PROD) {
+  const had = !!navigator.serviceWorker.controller;
+  navigator.serviceWorker.register('/sw.js').then(reg => {
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) reg.update().catch(() => {}); });
+  });
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (!had || document.querySelector('.update')) return;   // first install isn't an update
+    const t = document.createElement('div'); t.className = 'update'; t.setAttribute('role', 'status');
+    t.innerHTML = '<span>A new version of Daily Dose is ready</span><button>Refresh</button>';
+    t.querySelector('button').addEventListener('click', () => location.reload());
+    document.body.appendChild(t);
+  });
+}

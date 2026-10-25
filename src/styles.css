@@ -391,3 +391,30 @@ p { margin: 0; }
 .ls-opts.echo i { width: 14px; height: 14px; border-radius: 50%; background: var(--c); }
 .ls-timer i { background: var(--c-last); box-shadow: 0 0 10px var(--c-last); }
 .ls-grid { font-size: 1.2rem; letter-spacing: .1em; }
+.update { position: fixed; left: 50%; bottom: calc(1rem + env(safe-area-inset-bottom)); translate: -50% 0; z-index: 50; display: flex; align-items: center; gap: .8rem;
+  padding: .55rem .55rem .55rem 1rem; border-radius: 999px; background: #EEECF7; color: #070912; font-size: .85rem; box-shadow: 0 12px 30px -10px #000; animation: rise .5s var(--out) both; white-space: nowrap; }
+.update button { padding: .55rem .9rem; border-radius: 999px; background: #070912; color: #FFC861; font-weight: 600; }
+.legal { display: flex; justify-content: center; gap: 1rem; padding: 1.5rem 0 .5rem; font-size: .75rem; }
+.legal a { color: var(--muted); }
+
+/* ---------- the sky through the day (phase from the player's clock) ---------- */
+.sky { transition: background 1s; }
+.sky.ph-dawn { background: linear-gradient(#1B1E4A 0%, #4A3672 35%, #C2577A 68%, #FF9E6B 88%, #FFC48A 100%); }
+.sky.ph-day { background: linear-gradient(#1B4FA8 0%, #2F6FD0 40%, #6FA8E8 78%, #B9D9F5 100%); }
+.sky.ph-dusk { background: linear-gradient(#141640 0%, #3B2A6A 38%, #8E3F7A 66%, #E8735A 88%, #FFB067 100%); }
+.ph-day .stars { opacity: 0; }
+.ph-dawn .stars, .ph-dusk .stars { opacity: .35; }
+.ph-day .shoot, .ph-dawn .shoot { display: none; }
+/* by day and at the edges of it, the moon becomes the sun */
+.ph-day .moon, .ph-dawn .moon, .ph-dusk .moon { background: radial-gradient(circle at 40% 40%, #FFFBEA, #FFE07A 60%, #FFC23A); box-shadow: 0 0 50px 18px rgba(255, 214, 102, .45), 0 0 140px 60px rgba(255, 200, 90, .18); }
+.ph-day .moon::after, .ph-dawn .moon::after, .ph-dusk .moon::after { display: none; }
+.ph-dawn .moon { top: auto; bottom: 8.6rem; right: 3rem; background: radial-gradient(circle at 40% 40%, #FFF3E0, #FFB27A 65%, #FF8A5B); }
+.ph-dusk .moon { top: auto; bottom: 9.6rem; right: 2.4rem; background: radial-gradient(circle at 40% 40%, #FFE6C8, #FF9A5C 60%, #F0623F); }
+.ph-day .city .far i { background: #3E5C9A; }
+.ph-dawn .city .far i, .ph-dusk .city .far i { background: #3A2F62; }
+.ph-day .bld { background-color: #121A36; background-image: radial-gradient(circle, #2A3766 1.2px, transparent 1.7px); }
+.ph-day .sign:not(.off) { box-shadow: 0 0 6px color-mix(in srgb, var(--c) 50%, transparent); background: rgba(5, 6, 18, .85); }
+.ph-day .hub-head h1, .ph-dawn .hub-head h1 { text-shadow: 0 2px 18px rgba(10, 20, 60, .45); }
+.ph-day .hub-head h1 em { color: #FFE07A; text-shadow: 0 2px 14px rgba(10, 20, 60, .5); }
+.ph-day .hub-head .eyebrow { color: rgba(255, 255, 255, .85); }
+.ph-day .pill { background: rgba(8, 20, 60, .35); color: #fff; }
