@@ -280,3 +280,12 @@ p { margin: 0; }
 .next-in { text-align: center; font: 500 .74rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: .2rem 0; }
 .next-in b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
 .link-quiet { justify-self: center; padding: .5rem; font-size: .8rem; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
+.h-intro { display: grid; gap: 1rem; padding-top: 2.5rem; justify-items: start; }
+.h-intro h2 { font-size: clamp(2.6rem, 12vw, 3.3rem); line-height: .95; }
+.h-intro h2 em { color: var(--c-hunch); text-shadow: 0 0 22px rgba(147, 170, 255, .5); }
+.h-intro p { color: var(--ink-2); max-width: 22rem; }
+.h-orbit { display: grid; place-items: center; width: 4.5rem; height: 4.5rem; border-radius: 50%; color: var(--c-hunch);
+  box-shadow: inset 0 0 0 1.5px rgba(147, 170, 255, .5), 0 0 30px -6px var(--c-hunch); animation: hum 4s infinite ease-in-out; --c: var(--c-hunch); }
+.h-orbit .gi { width: 34px; height: 34px; filter: drop-shadow(0 0 6px var(--c-hunch)); }
+.h-rules { list-style: none; display: flex; gap: 1.25rem; padding: 0; margin: .5rem 0 0; font-size: .82rem; color: var(--muted); }
+.h-rules b { display: block; font: 400 1.9rem/1 var(--serif); color: var(--ink); }

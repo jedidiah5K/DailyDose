@@ -156,6 +156,18 @@ export function hunch(app) {
     else ask(0);
   }
 
-  load();
+  // First visit today: a short intro before anything starts. Coming back mid-game skips it.
+  function intro() {
+    $('#body').innerHTML = `<div class="h-intro rise">
+      <div class="h-orbit" aria-hidden="true">${icon('hunch')}</div>
+      <h2 class="display">How close can you <em>get?</em></h2>
+      <p>Five questions about the world. Slide to your best guess, then see where everyone else landed.</p>
+      <ul class="h-rules"><li><b>5</b> questions</li><li><b>1</b> guess each</li><li><b>~2</b> minutes</li></ul>
+    </div>
+    <div class="h-bottom"><button class="btn wide" id="begin">Start</button></div>`;
+    $('#begin').addEventListener('click', () => { SOUNDS.tap(); buzz(); $('#body').innerHTML = '<div class="h-skel"><i></i><i></i><i></i></div>'; load(); });
+  }
+
+  if (p || resultFor('hunch')) load(); else intro();
   return () => { gone = true; };
 }
