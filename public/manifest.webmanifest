@@ -1,0 +1,14 @@
+{
+  "name": "Daily Dose",
+  "short_name": "Daily Dose",
+  "description": "Three daily games. Same puzzles for everyone, new ones every day.",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "categories": ["games", "puzzle"],
+  "background_color": "#F2EEE6",
+  "theme_color": "#F2EEE6",
+  "icons": [{ "src": "/icons/icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}
