@@ -3,6 +3,7 @@ import { state, save, finish, resultFor, streak } from '../lib/store.js';
 import { rewireStart, rewireSubmit } from '../lib/cloud.js';
 import { rot, trace, countSolutions } from '../games/rewireLogic.js';
 import { SOUNDS, buzz } from '../ui/feedback.js';
+import { stars, icon } from '../ui/sky.js';
 
 const calm = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 const wait = ms => new Promise(r => setTimeout(r, calm() ? 0 : ms));
@@ -28,9 +29,10 @@ export function rewire(app) {
   let busy = false, gone = false, timer = 0, base = 0, t0 = 0;
 
   app.innerHTML = `<main class="screen game rewire">
+    <div class="stars" aria-hidden="true">${stars(34, 5)}</div>
     <header class="v-top">
       <a href="#" class="back" aria-label="Back to all games" title="Back"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></a>
-      <p class="eyebrow">Rewire · No. ${puzzleNo()}</p>
+      <p class="neon-title g-rewire">${icon('rewire')}Rewire <span>No. ${puzzleNo()}</span></p>
       <span class="eyebrow mono" id="time">0:00</span>
     </header>
     <div class="rw-stage">

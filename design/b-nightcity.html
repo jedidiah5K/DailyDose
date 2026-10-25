@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>B · Night city</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;600&family=Geist+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; }
+body { font-family: 'Geist', sans-serif; background: #070912; color: #EDEBF5; min-height: 100vh; }
+.sky { position: relative; height: 330px; overflow: hidden; background: linear-gradient(#0B1030, #1B1F4A 55%, #3B2A55 85%, #6B3A4E); }
+.star { position: absolute; width: 2px; height: 2px; background: #fff; border-radius: 50%; animation: tw 3s infinite; }
+@keyframes tw { 50% { opacity: .2; } }
+.moon { position: absolute; right: 34px; top: 40px; width: 46px; height: 46px; border-radius: 50%; background: #FFF3CF; box-shadow: 0 0 40px 10px rgba(255,236,180,.25); }
+.head { position: relative; z-index: 2; padding: 22px 18px; }
+.head .eb { font: 500 10px 'Geist Mono'; letter-spacing: .16em; opacity: .7; }
+.head h1 { font-family: 'Instrument Serif'; font-weight: 400; font-size: 54px; line-height: .9; margin-top: 10px; }
+.head h1 em { color: #FFC861; }
+.live { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; font: 500 11px 'Geist Mono'; padding: 6px 10px; border-radius: 99px; background: rgba(255,255,255,.08); }
+.live i { width: 7px; height: 7px; border-radius: 50%; background: #FF5A6E; box-shadow: 0 0 8px #FF5A6E; animation: tw 1.4s infinite; }
+.city { position: absolute; left: 0; right: 0; bottom: 0; height: 150px; display: flex; align-items: flex-end; gap: 3px; padding: 0 6px; }
+.b { flex: 1; background: #0A0D1C; border-radius: 3px 3px 0 0; position: relative;
+  background-image: radial-gradient(circle, #232A45 1.3px, transparent 1.8px); background-size: 7px 9px; }
+.b.lit { background-image: radial-gradient(circle, #FFC861 1.3px, transparent 1.8px); }
+.b .sign { position: absolute; left: 50%; top: -22px; translate: -50% 0; white-space: nowrap; font: 600 10px 'Geist'; padding: 3px 7px; border-radius: 5px; border: 1.5px solid; }
+.tiles { padding: 18px 16px 40px; display: grid; gap: 12px; margin-top: -6px; position: relative; }
+.t { display: flex; align-items: center; gap: 14px; padding: 16px; border-radius: 18px; background: #111527; border: 1px solid #1F2440; }
+.t .ic { width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; font-size: 24px; }
+.t h3 { font-family: 'Instrument Serif'; font-weight: 400; font-size: 28px; line-height: 1; }
+.t p { font-size: 12.5px; opacity: .6; margin-top: 3px; }
+.t .st { margin-left: auto; font: 500 10px 'Geist Mono'; letter-spacing: .08em; padding: 7px 10px; border-radius: 99px; }
+.cd { text-align: center; font: 500 11px 'Geist Mono'; opacity: .6; padding-bottom: 30px; }
+</style></head><body>
+<div class="sky">
+  <div class="moon"></div>
+  <div class="head"><p class="eb">NO. 1 · SUN 25 OCT</p><h1>Your daily<br><em>dose</em></h1><span class="live"><i></i>1,204 playing tonight</span></div>
+  <div class="city" id="city"></div>
+</div>
+<div class="tiles">
+  <div class="t"><div class="ic" style="background:#0B2733;color:#5CE1FF;box-shadow:0 0 18px rgba(92,225,255,.35)">⚡</div><div><h3>Rewire</h3><p>Lit in 1:42 · your tower is on</p></div><span class="st" style="background:rgba(92,225,255,.12);color:#5CE1FF">DONE</span></div>
+  <div class="t"><div class="ic" style="background:#162048;color:#7FA2FF">◎</div><div><h3>Hunch</h3><p>5 guesses about the world</p></div><span class="st" style="background:#EDEBF5;color:#070912">PLAY</span></div>
+  <div class="t" style="opacity:.55"><div class="ic" style="background:#33210B;color:#FF9F1C">●</div><div><h3>Drop</h3><p>Opens soon</p></div></div>
+  <div class="t" style="opacity:.55"><div class="ic" style="background:#3A1729;color:#FF7AA8">◐</div><div><h3>Mind Meld</h3><p>Opens soon</p></div></div>
+</div>
+<p class="cd">Lights out in 10:58:32</p>
+<script>
+const sky = document.querySelector('.sky');
+for (let i = 0; i < 40; i++) { const s = document.createElement('i'); s.className = 'star'; s.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*55}%;animation-delay:${Math.random()*3}s`; sky.appendChild(s); }
+const signs = { 3: ['REWIRE', '#5CE1FF'], 8: ['HUNCH', '#7FA2FF'], 13: ['DROP', '#FF9F1C'], 17: ['MELD', '#FF7AA8'] };
+document.getElementById('city').innerHTML = Array.from({ length: 20 }, (_, i) => {
+  const s = signs[i]; const h = 40 + (i * 37 % 60);
+  return `<div class="b ${i === 3 || i % 5 === 1 ? 'lit' : ''}" style="height:${h}%">${s ? `<span class="sign" style="color:${s[1]};border-color:${s[1]};box-shadow:0 0 10px ${s[1]}">${s[0]}</span>` : ''}</div>`;
+}).join('');
+</script>
+</body></html>

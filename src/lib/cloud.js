@@ -17,6 +17,13 @@ export async function user() {
 }
 export const isGuest = async () => (await sb.auth.getSession()).data.session?.user?.is_anonymous !== false;
 
+// How many people played anything today. Works without signing in.
+export async function playingToday() {
+  const { data, error } = await sb.rpc('dose_players_today');
+  if (error) throw error;
+  return data;
+}
+
 // Today's Rewire: starts the server clock the first time, then returns the same puzzle.
 export async function rewireStart() {
   await user();

@@ -2,6 +2,7 @@ import { dayKey, puzzleNo } from '../lib/day.js';
 import { state, save, finish, resultFor, streak } from '../lib/store.js';
 import { hunchStart, hunchGuess } from '../lib/cloud.js';
 import { SOUNDS, buzz } from '../ui/feedback.js';
+import { stars, icon } from '../ui/sky.js';
 
 const calm = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 const wait = ms => new Promise(r => setTimeout(r, calm() ? 0 : ms));
@@ -18,6 +19,14 @@ const unit = q => q.unit ? ` <span class="h-unit">${q.unit}</span>` : '';
 const off = (q, g) => g.v === g.a ? 'Spot on.' : isYear(q) ? `${Math.abs(g.v - g.a)} year${Math.abs(g.v - g.a) === 1 ? '' : 's'} off.` : g.err < 1 ? 'Spot on.' : `${Math.round(g.err)}% off.`;
 const worldOff = (q, g) => isYear(q) ? `${Math.round(Math.abs(g.avg - g.a))} years` : `${Math.round(Math.abs(g.avg - g.a) / g.a * 100)}%`;
 
+// Up to 40 falling dots, spread across the columns in proportion to the guesses in each.
+function rain(bins) {
+  const total = bins.reduce((a, b) => a + b, 0), out = [];
+  if (!total) return '';
+  bins.forEach((n, b) => { for (let k = 0; k < Math.round(n / total * Math.min(total, 40)); k++) out.push(`<i class="meteor" style="--x:${(b + .5) / bins.length};--d:${(out.length * 23) % 600}ms"></i>`); });
+  return out.join('');
+}
+
 export const hunchLine = r => `🎯 ${r.rated ? `beat the world ${r.beat}/${r.rated} · ` : ''}avg error ${Math.round(r.err)}%`;
 const shareText = r => `🎯 HUNCH #${puzzleNo()} · ${r.rated ? `beat the world ${r.beat}/${r.rated} · ` : ''}avg error ${Math.round(r.err)}%\nDAILY DOSE`;
 
@@ -27,9 +36,10 @@ export function hunch(app) {
   let busy = false, gone = false;
 
   app.innerHTML = `<main class="screen game hunch">
+    <div class="stars" aria-hidden="true">${stars(40, 9)}</div>
     <header class="v-top">
       <a href="#" class="back" aria-label="Back to all games" title="Back"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></a>
-      <p class="eyebrow">Hunch · No. ${puzzleNo()}</p>
+      <p class="neon-title g-hunch">${icon('hunch')}Hunch <span>No. ${puzzleNo()}</span></p>
       <span class="eyebrow mono" id="step"></span>
     </header>
     <section id="body" class="h-body"><div class="h-skel"><i></i><i></i><i></i></div></section>
@@ -86,6 +96,7 @@ export function hunch(app) {
       <h2 class="display h-small">${q.q}</h2>
       <div class="chart ${fresh ? 'play' : ''}" id="chart">
         ${g.bins.map((n, b) => `<i class="bar" style="--h:${n / max};--b:${b}"></i>`).join('')}
+        ${fresh ? rain(g.bins) : ''}
         <span class="mark you" style="--x:${toT(q, g.v)}"><b>You</b></span>
         ${g.avg != null ? `<span class="mark avg" style="--x:${toT(q, g.avg)}"><b>World</b></span>` : ''}
         <span class="mark ans" style="--x:${toT(q, g.a)}"><b>${fmt(q, g.a)}${q.unit ? ' ' + q.unit : ''}</b></span>

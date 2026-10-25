@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>C · Sticker arcade</title>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;800;900&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+<style>
+:root { --ink: #121212; --paper: #FFF4D6; }
+* { box-sizing: border-box; margin: 0; }
+body { font-family: 'Rubik', sans-serif; background: var(--paper); color: var(--ink); min-height: 100vh; padding: 16px 16px 40px; overflow-x: hidden; }
+.top { display: flex; justify-content: space-between; align-items: center; font: 700 11px 'Space Mono'; }
+.streak { background: #FF5A36; color: #fff; border: 2.5px solid var(--ink); border-radius: 99px; padding: 5px 10px; box-shadow: 2px 2px 0 var(--ink); }
+.logo { margin: 18px 0 6px; font-weight: 900; font-size: 58px; line-height: .82; letter-spacing: -.05em; text-transform: uppercase; }
+.logo span { display: inline-block; background: #FFD23F; border: 3px solid var(--ink); padding: 0 8px; transform: rotate(-3deg); box-shadow: 4px 4px 0 var(--ink); margin-top: 6px; }
+.ticket { display: flex; justify-content: space-between; margin: 18px 0; padding: 10px 14px; border: 2.5px dashed var(--ink); border-radius: 12px; font: 700 12px 'Space Mono'; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.s { border: 3px solid var(--ink); border-radius: 22px; padding: 14px; box-shadow: 5px 5px 0 var(--ink); position: relative; min-height: 168px; display: flex; flex-direction: column; transition: transform .2s; }
+.s:nth-child(1) { transform: rotate(-1.5deg); } .s:nth-child(2) { transform: rotate(1.2deg); } .s:nth-child(3) { transform: rotate(.8deg); } .s:nth-child(4) { transform: rotate(-1deg); }
+.s h3 { font-weight: 900; font-size: 26px; letter-spacing: -.03em; line-height: .9; text-transform: uppercase; margin-top: auto; }
+.s p { font-weight: 500; font-size: 12px; margin-top: 4px; }
+.s .art { height: 64px; display: grid; place-items: center; font-size: 40px; }
+.s .badge { position: absolute; top: -12px; right: -8px; background: #fff; border: 2.5px solid var(--ink); border-radius: 99px; font: 700 10px 'Space Mono'; padding: 5px 9px; transform: rotate(8deg); }
+.wide { grid-column: span 2; min-height: 110px; flex-direction: row; align-items: center; gap: 14px; }
+.wide h3 { margin-top: 0; }
+.cta { display: block; margin-top: 22px; text-align: center; background: var(--ink); color: var(--paper); font-weight: 900; font-size: 20px; text-transform: uppercase; padding: 18px; border-radius: 18px; box-shadow: 0 6px 0 #FF5A36; }
+</style></head><body>
+<div class="top"><span>NO. 001 · SUN 25 OCT</span><span class="streak">🔥 4 DAYS</span></div>
+<h1 class="logo">Daily<br><span>Dose!</span></h1>
+<div class="ticket"><span>NEW GAMES IN</span><span>10:58:32</span></div>
+<div class="grid">
+  <div class="s" style="background:#5CE1FF"><span class="badge">✓ 1:42</span><div class="art">⚡</div><h3>Rewire</h3><p>Light up the city</p></div>
+  <div class="s" style="background:#B8A6FF"><span class="badge">NEW</span><div class="art">🎯</div><h3>Hunch</h3><p>Guess the world</p></div>
+  <div class="s" style="background:#FF9F1C"><div class="art">⛳</div><h3>Drop</h3><p>Soon</p></div>
+  <div class="s" style="background:#FF7AA8"><div class="art">🧠</div><h3>Mind Meld</h3><p>Soon</p></div>
+  <div class="s wide" style="background:#121212;color:#FFF4D6"><div class="art">⚔️</div><div><h3>Last Stand</h3><p>Saturday · 10 rounds, 1 life</p></div></div>
+</div>
+<a class="cta">Play Hunch →</a>
+</body></html>

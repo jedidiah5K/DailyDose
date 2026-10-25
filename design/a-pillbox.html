@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A · Pill box</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root { --foil: #DCDDE2; --ink: #17161A; --label: #FFF6E3; --red: #F0442C; }
+* { box-sizing: border-box; margin: 0; }
+body { font-family: 'Bricolage Grotesque', sans-serif; background: #E9E6DF; color: var(--ink); min-height: 100vh; padding: 18px 16px 40px;
+  background-image: radial-gradient(circle at 1px 1px, rgba(0,0,0,.06) 1px, transparent 0); background-size: 6px 6px; }
+.rx { background: var(--label); border: 2px solid var(--ink); border-radius: 6px; padding: 14px 14px 12px; position: relative; box-shadow: 4px 4px 0 var(--ink); }
+.rx .top { display: flex; justify-content: space-between; font: 700 10px 'JetBrains Mono'; letter-spacing: .1em; }
+.rx h1 { font-weight: 800; font-size: 46px; line-height: .9; letter-spacing: -.04em; margin: 10px 0 6px; }
+.rx h1 span { color: var(--red); }
+.rx .meta { display: flex; gap: 14px; font: 500 11px 'JetBrains Mono'; border-top: 1.5px dashed var(--ink); padding-top: 8px; }
+.rx .meta b { font-weight: 700; }
+.guy { position: absolute; right: 14px; top: 26px; width: 64px; height: 30px; border-radius: 15px; border: 2px solid var(--ink);
+  background: linear-gradient(90deg, var(--red) 50%, #fff 50%); transform: rotate(-18deg); animation: bob 2.4s ease-in-out infinite; }
+.guy::before, .guy::after { content: ''; position: absolute; top: 9px; width: 6px; height: 8px; border-radius: 50%; background: var(--ink); animation: blink 4s infinite; }
+.guy::before { left: 40px; } .guy::after { left: 50px; }
+@keyframes bob { 50% { transform: rotate(-12deg) translateY(-4px); } }
+@keyframes blink { 0%, 92%, 100% { transform: scaleY(1); } 95% { transform: scaleY(.1); } }
+.sheet { margin-top: 22px; background: var(--foil); border-radius: 18px; padding: 14px; border: 2px solid var(--ink);
+  background-image: linear-gradient(135deg, rgba(255,255,255,.7), transparent 40%, rgba(255,255,255,.4) 60%, transparent); }
+.sheet .lbl { font: 700 10px 'JetBrains Mono'; letter-spacing: .12em; margin: 0 4px 10px; display: flex; justify-content: space-between; }
+.cell { display: flex; align-items: center; gap: 14px; padding: 12px; border-radius: 14px; background: rgba(255,255,255,.55); border: 1.5px solid rgba(0,0,0,.15); margin-bottom: 10px;
+  box-shadow: inset 0 2px 0 rgba(255,255,255,.9), inset 0 -3px 6px rgba(0,0,0,.08); }
+.cap { flex: none; width: 74px; height: 36px; border-radius: 18px; border: 2px solid var(--ink); position: relative; overflow: hidden; }
+.cap::after { content: ''; position: absolute; left: 8px; top: 5px; width: 26px; height: 6px; border-radius: 3px; background: rgba(255,255,255,.6); }
+.cell h3 { font-weight: 800; font-size: 22px; letter-spacing: -.02em; }
+.cell p { font-size: 12.5px; opacity: .7; }
+.cell .go { margin-left: auto; font: 700 11px 'JetBrains Mono'; padding: 8px 10px; border-radius: 8px; background: var(--ink); color: #fff; }
+.cell.done { background: transparent; border-style: dashed; box-shadow: none; }
+.cell.done .cap { opacity: .25; }
+.cell.done .go { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); }
+.cell.soon { opacity: .5; }
+.foot { margin-top: 18px; text-align: center; font: 500 11px 'JetBrains Mono'; }
+</style></head><body>
+<div class="rx">
+  <div class="top"><span>Rx NO. 001</span><span>SUN 25 OCT</span></div>
+  <h1>Daily<br><span>Dose.</span></h1>
+  <div class="guy" aria-hidden="true"></div>
+  <div class="meta"><span>TAKE: <b>2 today</b></span><span>REFILL IN <b>10:58:32</b></span><span>🔥 <b>4</b></span></div>
+</div>
+<div class="sheet">
+  <div class="lbl"><span>TODAY'S BLISTER PACK</span><span>1 / 2 TAKEN</span></div>
+  <div class="cell done"><div class="cap" style="background:linear-gradient(90deg,#1BB6E8 50%,#0B1830 50%)"></div><div><h3>Rewire</h3><p>Lit in 1:42 · beat 71%</p></div><span class="go">TAKEN</span></div>
+  <div class="cell"><div class="cap" style="background:linear-gradient(90deg,#2F6BFF 50%,#fff 50%)"></div><div><h3>Hunch</h3><p>5 guesses about the world</p></div><span class="go">TAKE</span></div>
+  <div class="cell soon"><div class="cap" style="background:linear-gradient(90deg,#FF9F1C 50%,#fff 50%)"></div><div><h3>Drop</h3><p>Coming soon</p></div></div>
+  <div class="cell soon"><div class="cap" style="background:linear-gradient(90deg,#FF7AA8 50%,#FFE1C7 50%)"></div><div><h3>Mind Meld</h3><p>Coming soon</p></div></div>
+</div>
+<p class="foot">⚠ MAY CAUSE: arguing with friends · 1,204 taking it today</p>
+</body></html>
