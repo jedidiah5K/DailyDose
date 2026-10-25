@@ -30,3 +30,4 @@ Make Daily Dose look hand-crafted (never AI-generated) and make it something peo
 
 ## Log
 - 2026-10-25: Night-city identity across home, Rewire and Hunch (sky, skyline with a neon sign per game, buildings light up as you finish games). Live "playing tonight" count from the server, hidden below 25 players.
+- 2026-10-25 (cycle 2): Audit found the classic AI tell: every game in its own rounded card. Replaced the card stack with one lit "Next up" marquee (one main action) plus a ruled building directory; unopened games show as unlit outline signs. Buildings in the skyline open their game. Added a live "Tomorrow's puzzle in" countdown to results (something to come back for). Redrew the Hunch icon (it read as a warning sign). Next: image share cards (9:16 story + square) in the night-city style.

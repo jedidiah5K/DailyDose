@@ -93,36 +93,51 @@ p { margin: 0; }
 .g-rewire { --c: var(--c-rewire); } .g-hunch { --c: var(--c-hunch); } .g-drop { --c: var(--c-drop); } .g-meld { --c: var(--c-meld); } .g-last { --c: var(--c-last); }
 .gi { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
-/* ---------- hub: the street (game tiles) ---------- */
-.street { position: relative; z-index: 2; max-width: 32rem; margin: 0 auto; padding: 0 1rem; }
-.tonight { display: flex; justify-content: space-between; gap: 1rem; padding: 1rem .25rem .75rem; font-size: .78rem; color: var(--muted); }
+/* ---------- hub: the street ---------- */
+.street { position: relative; z-index: 2; max-width: 32rem; margin: 0 auto; padding: 0 1.25rem; }
+.city .bld[data-k] { cursor: pointer; pointer-events: auto; }
+.city .bld[data-k]:active { filter: brightness(1.4); }
+
+/* the one big thing to do: a lit marquee for the next game */
+.next { --c: var(--warm); position: relative; display: flex; align-items: center; gap: .9rem; width: 100%; margin-top: -1.6rem; padding: .9rem 1rem;
+  border-radius: 18px; text-align: left; color: var(--ink); background: #0B0E22;
+  border: 1.5px solid var(--c); box-shadow: 0 0 0 4px #070912, 0 0 28px -6px var(--c), inset 0 0 22px -10px var(--c); transition: transform .3s var(--spring); }
+.next:active { transform: scale(.97); }
+.n-ic { display: grid; place-items: center; width: 3rem; height: 3rem; flex: none; border-radius: 12px; color: var(--c); background: color-mix(in srgb, var(--c) 14%, transparent); }
+.n-ic .gi { width: 26px; height: 26px; filter: drop-shadow(0 0 6px var(--c)); }
+.n-body { display: grid; gap: .3rem; min-width: 0; flex: 1; }
+.n-name { font-size: 2.1rem; line-height: .9; }
+.n-go { font: 700 .72rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; padding: .8rem 1rem; border-radius: 12px;
+  background: var(--c); color: #060814; box-shadow: 0 0 18px -2px var(--c); animation: hum-go 2.6s infinite ease-in-out; }
+@keyframes hum-go { 50% { box-shadow: 0 0 28px 0 var(--c); } }
+.next.all-lit .btn { background: var(--warm); color: var(--accent-ink); min-height: 2.9rem; box-shadow: 0 0 22px -4px var(--warm); }
+
+.tonight { display: flex; justify-content: space-between; gap: 1rem; padding: 1.4rem 0 .35rem; font-size: .76rem; color: var(--muted); }
 .tonight b { color: var(--ink); font-weight: 500; font-variant-numeric: tabular-nums; }
-.tiles { list-style: none; margin: 0 0 1.25rem; padding: 0; display: grid; gap: .6rem; }
-.tile { position: relative; display: grid; grid-template-columns: 3.4rem 1fr auto; align-items: center; gap: .9rem; width: 100%; text-align: left;
-  padding: .95rem .95rem .95rem .85rem; border-radius: 20px; background: linear-gradient(160deg, #121733, #0B0E22);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .07), 0 18px 30px -22px #000; transition: transform .3s var(--spring); overflow: hidden; }
-.tile::before { content: ''; position: absolute; inset: 0; background: radial-gradient(120% 90% at 0% 50%, color-mix(in srgb, var(--c) 16%, transparent), transparent 55%); opacity: .8; pointer-events: none; }
-.tile:active { transform: scale(.97); }
-.t-ic { position: relative; display: grid; place-items: center; width: 3.4rem; height: 3.4rem; border-radius: 15px; color: var(--c);
-  background: color-mix(in srgb, var(--c) 10%, #080A1A); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--c) 45%, transparent), 0 0 22px -6px var(--c); }
-.t-ic .gi { width: 26px; height: 26px; filter: drop-shadow(0 0 5px var(--c)); }
-.tile:not([aria-disabled]) .t-ic { animation: hum 4s infinite ease-in-out; }
-@keyframes hum { 50% { box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--c) 70%, transparent), 0 0 30px -4px var(--c); } }
-.t-body { position: relative; display: grid; gap: .2rem; min-width: 0; }
-.t-name { font-size: 1.85rem; line-height: 1; }
-.t-line { font-size: .82rem; color: var(--ink-2); line-height: 1.3; }
-.t-status { position: relative; font: 600 .64rem/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; padding: .55rem .7rem; border-radius: 999px; white-space: nowrap; }
-.t-status.play { background: var(--c); color: #060814; box-shadow: 0 0 16px -2px var(--c); }
-.t-status.done { color: var(--c); background: color-mix(in srgb, var(--c) 12%, transparent); max-width: 8.5rem; overflow: hidden; text-overflow: ellipsis; }
-.t-status.soon { color: var(--muted); box-shadow: inset 0 0 0 1px var(--line-2); }
-.tile[aria-disabled] { --c: #4A4F78; }
-.tile[aria-disabled] .t-name, .tile[aria-disabled] .t-line { opacity: .6; }
-.tile[aria-disabled] .t-ic .gi { filter: none; }
-.tile.nope { animation: nope .35s; }
+
+/* the rest: a building directory, ruled lines instead of boxes */
+.board { list-style: none; margin: 0 0 1.5rem; padding: 0; border-top: 1px solid var(--line); }
+.row { position: relative; display: grid; grid-template-columns: 1.8rem 1fr auto; align-items: center; gap: .6rem; width: 100%; text-align: left;
+  padding: .95rem 0; border-bottom: 1px solid var(--line); transition: background .25s; }
+.row::before { content: ''; position: absolute; left: -1.25rem; top: 22%; bottom: 22%; width: 3px; border-radius: 0 3px 3px 0; background: var(--c); box-shadow: 0 0 10px var(--c); opacity: 0; transition: opacity .25s; }
+.row:not([aria-disabled]):active { background: color-mix(in srgb, var(--c) 7%, transparent); }
+.row:not([aria-disabled]):active::before, .row.is-done::before { opacity: 1; }
+.r-no { align-self: start; padding-top: .45rem; font-size: .68rem; color: var(--muted); }
+.r-body { display: grid; gap: .15rem; min-width: 0; }
+.r-name { font-size: 1.75rem; line-height: 1; color: var(--ink); }
+.row.is-done .r-name { color: var(--c); text-shadow: 0 0 18px color-mix(in srgb, var(--c) 45%, transparent); }
+/* games that haven't opened yet: an unlit sign, letters in outline */
+.row[aria-disabled] .r-name { color: transparent; -webkit-text-stroke: 1px #50557E; }
+.r-line { font-size: .8rem; color: var(--ink-2); line-height: 1.3; }
+.row[aria-disabled] .r-line { color: var(--muted); }
+.t-status { font: 600 .62rem/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; padding: .5rem .65rem; border-radius: 999px; white-space: nowrap; }
+.t-status.play { color: var(--c); box-shadow: inset 0 0 0 1.5px var(--c); }
+.t-status.done { color: #060814; background: var(--c); max-width: 8.5rem; overflow: hidden; text-overflow: ellipsis; box-shadow: 0 0 14px -3px var(--c); }
+.t-status.soon { color: var(--muted); }
+.nope { animation: nope .35s; }
 @keyframes nope { 25% { translate: -5px 0; } 75% { translate: 5px 0; } }
-.hint { text-align: center; color: var(--muted); font-size: .82rem; padding: 0 1rem; }
-.hub .btn { background: var(--warm); color: var(--accent-ink); box-shadow: 0 0 26px -6px rgba(255, 200, 97, .7); }
-@media (max-width: 360px) { .tile { grid-template-columns: 3rem 1fr; } .t-ic { width: 3rem; height: 3rem; } .t-status { grid-column: 2; justify-self: start; } }
+.hint { text-align: center; color: var(--muted); font-size: .78rem; padding: 0 1rem; }
+@media (max-width: 360px) { .n-name { font-size: 1.8rem; } .row { grid-template-columns: 1.5rem 1fr; } .row .t-status { grid-column: 2; justify-self: start; } }
 
 /* ---------- game screens (shared) ---------- */
 .game { color: var(--ink); max-width: none; display: flex; flex-direction: column; }
@@ -262,3 +277,5 @@ p { margin: 0; }
 .neon-title .gi { width: 13px; height: 13px; }
 .neon-title span { color: var(--ink-2); text-shadow: none; font-weight: 500; }
 .rewire .back, .hunch .back { color: var(--ink); }
+.next-in { text-align: center; font: 500 .74rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: .2rem 0; }
+.next-in b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }

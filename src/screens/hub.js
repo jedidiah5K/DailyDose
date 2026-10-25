@@ -18,6 +18,16 @@ const GAMES = [
 // Below this many players we keep quiet about the count; "3 playing" reads like an empty room.
 const SHOW_PLAYERS_FROM = 25;
 
+// One obvious thing to do: the next game you haven't played. Once everything is lit, sharing takes its place.
+function nextUp(g, played, open) {
+  if (g) return `<button class="next g-${g.k}" data-k="${g.k}">
+      <span class="n-ic">${icon(g.k)}</span>
+      <span class="n-body"><span class="eyebrow">${played.length ? 'Next up' : 'Start tonight with'}</span><span class="n-name display">${g.name}</span></span>
+      <span class="n-go" aria-hidden="true">Play</span></button>`;
+  return `<div class="next all-lit"><span class="n-body"><span class="eyebrow">All ${open.length} lit tonight</span><span class="n-name display">The city’s glowing</span></span>
+      <button class="btn" id="share">Share</button></div>`;
+}
+
 const status = g => {
   if (g.soon) return `<span class="t-status soon">${g.soon}</span>`;
   const r = resultFor(g.k);
@@ -29,6 +39,7 @@ export function hub(app) {
   const s = streak();
   const played = GAMES.filter(g => !g.soon && resultFor(g.k));
   const open = GAMES.filter(g => !g.soon);
+  const next = open.find(g => !resultFor(g.k));
   const signs = GAMES.filter(g => g.at != null).map(g => ({ at: g.at, k: g.k, label: g.sign, on: !g.soon, lit: !!resultFor(g.k) }));
 
   app.innerHTML = `<main class="screen hub">
@@ -48,22 +59,25 @@ export function hub(app) {
       ${skyline(signs)}
     </section>
     <div class="street">
-      <p class="tonight"><span>${played.length} of ${open.length} lit tonight</span><span class="mono">Lights out in <b id="cd">${countdown()}</b></span></p>
-      <ol class="tiles">
-        ${GAMES.map(g => `<li><button class="tile g-${g.k}${resultFor(g.k) ? ' is-done' : ''}" data-k="${g.k}" ${g.soon ? 'aria-disabled="true"' : ''}>
-          <span class="t-ic">${icon(g.k)}</span>
-          <span class="t-body"><span class="t-name display">${g.name}</span><span class="t-line">${g.line}</span></span>
+      ${nextUp(next, played, open)}
+      <p class="tonight"><span>${played.length} of ${open.length} lit tonight</span><span class="mono">Lights out in <b data-cd>${countdown()}</b></span></p>
+      <ol class="board">
+        ${GAMES.map((g, i) => `<li><button class="row g-${g.k}${resultFor(g.k) ? ' is-done' : ''}" data-k="${g.k}" ${g.soon ? 'aria-disabled="true"' : ''}>
+          <span class="r-no mono">0${i + 1}</span>
+          <span class="r-body"><span class="r-name display">${g.name}</span><span class="r-line">${g.line}</span></span>
           ${status(g)}
         </button></li>`).join('')}
       </ol>
-      ${played.length ? '<button class="btn wide" id="share">Share tonight’s dose</button>' : '<p class="hint">Same puzzles for everyone on Earth. New ones at midnight UTC.</p>'}
+      <p class="hint">Same puzzles for everyone on Earth. New ones at midnight UTC.</p>
     </div>
   </main>`;
 
-  app.querySelectorAll('.tile').forEach(b => b.addEventListener('click', () => {
-    if (b.getAttribute('aria-disabled')) { b.classList.remove('nope'); void b.offsetWidth; b.classList.add('nope'); buzz(8); return; }
-    SOUNDS.tap(); buzz(); location.hash = b.dataset.k;
-  }));
+  const go = (k, el) => {
+    if (GAMES.find(g => g.k === k)?.soon) { el.classList.remove('nope'); void el.offsetWidth; el.classList.add('nope'); buzz(8); return; }
+    SOUNDS.tap(); buzz(); location.hash = k;
+  };
+  // the list, the big button, and the buildings themselves all open games
+  app.querySelectorAll('[data-k]').forEach(b => b.addEventListener('click', () => go(b.dataset.k, b)));
   app.querySelector('#me').addEventListener('click', openAccount);
   app.querySelector('#share')?.addEventListener('click', () => {
     const text = [`DAILY DOSE #${puzzleNo()}`, ...played.map(g => `${g.name} ${g.share(resultFor(g.k))}`), location.origin].join('\n');
@@ -77,7 +91,5 @@ export function hub(app) {
     el.innerHTML = `<i class="dot"></i><b>${n.toLocaleString()}</b> playing tonight`;
   }).catch(() => {});
 
-  const cd = app.querySelector('#cd');
-  const t = setInterval(() => { cd.textContent = countdown(); if (cd.textContent === '00:00:00') location.reload(); }, 1000);
-  return () => { gone = true; clearInterval(t); };
+  return () => { gone = true; };
 }

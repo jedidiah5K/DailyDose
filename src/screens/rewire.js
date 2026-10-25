@@ -1,4 +1,4 @@
-import { dayKey, puzzleNo } from '../lib/day.js';
+import { dayKey, puzzleNo, countdown } from '../lib/day.js';
 import { state, save, finish, resultFor, streak } from '../lib/store.js';
 import { rewireStart, rewireSubmit } from '../lib/cloud.js';
 import { rot, trace, countSolutions } from '../games/rewireLogic.js';
@@ -112,6 +112,7 @@ export function rewire(app) {
       <h2 class="display">In <em>${clock(r.ms)}</em></h2>
       <p class="muted">${beat}${streak('rewire') > 1 ? ` · ${streak('rewire')} days in a row` : ''}</p>
       <button class="btn wide" id="share">Share</button>
+      <p class="next-in">Tomorrow’s puzzle in <b data-cd>${countdown()}</b></p>
       <a class="link center" href="#">All games</a>
     </div>`;
     $('#share').addEventListener('click', () => {

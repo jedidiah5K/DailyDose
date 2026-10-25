@@ -1,4 +1,4 @@
-import { dayKey, puzzleNo } from '../lib/day.js';
+import { dayKey, puzzleNo, countdown } from '../lib/day.js';
 import { state, save, finish, resultFor, streak } from '../lib/store.js';
 import { hunchStart, hunchGuess } from '../lib/cloud.js';
 import { SOUNDS, buzz } from '../ui/feedback.js';
@@ -123,6 +123,7 @@ export function hunch(app) {
       <p class="muted">${r.rated ? `Average error ${Math.round(r.err)}%` : 'Average error across your five guesses'}${streak('hunch') > 1 ? ` · ${streak('hunch')} days in a row` : ''}</p>
       <ol class="h-list">${p ? p.guesses.map((g, i) => `<li><span>${p.questions[i].q}</span><b>${isYear(p.questions[i]) ? `${Math.abs(g.v - g.a)} yr` : `${Math.round(g.err)}%`}</b></li>`).join('') : ''}</ol>
       <button class="btn wide" id="share">Share</button>
+      <p class="next-in">Tomorrow’s puzzle in <b data-cd>${countdown()}</b></p>
       <a class="link center" href="#">All games</a>
     </div>`;
     $('#share').addEventListener('click', () => {

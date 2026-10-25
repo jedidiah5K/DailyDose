@@ -15,7 +15,7 @@ export function stars(n = 46, seed = 7) {
 // The neon icon for each game, drawn as strokes so it can glow in the game's colour.
 export const ICONS = {
   rewire: '<path d="M13 2 4.5 13.5H11L10 22l8.5-11.5H12z"/>',
-  hunch: '<path d="M2 19h20"/><path d="M3 18c3.5 0 4.5-11 9-11s5.5 11 9 11"/><path d="M12 7v12" stroke-dasharray="2 2.5"/>',
+  hunch: '<path d="M2 20h20"/><path d="M2.5 19c4 0 5.5-9 9.5-9s5.5 9 9.5 9"/><circle cx="16.5" cy="4.5" r="2"/><path d="M16.5 6.5V19" stroke-dasharray="1.5 2"/>',
   drop: '<circle cx="18" cy="17" r="3"/><path d="M3 6c4-4 9-2 12 5" stroke-dasharray="2 2.5"/><path d="M14 21h8"/>',
   meld: '<circle cx="9" cy="12" r="6"/><circle cx="15" cy="12" r="6"/>',
   last: '<path d="M7 21V9h10v12"/><path d="M9 9V5h6v4"/><path d="M11 5V2h2v3"/><path d="M4 21h16"/>',
@@ -31,7 +31,7 @@ export function skyline(signs = [], count = 22, seed = 11) {
     const s = bySpot[i], h = s ? 55 + r() * 25 : 22 + r() * 55, w = (1 + r() * 1.6).toFixed(2);
     const roof = r() > .86 ? '<b class="ant"></b>' : '';
     const sign = s ? `<span class="sign g-${s.k}${s.on ? '' : ' off'}">${icon(s.k)}${s.label}</span>` : '';
-    return `<i class="bld${s?.lit || (!s && r() > .62) ? ' lit' : ''}${s ? ' has-sign' : ''}" style="height:${h.toFixed(0)}%;flex:${w}">${roof}${sign}</i>`;
+    return `<i class="bld${s?.lit || (!s && r() > .62) ? ' lit' : ''}${s ? ' has-sign' : ''}" ${s ? `data-k="${s.k}"` : ''} style="height:${h.toFixed(0)}%;flex:${w}">${roof}${sign}</i>`;
   }).join('');
   return `<div class="city" aria-hidden="true"><div class="far">${far}</div><div class="near">${near}</div></div>`;
 }
