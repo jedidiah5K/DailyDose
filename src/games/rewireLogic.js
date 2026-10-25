@@ -77,6 +77,6 @@ export function generate(day, size = sizeFor(day), salt = "") {
     if (!trace(tiles, w, plant).solved || countSolutions(tiles, w, plant) !== 1) continue;
     const scrambled = tiles.map(m => { const t = turns(m); return t.length === 1 ? m : rot(m, 1 + ((r() * 3) | 0)); });
     if (trace(scrambled, w, plant).solved) continue;
-    return { w, plant, tiles: scrambled, buildings: tiles.map((m, i) => i !== plant && bits(m) === 1).flatMap((b, i) => b ? [i] : []) };
+    return { w, plant, tiles: scrambled, solution: tiles, buildings: tiles.map((m, i) => i !== plant && bits(m) === 1).flatMap((b, i) => b ? [i] : []) };
   }
 }

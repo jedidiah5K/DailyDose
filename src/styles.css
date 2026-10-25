@@ -290,3 +290,15 @@ p { margin: 0; }
 .h-rules { list-style: none; display: flex; gap: 1.25rem; padding: 0; margin: .5rem 0 0; font-size: .82rem; color: var(--muted); }
 .h-rules b { display: block; font: 400 1.9rem/1 var(--serif); color: var(--ink); }
 .pill .frz { margin-left: .2rem; padding-left: .55rem; border-left: 1px solid rgba(255, 255, 255, .18); color: #9FD8FF; }
+
+/* Rewire hint: quiet until you want it, then two taps */
+.rw-tools { display: flex; justify-content: center; margin-top: .7rem; min-height: 2.4rem; }
+.hint-btn { font: 600 .74rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); padding: .7rem 1rem; border-radius: 999px; box-shadow: inset 0 0 0 1px var(--line-2); transition: color .2s, box-shadow .2s, background .2s; }
+.hint-btn span { color: var(--muted); margin-left: .3rem; }
+.hint-btn.armed { color: #06121A; background: var(--warm); box-shadow: 0 0 18px -4px var(--warm); }
+.hint-btn.armed span { color: #3B2A06; }
+.hint-btn[hidden] { display: none; }
+.tl.locked::after { content: ''; position: absolute; inset: 3px; border-radius: 7px; box-shadow: inset 0 0 0 1.5px rgba(255, 200, 97, .7); pointer-events: none; }
+.tl.hinted { animation: hinted .7s var(--spring); }
+@keyframes hinted { 0% { transform: scale(.8); } 60% { transform: scale(1.08); } }
+.tl.nope { animation: nope .35s; }

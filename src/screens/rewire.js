@@ -1,7 +1,7 @@
 import { dayKey, puzzleNo, countdown, clock } from '../lib/day.js';
 import { shareDose } from '../ui/card.js';
 import { state, save, finish, resultFor, streak } from '../lib/store.js';
-import { rewireStart, rewireSubmit } from '../lib/cloud.js';
+import { rewireStart, rewireSubmit, rewireHint } from '../lib/cloud.js';
 import { rot, trace, countSolutions } from '../games/rewireLogic.js';
 import { SOUNDS, buzz } from '../ui/feedback.js';
 import { stars, icon } from '../ui/sky.js';
@@ -44,6 +44,7 @@ export function rewire(app) {
         <p class="eyebrow">The clock starts when you tap Start</p>
       </div>
     </div>
+    <div class="rw-tools"><button class="hint-btn" id="hint" hidden>Hint <span>+30s</span></button></div>
     <div class="skyline" id="sky" aria-hidden="true"></div>
     <p class="v-msg" id="msg" role="status"></p>
     <section id="bottom"></section>
@@ -57,7 +58,7 @@ export function rewire(app) {
   function draw() {
     const g = $('#grid'), bl = new Set(p.buildings);
     g.style.setProperty('--w', p.w);
-    g.innerHTML = p.tiles.map((m, i) => `<button class="tl" data-i="${i}" style="--r:${p.r[i]}" aria-label="Tile ${i % p.w + 1}, ${Math.floor(i / p.w) + 1}">${tileSvg(m, i === p.plant ? 'plant' : bl.has(i) ? 'bld' : '')}</button>`).join('');
+    g.innerHTML = p.tiles.map((m, i) => `<button class="tl${p.locked?.includes(i) ? ' locked' : ''}" data-i="${i}" style="--r:${p.r[i]}" aria-label="Tile ${i % p.w + 1}, ${Math.floor(i / p.w) + 1}">${tileSvg(m, i === p.plant ? 'plant' : bl.has(i) ? 'bld' : '')}</button>`).join('');
     // skyline: one tower per building, heights from the grid so it's the same for everyone
     $('#sky').innerHTML = p.buildings.map((b, k) => `<i style="--h:${30 + (b * 37 % 55)}%;--k:${k}"></i>`).join('');
     g.querySelectorAll('.tl').forEach(t => t.addEventListener('click', () => turn(+t.dataset.i)));
@@ -76,14 +77,37 @@ export function rewire(app) {
 
   function turn(i) {
     if (busy || !p || p.done) return;
+    if (p.locked?.includes(i)) { const t = $('#grid').children[i]; t.classList.remove('nope'); void t.offsetWidth; t.classList.add('nope'); buzz(8); return; }
     p.r[i]++; save();
     const t = $('#grid').children[i]; t.style.setProperty('--r', p.r[i]);
     SOUNDS.turn(); buzz(5);
     if (power()) solved();
   }
 
+  // A hint needs two taps (it costs 30 seconds): the first arms it, the second asks the server.
+  let armed = 0;
+  async function hint() {
+    const b = $('#hint');
+    if (busy || !p || p.done) return;
+    if (Date.now() - armed > 3000) { armed = Date.now(); b.classList.add('armed'); b.innerHTML = 'Tap again for a hint <span>+30s</span>'; SOUNDS.tap(); setTimeout(() => { if (Date.now() - armed >= 3000) { b.classList.remove('armed'); b.innerHTML = 'Hint <span>+30s</span>'; } }, 3100); return; }
+    armed = 0; b.classList.remove('armed'); b.innerHTML = 'Hint <span>+30s</span>'; b.disabled = true;
+    let h;
+    try { h = await rewireHint(current()); } catch (e) { b.disabled = false; say('Couldn’t get a hint right now. Try again.'); return; }
+    b.disabled = false;
+    if (!h || gone) return;
+    lockTile(h.i, h.m);
+    base += 30000; tick();
+    SOUNDS.link(6); buzz(20);
+    if (power()) solved();
+  }
+  function lockTile(i, m) {
+    p.r[i] = [0, 1, 2, 3].find(k => rot(p.tiles[i], k) === m) ?? p.r[i];
+    (p.locked ||= []).includes(i) || p.locked.push(i); save();
+    const t = $('#grid').children[i]; t.style.setProperty('--r', p.r[i]); t.classList.add('locked', 'hinted');
+  }
+
   async function solved() {
-    busy = true; clearInterval(timer);
+    busy = true; clearInterval(timer); $('#hint').hidden = true;
     let res;
     try { res = await rewireSubmit(current()); }
     catch (e) {
@@ -110,7 +134,7 @@ export function rewire(app) {
     $('#bottom').innerHTML = `<div class="result ${fresh ? 'rise' : ''}">
       <p class="eyebrow">City lit</p>
       <h2 class="display">In <em>${clock(r.ms)}</em></h2>
-      <p class="muted">${beat}${streak('rewire') > 1 ? ` · ${streak('rewire')} days in a row` : ''}</p>
+      <p class="muted">${beat}${r.hints ? ` · ${r.hints} hint${r.hints > 1 ? 's' : ''}` : ''}${streak('rewire') > 1 ? ` · ${streak('rewire')} days in a row` : ''}</p>
       <button class="btn wide" id="share">Share tonight’s dose</button>
       <button class="link-quiet" id="square">Square image instead</button>
       <p class="next-in">Tomorrow’s puzzle in <b data-cd>${countdown()}</b></p>
@@ -140,7 +164,9 @@ export function rewire(app) {
     $('#cover').classList.add('gone'); SOUNDS.tap();
     draw();
     if (s.result) return showDone(s.result);   // finished on another phone
-    base = s.elapsed_ms; t0 = performance.now(); tick(); timer = setInterval(tick, 250);
+    for (const h of s.hints || []) lockTile(h.i, h.m);   // hints already taken (maybe on another phone)
+    base = s.elapsed_ms + 30000 * (s.hints || []).length; t0 = performance.now(); tick(); timer = setInterval(tick, 250);
+    $('#hint').hidden = false;
     if (power(false)) solved();
   }
 
@@ -155,6 +181,7 @@ export function rewire(app) {
     result(r, false);
   }
 
+  $('#hint').addEventListener('click', hint);
   const done = resultFor('rewire');
   if (done && p) showDone(done);
   else if (p || done) begin();  // resume straight away (or fetch the finished board)

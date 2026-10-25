@@ -7,7 +7,7 @@ import { clock } from '../lib/day.js';
 // Finished games for today, as lines for the card and the text share. Add new games here.
 const LINEUP = [
   { k: 'rewire', name: 'Rewire', color: '#5CE1FF', emoji: '⚡',
-    big: r => `Lit in ${clock(r.ms)}`, small: r => r.beat != null ? `Faster than ${r.beat}% of players` : 'City lit' },
+    big: r => `Lit in ${clock(r.ms)}`, small: r => (r.beat != null ? `Faster than ${r.beat}% of players` : 'City lit') + (r.hints ? ` · ${r.hints} hint${r.hints > 1 ? 's' : ''}` : ' · no hints') },
   { k: 'hunch', name: 'Hunch', color: '#93AAFF', emoji: '🎯',
     big: r => r.rated ? `Beat the world ${r.beat}/${r.rated}` : `${Math.round(r.err)}% off`, small: r => `Average error ${Math.round(r.err)}%` },
 ];
