@@ -6,6 +6,7 @@ import { stars, skyline, icon } from '../ui/sky.js';
 import { clock, rewireLine } from './rewire.js';
 import { hunchLine } from './hunch.js';
 import { openAccount } from './account.js';
+import { shareDose } from '../ui/card.js';
 
 // The lineup. New games plug in here: a key, a building in the skyline (`at`), a screen in main.js, and a result line.
 const GAMES = [
@@ -79,10 +80,7 @@ export function hub(app) {
   // the list, the big button, and the buildings themselves all open games
   app.querySelectorAll('[data-k]').forEach(b => b.addEventListener('click', () => go(b.dataset.k, b)));
   app.querySelector('#me').addEventListener('click', openAccount);
-  app.querySelector('#share')?.addEventListener('click', () => {
-    const text = [`DAILY DOSE #${puzzleNo()}`, ...played.map(g => `${g.name} ${g.share(resultFor(g.k))}`), location.origin].join('\n');
-    if (navigator.share) navigator.share({ text }).catch(() => {}); else navigator.clipboard?.writeText(text);
-  });
+  app.querySelector('#share')?.addEventListener('click', () => { SOUNDS.tap(); shareDose('story'); });
 
   let gone = false;
   playingToday().then(n => {

@@ -8,6 +8,8 @@ export const puzzleNo = (t = Date.now()) => Math.floor((t - LAUNCH) / DAY) + 1;
 export const msToReset = (t = Date.now()) => DAY - (t % DAY);
 export const prevKey = key => dayKey(Date.parse(key) - DAY);
 
+export const clock = ms => { const s = Math.floor(ms / 1000); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; };
+
 export function countdown(t = Date.now()) {
   const s = Math.floor(msToReset(t) / 1000), p = n => String(n).padStart(2, '0');
   return `${p(Math.floor(s / 3600))}:${p(Math.floor(s / 60) % 60)}:${p(s % 60)}`;

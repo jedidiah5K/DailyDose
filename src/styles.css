@@ -279,3 +279,4 @@ p { margin: 0; }
 .rewire .back, .hunch .back { color: var(--ink); }
 .next-in { text-align: center; font: 500 .74rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: .2rem 0; }
 .next-in b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+.link-quiet { justify-self: center; padding: .5rem; font-size: .8rem; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }

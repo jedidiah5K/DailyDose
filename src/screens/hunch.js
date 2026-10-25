@@ -1,4 +1,5 @@
 import { dayKey, puzzleNo, countdown } from '../lib/day.js';
+import { shareDose } from '../ui/card.js';
 import { state, save, finish, resultFor, streak } from '../lib/store.js';
 import { hunchStart, hunchGuess } from '../lib/cloud.js';
 import { SOUNDS, buzz } from '../ui/feedback.js';
@@ -28,7 +29,6 @@ function rain(bins) {
 }
 
 export const hunchLine = r => `🎯 ${r.rated ? `beat the world ${r.beat}/${r.rated} · ` : ''}avg error ${Math.round(r.err)}%`;
-const shareText = r => `🎯 HUNCH #${puzzleNo()} · ${r.rated ? `beat the world ${r.beat}/${r.rated} · ` : ''}avg error ${Math.round(r.err)}%\nDAILY DOSE`;
 
 export function hunch(app) {
   const day = dayKey();
@@ -122,15 +122,17 @@ export function hunch(app) {
       <h2 class="display">${r.rated ? `Beat the world <em>${r.beat}/${r.rated}</em>` : `<em>${Math.round(r.err)}%</em> off`}</h2>
       <p class="muted">${r.rated ? `Average error ${Math.round(r.err)}%` : 'Average error across your five guesses'}${streak('hunch') > 1 ? ` · ${streak('hunch')} days in a row` : ''}</p>
       <ol class="h-list">${p ? p.guesses.map((g, i) => `<li><span>${p.questions[i].q}</span><b>${isYear(p.questions[i]) ? `${Math.abs(g.v - g.a)} yr` : `${Math.round(g.err)}%`}</b></li>`).join('') : ''}</ol>
-      <button class="btn wide" id="share">Share</button>
+      <button class="btn wide" id="share">Share tonight’s dose</button>
+      <button class="link-quiet" id="square">Square image instead</button>
       <p class="next-in">Tomorrow’s puzzle in <b data-cd>${countdown()}</b></p>
       <a class="link center" href="#">All games</a>
     </div>`;
-    $('#share').addEventListener('click', () => {
-      const text = shareText(r) + '\n' + location.origin;
-      if (navigator.share) navigator.share({ text }).catch(() => {});
-      else navigator.clipboard?.writeText(text).then(() => { $('#share').textContent = 'Copied'; });
-    });
+    const send = fmt => async () => {
+      SOUNDS.tap();
+      if (await shareDose(fmt) === 'saved') say('Image saved and the text copied. Paste it anywhere.');
+    };
+    $('#share').addEventListener('click', send('story'));
+    $('#square').addEventListener('click', send('square'));
   }
 
   async function load() {

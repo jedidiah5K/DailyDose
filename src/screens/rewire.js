@@ -1,4 +1,5 @@
-import { dayKey, puzzleNo, countdown } from '../lib/day.js';
+import { dayKey, puzzleNo, countdown, clock } from '../lib/day.js';
+import { shareDose } from '../ui/card.js';
 import { state, save, finish, resultFor, streak } from '../lib/store.js';
 import { rewireStart, rewireSubmit } from '../lib/cloud.js';
 import { rot, trace, countSolutions } from '../games/rewireLogic.js';
@@ -7,9 +8,8 @@ import { stars, icon } from '../ui/sky.js';
 
 const calm = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 const wait = ms => new Promise(r => setTimeout(r, calm() ? 0 : ms));
-export const clock = ms => { const s = Math.floor(ms / 1000); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; };
+export { clock };
 export const rewireLine = r => `⚡ ${clock(r.ms)}${r.beat != null ? ` · beat ${r.beat}%` : ''}`;
-const shareText = r => `⚡ REWIRE #${puzzleNo()} · ${clock(r.ms)} · no hints${r.beat != null ? ` · beat ${r.beat}%` : ''}\nDAILY DOSE`;
 
 // One tile, drawn facing its starting way; turning is a CSS rotation on the wire layer.
 const ARM = { 1: 'M50 50V0', 2: 'M50 50H100', 4: 'M50 50V100', 8: 'M50 50H0' };
@@ -111,15 +111,17 @@ export function rewire(app) {
       <p class="eyebrow">City lit</p>
       <h2 class="display">In <em>${clock(r.ms)}</em></h2>
       <p class="muted">${beat}${streak('rewire') > 1 ? ` · ${streak('rewire')} days in a row` : ''}</p>
-      <button class="btn wide" id="share">Share</button>
+      <button class="btn wide" id="share">Share tonight’s dose</button>
+      <button class="link-quiet" id="square">Square image instead</button>
       <p class="next-in">Tomorrow’s puzzle in <b data-cd>${countdown()}</b></p>
       <a class="link center" href="#">All games</a>
     </div>`;
-    $('#share').addEventListener('click', () => {
-      const text = shareText(r) + '\n' + location.origin;
-      if (navigator.share) navigator.share({ text }).catch(() => {});
-      else navigator.clipboard?.writeText(text).then(() => { $('#share').textContent = 'Copied'; });
-    });
+    const send = fmt => async () => {
+      SOUNDS.tap();
+      if (await shareDose(fmt) === 'saved') say('Image saved and the text copied. Paste it anywhere.');
+    };
+    $('#share').addEventListener('click', send('story'));
+    $('#square').addEventListener('click', send('square'));
   }
 
   function tick() { $('#time').textContent = clock(base + performance.now() - t0); }
