@@ -62,6 +62,9 @@ async function rpc(name, args) {
 export const lastStart = () => rpc('dose_last_start');
 export const lastServe = () => rpc('dose_last_serve');
 export const lastAnswer = choice => rpc('dose_last_answer', { p_choice: choice });
+export const lastBank = () => rpc('dose_last_bank');
+export const lastPick = perk => rpc('dose_last_pick', { p_perk: perk });
+export const lastUse = perk => rpc('dose_last_use', { p_perk: perk });
 export const meldStart = () => rpc('dose_meld_start');
 export const meldServe = () => rpc('dose_meld_serve');
 export const meldAnswer = text => rpc('dose_meld_answer', { p_text: text });
