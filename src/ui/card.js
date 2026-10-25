@@ -12,6 +12,8 @@ const LINEUP = [
     big: r => r.rated ? `Beat the world ${r.beat}/${r.rated}` : `${Math.round(r.err)}% off`, small: r => `Average error ${Math.round(r.err)}%` },
   { k: 'drop', name: 'Drop', color: '#FFA53D', emoji: '⛳',
     big: r => r.landed ? (r.shot === 1 ? 'Hole in one' : `Landed on shot ${r.shot}`) : `Missed by ${r.miss} px`, small: r => r.beat != null ? `Better than ${r.beat}% of players` : 'Three shots, one course' },
+  { k: 'meld', name: 'Mind Meld', color: '#FF7AB0', emoji: '🧠',
+    big: r => `${r.score} of 10 landed`, small: r => `Herd ${[...r.herd].map(m => ({ g: '●', y: '◐', x: '○', p: '●', c: '○' })[m]).join(' ')}  ·  Odd ${[...r.odd].map(m => ({ g: '●', y: '◐', x: '○', p: '●', c: '○' })[m]).join(' ')}` },
 ];
 export const doneTonight = () => LINEUP.filter(g => resultFor(g.k)).map(g => ({ ...g, r: resultFor(g.k) }));
 

@@ -52,6 +52,17 @@ async function dropCall(body) {
 export const dropStart = () => dropCall({ action: 'start' });
 export const dropShot = (dx, dy) => dropCall({ action: 'shot', dx, dy });
 
+// Mind Meld: prompts come one at a time; the server times each and matches answers to its list.
+async function rpc(name, args) {
+  await user();
+  const { data, error } = await sb.rpc(name, args);
+  if (error) throw error;
+  return data;
+}
+export const meldStart = () => rpc('dose_meld_start');
+export const meldServe = () => rpc('dose_meld_serve');
+export const meldAnswer = text => rpc('dose_meld_answer', { p_text: text });
+
 // Today's Hunch: the questions (no answers) and any guesses already made.
 export async function hunchStart() {
   await user();
