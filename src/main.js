@@ -9,9 +9,10 @@ import { rewire } from './screens/rewire.js';
 import { hunch } from './screens/hunch.js';
 import { drop } from './screens/drop.js';
 import { meld } from './screens/meld.js';
+import { last } from './screens/last.js';
 
 const app = document.getElementById('app');
-const SCREENS = { hub, rewire, hunch, drop, meld };
+const SCREENS = { hub, rewire, hunch, drop, meld, last };
 let cleanup = null;
 
 // Hash routes (#rewire) so the back button and shared links work without a server.

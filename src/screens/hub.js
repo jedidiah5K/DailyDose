@@ -7,16 +7,17 @@ import { clock, rewireLine } from './rewire.js';
 import { hunchLine } from './hunch.js';
 import { dropLine } from './drop.js';
 import { meldLine } from './meld.js';
+import { lastLine, lastGrid } from './last.js';
 import { openAccount } from './account.js';
 import { shareDose } from '../ui/card.js';
 
 // The lineup. New games plug in here: a key, a building in the skyline (`at`), a screen in main.js, and a result line.
 const GAMES = [
-  { k: 'rewire', at: 4, name: 'Rewire', sign: 'REWIRE', line: 'Turn the wires. Light up the city.', done: r => `Lit in ${clock(r.ms)}`, share: rewireLine },
-  { k: 'hunch', at: 9, name: 'Hunch', sign: 'HUNCH', line: 'Five guesses about the world.', done: r => r.rated ? `Beat the world ${r.beat}/${r.rated}` : `${Math.round(r.err)}% off`, share: hunchLine },
-  { k: 'drop', at: 14, name: 'Drop', sign: 'DROP', line: 'One course. Three shots. Land it.', done: r => dropLine(r), share: r => `⛳ ${dropLine(r)}` },
-  { k: 'meld', at: 18, name: 'Mind Meld', sign: 'MELD', line: 'Think like everyone. Then like no one.', done: r => `${r.score} of 10 landed`, share: r => `🧠 ${meldLine(r)}` },
-  { k: 'last', name: 'Last Stand', line: 'Ten rounds, one life. Weekends only.', soon: 'Saturday' },
+  { k: 'rewire', at: 3, name: 'Rewire', sign: 'REWIRE', line: 'Turn the wires. Light up the city.', done: r => `Lit in ${clock(r.ms)}`, share: rewireLine },
+  { k: 'hunch', at: 7, name: 'Hunch', sign: 'HUNCH', line: 'Five guesses about the world.', done: r => r.rated ? `Beat the world ${r.beat}/${r.rated}` : `${Math.round(r.err)}% off`, share: hunchLine },
+  { k: 'drop', at: 11, name: 'Drop', sign: 'DROP', line: 'One course. Three shots. Land it.', done: r => dropLine(r), share: r => `⛳ ${dropLine(r)}` },
+  { k: 'meld', at: 15, name: 'Mind Meld', sign: 'MELD', line: 'Think like everyone. Then like no one.', done: r => `${r.score} of 10 landed`, share: r => `🧠 ${meldLine(r)}` },
+  { k: 'last', at: 19, name: 'Last Stand', sign: 'LAST', line: 'Ten rounds. One life.', done: r => lastLine(r), share: r => `⚔️ ${lastGrid(r)} ${lastLine(r)}` },
 ];
 // Below this many players we keep quiet about the count; "3 playing" reads like an empty room.
 const SHOW_PLAYERS_FROM = 25;

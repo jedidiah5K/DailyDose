@@ -25,10 +25,11 @@ export const icon = (k, cls = '') => `<svg class="gi ${cls}" viewBox="0 0 24 24"
 // A skyline of `count` buildings. `signs` = [{ at, k, label, on, lit }]: a game's sign sits on the
 // building at index `at`; `lit` turns that building's windows warm (you finished it today).
 export function skyline(signs = [], count = 22, seed = 11) {
-  const r = rnd(seed), bySpot = Object.fromEntries(signs.map(s => [s.at, s]));
+  const r = rnd(seed), bySpot = Object.fromEntries(signs.map((s, n) => [s.at, { ...s, n }]));
   const far = Array.from({ length: 30 }, () => `<i style="height:${(18 + r() * 40).toFixed(0)}%;flex:${(1 + r() * 2).toFixed(2)}"></i>`).join('');
   const near = Array.from({ length: count }, (_, i) => {
-    const s = bySpot[i], h = s ? 55 + r() * 25 : 22 + r() * 55, w = (1 + r() * 1.6).toFixed(2);
+    // sign buildings alternate tall and short so neighbouring signs never sit at the same height
+    const s = bySpot[i], h = s ? (s.n % 2 ? 54 : 80) + r() * 6 : 22 + r() * 55, w = (1 + r() * 1.6).toFixed(2);
     const roof = r() > .86 ? '<b class="ant"></b>' : '';
     const sign = s ? `<span class="sign g-${s.k}${s.on ? '' : ' off'}">${icon(s.k)}${s.label}</span>` : '';
     return `<i class="bld${s?.lit || (!s && r() > .62) ? ' lit' : ''}${s ? ' has-sign' : ''}" ${s ? `data-k="${s.k}"` : ''} style="height:${h.toFixed(0)}%;flex:${w}">${roof}${sign}</i>`;

@@ -14,6 +14,8 @@ const LINEUP = [
     big: r => r.landed ? (r.shot === 1 ? 'Hole in one' : `Landed on shot ${r.shot}`) : `Missed by ${r.miss} px`, small: r => r.beat != null ? `Better than ${r.beat}% of players` : 'Three shots, one course' },
   { k: 'meld', name: 'Mind Meld', color: '#FF7AB0', emoji: '🧠',
     big: r => `${r.score} of 10 landed`, small: r => `Herd ${[...r.herd].map(m => ({ g: '●', y: '◐', x: '○', p: '●', c: '○' })[m]).join(' ')}  ·  Odd ${[...r.odd].map(m => ({ g: '●', y: '◐', x: '○', p: '●', c: '○' })[m]).join(' ')}` },
+  { k: 'last', name: 'Last Stand', color: '#FF4D6D', emoji: '⚔️',
+    big: r => r.perfect ? 'Survived all 10' : `Out on round ${r.reached + 1}`, small: r => r.beat != null ? `Outlasted ${r.beat}% of players` : `${r.reached} of 10 rounds survived` },
 ];
 export const doneTonight = () => LINEUP.filter(g => resultFor(g.k)).map(g => ({ ...g, r: resultFor(g.k) }));
 

@@ -357,3 +357,37 @@ p { margin: 0; }
 .m-row b { display: flex; gap: 6px; }
 .mk { width: 1.4rem; height: 1.4rem; border-radius: 6px; }
 .mk-g.mk { background: #4CC97A; } .mk-y.mk { background: #F2C14E; } .mk-x.mk { background: #2A2D44; } .mk-p.mk { background: #9B6BFF; box-shadow: 0 0 10px #9B6BFF; } .mk-c.mk { background: #C8CAD8; }
+
+/* ---------- last stand: tense neon red, a field of dots that falls away ---------- */
+.laststand { background: radial-gradient(120% 55% at 50% 0%, #3A0F1C, #120912 60%, #070912); }
+.laststand .h-intro h2 em, .laststand .result h2 em { color: var(--c-last); text-shadow: 0 0 22px rgba(255, 77, 109, .6); }
+.laststand .btn { background: var(--c-last); color: #1A0408; }
+.field { display: grid; grid-template-columns: repeat(20, 1fr); gap: 6px; padding: 12px 6px 4px; margin-top: .4rem; }
+.field i { aspect-ratio: 1; border-radius: 50%; background: var(--c-last); box-shadow: 0 0 6px var(--c-last); transition: transform 1.1s cubic-bezier(.5, 0, .9, .4) calc(var(--r) * 6ms), opacity 1.1s calc(var(--r) * 6ms); }
+.field i.down { transform: translateY(46px); opacity: 0; }
+.field i.you { background: #fff; box-shadow: 0 0 10px #fff, 0 0 18px var(--c-last); }
+.field.fallen i.you { transform: translateY(46px) scale(.6); opacity: 0; transition: transform 2.2s cubic-bezier(.4, 0, .9, .5), opacity 2.2s; }
+.field-cap { min-height: 1.2em; text-align: center; font: 500 .72rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-top: .3rem; }
+.ls-q { gap: .8rem; padding-top: .6rem; }
+.ls-prompt { font: 400 1.9rem/1.05 var(--serif); }
+.ls-seq { font: 600 1.7rem/1.2 var(--mono); letter-spacing: -.02em; }
+.ls-seq b { color: var(--c-last); }
+.ls-count { display: grid; grid-template-columns: repeat(8, 1fr); gap: 6px; font-size: 1.3rem; text-align: center; color: var(--ink-2); }
+.ls-pads { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.ls-pads i { aspect-ratio: 1; border-radius: 16px; background: color-mix(in srgb, var(--c) 18%, #0B0E22); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--c) 40%, transparent); transition: background .12s, box-shadow .12s; }
+.ls-pads i.on { background: var(--c); box-shadow: 0 0 26px var(--c); }
+.ls-spot { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.ls-spot .g { display: grid; grid-template-columns: repeat(var(--n), 1fr); gap: 4px; }
+.ls-spot i, .ls-spot button { aspect-ratio: 1; border-radius: 5px; background: var(--c); }
+.ls-spot button.right { outline: 3px solid #fff; } .ls-spot button.wrong { outline: 3px solid #000; opacity: .4; }
+.ls-opts { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
+.ls-opts.two { grid-template-columns: 1fr; }
+.ls-opts button { min-height: 3.6rem; border-radius: 16px; background: rgba(255, 255, 255, .05); box-shadow: inset 0 0 0 1.5px rgba(255, 77, 109, .35); font: 500 1.15rem var(--sans); transition: transform .15s var(--spring), background .2s; }
+.ls-opts button:active { transform: scale(.96); }
+.ls-opts button.picked { background: rgba(255, 255, 255, .12); }
+.ls-opts button.right { background: #1E6B45; box-shadow: inset 0 0 0 1.5px #4CC97A; }
+.ls-opts button.wrong { background: #6B1E2B; box-shadow: inset 0 0 0 1.5px var(--c-last); }
+.ls-opts.echo button { display: flex; gap: 6px; justify-content: center; align-items: center; }
+.ls-opts.echo i { width: 14px; height: 14px; border-radius: 50%; background: var(--c); }
+.ls-timer i { background: var(--c-last); box-shadow: 0 0 10px var(--c-last); }
+.ls-grid { font-size: 1.2rem; letter-spacing: .1em; }

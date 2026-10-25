@@ -59,6 +59,9 @@ async function rpc(name, args) {
   if (error) throw error;
   return data;
 }
+export const lastStart = () => rpc('dose_last_start');
+export const lastServe = () => rpc('dose_last_serve');
+export const lastAnswer = choice => rpc('dose_last_answer', { p_choice: choice });
 export const meldStart = () => rpc('dose_meld_start');
 export const meldServe = () => rpc('dose_meld_serve');
 export const meldAnswer = text => rpc('dose_meld_answer', { p_text: text });
