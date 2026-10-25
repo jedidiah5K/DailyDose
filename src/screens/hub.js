@@ -1,5 +1,5 @@
 import { countdown, puzzleNo } from '../lib/day.js';
-import { resultFor, streak } from '../lib/store.js';
+import { resultFor, streak, freezeUsedThisWeek } from '../lib/store.js';
 import { playingToday } from '../lib/cloud.js';
 import { SOUNDS, buzz } from '../ui/feedback.js';
 import { stars, skyline, icon } from '../ui/sky.js';
@@ -53,7 +53,7 @@ export function hub(app) {
           <button class="me" id="me" aria-label="Account" title="Account"><svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c.8-3.6 3.6-5.5 7-5.5s6.2 1.9 7 5.5"/></svg></button></div>
         <h1 class="display">Your daily <em>dose</em></h1>
         <div class="hub-meta">
-          <span class="pill">${s ? `<b>${s}</b> night${s === 1 ? '' : 's'} in a row` : 'Light your first window'}</span>
+          <span class="pill" title="Miss one night a week and your streak keeps going">${s ? `<b>${s}</b> night${s === 1 ? '' : 's'} in a row<span class="frz">${freezeUsedThisWeek() ? 'freeze used' : '1 freeze left'}</span>` : 'Light your first window'}</span>
           <span class="pill" id="live" hidden></span>
         </div>
       </header>

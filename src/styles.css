@@ -289,3 +289,4 @@ p { margin: 0; }
 .h-orbit .gi { width: 34px; height: 34px; filter: drop-shadow(0 0 6px var(--c-hunch)); }
 .h-rules { list-style: none; display: flex; gap: 1.25rem; padding: 0; margin: .5rem 0 0; font-size: .82rem; color: var(--muted); }
 .h-rules b { display: block; font: 400 1.9rem/1 var(--serif); color: var(--ink); }
+.pill .frz { margin-left: .2rem; padding-left: .55rem; border-left: 1px solid rgba(255, 255, 255, .18); color: #9FD8FF; }
