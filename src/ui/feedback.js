@@ -44,18 +44,18 @@ function noise(at = 0, len = .05, vol = .08, freq = 3000) {
   s.buffer = buf; f.type = 'bandpass'; f.frequency.value = freq; g.gain.value = vol;
   s.connect(f).connect(g).connect(master); s.start(t0);
 }
-const play = fn => () => { if (!state.settings.sounds) return; unlock(); if (ctx) fn(); };
+const play = fn => (...a) => { if (!state.settings.sounds) return; unlock(); if (ctx) fn(...a); };
 
+// Notes climb a pentatonic scale, so lighting a city plays a little tune.
+const SCALE = [523.25, 587.33, 659.25, 783.99, 880, 1046.5, 1174.66, 1318.51, 1567.98, 1760, 2093];
 export const SOUNDS = {
   tap: play(() => tone(1500, 0, .05, 'sine', .04)),
-  // a dial tooth clicking over: short filtered tick + tiny metal ring
-  click: play(() => { noise(0, .025, .18, 4200); tone(2600, 0, .04, 'triangle', .03); }),
-  clunk: play(() => { tone(90, 0, .22, 'sine', .3, 50); noise(0, .08, .12, 900); }),
-  near: play(() => tone(740, 0, .12, 'triangle', .08)),
-  exact: play(() => { tone(988, 0, .1, 'triangle', .1); tone(1480, .05, .14, 'sine', .05); }),
-  open: play(() => {
-    [0, .09, .18, .27].forEach((t, i) => { noise(t, .05, .2, 1800); tone(120 - i * 10, t, .12, 'sine', .2); });
-    [523, 659, 784, 1047, 1319].forEach((f, i) => tone(f, .55 + i * .07, .7, 'triangle', .08));
-  }),
-  alarm: play(() => { for (let i = 0; i < 4; i++) tone(880, i * .28, .22, 'square', .05, 620); }),
+  // a tile clicking round a quarter turn
+  turn: play(() => { noise(0, .02, .12, 3200); tone(1900, 0, .03, 'triangle', .025); }),
+  // another building joins the circuit: a small rising blip
+  link: play(n => { const f = SCALE[Math.min(n, SCALE.length - 1)]; tone(f * .5, 0, .14, 'triangle', .08, f); }),
+  // the whole grid powers up: a low electric hum swelling under everything
+  hum: play(() => { tone(55, 0, 1.6, 'sawtooth', .05, 110); tone(110, 0, 1.4, 'sine', .14, 220); noise(0, .3, .06, 6000); }),
+  light: play(k => tone(SCALE[k % SCALE.length], 0, .5, 'triangle', .07)),
+  ok: play(() => { tone(988, 0, .1, 'triangle', .1); tone(1480, .05, .14, 'sine', .05); }),
 };

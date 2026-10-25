@@ -35,7 +35,7 @@ export async function openAccount() {
       const b = f.querySelector('.btn'); b.disabled = true; err.textContent = '';
       try {
         await (mode === 'new' ? createAccount(email, pw) : signIn(email, pw));
-        SOUNDS.exact(); d.close(); location.reload();
+        SOUNDS.ok(); d.close(); location.reload();
       } catch (x) {
         // One vague message for sign-in, so nobody can test which emails have accounts.
         err.textContent = mode === 'in' ? 'Wrong email or password.' : /rate|many/i.test(x.message) ? 'Too many tries. Wait a few minutes.' : 'Couldn’t create the account. Try another email.';

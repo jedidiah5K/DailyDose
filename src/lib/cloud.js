@@ -3,7 +3,6 @@
 // Adding an email and password later keeps the same account and streaks.
 // The publishable key is meant to be public: it only allows what the database rules allow.
 import { createClient } from '@supabase/supabase-js';
-import { dayKey } from './day.js';
 
 const URL = import.meta.env.VITE_SUPABASE_URL || 'https://xgmwqpasogwlvtjaapwo.supabase.co';
 const KEY = import.meta.env.VITE_SUPABASE_KEY || 'sb_publishable_GLmm-oqwG3az6syLgjv1cA_3a8-oD9y';
@@ -18,20 +17,17 @@ export async function user() {
 }
 export const isGuest = async () => (await sb.auth.getSession()).data.session?.user?.is_anonymous !== false;
 
-export async function vaultGuess(g) {
+// Today's Rewire: starts the server clock the first time, then returns the same puzzle.
+export async function rewireStart() {
   await user();
-  const { data, error } = await sb.rpc('dose_vault_guess', { p_guess: g });
+  const { data, error } = await sb.rpc('dose_rewire_start');
   if (error) throw error;
   return data;
 }
-
-// Today's vault from the server, so a game started on one phone carries on another.
-export async function vaultToday() {
-  const { data } = await sb.auth.getSession();
-  if (!data.session) return null;
-  const { data: row } = await sb.from('dose_plays').select('guesses, won, result, finished_at')
-    .eq('game', 'vault').eq('day', dayKey()).maybeSingle();
-  return row;
+export async function rewireSubmit(tiles) {
+  const { data, error } = await sb.rpc('dose_rewire_submit', { p_tiles: tiles });
+  if (error) throw error;
+  return data;
 }
 
 // Guest → real account: same user id, so today's games and streaks stay.

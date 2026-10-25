@@ -6,11 +6,10 @@ const blank = () => ({ settings: { sounds: true, haptics: true }, results: {}, p
 export const state = (() => { try { return { ...blank(), ...JSON.parse(localStorage.getItem(KEY)) }; } catch (e) { return blank(); } })();
 export const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} };
 
-// results[game][day] = finished result; progress[game] = today's game in progress.
+// results[game][day] = finished result; progress[game] = today's board (kept after finishing, to show it again).
 export const resultFor = (game, day = dayKey()) => state.results[game]?.[day];
 export function finish(game, result, day = dayKey()) {
   (state.results[game] ||= {})[day] = result;
-  delete state.progress[game];
   save();
 }
 

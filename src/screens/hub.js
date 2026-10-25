@@ -1,27 +1,32 @@
 import { countdown, puzzleNo } from '../lib/day.js';
 import { resultFor, streak } from '../lib/store.js';
 import { SOUNDS, buzz } from '../ui/feedback.js';
-import { shareText } from './vault.js';
+import { clock, rewireLine } from './rewire.js';
 import { openAccount } from './account.js';
 
+// The lineup. New games plug in here: a key, a tile, a screen in main.js, and a result line.
 const GAMES = [
-  { k: 'last', name: 'Last Stand', line: 'Ten rounds. One mistake and you’re out.', soon: true },
-  { k: 'meld', name: 'Mind Meld', line: 'Think like the world, or like your best friend.', soon: true },
-  { k: 'vault', name: 'Vault', line: 'Crack today’s code in as few tries as you can.' },
+  { k: 'rewire', name: 'Rewire', line: 'Turn the wires. Light up the city.', done: r => `Lit in ${clock(r.ms)}`, share: rewireLine },
+  { k: 'hunch', name: 'Hunch', line: 'Five guesses about the world. See how close everyone got.', soon: 'Soon' },
+  { k: 'drop', name: 'Drop', line: 'One course. Three shots. Land it.', soon: 'Soon' },
+  { k: 'meld', name: 'Mind Meld', line: 'Think like the world, or like your best friend.', soon: 'Soon' },
+  { k: 'last', name: 'Last Stand', line: 'Ten rounds, one life. Weekends only.', soon: 'Weekends' },
 ];
 
 // Small idle scenes for each tile, drawn in CSS.
+const dots = (n, cls) => `<div class="${cls}" aria-hidden="true">` + Array.from({ length: n }, (_, i) => `<i style="--i:${i}"></i>`).join('') + '</div>';
 const ART = {
-  last: '<div class="art-last" aria-hidden="true">' + Array.from({ length: 18 }, (_, i) => `<i style="--i:${i}"></i>`).join('') + '</div>',
+  rewire: dots(9, 'art-rewire'),
+  hunch: dots(7, 'art-hunch'),
+  drop: '<div class="art-drop" aria-hidden="true"><i></i><b></b></div>',
   meld: '<div class="art-meld" aria-hidden="true"><i></i><i></i></div>',
-  vault: '<div class="art-vault" aria-hidden="true"><i></i></div>',
+  last: dots(18, 'art-last'),
 };
 
 const status = g => {
-  if (g.soon) return '<span class="t-status soon">Soon</span>';
+  if (g.soon) return `<span class="t-status soon">${g.soon}</span>`;
   const r = resultFor(g.k);
-  if (!r) return '<span class="t-status play">Play</span>';
-  return `<span class="t-status done">${r.won ? `Cracked in ${r.guesses.length}` : 'Locked out'}</span>`;
+  return r ? `<span class="t-status done">${g.done(r)}</span>` : '<span class="t-status play">Play</span>';
 };
 
 export function hub(app) {
@@ -54,7 +59,7 @@ export function hub(app) {
   }));
   app.querySelector('#me').addEventListener('click', openAccount);
   app.querySelector('#share')?.addEventListener('click', () => {
-    const text = [`DAILY DOSE #${puzzleNo()}`, resultFor('vault') && shareText(resultFor('vault')).split('\n').slice(1, 2).join(''), location.origin].filter(Boolean).join('\n');
+    const text = [`DAILY DOSE #${puzzleNo()}`, ...GAMES.filter(g => resultFor(g.k)).map(g => `${g.name} ${g.share(resultFor(g.k))}`), location.origin].join('\n');
     if (navigator.share) navigator.share({ text }).catch(() => {}); else navigator.clipboard?.writeText(text);
   });
 

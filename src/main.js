@@ -4,13 +4,13 @@ import '@fontsource-variable/geist';
 import '@fontsource-variable/geist-mono';
 import './styles.css';
 import { hub } from './screens/hub.js';
-import { vault } from './screens/vault.js';
+import { rewire } from './screens/rewire.js';
 
 const app = document.getElementById('app');
-const SCREENS = { hub, vault };
+const SCREENS = { hub, rewire };
 let cleanup = null;
 
-// Hash routes (#vault) so the back button and shared links work without a server.
+// Hash routes (#rewire) so the back button and shared links work without a server.
 function show() {
   const name = location.hash.slice(1);
   const go = () => { cleanup?.(); cleanup = (SCREENS[name] || hub)(app); };
