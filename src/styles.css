@@ -302,3 +302,19 @@ p { margin: 0; }
 .tl.hinted { animation: hinted .7s var(--spring); }
 @keyframes hinted { 0% { transform: scale(.8); } 60% { transform: scale(1.08); } }
 .tl.nope { animation: nope .35s; }
+
+/* ---------- drop: a neon arcade course on a rooftop ---------- */
+.drop { background: radial-gradient(120% 55% at 50% 0%, #2A1B3D, #0B0B1E 60%, #070912); }
+.dr-stage { position: relative; margin: .8rem auto 0; border-radius: 18px; overflow: hidden; box-shadow: inset 0 0 0 1px rgba(255, 165, 61, .25), 0 0 40px -18px var(--c-drop); }
+.dr-stage canvas { display: block; touch-action: none; cursor: crosshair; }
+.pips { display: flex; gap: 6px; }
+.pips i { width: 10px; height: 10px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--c-drop); }
+.pips i.used { background: #3A2A1A; box-shadow: inset 0 0 0 1.5px #6B4A2A; }
+.pips i.hit { background: var(--c-rewire); box-shadow: 0 0 8px var(--c-rewire); }
+.dr-call { position: absolute; left: 50%; top: 38%; translate: -50% 0; white-space: nowrap; font: 400 2.2rem/1 var(--serif); color: #fff;
+  text-shadow: 0 0 24px rgba(255, 165, 61, .8); opacity: 0; transform: scale(.8); transition: opacity .25s, transform .4s var(--spring); pointer-events: none; }
+.dr-call.on { opacity: 1; transform: none; }
+.dr-call.hit { color: var(--c-rewire); text-shadow: 0 0 26px rgba(92, 225, 255, .9); font-size: 2.8rem; }
+.dr-help { text-align: center; font: 600 .74rem/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding: 1rem 0; transition: opacity .3s; }
+.dr-help.gone { opacity: 0; }
+.drop .rw-cover h2 em { color: var(--c-drop); }

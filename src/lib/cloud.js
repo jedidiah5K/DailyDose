@@ -42,6 +42,16 @@ export async function rewireSubmit(tiles) {
   return data;
 }
 
+// Drop runs in a server function that replays every shot with the same physics.
+async function dropCall(body) {
+  await user();
+  const { data, error } = await sb.functions.invoke('dose-drop', { body });
+  if (error) { const msg = await error.context?.json?.().then(j => j.error).catch(() => null); throw new Error(msg || error.message); }
+  return data;
+}
+export const dropStart = () => dropCall({ action: 'start' });
+export const dropShot = (dx, dy) => dropCall({ action: 'shot', dx, dy });
+
 // Today's Hunch: the questions (no answers) and any guesses already made.
 export async function hunchStart() {
   await user();

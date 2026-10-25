@@ -62,5 +62,9 @@ export const SOUNDS = {
   lock: play(() => { tone(160, 0, .14, 'sine', .22, 90); noise(0, .04, .06, 1200); }),
   drop: play(() => { tone(1318.5, 0, .5, 'triangle', .08); tone(1975.5, .03, .4, 'sine', .03); }),
   chime: play(() => [783.99, 1046.5, 1318.51].forEach((f, i) => tone(f, i * .07, .6, 'triangle', .06))),
+  // Drop: a whoosh as the ball leaves, a bright drop into the cup, a soft thud on a miss
+  launch: play(() => { noise(0, .18, .05, 1400); tone(320, 0, .18, 'sine', .06, 640); }),
+  sink: play(() => { tone(880, 0, .12, 'triangle', .1); tone(1318.5, .08, .5, 'triangle', .09); tone(1760, .16, .6, 'sine', .05); noise(0, .05, .1, 5000); }),
+  miss: play(() => { tone(220, 0, .25, 'sine', .12, 150); }),
   ok: play(() => { tone(988, 0, .1, 'triangle', .1); tone(1480, .05, .14, 'sine', .05); }),
 };

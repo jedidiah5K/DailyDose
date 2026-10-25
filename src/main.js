@@ -7,9 +7,10 @@ import { countdown } from './lib/day.js';
 import { hub } from './screens/hub.js';
 import { rewire } from './screens/rewire.js';
 import { hunch } from './screens/hunch.js';
+import { drop } from './screens/drop.js';
 
 const app = document.getElementById('app');
-const SCREENS = { hub, rewire, hunch };
+const SCREENS = { hub, rewire, hunch, drop };
 let cleanup = null;
 
 // Hash routes (#rewire) so the back button and shared links work without a server.

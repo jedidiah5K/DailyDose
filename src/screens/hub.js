@@ -5,6 +5,7 @@ import { SOUNDS, buzz } from '../ui/feedback.js';
 import { stars, skyline, icon } from '../ui/sky.js';
 import { clock, rewireLine } from './rewire.js';
 import { hunchLine } from './hunch.js';
+import { dropLine } from './drop.js';
 import { openAccount } from './account.js';
 import { shareDose } from '../ui/card.js';
 
@@ -12,7 +13,7 @@ import { shareDose } from '../ui/card.js';
 const GAMES = [
   { k: 'rewire', at: 4, name: 'Rewire', sign: 'REWIRE', line: 'Turn the wires. Light up the city.', done: r => `Lit in ${clock(r.ms)}`, share: rewireLine },
   { k: 'hunch', at: 9, name: 'Hunch', sign: 'HUNCH', line: 'Five guesses about the world.', done: r => r.rated ? `Beat the world ${r.beat}/${r.rated}` : `${Math.round(r.err)}% off`, share: hunchLine },
-  { k: 'drop', at: 14, name: 'Drop', sign: 'DROP', line: 'One course. Three shots.', soon: 'Opens soon' },
+  { k: 'drop', at: 14, name: 'Drop', sign: 'DROP', line: 'One course. Three shots. Land it.', done: r => dropLine(r), share: r => `⛳ ${dropLine(r)}` },
   { k: 'meld', at: 18, name: 'Mind Meld', sign: 'MELD', line: 'Think like the world, or your best friend.', soon: 'Opens soon' },
   { k: 'last', name: 'Last Stand', line: 'Ten rounds, one life. Weekends only.', soon: 'Saturday' },
 ];
