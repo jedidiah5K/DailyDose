@@ -16,8 +16,20 @@ export function finish(game, result, day = dayKey()) {
 // Days in a row with at least one game done. Today not played yet doesn't break it.
 export function streak(game) {
   const played = d => game ? !!state.results[game]?.[d] : Object.values(state.results).some(r => r[d]);
-  let d = dayKey(), n = 0;
+  return countStreak(played, dayKey());
+}
+
+// One free freeze a week (Monday to Sunday): a single missed day is skipped over automatically,
+// as long as you played the day before it. Two misses in a row still end the streak. Never sold.
+const weekOf = key => { const t = Date.parse(key), dow = (new Date(t).getUTCDay() + 6) % 7; return dayKey(t - dow * 86400000); };
+export function countStreak(played, today) {
+  let d = today, n = 0;
+  const frozen = new Set();
   if (!played(d)) d = prevKey(d);
-  while (played(d)) { n++; d = prevKey(d); }
-  return n;
+  for (;;) {
+    if (played(d)) { n++; d = prevKey(d); continue; }
+    const wk = weekOf(d);
+    if (n > 0 && !frozen.has(wk) && played(prevKey(d))) { frozen.add(wk); d = prevKey(d); continue; }
+    return n;
+  }
 }
