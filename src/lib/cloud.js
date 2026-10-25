@@ -76,8 +76,8 @@ export async function hunchStart() {
   if (error) throw error;
   return data;
 }
-export async function hunchGuess(i, v) {
-  const { data, error } = await sb.rpc('dose_hunch_guess', { p_i: i, p_v: v });
+export async function hunchBet(i, v, band, double) {
+  const { data, error } = await sb.rpc('dose_hunch_bet', { p_i: i, p_v: v, p_band: band, p_double: !!double });
   if (error) throw error;
   return data;
 }

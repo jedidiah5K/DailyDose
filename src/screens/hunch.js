@@ -1,7 +1,7 @@
 import { dayKey, puzzleNo, countdown } from '../lib/day.js';
 import { shareDose } from '../ui/card.js';
 import { state, save, finish, resultFor, streak } from '../lib/store.js';
-import { hunchStart, hunchGuess } from '../lib/cloud.js';
+import { hunchStart, hunchBet } from '../lib/cloud.js';
 import { SOUNDS, buzz } from '../ui/feedback.js';
 import { stars, icon } from '../ui/sky.js';
 
@@ -17,6 +17,14 @@ const tidy = (q, v) => isYear(q) || v >= 100 ? Math.round(v) : v >= 10 ? Math.ro
 const fmt = (q, v) => isYear(q) ? String(Math.round(v)) : Number(v).toLocaleString(undefined, { maximumFractionDigits: v >= 100 ? 0 : 2 });
 const unit = q => q.unit ? ` <span class="h-unit">${q.unit}</span>` : '';
 
+// The three bets: tight, medium, wide. Same sizes as the server (dose_hunch_bet).
+const BANDS = [{ name: 'Tight', pts: 100 }, { name: 'Medium', pts: 50 }, { name: 'Wide', pts: 20 }];
+function band(q, v, b) {
+  if (isYear(q)) { const h = [1, 3, 8][b]; return [v - h, v + h]; }
+  if (q.log) { const f = [1.1, 1.3, 1.6][b]; return [v / f, v * f]; }
+  const h = (q.max - q.min) * [.02, .06, .15][b]; return [v - h, v + h];
+}
+
 const off = (q, g) => g.v === g.a ? 'Spot on.' : isYear(q) ? `${Math.abs(g.v - g.a)} year${Math.abs(g.v - g.a) === 1 ? '' : 's'} off.` : g.err < 1 ? 'Spot on.' : `${Math.round(g.err)}% off.`;
 const worldOff = (q, g) => isYear(q) ? `${Math.round(Math.abs(g.avg - g.a))} years` : `${Math.round(Math.abs(g.avg - g.a) / g.a * 100)}%`;
 
@@ -28,7 +36,7 @@ function rain(bins) {
   return out.join('');
 }
 
-export const hunchLine = r => `🎯 ${r.rated ? `beat the world ${r.beat}/${r.rated} · ` : ''}avg error ${Math.round(r.err)}%`;
+export const hunchLine = r => r.points != null ? `🎯 ${r.points} pts · ${r.hits}/5 in band${r.theme ? ` · ${r.theme}` : ''}` : `🎯 avg error ${Math.round(r.err)}%`;
 
 export function hunch(app) {
   const day = dayKey();
@@ -47,6 +55,7 @@ export function hunch(app) {
   </main>`;
   const $ = s => app.querySelector(s);
   const say = t => { $('#msg').textContent = t; };
+  const doubled = () => p?.guesses.some(g => g.dbl);
 
   function ask(i) {
     const q = p.questions[i];
@@ -58,22 +67,35 @@ export function hunch(app) {
       <p class="h-val" id="val" aria-live="polite">${fmt(q, v)}${unit(q)}</p>
       <input class="h-slider" id="sl" type="range" min="0" max="1000" value="500" aria-label="Your guess" aria-valuetext="${fmt(q, v)} ${q.unit}">
       <div class="h-ends"><span>${fmt(q, q.min)}</span><span>${fmt(q, q.max)}</span></div>
+      <div class="h-bands" role="radiogroup" aria-label="How sure are you?">${BANDS.map((b, k) => `<button role="radio" data-b="${k}" aria-checked="${k === 1}"><b>${b.name}</b><span>${b.pts} pts</span></button>`).join('')}</div>
+      <p class="h-band" id="bandtxt"></p>
+      ${doubled() ? '' : '<button class="h-double" id="dbl" aria-pressed="false">Double down <span>×2 if inside, −30 if not · once a day</span></button>'}
     </div>
     <div class="h-bottom"><button class="btn wide" id="go">Lock it in</button></div>`;
+    let bnd = 1, dbl = false;
+    const showBand = () => {
+      const [lo, hi] = band(q, v, bnd);
+      $('#bandtxt').innerHTML = `Points if the answer is between <b>${fmt(q, Math.max(q.min, tidy(q, lo)))}</b> and <b>${fmt(q, Math.min(q.max, tidy(q, hi)))}</b>${q.unit ? ' ' + q.unit : ''}`;
+      sl.style.setProperty('--lo', toT(q, Math.max(q.min, lo))); sl.style.setProperty('--hi', toT(q, Math.min(q.max, hi)));
+    };
+    app.querySelectorAll('[data-b]').forEach(b => b.addEventListener('click', () => {
+      bnd = +b.dataset.b; app.querySelectorAll('[data-b]').forEach(x => x.setAttribute('aria-checked', x === b)); SOUNDS.tap(); buzz(5); showBand();
+    }));
+    $('#dbl')?.addEventListener('click', () => { dbl = !dbl; $('#dbl').setAttribute('aria-pressed', dbl); SOUNDS[dbl ? 'lock' : 'tap'](); buzz(dbl ? 20 : 5); });
     const sl = $('#sl');
     sl.addEventListener('input', () => {
       t = sl.value / 1000; v = tidy(q, toV(q, t));
       $('#val').innerHTML = `${fmt(q, v)}${unit(q)}`;
       sl.setAttribute('aria-valuetext', `${fmt(q, v)} ${q.unit}`);
-      sl.style.setProperty('--t', t);
+      sl.style.setProperty('--t', t); showBand();
       const notch = Math.round(t * 40); if (notch !== lastNotch) { lastNotch = notch; SOUNDS.tick(); buzz(3); }
     });
-    sl.style.setProperty('--t', t);
+    sl.style.setProperty('--t', t); showBand();
     $('#go').addEventListener('click', async () => {
       if (busy) return; busy = true; $('#go').disabled = true; say('');
       SOUNDS.lock(); buzz(15);
       let g;
-      try { g = await hunchGuess(i, v); }
+      try { g = await hunchBet(i, v, bnd, dbl); }
       catch (e) { busy = false; $('#go').disabled = false; say(navigator.onLine ? 'Couldn’t reach the server. Try again.' : 'You’re offline. Your guess is still set; try again when you’re back.'); return; }
       if (gone) return;
       p.guesses.push(g); save();
@@ -97,11 +119,13 @@ export function hunch(app) {
       <div class="chart ${fresh ? 'play' : ''}" id="chart">
         ${g.bins.map((n, b) => `<i class="bar" style="--h:${n / max};--b:${b}"></i>`).join('')}
         ${fresh ? rain(g.bins) : ''}
+        ${g.lo != null ? `<span class="hband ${g.in ? 'in' : 'out'}" style="--l:${toT(q, Math.max(q.min, g.lo))};--r:${toT(q, Math.min(q.max, g.hi))}"></span>` : ''}
         <span class="mark you" style="--x:${toT(q, g.v)}"><b>You</b></span>
         ${g.avg != null ? `<span class="mark avg" style="--x:${toT(q, g.avg)}"><b>World</b></span>` : ''}
         <span class="mark ans" style="--x:${toT(q, g.a)}"><b>${fmt(q, g.a)}${q.unit ? ' ' + q.unit : ''}</b></span>
       </div>
       <div class="h-ends"><span>${fmt(q, q.min)}</span><span>${early && g.n ? `Early guesses · ${g.n}` : ''}</span><span>${fmt(q, q.max)}</span></div>
+      ${g.pts != null ? `<p class="h-pts ${g.in ? 'in' : 'out'}">${g.in ? `Inside your band <b>+${g.pts}</b>` : `Outside your band <b>${g.pts}</b>`}${g.dbl ? ' · doubled' : ''}</p>` : ''}
       <p class="h-off"><b>${off(q, g)}</b> You said ${fmt(q, g.v)}${q.unit ? ' ' + q.unit : ''}.</p>
       <p class="muted">${line}</p>
       ${g.source ? `<a class="h-src" href="${encodeURI(g.source)}" target="_blank" rel="noopener noreferrer">Source</a>` : ''}
@@ -112,16 +136,16 @@ export function hunch(app) {
     const bars = g.bins.filter(Boolean).length;
     for (let k = 0; k < Math.min(bars, 8); k++) setTimeout(() => SOUNDS.tick(), k * 60);
     await wait(700); SOUNDS.drop(); buzz(20);
-    await wait(400); if (g.err < 10 || g.beat) SOUNDS.chime();
+    await wait(400); if (g.in) SOUNDS.chime(); else SOUNDS.miss();
   }
 
   function summary(r, fresh) {
     $('#step').textContent = '';
     $('#body').innerHTML = `<div class="result h-sum ${fresh ? 'rise' : ''}">
-      <p class="eyebrow">Today’s hunches</p>
-      <h2 class="display">${r.rated ? `Beat the world <em>${r.beat}/${r.rated}</em>` : `<em>${Math.round(r.err)}%</em> off`}</h2>
-      <p class="muted">${r.rated ? `Average error ${Math.round(r.err)}%` : 'Average error across your five guesses'}${streak('hunch') > 1 ? ` · ${streak('hunch')} days in a row` : ''}</p>
-      <ol class="h-list">${p ? p.guesses.map((g, i) => `<li><span>${p.questions[i].q}</span><b>${isYear(p.questions[i]) ? `${Math.abs(g.v - g.a)} yr` : `${Math.round(g.err)}%`}</b></li>`).join('') : ''}</ol>
+      ${r.theme ? `<p class="h-theme"><span>Today’s theme</span><b>${r.theme}</b></p>` : '<p class="eyebrow">Today’s hunches</p>'}
+      <h2 class="display">${r.points != null ? `<em>${r.points}</em> points` : `<em>${Math.round(r.err)}%</em> off`}</h2>
+      <p class="muted">${r.points != null ? `${r.hits} of 5 inside your band · average error ${Math.round(r.err)}%` : 'Average error across your five guesses'}${streak('hunch') > 1 ? ` · ${streak('hunch')} days in a row` : ''}</p>
+      <ol class="h-list">${p ? p.guesses.map((g, i) => `<li><span>${p.questions[i].q}</span><b class="${g.in ? 'in' : ''}">${g.pts != null ? `${g.pts > 0 ? '+' : ''}${g.pts}` : isYear(p.questions[i]) ? `${Math.abs(g.v - g.a)} yr` : `${Math.round(g.err)}%`}</b></li>`).join('') : ''}</ol>
       <button class="btn wide" id="share">Share tonight’s dose</button>
       <button class="link-quiet" id="square">Square image instead</button>
       <p class="next-in">Tomorrow’s puzzle in <b data-cd>${countdown()}</b></p>
@@ -161,8 +185,8 @@ export function hunch(app) {
     $('#body').innerHTML = `<div class="h-intro rise">
       <div class="h-orbit" aria-hidden="true">${icon('hunch')}</div>
       <h2 class="display">How close can you <em>get?</em></h2>
-      <p>Five questions about the world. Slide to your best guess, then see where everyone else landed.</p>
-      <ul class="h-rules"><li><b>5</b> questions</li><li><b>1</b> guess each</li><li><b>~2</b> minutes</li></ul>
+      <p>Slide to your guess, then bet on it: a tight band scores big but only if you’re close. Five questions, one hidden theme.</p>
+      <ul class="h-rules"><li><b>5</b> questions</li><li><b>3</b> bets</li><li><b>1</b> double down</li></ul>
     </div>
     <div class="h-bottom"><button class="btn wide" id="begin">Start</button></div>`;
     $('#begin').addEventListener('click', () => { SOUNDS.tap(); buzz(); $('#body').innerHTML = '<div class="h-skel"><i></i><i></i><i></i></div>'; load(); });

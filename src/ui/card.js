@@ -9,7 +9,7 @@ const LINEUP = [
   { k: 'rewire', name: 'Rewire', color: '#5CE1FF', emoji: '⚡',
     big: r => `Lit in ${clock(r.ms)}`, small: r => (r.beat != null ? `Faster than ${r.beat}% of players` : 'City lit') + (r.hints ? ` · ${r.hints} hint${r.hints > 1 ? 's' : ''}` : ' · no hints') },
   { k: 'hunch', name: 'Hunch', color: '#93AAFF', emoji: '🎯',
-    big: r => r.rated ? `Beat the world ${r.beat}/${r.rated}` : `${Math.round(r.err)}% off`, small: r => `Average error ${Math.round(r.err)}%` },
+    big: r => r.points != null ? `${r.points} points` : `${Math.round(r.err)}% off`, small: r => r.points != null ? `${r.hits} of 5 in band${r.theme ? ` · theme: ${r.theme}` : ''}` : `Average error ${Math.round(r.err)}%` },
   { k: 'drop', name: 'Drop', color: '#FFA53D', emoji: '⛳',
     big: r => r.landed ? (r.shot === 1 ? 'Hole in one' : `Landed on shot ${r.shot}`) : `Missed by ${r.miss} px`, small: r => r.beat != null ? `Better than ${r.beat}% of players` : 'Three shots, one course' },
   { k: 'meld', name: 'Mind Meld', color: '#FF7AB0', emoji: '🧠',
