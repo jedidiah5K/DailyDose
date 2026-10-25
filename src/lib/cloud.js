@@ -30,6 +30,19 @@ export async function rewireSubmit(tiles) {
   return data;
 }
 
+// Today's Hunch: the questions (no answers) and any guesses already made.
+export async function hunchStart() {
+  await user();
+  const { data, error } = await sb.rpc('dose_hunch_start');
+  if (error) throw error;
+  return data;
+}
+export async function hunchGuess(i, v) {
+  const { data, error } = await sb.rpc('dose_hunch_guess', { p_i: i, p_v: v });
+  if (error) throw error;
+  return data;
+}
+
 // Guest → real account: same user id, so today's games and streaks stay.
 export async function createAccount(email, password) {
   const { data } = await sb.auth.getSession();

@@ -5,9 +5,10 @@ import '@fontsource-variable/geist-mono';
 import './styles.css';
 import { hub } from './screens/hub.js';
 import { rewire } from './screens/rewire.js';
+import { hunch } from './screens/hunch.js';
 
 const app = document.getElementById('app');
-const SCREENS = { hub, rewire };
+const SCREENS = { hub, rewire, hunch };
 let cleanup = null;
 
 // Hash routes (#rewire) so the back button and shared links work without a server.

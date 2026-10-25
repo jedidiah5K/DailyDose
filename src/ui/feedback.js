@@ -57,5 +57,10 @@ export const SOUNDS = {
   // the whole grid powers up: a low electric hum swelling under everything
   hum: play(() => { tone(55, 0, 1.6, 'sawtooth', .05, 110); tone(110, 0, 1.4, 'sine', .14, 220); noise(0, .3, .06, 6000); }),
   light: play(k => tone(SCALE[k % SCALE.length], 0, .5, 'triangle', .07)),
+  // Hunch: a soft notch as the slider moves, a thunk to lock in, a ding as the answer drops
+  tick: play(() => tone(2400, 0, .02, 'sine', .02)),
+  lock: play(() => { tone(160, 0, .14, 'sine', .22, 90); noise(0, .04, .06, 1200); }),
+  drop: play(() => { tone(1318.5, 0, .5, 'triangle', .08); tone(1975.5, .03, .4, 'sine', .03); }),
+  chime: play(() => [783.99, 1046.5, 1318.51].forEach((f, i) => tone(f, i * .07, .6, 'triangle', .06))),
   ok: play(() => { tone(988, 0, .1, 'triangle', .1); tone(1480, .05, .14, 'sine', .05); }),
 };

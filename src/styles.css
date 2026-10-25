@@ -177,3 +177,47 @@ p { margin: 0; }
 .sheet input:focus { outline: none; border-color: var(--accent); }
 .err { min-height: 1.2em; color: var(--accent); font-size: .85rem; }
 .v-msg { min-height: 1.4em; text-align: center; font-size: .85rem; color: var(--accent); }
+
+/* ---------- hunch: a clean data lab, ink on cool white, one blue for you ---------- */
+.hunch { --bg: #F3F6FA; --surface: #FFFFFF; --ink: #0E1726; --ink-2: #3A4659; --muted: #6A7586; --line: #DDE3EC;
+  --accent: #2F6BFF; --accent-ink: #fff; --you: #2F6BFF; --world: #F28C28; background: var(--bg); }
+.h-body { display: flex; flex-direction: column; flex: 1; }
+.h-q { display: grid; gap: .9rem; padding-top: 1.25rem; }
+.h-q h2 { font-size: clamp(1.9rem, 8vw, 2.4rem); line-height: 1.02; }
+.h-q h2.h-small { font-size: 1.45rem; }
+.h-val { margin-top: 1.25rem; font: 600 clamp(2.4rem, 12vw, 3.4rem)/1 var(--mono); letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+.h-unit { font: 500 1rem var(--sans); letter-spacing: 0; color: var(--muted); }
+.h-slider { -webkit-appearance: none; appearance: none; width: 100%; height: 3rem; background: transparent; margin: 0; touch-action: pan-y; }
+.h-slider::-webkit-slider-runnable-track { height: 10px; border-radius: 5px; background: linear-gradient(90deg, var(--you) calc(var(--t) * 100%), var(--line) 0); }
+.h-slider::-moz-range-track { height: 10px; border-radius: 5px; background: linear-gradient(90deg, var(--you) calc(var(--t) * 100%), var(--line) 0); }
+.h-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 34px; height: 34px; margin-top: -12px; border-radius: 50%; background: #fff; border: 3px solid var(--you); box-shadow: 0 6px 16px -6px rgba(47, 107, 255, .7); }
+.h-slider::-moz-range-thumb { width: 28px; height: 28px; border-radius: 50%; background: #fff; border: 3px solid var(--you); }
+.h-ends { display: flex; justify-content: space-between; font: 500 .72rem var(--mono); color: var(--muted); }
+.h-bottom { margin-top: auto; padding-top: 1.5rem; }
+.h-skel { display: grid; gap: .8rem; padding-top: 2rem; }
+.h-skel i { height: 1.4rem; border-radius: 8px; background: linear-gradient(90deg, var(--line), #EDF1F6, var(--line)); background-size: 200% 100%; animation: shimmer 1.2s infinite linear; }
+.h-skel i:nth-child(2) { width: 70%; height: 2rem; } .h-skel i:nth-child(3) { width: 40%; height: 3rem; margin-top: 1rem; }
+@keyframes shimmer { to { background-position: -200% 0; } }
+
+.chart { position: relative; height: 9.5rem; margin-top: 1.75rem; display: grid; grid-template-columns: repeat(24, 1fr); gap: 2px; align-items: end; border-bottom: 1.5px solid var(--ink); }
+.bar { height: calc(var(--h) * 100%); min-height: 0; border-radius: 3px 3px 0 0; background: #B9C4D6; transform-origin: bottom; }
+.chart.play .bar { animation: rain .55s calc(var(--b) * 18ms) both var(--spring); }
+@keyframes rain { from { transform: scaleY(0) translateY(-40px); opacity: 0; } }
+.mark { position: absolute; bottom: 0; left: calc(var(--x) * 100%); width: 0; height: 100%; }
+.mark::before { content: ''; position: absolute; left: -1px; bottom: 0; width: 2px; height: 100%; background: var(--c); }
+.mark b { position: absolute; left: 0; translate: -50% 0; white-space: nowrap; font: 600 .68rem var(--mono); padding: .2rem .4rem; border-radius: 6px; background: var(--c); color: #fff; }
+.mark.ans { --c: var(--ink); } .mark.ans b { bottom: calc(100% + 4px); }
+.mark.you { --c: var(--you); } .mark.you b { top: calc(100% + 6px); }
+.mark.avg { --c: var(--world); } .mark.avg b { top: calc(100% + 26px); }
+.chart.play .mark.ans { animation: drop-in .5s .7s both cubic-bezier(.3, 1.4, .5, 1); }
+.chart.play .mark.you, .chart.play .mark.avg { animation: fade .3s .4s both; }
+@keyframes drop-in { from { transform: translateY(-120%); opacity: 0; } }
+@keyframes fade { from { opacity: 0; } }
+.h-q .h-ends { margin-top: 2.6rem; }
+.h-off { font-size: 1.05rem; } .h-off b { font-family: var(--serif); font-weight: 400; font-size: 1.6rem; }
+.h-src { font-size: .8rem; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; justify-self: start; padding: .4rem 0; }
+.h-sum { padding-top: 1.5rem; }
+.h-sum h2 em { color: var(--accent); }
+.h-list { list-style: none; margin: .5rem 0; padding: 0; text-align: left; border-top: 1px solid var(--line); }
+.h-list li { display: flex; justify-content: space-between; gap: 1rem; padding: .65rem 0; border-bottom: 1px solid var(--line); font-size: .88rem; color: var(--ink-2); }
+.h-list b { font: 600 .85rem var(--mono); color: var(--ink); }

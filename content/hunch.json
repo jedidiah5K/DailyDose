@@ -1,0 +1,52 @@
+{
+  "_review": "Every answer needs a check against its source before the day goes live. Text only for now: image questions need photos we own or that are public domain, with the licence stored.",
+  "2026-10-25": [
+    { "q": "How tall is the Eiffel Tower?", "unit": "m", "min": 50, "max": 1000, "log": true, "answer": 330, "source": "https://en.wikipedia.org/wiki/Eiffel_Tower" },
+    { "q": "How many bones are in an adult human body?", "unit": "bones", "min": 50, "max": 1000, "log": true, "answer": 206, "source": "https://en.wikipedia.org/wiki/Human_skeleton" },
+    { "q": "What year did the first iPhone go on sale?", "unit": "", "min": 1990, "max": 2015, "answer": 2007, "source": "https://en.wikipedia.org/wiki/IPhone_(1st_generation)" },
+    { "q": "How far away is the Moon, on average?", "unit": "km", "min": 10000, "max": 10000000, "log": true, "answer": 384400, "source": "https://en.wikipedia.org/wiki/Lunar_distance" },
+    { "q": "How many seconds does sunlight take to reach Earth?", "unit": "s", "min": 1, "max": 10000, "log": true, "answer": 499, "source": "https://en.wikipedia.org/wiki/Astronomical_unit" }
+  ],
+  "2026-10-26": [
+    { "q": "How many countries are members of the United Nations?", "unit": "countries", "min": 10, "max": 1000, "log": true, "answer": 193, "source": "https://en.wikipedia.org/wiki/Member_states_of_the_United_Nations" },
+    { "q": "How tall is Mount Everest?", "unit": "m", "min": 1000, "max": 20000, "log": true, "answer": 8849, "source": "https://en.wikipedia.org/wiki/Mount_Everest" },
+    { "q": "What year did the Titanic sink?", "unit": "", "min": 1850, "max": 1950, "answer": 1912, "source": "https://en.wikipedia.org/wiki/Titanic" },
+    { "q": "How many keys are on a standard piano?", "unit": "keys", "min": 20, "max": 300, "log": true, "answer": 88, "source": "https://en.wikipedia.org/wiki/Piano" },
+    { "q": "How fast does sound travel through air at room temperature?", "unit": "m/s", "min": 10, "max": 10000, "log": true, "answer": 343, "source": "https://en.wikipedia.org/wiki/Speed_of_sound" }
+  ],
+  "2026-10-27": [
+    { "q": "What year was Google founded?", "unit": "", "min": 1980, "max": 2010, "answer": 1998, "source": "https://en.wikipedia.org/wiki/Google" },
+    { "q": "At what temperature does water boil at sea level, in Fahrenheit?", "unit": "°F", "min": 50, "max": 500, "log": true, "answer": 212, "source": "https://en.wikipedia.org/wiki/Fahrenheit" },
+    { "q": "How many different first moves can White make in chess?", "unit": "moves", "min": 1, "max": 100, "log": true, "answer": 20, "source": "https://en.wikipedia.org/wiki/Chess_opening" },
+    { "q": "How many hearts does an octopus have?", "unit": "hearts", "min": 1, "max": 10, "answer": 3, "source": "https://en.wikipedia.org/wiki/Octopus" },
+    { "q": "What year did the Berlin Wall fall?", "unit": "", "min": 1950, "max": 2010, "answer": 1989, "source": "https://en.wikipedia.org/wiki/Berlin_Wall" }
+  ],
+  "2026-10-28": [
+    { "q": "How deep is the deepest point of the ocean?", "unit": "m", "min": 1000, "max": 50000, "log": true, "answer": 10935, "source": "https://en.wikipedia.org/wiki/Challenger_Deep" },
+    { "q": "How many time zones does Russia have?", "unit": "zones", "min": 1, "max": 30, "answer": 11, "source": "https://en.wikipedia.org/wiki/Time_in_Russia" },
+    { "q": "How wide is the Earth, measured through the middle?", "unit": "km", "min": 1000, "max": 100000, "log": true, "answer": 12742, "source": "https://en.wikipedia.org/wiki/Earth" },
+    { "q": "How many teeth does an adult have, wisdom teeth included?", "unit": "teeth", "min": 10, "max": 60, "answer": 32, "source": "https://en.wikipedia.org/wiki/Human_tooth" },
+    { "q": "What year was the Eiffel Tower finished?", "unit": "", "min": 1800, "max": 1950, "answer": 1889, "source": "https://en.wikipedia.org/wiki/Eiffel_Tower" }
+  ],
+  "2026-10-29": [
+    { "q": "How tall is the Burj Khalifa?", "unit": "m", "min": 100, "max": 3000, "log": true, "answer": 828, "source": "https://en.wikipedia.org/wiki/Burj_Khalifa" },
+    { "q": "What year did people first walk on the Moon?", "unit": "", "min": 1950, "max": 2000, "answer": 1969, "source": "https://en.wikipedia.org/wiki/Apollo_11" },
+    { "q": "How fast does light travel, per second?", "unit": "km", "min": 1000, "max": 10000000, "log": true, "answer": 299792, "source": "https://en.wikipedia.org/wiki/Speed_of_light" },
+    { "q": "How many elements are on the periodic table?", "unit": "elements", "min": 20, "max": 300, "log": true, "answer": 118, "source": "https://en.wikipedia.org/wiki/Periodic_table" },
+    { "q": "How long is the Panama Canal?", "unit": "km", "min": 5, "max": 1000, "log": true, "answer": 82, "source": "https://en.wikipedia.org/wiki/Panama_Canal" }
+  ],
+  "2026-10-30": [
+    { "q": "How tall is the tower that holds Big Ben?", "unit": "m", "min": 20, "max": 500, "log": true, "answer": 96, "source": "https://en.wikipedia.org/wiki/Big_Ben" },
+    { "q": "How many players does each rugby union team have on the field?", "unit": "players", "min": 5, "max": 30, "answer": 15, "source": "https://en.wikipedia.org/wiki/Rugby_union" },
+    { "q": "How far is the Earth from the Sun, in millions of km?", "unit": "million km", "min": 10, "max": 1000, "log": true, "answer": 149.6, "source": "https://en.wikipedia.org/wiki/Astronomical_unit" },
+    { "q": "What year did Tim Berners-Lee propose the World Wide Web?", "unit": "", "min": 1960, "max": 2010, "answer": 1989, "source": "https://en.wikipedia.org/wiki/World_Wide_Web" },
+    { "q": "How long is an Olympic swimming pool?", "unit": "m", "min": 10, "max": 200, "log": true, "answer": 50, "source": "https://en.wikipedia.org/wiki/Olympic-size_swimming_pool" }
+  ],
+  "2026-10-31": [
+    { "q": "How tall is the tallest known living tree?", "unit": "m", "min": 20, "max": 300, "log": true, "answer": 116, "source": "https://en.wikipedia.org/wiki/Hyperion_(tree)" },
+    { "q": "How long is a marathon?", "unit": "km", "min": 5, "max": 200, "log": true, "answer": 42.195, "source": "https://en.wikipedia.org/wiki/Marathon" },
+    { "q": "How many moons does Mars have?", "unit": "moons", "min": 0, "max": 20, "answer": 2, "source": "https://en.wikipedia.org/wiki/Moons_of_Mars" },
+    { "q": "How many states are in the USA?", "unit": "states", "min": 10, "max": 100, "log": true, "answer": 50, "source": "https://en.wikipedia.org/wiki/U.S._state" },
+    { "q": "How many strings does a violin have?", "unit": "strings", "min": 1, "max": 12, "answer": 4, "source": "https://en.wikipedia.org/wiki/Violin" }
+  ]
+}

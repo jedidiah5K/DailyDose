@@ -2,12 +2,13 @@ import { countdown, puzzleNo } from '../lib/day.js';
 import { resultFor, streak } from '../lib/store.js';
 import { SOUNDS, buzz } from '../ui/feedback.js';
 import { clock, rewireLine } from './rewire.js';
+import { hunchLine } from './hunch.js';
 import { openAccount } from './account.js';
 
 // The lineup. New games plug in here: a key, a tile, a screen in main.js, and a result line.
 const GAMES = [
   { k: 'rewire', name: 'Rewire', line: 'Turn the wires. Light up the city.', done: r => `Lit in ${clock(r.ms)}`, share: rewireLine },
-  { k: 'hunch', name: 'Hunch', line: 'Five guesses about the world. See how close everyone got.', soon: 'Soon' },
+  { k: 'hunch', name: 'Hunch', line: 'Five guesses about the world. See how close everyone got.', done: r => r.rated ? `Beat the world ${r.beat}/${r.rated}` : `${Math.round(r.err)}% off`, share: hunchLine },
   { k: 'drop', name: 'Drop', line: 'One course. Three shots. Land it.', soon: 'Soon' },
   { k: 'meld', name: 'Mind Meld', line: 'Think like the world, or like your best friend.', soon: 'Soon' },
   { k: 'last', name: 'Last Stand', line: 'Ten rounds, one life. Weekends only.', soon: 'Weekends' },
