@@ -38,7 +38,7 @@ tools/*-gen.mjs          make Rewire / Drop / Last Stand content as SQL (random 
 
 ## Content
 - `dose_puzzles` (game, day, content). No client access; only the `dose_<game>_start` functions hand out today's puzzle.
-- Loaded: Rewire 60 days, Drop 60, Last Stand 30, Hunch 7, Mind Meld 7 (from 2026-10-25). Hunch answers and Mind Meld prompts need Job's review.
+- Loaded to: Rewire 23 Dec, Drop 24 Dec, Last Stand 9 Dec, Hunch 10 Nov, Mind Meld 10 Nov. Hunch answers and Mind Meld prompts need Job's review. Check end dates often: a game with no puzzle says "not ready yet". Mind Meld: add days to content/meld.json, then `node tools/meld-sql.mjs <from-date>` checks and builds the SQL.
 - Drop runs in the Edge Function `dose-drop` (replays shots server-side). Everything else is Postgres functions `dose_<game>_*`.
 
 ## Commands

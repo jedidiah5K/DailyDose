@@ -1,52 +1,428 @@
 {
   "_review": "Themed days: the theme is hidden until the player finishes. Every answer has a source; please check them.",
-  "2026-10-27": { "theme": "Space", "questions": [
-    { "q": "How many days long is a year on Mars?", "unit": "days", "min": 100, "max": 2000, "log": true, "answer": 687, "source": "https://en.wikipedia.org/wiki/Mars" },
-    { "q": "What year did the first person go to space?", "unit": "", "min": 1940, "max": 2000, "answer": 1961, "source": "https://en.wikipedia.org/wiki/Yuri_Gagarin" },
-    { "q": "How hot is the surface of the Sun?", "unit": "°C", "min": 500, "max": 50000, "log": true, "answer": 5500, "source": "https://en.wikipedia.org/wiki/Sun" },
-    { "q": "How many moons does Mars have?", "unit": "moons", "min": 0, "max": 20, "answer": 2, "source": "https://en.wikipedia.org/wiki/Moons_of_Mars" },
-    { "q": "How many seconds does sunlight take to reach Earth?", "unit": "s", "min": 1, "max": 10000, "log": true, "answer": 499, "source": "https://en.wikipedia.org/wiki/Astronomical_unit" }
-  ]},
-  "2026-10-28": { "theme": "The ocean", "questions": [
-    { "q": "How deep is the deepest point of the ocean?", "unit": "m", "min": 1000, "max": 50000, "log": true, "answer": 10935, "source": "https://en.wikipedia.org/wiki/Challenger_Deep" },
-    { "q": "What share of Earth's surface is covered by ocean?", "unit": "%", "min": 10, "max": 95, "answer": 71, "source": "https://en.wikipedia.org/wiki/Ocean" },
-    { "q": "How long can a blue whale grow?", "unit": "m", "min": 5, "max": 100, "log": true, "answer": 30, "source": "https://en.wikipedia.org/wiki/Blue_whale" },
-    { "q": "What year did the Titanic sink?", "unit": "", "min": 1850, "max": 1950, "answer": 1912, "source": "https://en.wikipedia.org/wiki/Titanic" },
-    { "q": "How many hearts does an octopus have?", "unit": "hearts", "min": 1, "max": 10, "answer": 3, "source": "https://en.wikipedia.org/wiki/Octopus" }
-  ]},
-  "2026-10-29": { "theme": "Paris", "questions": [
-    { "q": "How tall is the Eiffel Tower?", "unit": "m", "min": 50, "max": 1000, "log": true, "answer": 330, "source": "https://en.wikipedia.org/wiki/Eiffel_Tower" },
-    { "q": "What year was the Eiffel Tower finished?", "unit": "", "min": 1800, "max": 1950, "answer": 1889, "source": "https://en.wikipedia.org/wiki/Eiffel_Tower" },
-    { "q": "How many steps to the top of the Eiffel Tower?", "unit": "steps", "min": 100, "max": 10000, "log": true, "answer": 1665, "source": "https://en.wikipedia.org/wiki/Eiffel_Tower" },
-    { "q": "What year did Leonardo da Vinci start painting the Mona Lisa?", "unit": "", "min": 1300, "max": 1700, "answer": 1503, "source": "https://en.wikipedia.org/wiki/Mona_Lisa" },
-    { "q": "How many people live in the city of Paris, in millions?", "unit": "million", "min": 0.2, "max": 20, "log": true, "answer": 2.1, "source": "https://en.wikipedia.org/wiki/Paris" }
-  ]},
-  "2026-10-30": { "theme": "The human body", "questions": [
-    { "q": "How many bones are in an adult human body?", "unit": "bones", "min": 50, "max": 1000, "log": true, "answer": 206, "source": "https://en.wikipedia.org/wiki/Human_skeleton" },
-    { "q": "How many teeth does an adult have, wisdom teeth included?", "unit": "teeth", "min": 10, "max": 60, "answer": 32, "source": "https://en.wikipedia.org/wiki/Human_tooth" },
-    { "q": "How many litres of blood are in an adult body?", "unit": "L", "min": 0.5, "max": 30, "log": true, "answer": 5, "source": "https://en.wikipedia.org/wiki/Blood" },
-    { "q": "Roughly how many muscles are in the human body?", "unit": "muscles", "min": 50, "max": 5000, "log": true, "answer": 600, "source": "https://en.wikipedia.org/wiki/List_of_skeletal_muscles_of_the_human_body" },
-    { "q": "What is normal body temperature in Fahrenheit?", "unit": "°F", "min": 80, "max": 110, "answer": 98.6, "source": "https://en.wikipedia.org/wiki/Human_body_temperature" }
-  ]},
-  "2026-10-31": { "theme": "Halloween", "questions": [
-    { "q": "What year did the film Halloween come out?", "unit": "", "min": 1950, "max": 2010, "answer": 1978, "source": "https://en.wikipedia.org/wiki/Halloween_(1978_film)" },
-    { "q": "What year did Michael Jackson release Thriller?", "unit": "", "min": 1960, "max": 2010, "answer": 1982, "source": "https://en.wikipedia.org/wiki/Thriller_(album)" },
-    { "q": "How heavy was the heaviest pumpkin ever grown?", "unit": "kg", "min": 50, "max": 5000, "log": true, "answer": 1247, "source": "https://en.wikipedia.org/wiki/Giant_pumpkin" },
-    { "q": "What year did Ghostbusters first come out?", "unit": "", "min": 1960, "max": 2010, "answer": 1984, "source": "https://en.wikipedia.org/wiki/Ghostbusters" },
-    { "q": "How many eyes do most spiders have?", "unit": "eyes", "min": 1, "max": 20, "answer": 8, "source": "https://en.wikipedia.org/wiki/Spider" }
-  ]},
-  "2026-11-01": { "theme": "Music", "questions": [
-    { "q": "How many keys are on a standard piano?", "unit": "keys", "min": 20, "max": 300, "log": true, "answer": 88, "source": "https://en.wikipedia.org/wiki/Piano" },
-    { "q": "How many UK number one singles did the Beatles have?", "unit": "singles", "min": 1, "max": 60, "answer": 17, "source": "https://en.wikipedia.org/wiki/The_Beatles_discography" },
-    { "q": "What year did Spotify launch?", "unit": "", "min": 1990, "max": 2020, "answer": 2008, "source": "https://en.wikipedia.org/wiki/Spotify" },
-    { "q": "How long is Bohemian Rhapsody, in seconds?", "unit": "s", "min": 60, "max": 1200, "log": true, "answer": 355, "source": "https://en.wikipedia.org/wiki/Bohemian_Rhapsody" },
-    { "q": "How many strings does a violin have?", "unit": "strings", "min": 1, "max": 12, "answer": 4, "source": "https://en.wikipedia.org/wiki/Violin" }
-  ]},
-  "2026-11-02": { "theme": "Sport", "questions": [
-    { "q": "How long is a marathon?", "unit": "km", "min": 5, "max": 200, "log": true, "answer": 42.195, "source": "https://en.wikipedia.org/wiki/Marathon" },
-    { "q": "What year were the first modern Olympic Games?", "unit": "", "min": 1800, "max": 1950, "answer": 1896, "source": "https://en.wikipedia.org/wiki/1896_Summer_Olympics" },
-    { "q": "What year was the first football World Cup?", "unit": "", "min": 1870, "max": 1970, "answer": 1930, "source": "https://en.wikipedia.org/wiki/1930_FIFA_World_Cup" },
-    { "q": "How long is an Olympic swimming pool?", "unit": "m", "min": 10, "max": 200, "log": true, "answer": 50, "source": "https://en.wikipedia.org/wiki/Olympic-size_swimming_pool" },
-    { "q": "How many players does each rugby union team have on the field?", "unit": "players", "min": 5, "max": 30, "answer": 15, "source": "https://en.wikipedia.org/wiki/Rugby_union" }
-  ]}
+  "2026-10-27": {
+    "theme": "Space",
+    "questions": [
+      {
+        "q": "How many days long is a year on Mars?",
+        "unit": "days",
+        "min": 100,
+        "max": 2000,
+        "log": true,
+        "answer": 687,
+        "source": "https://en.wikipedia.org/wiki/Mars"
+      },
+      {
+        "q": "What year did the first person go to space?",
+        "unit": "",
+        "min": 1940,
+        "max": 2000,
+        "answer": 1961,
+        "source": "https://en.wikipedia.org/wiki/Yuri_Gagarin"
+      },
+      {
+        "q": "How hot is the surface of the Sun?",
+        "unit": "°C",
+        "min": 500,
+        "max": 50000,
+        "log": true,
+        "answer": 5500,
+        "source": "https://en.wikipedia.org/wiki/Sun"
+      },
+      {
+        "q": "How many moons does Mars have?",
+        "unit": "moons",
+        "min": 0,
+        "max": 20,
+        "answer": 2,
+        "source": "https://en.wikipedia.org/wiki/Moons_of_Mars"
+      },
+      {
+        "q": "How many seconds does sunlight take to reach Earth?",
+        "unit": "s",
+        "min": 1,
+        "max": 10000,
+        "log": true,
+        "answer": 499,
+        "source": "https://en.wikipedia.org/wiki/Astronomical_unit"
+      }
+    ]
+  },
+  "2026-10-28": {
+    "theme": "The ocean",
+    "questions": [
+      {
+        "q": "How deep is the deepest point of the ocean?",
+        "unit": "m",
+        "min": 1000,
+        "max": 50000,
+        "log": true,
+        "answer": 10935,
+        "source": "https://en.wikipedia.org/wiki/Challenger_Deep"
+      },
+      {
+        "q": "What share of Earth's surface is covered by ocean?",
+        "unit": "%",
+        "min": 10,
+        "max": 95,
+        "answer": 71,
+        "source": "https://en.wikipedia.org/wiki/Ocean"
+      },
+      {
+        "q": "How long can a blue whale grow?",
+        "unit": "m",
+        "min": 5,
+        "max": 100,
+        "log": true,
+        "answer": 30,
+        "source": "https://en.wikipedia.org/wiki/Blue_whale"
+      },
+      {
+        "q": "What year did the Titanic sink?",
+        "unit": "",
+        "min": 1850,
+        "max": 1950,
+        "answer": 1912,
+        "source": "https://en.wikipedia.org/wiki/Titanic"
+      },
+      {
+        "q": "How many hearts does an octopus have?",
+        "unit": "hearts",
+        "min": 1,
+        "max": 10,
+        "answer": 3,
+        "source": "https://en.wikipedia.org/wiki/Octopus"
+      }
+    ]
+  },
+  "2026-10-29": {
+    "theme": "Paris",
+    "questions": [
+      {
+        "q": "How tall is the Eiffel Tower?",
+        "unit": "m",
+        "min": 50,
+        "max": 1000,
+        "log": true,
+        "answer": 330,
+        "source": "https://en.wikipedia.org/wiki/Eiffel_Tower"
+      },
+      {
+        "q": "What year was the Eiffel Tower finished?",
+        "unit": "",
+        "min": 1800,
+        "max": 1950,
+        "answer": 1889,
+        "source": "https://en.wikipedia.org/wiki/Eiffel_Tower"
+      },
+      {
+        "q": "How many steps to the top of the Eiffel Tower?",
+        "unit": "steps",
+        "min": 100,
+        "max": 10000,
+        "log": true,
+        "answer": 1665,
+        "source": "https://en.wikipedia.org/wiki/Eiffel_Tower"
+      },
+      {
+        "q": "What year did Leonardo da Vinci start painting the Mona Lisa?",
+        "unit": "",
+        "min": 1300,
+        "max": 1700,
+        "answer": 1503,
+        "source": "https://en.wikipedia.org/wiki/Mona_Lisa"
+      },
+      {
+        "q": "How many people live in the city of Paris, in millions?",
+        "unit": "million",
+        "min": 0.2,
+        "max": 20,
+        "log": true,
+        "answer": 2.1,
+        "source": "https://en.wikipedia.org/wiki/Paris"
+      }
+    ]
+  },
+  "2026-10-30": {
+    "theme": "The human body",
+    "questions": [
+      {
+        "q": "How many bones are in an adult human body?",
+        "unit": "bones",
+        "min": 50,
+        "max": 1000,
+        "log": true,
+        "answer": 206,
+        "source": "https://en.wikipedia.org/wiki/Human_skeleton"
+      },
+      {
+        "q": "How many teeth does an adult have, wisdom teeth included?",
+        "unit": "teeth",
+        "min": 10,
+        "max": 60,
+        "answer": 32,
+        "source": "https://en.wikipedia.org/wiki/Human_tooth"
+      },
+      {
+        "q": "How many litres of blood are in an adult body?",
+        "unit": "L",
+        "min": 0.5,
+        "max": 30,
+        "log": true,
+        "answer": 5,
+        "source": "https://en.wikipedia.org/wiki/Blood"
+      },
+      {
+        "q": "Roughly how many muscles are in the human body?",
+        "unit": "muscles",
+        "min": 50,
+        "max": 5000,
+        "log": true,
+        "answer": 600,
+        "source": "https://en.wikipedia.org/wiki/List_of_skeletal_muscles_of_the_human_body"
+      },
+      {
+        "q": "What is normal body temperature in Fahrenheit?",
+        "unit": "°F",
+        "min": 80,
+        "max": 110,
+        "answer": 98.6,
+        "source": "https://en.wikipedia.org/wiki/Human_body_temperature"
+      }
+    ]
+  },
+  "2026-10-31": {
+    "theme": "Halloween",
+    "questions": [
+      {
+        "q": "What year did the film Halloween come out?",
+        "unit": "",
+        "min": 1950,
+        "max": 2010,
+        "answer": 1978,
+        "source": "https://en.wikipedia.org/wiki/Halloween_(1978_film)"
+      },
+      {
+        "q": "What year did Michael Jackson release Thriller?",
+        "unit": "",
+        "min": 1960,
+        "max": 2010,
+        "answer": 1982,
+        "source": "https://en.wikipedia.org/wiki/Thriller_(album)"
+      },
+      {
+        "q": "How heavy was the heaviest pumpkin ever grown?",
+        "unit": "kg",
+        "min": 50,
+        "max": 5000,
+        "log": true,
+        "answer": 1247,
+        "source": "https://en.wikipedia.org/wiki/Giant_pumpkin"
+      },
+      {
+        "q": "What year did Ghostbusters first come out?",
+        "unit": "",
+        "min": 1960,
+        "max": 2010,
+        "answer": 1984,
+        "source": "https://en.wikipedia.org/wiki/Ghostbusters"
+      },
+      {
+        "q": "How many eyes do most spiders have?",
+        "unit": "eyes",
+        "min": 1,
+        "max": 20,
+        "answer": 8,
+        "source": "https://en.wikipedia.org/wiki/Spider"
+      }
+    ]
+  },
+  "2026-11-01": {
+    "theme": "Music",
+    "questions": [
+      {
+        "q": "How many keys are on a standard piano?",
+        "unit": "keys",
+        "min": 20,
+        "max": 300,
+        "log": true,
+        "answer": 88,
+        "source": "https://en.wikipedia.org/wiki/Piano"
+      },
+      {
+        "q": "How many UK number one singles did the Beatles have?",
+        "unit": "singles",
+        "min": 1,
+        "max": 60,
+        "answer": 17,
+        "source": "https://en.wikipedia.org/wiki/The_Beatles_discography"
+      },
+      {
+        "q": "What year did Spotify launch?",
+        "unit": "",
+        "min": 1990,
+        "max": 2020,
+        "answer": 2008,
+        "source": "https://en.wikipedia.org/wiki/Spotify"
+      },
+      {
+        "q": "How long is Bohemian Rhapsody, in seconds?",
+        "unit": "s",
+        "min": 60,
+        "max": 1200,
+        "log": true,
+        "answer": 355,
+        "source": "https://en.wikipedia.org/wiki/Bohemian_Rhapsody"
+      },
+      {
+        "q": "How many strings does a violin have?",
+        "unit": "strings",
+        "min": 1,
+        "max": 12,
+        "answer": 4,
+        "source": "https://en.wikipedia.org/wiki/Violin"
+      }
+    ]
+  },
+  "2026-11-02": {
+    "theme": "Sport",
+    "questions": [
+      {
+        "q": "How long is a marathon?",
+        "unit": "km",
+        "min": 5,
+        "max": 200,
+        "log": true,
+        "answer": 42.195,
+        "source": "https://en.wikipedia.org/wiki/Marathon"
+      },
+      {
+        "q": "What year were the first modern Olympic Games?",
+        "unit": "",
+        "min": 1800,
+        "max": 1950,
+        "answer": 1896,
+        "source": "https://en.wikipedia.org/wiki/1896_Summer_Olympics"
+      },
+      {
+        "q": "What year was the first football World Cup?",
+        "unit": "",
+        "min": 1870,
+        "max": 1970,
+        "answer": 1930,
+        "source": "https://en.wikipedia.org/wiki/1930_FIFA_World_Cup"
+      },
+      {
+        "q": "How long is an Olympic swimming pool?",
+        "unit": "m",
+        "min": 10,
+        "max": 200,
+        "log": true,
+        "answer": 50,
+        "source": "https://en.wikipedia.org/wiki/Olympic-size_swimming_pool"
+      },
+      {
+        "q": "How many players does each rugby union team have on the field?",
+        "unit": "players",
+        "min": 5,
+        "max": 30,
+        "answer": 15,
+        "source": "https://en.wikipedia.org/wiki/Rugby_union"
+      }
+    ]
+  },
+  "2026-11-06": {
+    "theme": "Food",
+    "questions": [
+      {
+        "q": "What year did the McDonald brothers open their first restaurant?",
+        "unit": "",
+        "min": 1900,
+        "max": 2000,
+        "answer": 1940,
+        "source": "https://en.wikipedia.org/wiki/McDonald%27s"
+      },
+      {
+        "q": "What year was Coca-Cola invented?",
+        "unit": "",
+        "min": 1800,
+        "max": 2000,
+        "answer": 1886,
+        "source": "https://en.wikipedia.org/wiki/Coca-Cola"
+      },
+      {
+        "q": "How many calories are in one gram of fat?",
+        "unit": "calories",
+        "min": 1,
+        "max": 50,
+        "log": true,
+        "answer": 9,
+        "source": "https://en.wikipedia.org/wiki/Food_energy"
+      },
+      {
+        "q": "How many calories are in 100 grams of banana?",
+        "unit": "calories",
+        "min": 10,
+        "max": 1000,
+        "log": true,
+        "answer": 89,
+        "source": "https://en.wikipedia.org/wiki/Banana"
+      },
+      {
+        "q": "What year did Nutella first go on sale?",
+        "unit": "",
+        "min": 1900,
+        "max": 2020,
+        "answer": 1964,
+        "source": "https://en.wikipedia.org/wiki/Nutella"
+      }
+    ]
+  },
+  "2026-11-08": {
+    "theme": "Animals",
+    "questions": [
+      {
+        "q": "How many months is an African elephant pregnant?",
+        "unit": "months",
+        "min": 1,
+        "max": 60,
+        "answer": 22,
+        "source": "https://en.wikipedia.org/wiki/Elephant"
+      },
+      {
+        "q": "How many teeth does an adult dog have?",
+        "unit": "teeth",
+        "min": 5,
+        "max": 200,
+        "log": true,
+        "answer": 42,
+        "source": "https://en.wikipedia.org/wiki/Dog_anatomy"
+      },
+      {
+        "q": "How many legs does a lobster have?",
+        "unit": "legs",
+        "min": 2,
+        "max": 50,
+        "log": true,
+        "answer": 10,
+        "source": "https://en.wikipedia.org/wiki/Lobster"
+      },
+      {
+        "q": "How many compartments does a cow’s stomach have?",
+        "unit": "compartments",
+        "min": 1,
+        "max": 20,
+        "answer": 4,
+        "source": "https://en.wikipedia.org/wiki/Ruminant"
+      },
+      {
+        "q": "How many eyes does a honey bee have?",
+        "unit": "eyes",
+        "min": 1,
+        "max": 30,
+        "answer": 5,
+        "source": "https://en.wikipedia.org/wiki/Honey_bee"
+      }
+    ]
+  }
 }
