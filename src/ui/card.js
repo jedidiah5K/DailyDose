@@ -8,13 +8,13 @@ import { clock } from '../lib/day.js';
 export const LINEUP = [
   { k: 'rewire', name: 'Rewire', color: '#5CE1FF', emoji: '⚡',
     big: r => `Lit in ${clock(r.ms)}`, small: r => (r.stars ? `${'★'.repeat(r.stars)}${'☆'.repeat(3 - r.stars)}  ` : '') + (r.beat != null ? `Faster than ${r.beat}% of players` : 'City lit') + (r.hints ? ` · ${r.hints} hint${r.hints > 1 ? 's' : ''}` : ' · no hints') },
-  { k: 'hunch', name: 'Hunch', color: '#93AAFF', emoji: '🎯',
+  { k: 'hunch', name: 'Hunch', color: '#E2B652', emoji: '🎯',
     big: r => r.points != null ? `${r.points} points` : `${Math.round(r.err)}% off`, small: r => r.points != null ? `${r.hits} of 5 in band${r.theme ? ` · theme: ${r.theme}` : ''}` : `Average error ${Math.round(r.err)}%` },
-  { k: 'tangle', name: 'Tangle', color: '#FFA53D', emoji: '🪢',
+  { k: 'tangle', name: 'Tangle', color: '#FF6F59', emoji: '🪢',
     big: r => `Untangled in ${clock(r.ms)}`, small: r => (r.beat != null ? `Faster than ${r.beat}% of players` : 'Knot untied') + ` · ${r.moves} moves` },
-  { k: 'cipher', name: 'Cipher', color: '#FF7AB0', emoji: '🔐',
+  { k: 'cipher', name: 'Cipher', color: '#EFE3C2', emoji: '🔐',
     big: r => r.solved ? (r.misses ? `${r.misses} slip${r.misses > 1 ? 's' : ''}` : 'No slips') : 'Not cracked', small: r => r.solved ? (r.beat != null ? `Better than ${r.beat}% of players` : 'Code cracked') : 'Out of guesses' },
-  { k: 'ladder', name: 'Ladder', color: '#FF4D6D', emoji: '🪜',
+  { k: 'ladder', name: 'Ladder', color: '#B79CFF', emoji: '🪜',
     big: r => r.solved ? `${r.steps} steps` : 'Gave up', small: r => `Par ${r.par}` + (r.beat != null ? ` · beat ${r.beat}%` : '') },
 ];
 export const doneTonight = () => LINEUP.filter(g => resultFor(g.k)).map(g => ({ ...g, r: resultFor(g.k) }));

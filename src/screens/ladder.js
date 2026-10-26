@@ -3,7 +3,7 @@ import { shareDose } from '../ui/card.js';
 import { state, save, finish, resultFor, streak } from '../lib/store.js';
 import { ladderStart, ladderStep } from '../lib/cloud.js';
 import { SOUNDS, buzz } from '../ui/feedback.js';
-import { stars, icon } from '../ui/sky.js';
+import { stars, icon, sideBlurb } from '../ui/sky.js';
 import { friendsOn } from './friends.js';
 
 export const ladderLine = r => r.solved ? `${r.steps} step${r.steps === 1 ? '' : 's'}${r.steps === r.par ? ' · par' : ` · par ${r.par}`}` : 'Gave up';
@@ -22,15 +22,16 @@ export function ladder(app) {
       <p class="neon-title g-ladder">${icon('ladder')}Ladder <span>No. ${puzzleNo()}</span></p>
       <span class="eyebrow mono" id="steps"></span>
     </header>
-    <section id="body" class="ld-body">
+    <div class="g-play"><section id="body" class="ld-body">
       <div class="h-intro rise">
         <h2 class="display">One letter at a <em>time</em></h2>
         <p>Turn the top word into the bottom word. Change one letter per step, and every step has to be a real word. Fewest steps wins.</p>
       </div>
       <div class="h-bottom"><button class="btn wide" id="begin">Start</button></div>
-    </section>
+    </section></div>
+    <aside class="g-side">${sideBlurb('ladder', 'Ladder', 'Turn the top word into the bottom word, changing one letter per step. Every step has to be a real word. Fewest steps wins.')}
     <p class="v-msg" id="msg" role="status"></p>
-    <section id="bottom"></section>
+    <section id="bottom"></section></aside>
   </main>`;
   const $ = q => app.querySelector(q);
   const say = t => { $('#msg').textContent = t; };

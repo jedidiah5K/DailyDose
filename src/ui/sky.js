@@ -32,6 +32,8 @@ export const ICONS = {
   cipher: '<circle cx="7.5" cy="12" r="4"/><path d="M11.5 12H21M18 12v3.5M21 12v2.5"/>',
   ladder: '<path d="M7 3v18M17 3v18M7 7.5h10M7 12h10M7 16.5h10"/>',
 };
+// Desktop side panel heading: the game's name and how it works (phones get this on the start card).
+export const sideBlurb = (k, name, how) => `<div class="g-blurb"><p class="eyebrow">Today’s ${name}</p><h1 class="display">${name}</h1><p>${how}</p></div>`;
 export const icon = (k, cls = '') => `<svg class="gi ${cls}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[k]}</svg>`;
 
 // A skyline of `count` buildings. `signs` = [{ at, k, label, on, lit }]: a game's sign sits on the

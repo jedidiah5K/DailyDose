@@ -4,7 +4,7 @@ import { state, save, finish, resultFor, streak } from '../lib/store.js';
 import { rewireStart, rewireSubmit, rewireHint } from '../lib/cloud.js';
 import { rot, trace, countSolutions, plantsOf } from '../games/rewireLogic.js';
 import { SOUNDS, buzz } from '../ui/feedback.js';
-import { stars, icon } from '../ui/sky.js';
+import { stars, icon, sideBlurb } from '../ui/sky.js';
 import { friendsOn } from './friends.js';
 
 const calm = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -37,6 +37,7 @@ export function rewire(app) {
       <p class="neon-title g-rewire">${icon('rewire')}Rewire <span>No. ${puzzleNo()}</span></p>
       <span class="eyebrow mono" id="time">0:00</span>
     </header>
+    <div class="g-play">
     <div class="rw-stage">
       <div class="grid" id="grid" style="--w:6">${'<span class="tl"></span>'.repeat(36)}</div>
       <div class="rw-cover" id="cover">
@@ -48,8 +49,10 @@ export function rewire(app) {
     </div>
     <div class="rw-tools"><span class="taps mono" id="taps" hidden></span><button class="hint-btn" id="hint" hidden>Hint <span>+30s</span></button></div>
     <div class="skyline" id="sky" aria-hidden="true"></div>
+    </div>
+    <aside class="g-side">${sideBlurb('rewire', 'Rewire', 'Turn the tiles so every building is wired to a power plant. No loose ends, and the two plants’ wires never touch. Par is the fewest taps.')}
     <p class="v-msg" id="msg" role="status"></p>
-    <section id="bottom"></section>
+    <section id="bottom"></section></aside>
   </main>`;
   const $ = s => app.querySelector(s);
   const say = t => { $('#msg').textContent = t; };

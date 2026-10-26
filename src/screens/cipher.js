@@ -3,7 +3,7 @@ import { shareDose } from '../ui/card.js';
 import { state, save, finish, resultFor, streak } from '../lib/store.js';
 import { cipherStart, cipherGuess } from '../lib/cloud.js';
 import { SOUNDS, buzz } from '../ui/feedback.js';
-import { stars, icon } from '../ui/sky.js';
+import { stars, icon, sideBlurb } from '../ui/sky.js';
 import { friendsOn } from './friends.js';
 
 const LIVES = 5;
@@ -25,15 +25,16 @@ export function cipher(app) {
       <p class="neon-title g-cipher">${icon('cipher')}Cipher <span>No. ${puzzleNo()}</span></p>
       <span class="cp-lives" id="lives" aria-label="Wrong guesses left"></span>
     </header>
-    <section id="body" class="cp-body">
+    <div class="g-play"><section id="body" class="cp-body">
       <div class="h-intro rise">
         <h2 class="display">Crack the <em>code</em></h2>
         <p>Every letter in today’s quote stands for a different one. Tap a scrambled letter, then the letter you think it hides. Five wrong guesses and the quote is out.</p>
       </div>
       <div class="h-bottom"><button class="btn wide" id="begin">Start</button></div>
-    </section>
+    </section></div>
+    <aside class="g-side">${sideBlurb('cipher', 'Cipher', 'A famous line, with every letter swapped for another. Tap a scrambled letter, then the one you think it hides. Five slips and the file closes.')}
     <p class="v-msg" id="msg" role="status"></p>
-    <section id="bottom"></section>
+    <section id="bottom"></section></aside>
   </main>`;
   const $ = q => app.querySelector(q);
   const say = t => { $('#msg').textContent = t; };

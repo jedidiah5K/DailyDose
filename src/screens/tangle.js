@@ -4,7 +4,7 @@ import { state, save, finish, resultFor, streak } from '../lib/store.js';
 import { tangleStart, tangleSubmit } from '../lib/cloud.js';
 import { tangles } from '../games/tangleLogic.js';
 import { SOUNDS, buzz } from '../ui/feedback.js';
-import { stars, icon } from '../ui/sky.js';
+import { stars, icon, sideBlurb } from '../ui/sky.js';
 import { friendsOn } from './friends.js';
 
 export const tangleLine = r => `Untangled in ${clock(r.ms)}`;
@@ -23,6 +23,7 @@ export function tangle(app) {
       <p class="neon-title g-tangle">${icon('tangle')}Tangle <span>No. ${puzzleNo()}</span></p>
       <span class="eyebrow mono" id="time">0:00</span>
     </header>
+    <div class="g-play">
     <div class="tg-stage">
       <svg class="tg-board" id="board" viewBox="0 0 100 100" aria-label="Tangle board"></svg>
       <div class="rw-cover" id="cover">
@@ -33,8 +34,10 @@ export function tangle(app) {
       </div>
     </div>
     <p class="tg-count mono" id="count" aria-live="polite"></p>
+    </div>
+    <aside class="g-side">${sideBlurb('tangle', 'Tangle', 'Every dot is pinned to string. Drag the pins until no two strings cross. The clock runs until the last one is clear.')}
     <p class="v-msg" id="msg" role="status"></p>
-    <section id="bottom"></section>
+    <section id="bottom"></section></aside>
   </main>`;
   const $ = s => app.querySelector(s);
   const say = t => { $('#msg').textContent = t; };

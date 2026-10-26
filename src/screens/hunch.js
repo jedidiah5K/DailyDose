@@ -3,7 +3,7 @@ import { shareDose } from '../ui/card.js';
 import { state, save, finish, resultFor, streak } from '../lib/store.js';
 import { hunchStart, hunchBet } from '../lib/cloud.js';
 import { SOUNDS, buzz } from '../ui/feedback.js';
-import { stars, icon } from '../ui/sky.js';
+import { stars, icon, sideBlurb } from '../ui/sky.js';
 import { friendsOn } from './friends.js';
 
 const calm = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -51,8 +51,9 @@ export function hunch(app) {
       <p class="neon-title g-hunch">${icon('hunch')}Hunch <span>No. ${puzzleNo()}</span></p>
       <span class="eyebrow mono" id="step"></span>
     </header>
-    <section id="body" class="h-body"><div class="h-skel"><i></i><i></i><i></i></div></section>
-    <p class="v-msg" id="msg" role="status"></p>
+    <div class="g-play"><section id="body" class="h-body"><div class="h-skel"><i></i><i></i><i></i></div></section></div>
+    <aside class="g-side">${sideBlurb('hunch', 'Hunch', 'Five questions with a number for an answer. Slide to your guess, then bet on how close you are: a tight band scores big, a wide one plays it safe.')}
+    <p class="v-msg" id="msg" role="status"></p></aside>
   </main>`;
   const $ = s => app.querySelector(s);
   const say = t => { $('#msg').textContent = t; };
