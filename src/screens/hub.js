@@ -38,7 +38,7 @@ const esc = s => String(s).replace(/[<>&"]/g, c => `&#${c.charCodeAt(0)};`);
 export function hub(app) {
   ensureStickerDefs();
   const today = dayKey(), s = streak();
-  const date = new Date().toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' });
+  const date = new Date().toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' });
   const done = GAMES.map(g => !!resultFor(g.k)), n = done.filter(Boolean).length;
   // the top story: a game you started and left, else the next one you haven't played
   const open = g => !resultFor(g.k) && state.progress[g.k]?.day === today;
@@ -50,8 +50,8 @@ export function hub(app) {
   const story = g => {
     const r = resultFor(g.k), [rt, tp, tilt] = LAND[g.k];
     return `<div class="ed-story">
-      <span class="ed-kick" style="color:${g.c}">${g.name}</span>
-      <a class="ed-head" href="#${g.k}">${g.head}</a>
+      <a class="ed-head" href="#${g.k}">${g.name}</a>
+      <span class="ed-kick" style="color:${g.c}">${g.head}</span>
       ${r ? `${sticker(g.k, 60, fresh.includes(g.k) ? 'slap' : '', `right:${rt}px;top:${tp}px;--r:${tilt}deg`)}
              <span class="ed-res" style="color:${g.c}">✓ ${g.done(r)}</span>`
           : `${open(g) ? '<span class="ed-open">Unfinished</span>' : ''}
@@ -61,8 +61,8 @@ export function hub(app) {
 
   const lead = next
     ? `<div class="ed-lead">
-        <span class="ed-kick" style="color:#C23B22">Top story · ${next.name}</span>
-        <a class="ed-lhead" href="#${next.k}">${next.head}</a>
+        <a class="ed-lhead" href="#${next.k}">${next.name}</a>
+        <span class="ed-kick" style="color:${next.c}">${next.head}</span>
         <p class="ed-dek">${next.dek}</p>
         <a class="ed-bigplay" href="#${next.k}" style="background:${next.btn || next.c}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12.5-7.5z"/></svg>${open(next) ? 'Resume' : 'Play'} ${next.name}</a>
         <div class="ed-spot" aria-hidden="true">
@@ -79,7 +79,7 @@ export function hub(app) {
 
   app.innerHTML = `<main class="screen hub ed has-tabs">
     <header class="ed-mast">
-      <div class="ed-top"><span>Est. 2026${state.name ? ` · For ${esc(state.name)}` : ' · Free'}</span>${s ? `<span class="ed-streak">${FLAME}${s}-day streak</span>` : '<span>Same puzzles for everyone</span>'}</div>
+      <div class="ed-top"><span>Est. 2026${state.name ? ` · For ${esc(state.name)}` : ' · Free'}</span>${s ? `<span class="ed-streak">${FLAME}${s}-day streak</span>` : '<span>A new paper at midnight, where you are</span>'}</div>
       <h1 class="ed-name">The Daily <em>Dose</em></h1>
       <div class="ed-date"><span>No. ${puzzleNo()} · ${date}</span>
         <span class="ed-dots" aria-label="${n} of ${GAMES.length} stickers">${n}/${GAMES.length}${GAMES.map((g, i) => `<i style="${done[i] ? `background:${g.c}` : ''};--t:${LAND[g.k][2]}deg"></i>`).join('')}</span></div>

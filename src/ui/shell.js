@@ -50,7 +50,7 @@ export function howTo(k) {
     <p class="eyebrow">How to play</p><h2 class="display">${h.name}</h2>
     ${h.demo}
     <ol>${h.steps.map(s => `<li>${s}</li>`).join('')}</ol>
-    <p class="ht-foot">A new puzzle every night at midnight UTC, the same for everyone.</p>
+    <p class="ht-foot">A new puzzle every night at midnight, in your time zone.</p>
     <button class="btn wide" data-go>Got it</button></div>`;
   document.body.appendChild(d);
   const close = () => { d.classList.add('out'); setTimeout(() => d.remove(), calm() ? 0 : 220); };

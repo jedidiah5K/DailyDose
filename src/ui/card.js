@@ -58,8 +58,10 @@ export async function drawCard(format = 'story', only) {
   // header
   x.fillStyle = 'rgba(244,239,227,.65)'; x.font = `500 ${10 * S}px ${MONO}`; x.letterSpacing = `${1.4 * S}px`;
   x.textAlign = 'left'; x.fillText(`THE DAILY DOSE · NO. ${puzzleNo()}`, 22 * S, 32 * S);
-  const date = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' }).toUpperCase();
-  x.textAlign = 'right'; x.fillText(date, W - 22 * S, 32 * S); x.textAlign = 'left'; x.letterSpacing = '0px';
+  const date = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }).toUpperCase();
+  x.textAlign = 'right'; x.fillText(date, W - 22 * S, 32 * S);
+  if (run > 1) x.fillText(`${run}-DAY STREAK`, W - 22 * S, 46 * S);
+  x.textAlign = 'left'; x.letterSpacing = '0px';
 
   // the headline: "full dose." once everything is done, else the game or the count
   const [l1, l2] = only ? [games[0]?.name.toLowerCase() || 'today', 'dosed.'] : all ? ['full', 'dose.'] : [`${games.length} of ${LINEUP.length}`, 'dosed.'];
@@ -73,8 +75,6 @@ export async function drawCard(format = 'story', only) {
     const g = games.find(v => v.k === k);
     if (g) await drawSticker(x, k, cx * S, cy * S, size * S, tilt, TAG[k](g.r));
   }
-  if (run > 1) await drawSticker(x, 'streak', 282 * S, 152 * S, 112 * S, 10, `${run}-DAY STREAK`);
-
   // footer: a pill with the count, and the address
   x.font = `500 ${9 * S}px ${MONO}`; x.letterSpacing = `${0.6 * S}px`;
   const pill = only ? 'DOSED TODAY' : `${games.length}/${LINEUP.length}${all ? ' · ALL DONE' : ''}`, pw = x.measureText(pill).width + 20 * S;

@@ -37,7 +37,7 @@ function show() {
 }
 addEventListener('hashchange', show);
 
-// Every countdown on screen ([data-cd]) ticks from here; at midnight UTC the new puzzles load.
+// Every countdown on screen ([data-cd]) ticks from here; at local midnight the new puzzles load.
 // Checked by date, not by the exact second, so a phone that slept through midnight still catches up.
 const bootDay = dayKey();
 let reloading = false;

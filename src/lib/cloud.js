@@ -6,13 +6,25 @@ import { createClient } from '@supabase/supabase-js';
 
 const URL = import.meta.env.VITE_SUPABASE_URL || 'https://xgmwqpasogwlvtjaapwo.supabase.co';
 const KEY = import.meta.env.VITE_SUPABASE_KEY || 'sb_publishable_GLmm-oqwG3az6syLgjv1cA_3a8-oD9y';
-export const sb = createClient(URL, KEY, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false, storageKey: 'dose-auth' } });
+export const TZ = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
+export const sb = createClient(URL, KEY, {
+  global: { headers: { 'x-dose-tz': TZ } },
+  auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false, storageKey: 'dose-auth' },
+});
+
+let tzSent = false;
+async function rememberTz() {
+  if (tzSent) return;
+  tzSent = true;
+  try { await sb.rpc('dose_set_tz', { p_tz: TZ }); } catch (e) { tzSent = false; }
+}
 
 export async function user() {
   const { data } = await sb.auth.getSession();
-  if (data.session) return data.session.user;
+  if (data.session) { await rememberTz(); return data.session.user; }
   const { data: d, error } = await sb.auth.signInAnonymously();
   if (error) throw error;
+  await rememberTz();
   return d.user;
 }
 export const isGuest = async () => (await sb.auth.getSession()).data.session?.user?.is_anonymous !== false;

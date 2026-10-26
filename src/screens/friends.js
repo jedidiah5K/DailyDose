@@ -69,7 +69,7 @@ export function nameForm(host, current, saved) {
 export function friends(app) {
   let gone = false, me = null, list = [];
   app.innerHTML = `<main class="screen game friends has-tabs">
-    ${pageHeader('Friends', 'Same puzzles, side by side')}
+    ${pageHeader('Friends', 'Tonight’s results, side by side')}
     <section id="name" hidden></section>
     <section class="fr-me">
       <p class="eyebrow">Your friend code</p>

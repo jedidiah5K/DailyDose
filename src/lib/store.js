@@ -39,7 +39,11 @@ export function freezeUsedThisWeek() { const f = new Set(); streak(undefined, f)
 
 // One free freeze a week (Monday to Sunday): a single missed day is skipped over automatically,
 // as long as you played the day before it. Two misses in a row still end the streak. Never sold.
-const weekOf = key => { const t = Date.parse(key), dow = (new Date(t).getUTCDay() + 6) % 7; return dayKey(t - dow * 86400000); };
+const weekOf = key => {
+  const [y, m, d] = key.split('-').map(Number);
+  const t = new Date(y, m - 1, d), dow = (t.getDay() + 6) % 7;
+  return dayKey(+new Date(y, m - 1, d - dow));
+};
 export function countStreak(played, today, frozen = new Set()) {
   let d = today, n = 0;
   if (!played(d)) d = prevKey(d);
