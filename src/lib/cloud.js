@@ -36,8 +36,8 @@ export async function rewireHint(tiles) {
   if (error) throw error;
   return data;
 }
-export async function rewireSubmit(tiles) {
-  const { data, error } = await sb.rpc('dose_rewire_submit', { p_tiles: tiles });
+export async function rewireSubmit(tiles, taps) {
+  const { data, error } = await sb.rpc('dose_rewire_submit', { p_tiles: tiles, p_taps: taps });
   if (error) throw error;
   return data;
 }

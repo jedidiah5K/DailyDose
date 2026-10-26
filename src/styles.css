@@ -167,6 +167,12 @@ p { margin: 0; }
 .tl.on .node { fill: var(--amp); }
 .tl .plant { fill: var(--warm); filter: drop-shadow(0 0 8px rgba(255, 200, 97, .7)); }
 .tl .bolt { fill: #1B1405; }
+/* two plants: the cyan one and the amber one; tiles on the amber network glow amber */
+.tl .plant.p0 { fill: var(--amp); filter: drop-shadow(0 0 8px rgba(92, 225, 255, .7)); }
+.tl.b { --amp: var(--warm); }
+.taps { align-self: center; margin-right: .8rem; font-size: .74rem; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); }
+.taps.over { color: var(--muted); }
+.taps[hidden] { display: none; }
 .tl .bld { fill: #1A2131; stroke: #56627C; stroke-width: 2; transition: fill .3s, stroke .3s; }
 .tl .win { fill: #2B3446; transition: fill .3s; }
 .tl.on .bld { stroke: var(--amp); }
