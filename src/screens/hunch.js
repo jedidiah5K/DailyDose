@@ -15,7 +15,7 @@ const toV = (q, t) => q.log ? q.min * (q.max / q.min) ** t : q.min + t * (q.max 
 const toT = (q, v) => Math.min(1, Math.max(0, q.log ? Math.log(v / q.min) / Math.log(q.max / q.min) : (v - q.min) / (q.max - q.min)));
 const isYear = q => !q.unit && q.min >= 1000;
 const tidy = (q, v) => isYear(q) || v >= 100 ? Math.round(v) : v >= 10 ? Math.round(v * 10) / 10 : Math.round(v * 100) / 100;
-const fmt = (q, v) => isYear(q) ? String(Math.round(v)) : Number(v).toLocaleString(undefined, { maximumFractionDigits: v >= 100 ? 0 : 2 });
+const fmt = (q, v) => isYear(q) ? String(Math.round(v)) : Number(v).toLocaleString(undefined, { maximumFractionDigits: v >= 10 ? 0 : v >= 1 ? 1 : 2 });
 const unit = q => q.unit ? ` <span class="h-unit">${q.unit}</span>` : '';
 
 // The three bets: tight, medium, wide. Same sizes as the server (dose_hunch_bet).
@@ -188,7 +188,7 @@ export function hunch(app) {
     $('#body').innerHTML = `<div class="h-intro rise">
       <div class="h-orbit" aria-hidden="true">${icon('hunch')}</div>
       <h2 class="display">How close can you <em>get?</em></h2>
-      <p>Slide to your guess, then bet on it: a tight band scores big but only if you’re close. Five questions, one hidden theme.</p>
+      <p>Slide to your guess, then bet on it: a tight band scores big but only if you’re close. Five questions. Some nights hide a theme.</p>
       <ul class="h-rules"><li><b>5</b> questions</li><li><b>3</b> bets</li><li><b>1</b> double down</li></ul>
     </div>
     <div class="h-bottom"><button class="btn wide" id="begin">Start</button></div>`;

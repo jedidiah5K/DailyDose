@@ -12,6 +12,7 @@ const wait = ms => new Promise(r => setTimeout(r, calm() ? 0 : ms));
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => `&#${c.charCodeAt(0)};`);
 export const lastLine = r => r.perfect ? `All 10 · ${r.points} pts` : r.banked ? `Banked ${r.points} after round ${r.reached}` : `Out on round ${r.reached + 1} · ${r.points} pts`;
 export const lastGrid = r => '🟢'.repeat(r.reached) + (r.banked ? '🏦' : r.perfect ? '' : '💀');
+const pts = n => `${n} point${n === 1 ? '' : 's'}`;
 const PERKS = {
   time: { name: '+5 seconds', tip: 'More time on one round', ic: '⏱' },
   fifty: { name: '50/50', tip: 'Remove two wrong answers', ic: '½' },
@@ -79,8 +80,8 @@ export function last(app) {
     $('#step').textContent = `Round ${p.guesses.length} cleared`;
     const nextPts = p.guesses.length + 1;
     $('#body').innerHTML = `<div class="h-q rise ls-pause">
-      <p class="eyebrow">${g?.skip ? 'Skipped' : `+${g?.pts ?? 0} points`}</p>
-      <h2 class="display"><em>${st.points}</em> points</h2>
+      <p class="eyebrow">${g?.skip ? 'Skipped' : `+${pts(g?.pts ?? 0)}`}</p>
+      <h2 class="display"><em>${st.points}</em> point${st.points === 1 ? '' : 's'}</h2>
       <p class="muted">Round ${nextPts} is worth ${nextPts}. Miss it and you keep ${Math.floor(st.points / 2)}.</p>
       ${perkRow(false)}
     </div>
@@ -207,7 +208,7 @@ export function last(app) {
     if (!r.perfect) $('#field').classList.add('fallen');
     $('#body').innerHTML = `<div class="result h-sum ${fresh ? 'rise' : ''}">
       <p class="eyebrow">${r.perfect ? 'Last one standing' : r.banked ? `Banked after round ${r.reached}` : r.late ? `Out of time on round ${r.reached + 1}` : `Knocked out on round ${r.reached + 1}`}</p>
-      <h2 class="display"><em>${r.points}</em> points</h2>
+      <h2 class="display"><em>${r.points}</em> point${r.points === 1 ? '' : 's'}</h2>
       <p class="ls-grid">${lastGrid(r)}</p>
       <p class="muted">${r.beat != null ? `More than ${r.beat}% of players today` : 'You’re one of the first to play today'}${streak('last') > 1 ? ` · ${streak('last')} days in a row` : ''}</p>
       <div class="fr-on" id="fr-on"></div>

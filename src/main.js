@@ -3,7 +3,7 @@ import '@fontsource/instrument-serif/400-italic.css';
 import '@fontsource-variable/geist';
 import '@fontsource-variable/geist-mono';
 import './styles.css';
-import { countdown } from './lib/day.js';
+import { countdown, dayKey } from './lib/day.js';
 import { hub } from './screens/hub.js';
 import { rewire } from './screens/rewire.js';
 import { hunch } from './screens/hunch.js';
@@ -37,10 +37,13 @@ function show() {
 addEventListener('hashchange', show);
 
 // Every countdown on screen ([data-cd]) ticks from here; at midnight UTC the new puzzles load.
+// Checked by date, not by the exact second, so a phone that slept through midnight still catches up.
+const bootDay = dayKey();
+let reloading = false;
 setInterval(() => {
   const t = countdown();
   document.querySelectorAll('[data-cd]').forEach(el => { el.textContent = t; });
-  if (t === '00:00:00') setTimeout(() => location.reload(), 1500);
+  if (dayKey() !== bootDay && !reloading) { reloading = true; setTimeout(() => location.reload(), 1500); }
 }, 1000);
 show();
 
