@@ -71,14 +71,13 @@ p { margin: 0; }
 .hero.sky-dawn { background: linear-gradient(#E9A98F, #F8DCC4 75%); --h1: #A38BAA; --h2: #5F4E72; --moon: #FFF3DF; --dark: rgba(255, 255, 255, .3); }
 .hero.sky-dusk { background: linear-gradient(#4B4785, #D88E7C 80%); --h1: #4A3F6A; --h2: #272240; --moon: #FFEBC9; --dark: rgba(255, 255, 255, .16); }
 .hero.sky-night { background: linear-gradient(#0B1030, #27306A 85%); --h1: #232B55; --h2: #141A38; --moon: #FFF3D2; --dark: rgba(255, 255, 255, .1); }
-.hero-art { position: absolute; inset: 0; width: 100%; height: 100%; }
-.hero-art .star { fill: #fff; opacity: .8; }
-.hero-art .moon-glow { fill: var(--moon); opacity: .16; filter: blur(14px); }
-.hero-art .moon-dark { fill: var(--dark); }
-.hero-art .moon-lit { fill: var(--moon); transition: d .6s var(--out); }
-.hero-art .hill-far { fill: var(--h1); }
-.hero-art .hill-near { fill: var(--h2); }
-.hero-art .ground { fill: var(--bg); }
+.hero .star { position: absolute; width: var(--r); height: var(--r); border-radius: 50%; background: #fff; opacity: .8; }
+.hero-hills { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 11rem; }
+.hero-hills .hill-far { fill: var(--h1); } .hero-hills .hill-near { fill: var(--h2); } .hero-hills .ground { fill: var(--bg); }
+.hero-moon { position: absolute; right: .6rem; top: calc(env(safe-area-inset-top) + .4rem); width: 7.5rem; height: 7.5rem; }
+.hero-moon .moon-glow { fill: var(--moon); opacity: .16; filter: blur(12px); }
+.hero-moon .moon-dark { fill: var(--dark); }
+.hero-moon .moon-lit { fill: var(--moon); }
 .hero-text { position: relative; max-width: 32rem; margin: 0 auto; padding: calc(env(safe-area-inset-top) + 1.6rem) 1.4rem 0; text-shadow: 0 1px 14px rgba(0, 0, 0, .18); }
 .hero-text .eyebrow { color: rgba(255, 255, 255, .85); }
 .hero-text h1 { margin: .7rem 0 .9rem; font-size: clamp(2.9rem, 14vw, 3.8rem); line-height: .92; max-width: 9ch; }
@@ -165,7 +164,8 @@ p { margin: 0; }
 
 /* ---------- game screens (shared) ---------- */
 .game { max-width: none; display: flex; flex-direction: column; }
-.game > * { width: 100%; max-width: 30rem; margin-inline: auto; flex-shrink: 0; }
+.screen.game > * { width: 100%; max-width: 30rem; margin-inline: auto; flex-shrink: 0; }
+.screen.game > .tabbar { width: auto; max-width: none; margin: 0; }
 #bottom { margin-top: auto; }
 .g-play, .g-side { display: flex; flex-direction: column; }
 .g-play { flex: 1; }
@@ -541,8 +541,29 @@ p { margin: 0; }
 .an-pool button.used { opacity: .18; }
 @keyframes in { from { opacity: 0; transform: translateY(8px); } }
 
-/* wide screens: the sky keeps its phone shape, centred above the list, instead of stretching edge to edge */
-@media (min-width: 560px) {
-  .hero { max-width: 32rem; height: auto; aspect-ratio: 390 / 320; margin: 1.25rem auto -2px; border-radius: 28px 28px 0 0; }
-  .hero-text { padding-top: 1.6rem; }
+/* wide screens: the sky runs edge to edge and the page gets a wider column */
+@media (min-width: 720px) {
+  .hero { height: 24rem; }
+  .hero-hills { height: 13rem; }
+  .hero-text, .hub-body { max-width: 44rem; }
+  .hero-text { padding-top: 2.4rem; }
+  .hero-text h1 { font-size: 4.6rem; max-width: none; }
+  .hero-moon { width: 9rem; height: 9rem; top: 1.2rem; }
+}
+
+/* desktop: games and pages use a wider centred column, with bigger boards and type */
+@media (min-width: 720px) {
+  .screen.game > * { max-width: 40rem; }
+  .screen.game { padding-top: 2rem; }
+  .gm-title b { font-size: 2rem; }
+  .gm-title .gi { width: 20px; height: 20px; }
+  .ld-rung span { width: 4rem; height: 4rem; font-size: 1.9rem; }
+  .ld-input input { width: 17.5rem; height: 4rem; font-size: 1.9rem; }
+  .ld-ladder { gap: .6rem; margin-top: 2.4rem; }
+  .an-slots span { width: 3.4rem; height: 3.9rem; font-size: 1.7rem; }
+  .an-pool { max-width: 30rem; } .an-pool button { width: 3.5rem; height: 3.5rem; font-size: 1.6rem; }
+  .lk-clues li { font-size: 2.8rem; padding: 1.2rem; }
+  .h-q h2 { font-size: 2.6rem; }
+  .page-top h1, .you-head h1 { font-size: 4rem; }
+  .badges { grid-template-columns: repeat(4, 1fr); }
 }

@@ -34,18 +34,18 @@ const greeting = (h = new Date().getHours()) => h < 5 ? 'Late night' : h < 12 ? 
 
 const moonIcon = f => `<svg class="mini-moon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="${moonPath(f, 10, 10, 8)}"/></svg>`;
 
-const STARS = [[30, 40, 1.2], [70, 22, .9], [118, 64, 1.1], [160, 30, .8], [205, 54, 1], [240, 18, 1.2], [372, 150, .9], [20, 120, .8], [180, 110, .9], [372, 30, 1]];
+const STARS = [[8, 40, 1.2], [18, 22, .9], [30, 64, 1.1], [41, 30, .8], [53, 54, 1], [62, 18, 1.2], [95, 150, .9], [5, 120, .8], [46, 110, .9], [95, 30, 1], [72, 90, .9], [84, 60, 1.1]];
+// The sky: stars (x in %, so they spread on any width), hills that stretch like a horizon, and a moon
+// that keeps its shape beside the greeting.
 function hero(phase, f) {
-  return `<svg class="hero-art" viewBox="0 0 390 300" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
-    ${phase === 'night' || phase === 'dusk' ? STARS.map(([x, y, r]) => `<circle class="star" cx="${x}" cy="${y}" r="${r}"/>`).join('') : ''}
-    <circle class="moon-glow" cx="312" cy="78" r="58"/>
-    <circle class="moon-dark" cx="312" cy="78" r="26"/>
-    <path class="moon-lit" d="${moonPath(f, 312, 78, 26)}"/>
-    <path class="hill-far" d="M0 196C48 170 92 160 140 176s92 34 140 12 80-46 110-40v152H0z"/>
-    <path class="hill-near" d="M0 236c58-30 110-34 168-16s110 30 160 8 52-18 62-16v88H0z"/>
-    <path class="ground" d="M0 280c70-18 150-22 230-10s120 12 160 4v26H0z"/>
-  </svg>`;
+  return `${phase === 'night' || phase === 'dusk' ? STARS.map(([x, y, r]) => `<i class="star" style="left:${x}%;top:${y}px;--r:${r * 2.2}px"></i>`).join('') : ''}
+    <svg class="hero-hills" viewBox="0 140 390 160" preserveAspectRatio="none" aria-hidden="true">
+      <path class="hill-far" d="M0 196C48 170 92 160 140 176s92 34 140 12 80-46 110-40v152H0z"/>
+      <path class="hill-near" d="M0 236c58-30 110-34 168-16s110 30 160 8 52-18 62-16v88H0z"/>
+      <path class="ground" d="M0 280c70-18 150-22 230-10s120 12 160 4v26H0z"/>
+    </svg>`;
 }
+const moonArt = f => `<svg class="hero-moon" viewBox="0 0 120 120" aria-hidden="true"><circle class="moon-glow" cx="60" cy="60" r="50"/><circle class="moon-dark" cx="60" cy="60" r="26"/><path class="moon-lit" d="${moonPath(f, 60, 60, 26)}"/></svg>`;
 
 // Monday to Sunday, each night with its own little moon.
 const weekKeys = today => {
@@ -91,6 +91,7 @@ export function hub(app) {
     <section class="hero sky-${phase}">
       ${hero(phase, played.length / GAMES.length)}
       <div class="hero-text">
+        ${moonArt(played.length / GAMES.length)}
         <p class="eyebrow">${date} · No. ${puzzleNo()}</p>
         <h1 class="display">${greeting()}${state.name ? `, <em>${esc(state.name)}</em>` : ''}</h1>
         <p class="hero-count"><b>${played.length}</b>/${GAMES.length} done</p>

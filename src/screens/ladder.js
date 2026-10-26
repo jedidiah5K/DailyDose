@@ -31,6 +31,8 @@ export function ladder(app) {
   wireHelp(app, 'ladder');
   const $ = q => app.querySelector(q);
   const say = t => { $('#msg').textContent = t; };
+  // a wrong or rejected word shakes the ladder
+  const shake = () => { const b = $('#body'); b.classList.remove('nope'); void b.offsetWidth; b.classList.add('nope'); };
 
   // A rung, with the letter that changed from the rung above lit up.
   const rung = (w, prev, cls = '') => `<li class="ld-rung ${cls}">${[...w].map((ch, i) => `<span class="${prev && prev[i] !== ch ? 'new' : ''}">${ch}</span>`).join('')}</li>`;
@@ -60,14 +62,14 @@ export function ladder(app) {
     if (busy) return;
     const word = w.toLowerCase();
     if (word !== 'back' && word !== 'give up') {
-      if (word.length !== 4) { say('Words have four letters.'); buzz(8); return; }
+      if (word.length !== 4) { say('Words have four letters.'); buzz(8); shake(); return; }
       const last = s.chain[s.chain.length - 1];
-      if ([...word].filter((ch, i) => ch !== last[i]).length !== 1) { say('Change exactly one letter.'); buzz(8); return; }
+      if ([...word].filter((ch, i) => ch !== last[i]).length !== 1) { say('Change exactly one letter.'); buzz(8); shake(); return; }
     }
     busy = true;
     let r;
     try { r = await ladderStep(word); }
-    catch (e) { busy = false; const why = Object.keys(WHY).find(k => e.message.includes(k)); say(why ? WHY[why](word) : navigator.onLine ? 'Couldn’t check that. Try again.' : 'You’re offline. Steps need a connection.'); buzz(15); SOUNDS.miss(); return; }
+    catch (e) { busy = false; const why = Object.keys(WHY).find(k => e.message.includes(k)); say(why ? WHY[why](word) : navigator.onLine ? 'Couldn’t check that. Try again.' : 'You’re offline. Steps need a connection.'); buzz(15); SOUNDS.miss(); shake(); return; }
     busy = false;
     if (gone) return;
     say('');
