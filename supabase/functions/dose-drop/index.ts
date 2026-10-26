@@ -1,7 +1,8 @@
 // Drop on the server: hands out today's course and replays every shot with the same physics the
 // phone uses (dropLogic.js), so a result can't be faked. 3 shots, one official result per day.
+// A shot is (dx, dy) plus, optionally, where you placed your own bumper (px, py).
 import { createClient } from 'npm:@supabase/supabase-js@2';
-import { simulate, cleanShot, SHOTS } from './dropLogic.js';
+import { simulate, cleanShot, piecePlace, SHOTS } from './dropLogic.js';
 
 const ALLOWED = ['https://daily-dose-azure.vercel.app', 'http://localhost:5181', 'http://localhost:5173', 'http://localhost:4173'];
 const cors = (origin: string | null) => ({
@@ -22,7 +23,7 @@ Deno.serve(async req => {
   const { data: { user } } = await db.auth.getUser(token);
   if (!user) return out({ error: 'not signed in' }, 401);
 
-  let body: { action?: string; dx?: number; dy?: number } = {};
+  let body: { action?: string; dx?: number; dy?: number; px?: number | null; py?: number | null } = {};
   try { body = await req.json(); } catch { return out({ error: 'bad request' }, 400); }
   const day = new Date().toISOString().slice(0, 10);
 
@@ -32,7 +33,7 @@ Deno.serve(async req => {
 
   await db.from('dose_plays').upsert({ user_id: user.id, game: 'drop', day }, { onConflict: 'user_id,game,day', ignoreDuplicates: true });
   const { data: play } = await db.from('dose_plays').select('guesses, result, finished_at').eq('user_id', user.id).eq('game', 'drop').eq('day', day).single();
-  const shots = (play?.guesses || []) as { s: number[]; landed: boolean; miss: number }[];
+  const shots = (play?.guesses || []) as { s: number[]; landed: boolean; miss: number; stars?: number }[];
 
   if (body.action === 'start') {
     const { rate, ...publicCourse } = course;   // the difficulty number isn't needed to play
@@ -45,21 +46,26 @@ Deno.serve(async req => {
 
   // ponytail: two shots sent at the same instant could both pass the 3-shot check; the app sends one at a
   // time, so only a hand-made double request could do it. Add a guesses-unchanged check on update if that matters.
-  const s = cleanShot(body.dx!, body.dy!);
+  const [dx, dy] = cleanShot(body.dx!, body.dy!);
+  const piece = Number.isFinite(body.px) && Number.isFinite(body.py) ? piecePlace(course, body.px!, body.py!) : null;
+  const s = piece ? [dx, dy, piece[0], piece[1]] : [dx, dy];
   const sim = simulate(course, s);
-  const next = [...shots, { s, landed: sim.landed, miss: sim.miss }];
+  const next = [...shots, { s, landed: sim.landed, miss: sim.miss, stars: sim.stars.length }];
   const over = sim.landed || next.length >= SHOTS;
   let result = null;
   if (over) {
-    // score: landing on an earlier shot is better; a miss is ranked by how close it got
+    // score (higher is better): landing earlier is worth more, stars on the landing shot add to it;
+    // a miss is ranked by how close the best shot got
     const best = Math.min(...next.map(x => x.miss));
-    const score = sim.landed ? next.length : SHOTS + 1 + best / 1000;
+    const stars = sim.landed ? sim.stars.length : 0;
+    const score = sim.landed ? (SHOTS + 1 - next.length) * 10 + stars * 4 : -best;
     const { data: others } = await db.from('dose_plays').select('result').eq('game', 'drop').eq('day', day).not('finished_at', 'is', null);
     const scores = (others || []).map(o => o.result?.score).filter((v: unknown) => typeof v === 'number') as number[];
-    const worse = scores.filter(v => v > score).length;
-    result = { landed: sim.landed, shot: sim.landed ? next.length : null, miss: sim.landed ? 0 : best, score, beat: scores.length ? Math.round(100 * worse / (scores.length + 1)) : null, players: scores.length + 1 };
+    const lower = scores.filter(v => v < score).length;
+    result = { landed: sim.landed, shot: sim.landed ? next.length : null, stars, miss: sim.landed ? 0 : best, score,
+      beat: scores.length ? Math.round(100 * lower / scores.length) : null, players: scores.length + 1 };
   }
   await db.from('dose_plays').update({ guesses: next, ...(over ? { result, won: sim.landed, finished_at: new Date().toISOString() } : {}) })
     .eq('user_id', user.id).eq('game', 'drop').eq('day', day);
-  return out({ shot: { s, landed: sim.landed, miss: sim.miss }, result, shots: next });
+  return out({ shot: next[next.length - 1], result, shots: next });
 });

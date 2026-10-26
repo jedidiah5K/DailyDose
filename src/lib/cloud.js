@@ -50,7 +50,7 @@ async function dropCall(body) {
   return data;
 }
 export const dropStart = () => dropCall({ action: 'start' });
-export const dropShot = (dx, dy) => dropCall({ action: 'shot', dx, dy });
+export const dropShot = (dx, dy, px, py) => dropCall({ action: 'shot', dx, dy, px: px ?? null, py: py ?? null });
 
 // Mind Meld: prompts come one at a time; the server times each and matches answers to its list.
 async function rpc(name, args) {

@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest';
-import { simulate, makeCourse, cleanShot, landRate } from '../src/games/dropLogic.js';
+import { simulate, makeCourse, cleanShot, landRate, W, H } from '../src/games/dropLogic.js';
 
 test('shots are clamped to whole numbers inside the pull circle', () => {
   expect(cleanShot(10.4, -3.6)).toEqual([10, -4]);
@@ -29,7 +29,36 @@ test('a ball dropped straight onto the cup lands', () => {
 
 test('the server runs the exact same physics as the app', async () => {
   const { readFileSync } = await import('node:fs');
-  const app = readFileSync('src/games/dropLogic.js', 'utf8');
-  const server = readFileSync('supabase/functions/dose-drop/dropLogic.js', 'utf8').split('\n').slice(1).join('\n');
+  const app = readFileSync('src/games/dropLogic.js', 'utf8').replace(/\r/g, '');
+  const server = readFileSync('supabase/functions/dose-drop/dropLogic.js', 'utf8').replace(/\r/g, '').split('\n').slice(1).join('\n');
   expect(server).toBe(app);
+});
+
+test('courses come with three stars, and stars on a landing route can be collected', async () => {
+  const { landRate } = await import('../src/games/dropLogic.js');
+  const c = makeCourse('2026-10-29', 'stars');
+  expect(c.stars.length).toBe(3);
+  const hits = []; landRate(c, 8, hits);
+  const best = Math.max(...hits.map(h => simulate(c, h).stars.length));
+  expect(best).toBeGreaterThanOrEqual(1);
+}, 30000);
+
+test('your own bumper changes the shot, and is refused on top of the ball', async () => {
+  const { piecePlace } = await import('../src/games/dropLogic.js');
+  const c = makeCourse('2026-10-29', 'stars');
+  expect(piecePlace(c, c.ball[0], c.ball[1])).toBe(null);
+  // put the bumper right on the ball's path, at the first spot where it's allowed
+  const path = simulate(c, [40, -40], true).path, [x, y] = path.find(([px, py]) => piecePlace(c, px, py));
+  const plain = simulate(c, [40, -40]).end, withPiece = simulate(c, [40, -40, x, y]).end;
+  expect(piecePlace(c, x, y)).not.toBe(null);
+  expect(plain).not.toEqual(withPiece);
+}, 30000);
+
+test('the ball never leaves the course, however hard you shoot', () => {
+  const c = makeCourse('2026-10-27', 'test');
+  for (let a = 0; a < 72; a++) for (const p of [40, 120]) {
+    const r = simulate(c, [Math.cos(a / 72 * 6.283) * p, Math.sin(a / 72 * 6.283) * p]);
+    expect(r.end[0]).toBeGreaterThanOrEqual(0); expect(r.end[0]).toBeLessThanOrEqual(W);
+    expect(r.end[1]).toBeGreaterThanOrEqual(0); expect(r.end[1]).toBeLessThanOrEqual(H);
+  }
 });

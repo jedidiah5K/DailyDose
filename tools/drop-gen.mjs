@@ -10,4 +10,5 @@ for (let d = 0; d < days; d++) {
   rows.push(`('drop', '${day}', '${JSON.stringify(makeCourse(day, salt))}'::jsonb)`);
   process.stderr.write('.');
 }
-console.log(`insert into public.dose_puzzles (game, day, content) values\n${rows.join(',\n')}\non conflict (game, day) do nothing;`);
+console.log(`insert into public.dose_puzzles (game, day, content) values\n${rows.join(',\n')}\non conflict (game, day) do update set content = excluded.content
+  where not exists (select 1 from public.dose_plays x where x.game = 'drop' and x.day = excluded.day);`);

@@ -458,3 +458,4 @@ p { margin: 0; }
 .h-theme span { font: 500 .7rem var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
 .h-theme b { font: 400 2rem/1 var(--serif); color: var(--c-hunch); text-shadow: 0 0 22px rgba(147, 170, 255, .6); }
 @keyframes theme-pop { from { opacity: 0; transform: scale(.7); filter: blur(6px); } }
+.dr-stars { font-size: 1.8rem; letter-spacing: .2em; color: #FFD45E; text-shadow: 0 0 16px rgba(255, 212, 94, .6); }
