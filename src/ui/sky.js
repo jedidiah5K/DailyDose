@@ -28,6 +28,9 @@ export const ICONS = {
   drop: '<circle cx="18" cy="17" r="3"/><path d="M3 6c4-4 9-2 12 5" stroke-dasharray="2 2.5"/><path d="M14 21h8"/>',
   meld: '<circle cx="9" cy="12" r="6"/><circle cx="15" cy="12" r="6"/>',
   last: '<path d="M7 21V9h10v12"/><path d="M9 9V5h6v4"/><path d="M11 5V2h2v3"/><path d="M4 21h16"/>',
+  tangle: '<circle cx="5" cy="5.5" r="2"/><circle cx="19" cy="5.5" r="2"/><circle cx="5" cy="18.5" r="2"/><circle cx="19" cy="18.5" r="2"/><path d="M6.6 7 17.4 17M17.4 7 6.6 17"/>',
+  cipher: '<circle cx="7.5" cy="12" r="4"/><path d="M11.5 12H21M18 12v3.5M21 12v2.5"/>',
+  ladder: '<path d="M7 3v18M17 3v18M7 7.5h10M7 12h10M7 16.5h10"/>',
 };
 export const icon = (k, cls = '') => `<svg class="gi ${cls}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[k]}</svg>`;
 

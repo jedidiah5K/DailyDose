@@ -4,7 +4,7 @@ A daily games hub (NYT Games style): one home screen, a new puzzle in each game 
 
 - Live beta: https://daily-dose-azure.vercel.app. Vercel project `daily-dose` deploys every push to `claude/vault-supabase` (the repo's only branch, so it is production). **Ask Job before pushing.**
 - Repo: github.com/jedidiah5K/DailyDose (private).
-- Full brief: Job's build prompt (lineup, rules, Pro, security checklist). Built: Rewire, Hunch, Drop, Mind Meld (world mode), Last Stand (daily, Job's call on 2026-10-26), You screen (stats + badges), Friends (typed friend codes, Job's call: no invite links). Not yet: Mind Meld duo mode, World Tower, Drop ghost replays, admin page, notifications. Later drops: Bluff, Zoom, Echo.
+- Full brief: Job's build prompt (lineup, rules, Pro, security checklist). Built: Rewire, Hunch, Tangle, Cipher, Ladder (Job replaced Drop, Mind Meld and Last Stand on 2026-10-26; their old results stay in dose_plays), You screen (stats + badges), Friends (typed friend codes, Job's call: no invite links). Not yet: World Tower, admin page, notifications. Later drops: Bluff, Zoom, Echo.
 
 ## Ground rules
 - Ask first: spending money, publishing, renaming, changing game rules or free vs Pro, touching KeepUp/JobDone/Petal data.
@@ -26,9 +26,9 @@ src/main.js              hash router (#rewire, #me, #friends ...), history sync,
 src/screens/hub.js       home: GAMES list (add new games here), countdown, streak, share
 src/screens/rewire.js    Rewire play/solve/result     src/games/rewireLogic.js  generator + uniqueness solver
 src/screens/hunch.js     Hunch slider/reveal/summary  content/hunch.json         questions (with sources)
-src/screens/drop.js      Drop canvas course           src/games/dropLogic.js    physics (copied to supabase/functions/dose-drop; a test checks they match)
-src/screens/meld.js      Mind Meld world mode         content/meld.json         prompts + accepted answers
-src/screens/last.js      Last Stand + dot field       src/games/lastLogic.js    round maker (no facts: numbers, shapes, word groups)
+src/screens/tangle.js    Tangle: drag dots apart      src/games/tangleLogic.js  crossing check + knot maker (same rules in dose_tangle_bad)
+src/screens/cipher.js    Cipher: crack a quote        content/cipher.json       quotes (key + quote stay on the server)
+src/screens/ladder.js    Ladder: word to word         content/words4.txt        word list (also in dose_words)
 src/lib/cloud.js         Supabase calls               src/lib/store.js          local state ('dose:v1'), streaks, mergeResults
 src/screens/me.js        You: name, account, stats    src/lib/badges.js         badges, worked out from results (nothing stored)
 src/screens/friends.js   friend codes, friends list, friends on result screens and the home row
@@ -38,7 +38,7 @@ tools/*-gen.mjs          make Rewire / Drop / Last Stand content as SQL (random 
 
 ## Content
 - `dose_puzzles` (game, day, content). No client access; only the `dose_<game>_start` functions hand out today's puzzle.
-- Loaded to: Rewire 23 Dec, Drop 24 Dec, Last Stand 9 Dec, Hunch 10 Nov, Mind Meld 10 Nov. Hunch answers and Mind Meld prompts need Job's review. Check end dates often: a game with no puzzle says "not ready yet". Mind Meld: add days to content/meld.json, then `node tools/meld-sql.mjs <from-date>` checks and builds the SQL.
+- Loaded to: Rewire 23 Dec, Tangle 24 Dec, Ladder 9 Dec, Cipher 4 Dec, Hunch 10 Nov. Hunch answers and Cipher quotes need Job's review. Check end dates often: a game with no puzzle says "not ready yet". Generators: tools/rewire-gen.mjs, tangle-gen.mjs, ladder-gen.mjs (uses content/words4.txt), cipher-gen.mjs (content/cipher.json).
 - Drop runs in the Edge Function `dose-drop` (replays shots server-side). Everything else is Postgres functions `dose_<game>_*`.
 
 ## Commands

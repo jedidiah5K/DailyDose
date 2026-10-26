@@ -14,15 +14,14 @@ const esc = s => String(s ?? '').replace(/[&<>"]/g, c => `&#${c.charCodeAt(0)};`
 const nums = xs => xs.filter(v => typeof v === 'number');
 const avg = xs => xs.reduce((a, b) => a + b, 0) / xs.length;
 const count = (rs, test) => rs.filter(test).length;
-const rare = r => (r.odd || '').split('p').length - 1;
 
 // Three numbers per game: your best, your usual, and one thing worth bragging about.
 const STATS = {
   rewire: rs => { const t = nums(rs.map(r => r.ms)); return [['best', clock(Math.min(...t))], ['average', clock(avg(t))], ['at par', count(rs, r => r.stars === 3)]]; },
   hunch: rs => { const p = nums(rs.map(r => r.points)); return p.length ? [['best', Math.max(...p)], ['average', Math.round(avg(p))], ['all 5 in band', count(rs, r => r.hits === 5)]] : [['average error', `${Math.round(avg(nums(rs.map(r => r.err))))}%`]]; },
-  drop: rs => [['landed', `${Math.round(100 * count(rs, r => r.landed) / rs.length)}%`], ['holes in one', count(rs, r => r.landed && r.shot === 1)], ['all 3 stars', count(rs, r => r.landed && r.stars === 3)]],
-  meld: rs => { const p = nums(rs.map(r => r.points ?? r.score)); return [['best', Math.max(...p)], ['average', Math.round(avg(p))], ['rare answers', rs.reduce((n, r) => n + rare(r), 0)]]; },
-  last: rs => [['furthest', `${Math.max(...rs.map(r => r.perfect ? 10 : r.reached))} of 10`], ['top score', Math.max(0, ...nums(rs.map(r => r.points)))], ['all 10 cleared', count(rs, r => r.perfect)]],
+  tangle: rs => { const t = nums(rs.map(r => r.ms)); return [['best', clock(Math.min(...t))], ['average', clock(avg(t))], ['under 30s', count(rs, r => r.ms < 30000)]]; },
+  cipher: rs => { const won = rs.filter(r => r.solved); return [['cracked', `${Math.round(100 * won.length / rs.length)}%`], ['no slips', count(won, r => !r.misses)], ['best', won.length ? clock(Math.min(...won.map(r => r.ms))) : '—']]; },
+  ladder: rs => { const won = rs.filter(r => r.solved); return [['finished', `${Math.round(100 * won.length / rs.length)}%`], ['on par', count(won, r => r.steps === r.par)], ['average', won.length ? `${(avg(won.map(r => r.steps))).toFixed(1)} steps` : '—']]; },
 };
 
 export function me(app) {

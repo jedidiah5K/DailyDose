@@ -7,9 +7,9 @@ import { countdown, dayKey } from './lib/day.js';
 import { hub } from './screens/hub.js';
 import { rewire } from './screens/rewire.js';
 import { hunch } from './screens/hunch.js';
-import { drop } from './screens/drop.js';
-import { meld } from './screens/meld.js';
-import { last } from './screens/last.js';
+import { tangle } from './screens/tangle.js';
+import { cipher } from './screens/cipher.js';
+import { ladder } from './screens/ladder.js';
 import { me } from './screens/me.js';
 import { friends } from './screens/friends.js';
 import { state, save, mergeResults } from './lib/store.js';
@@ -18,7 +18,7 @@ import { BADGES, earned, badgeArt } from './lib/badges.js';
 import { SOUNDS, buzz } from './ui/feedback.js';
 
 const app = document.getElementById('app');
-const SCREENS = { hub, rewire, hunch, drop, meld, last, me, friends };
+const SCREENS = { hub, rewire, hunch, tangle, cipher, ladder, me, friends };
 let cleanup = null;
 
 // Hash routes (#rewire) so the back button and shared links work without a server.

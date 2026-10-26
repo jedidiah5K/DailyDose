@@ -42,32 +42,19 @@ export async function rewireSubmit(tiles, taps) {
   return data;
 }
 
-// Drop runs in a server function that replays every shot with the same physics.
-async function dropCall(body) {
-  await user();
-  const { data, error } = await sb.functions.invoke('dose-drop', { body });
-  if (error) { const msg = await error.context?.json?.().then(j => j.error).catch(() => null); throw new Error(msg || error.message); }
-  return data;
-}
-export const dropStart = () => dropCall({ action: 'start' });
-export const dropShot = (dx, dy, px, py) => dropCall({ action: 'shot', dx, dy, px: px ?? null, py: py ?? null });
-
-// Mind Meld: prompts come one at a time; the server times each and matches answers to its list.
+// Most games: one server function per move; the server checks it and keeps the official result.
 async function rpc(name, args) {
   await user();
   const { data, error } = await sb.rpc(name, args);
   if (error) throw error;
   return data;
 }
-export const lastStart = () => rpc('dose_last_start');
-export const lastServe = () => rpc('dose_last_serve');
-export const lastAnswer = choice => rpc('dose_last_answer', { p_choice: choice });
-export const lastBank = () => rpc('dose_last_bank');
-export const lastPick = perk => rpc('dose_last_pick', { p_perk: perk });
-export const lastUse = perk => rpc('dose_last_use', { p_perk: perk });
-export const meldStart = () => rpc('dose_meld_start');
-export const meldServe = () => rpc('dose_meld_serve');
-export const meldAnswer = (text, read, sure) => rpc('dose_meld_answer', { p_text: text, p_read: read ?? null, p_sure: !!sure });
+export const cipherStart = () => rpc('dose_cipher_start');
+export const cipherGuess = (c, p) => rpc('dose_cipher_guess', { p_c: c, p_p: p });
+export const ladderStart = () => rpc('dose_ladder_start');
+export const ladderStep = word => rpc('dose_ladder_step', { p_word: word });
+export const tangleStart = () => rpc('dose_tangle_start');
+export const tangleSubmit = (pos, moves) => rpc('dose_tangle_submit', { p_pos: pos, p_moves: moves });
 
 // Names and friends. Friends add each other by typing a friend code; they see each other's name and
 // tonight's results, nothing else.

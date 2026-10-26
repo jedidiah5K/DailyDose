@@ -10,12 +10,12 @@ export const LINEUP = [
     big: r => `Lit in ${clock(r.ms)}`, small: r => (r.stars ? `${'★'.repeat(r.stars)}${'☆'.repeat(3 - r.stars)}  ` : '') + (r.beat != null ? `Faster than ${r.beat}% of players` : 'City lit') + (r.hints ? ` · ${r.hints} hint${r.hints > 1 ? 's' : ''}` : ' · no hints') },
   { k: 'hunch', name: 'Hunch', color: '#93AAFF', emoji: '🎯',
     big: r => r.points != null ? `${r.points} points` : `${Math.round(r.err)}% off`, small: r => r.points != null ? `${r.hits} of 5 in band${r.theme ? ` · theme: ${r.theme}` : ''}` : `Average error ${Math.round(r.err)}%` },
-  { k: 'drop', name: 'Drop', color: '#FFA53D', emoji: '⛳',
-    big: r => r.landed ? (r.shot === 1 ? 'Hole in one' : `Landed on shot ${r.shot}`) : `Missed by ${r.miss} px`, small: r => (r.landed && r.stars != null ? `${'★'.repeat(r.stars)}${'☆'.repeat(3 - r.stars)}  ` : '') + (r.beat != null ? `Better than ${r.beat}% of players` : 'Three shots, one course') },
-  { k: 'meld', name: 'Mind Meld', color: '#FF7AB0', emoji: '🧠',
-    big: r => r.points != null ? `${r.points} points` : `${r.score} of 10 landed`, small: r => `Herd ${[...r.herd].map(m => ({ g: '●', y: '◐', x: '○', p: '●', c: '○' })[m]).join(' ')}  ·  Odd ${[...r.odd].map(m => ({ g: '●', y: '◐', x: '○', p: '●', c: '○' })[m]).join(' ')}` },
-  { k: 'last', name: 'Last Stand', color: '#FF4D6D', emoji: '⚔️',
-    big: r => `${r.points} points`, small: r => (r.perfect ? 'Survived all 10' : r.banked ? `Banked after round ${r.reached}` : `Out on round ${r.reached + 1}`) + (r.beat != null ? ` · beat ${r.beat}%` : '') },
+  { k: 'tangle', name: 'Tangle', color: '#FFA53D', emoji: '🪢',
+    big: r => `Untangled in ${clock(r.ms)}`, small: r => (r.beat != null ? `Faster than ${r.beat}% of players` : 'Knot untied') + ` · ${r.moves} moves` },
+  { k: 'cipher', name: 'Cipher', color: '#FF7AB0', emoji: '🔐',
+    big: r => r.solved ? (r.misses ? `${r.misses} slip${r.misses > 1 ? 's' : ''}` : 'No slips') : 'Not cracked', small: r => r.solved ? (r.beat != null ? `Better than ${r.beat}% of players` : 'Code cracked') : 'Out of guesses' },
+  { k: 'ladder', name: 'Ladder', color: '#FF4D6D', emoji: '🪜',
+    big: r => r.solved ? `${r.steps} steps` : 'Gave up', small: r => `Par ${r.par}` + (r.beat != null ? ` · beat ${r.beat}%` : '') },
 ];
 export const doneTonight = () => LINEUP.filter(g => resultFor(g.k)).map(g => ({ ...g, r: resultFor(g.k) }));
 

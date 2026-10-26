@@ -3,7 +3,7 @@
 import { countStreak } from './store.js';
 import { icon } from '../ui/sky.js';
 
-const GAMES = ['rewire', 'hunch', 'drop', 'meld', 'last'];
+const GAMES = ['rewire', 'hunch', 'tangle', 'cipher', 'ladder'];
 const any = (results, k, test) => Object.values(results[k] || {}).some(test);
 
 export const BADGES = [
@@ -15,11 +15,9 @@ export const BADGES = [
   { id: 'par', k: 'rewire', name: 'Right on par', how: 'Solve Rewire in par taps', test: r => any(r, 'rewire', x => x.stars === 3) },
   { id: 'quick', k: 'rewire', name: 'Quick wiring', how: 'Solve Rewire in under a minute', test: r => any(r, 'rewire', x => x.ms < 60000) },
   { id: 'bullseye', k: 'hunch', name: 'Bullseye', how: 'All 5 Hunch guesses in your band', test: r => any(r, 'hunch', x => x.hits === 5) },
-  { id: 'ace', k: 'drop', name: 'Hole in one', how: 'Land Drop on your first shot', test: r => any(r, 'drop', x => x.landed && x.shot === 1) },
-  { id: 'stars', k: 'drop', name: 'Star collector', how: 'Land Drop with all 3 stars', test: r => any(r, 'drop', x => x.landed && x.stars === 3) },
-  { id: 'reader', k: 'meld', name: 'Mind reader', how: 'Read the room right on all 5', test: r => any(r, 'meld', x => x.reads === 5) },
-  { id: 'odd', k: 'meld', name: 'One of a kind', how: '3 rare answers in one Odd round', test: r => any(r, 'meld', x => (x.odd || '').split('p').length > 3) },
-  { id: 'standing', k: 'last', name: 'Last one standing', how: 'Clear all 10 rounds of Last Stand', test: r => any(r, 'last', x => x.perfect) },
+  { id: 'nimble', k: 'tangle', name: 'Nimble fingers', how: 'Untangle a knot in under 30 seconds', test: r => any(r, 'tangle', x => x.ms < 30000) },
+  { id: 'codebreaker', k: 'cipher', name: 'Codebreaker', how: 'Crack a Cipher with no slips', test: r => any(r, 'cipher', x => x.solved && x.misses === 0) },
+  { id: 'shortest', k: 'ladder', name: 'Shortest way', how: 'Finish Ladder in par steps', test: r => any(r, 'ladder', x => x.solved && x.steps === x.par) },
 ];
 
 // Your longest run of nights, worked out the same way as the streak on the home screen.
