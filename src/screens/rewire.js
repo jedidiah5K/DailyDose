@@ -5,6 +5,7 @@ import { rewireStart, rewireSubmit, rewireHint } from '../lib/cloud.js';
 import { rot, trace, countSolutions, plantsOf } from '../games/rewireLogic.js';
 import { SOUNDS, buzz } from '../ui/feedback.js';
 import { stars, icon } from '../ui/sky.js';
+import { friendsOn } from './friends.js';
 
 const calm = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 const wait = ms => new Promise(r => setTimeout(r, calm() ? 0 : ms));
@@ -140,6 +141,7 @@ export function rewire(app) {
       <h2 class="display">In <em>${clock(r.ms)}</em></h2>
       ${r.stars ? `<p class="dr-stars">${starRow(r.stars)}</p><p class="muted">${r.taps} taps · par ${r.par}</p>` : ''}
       <p class="muted">${beat}${r.hints ? ` · ${r.hints} hint${r.hints > 1 ? 's' : ''}` : ''}${streak('rewire') > 1 ? ` · ${streak('rewire')} days in a row` : ''}</p>
+      <div class="fr-on" id="fr-on"></div>
       <button class="btn wide" id="share">Share tonight’s dose</button>
       <button class="link-quiet" id="square">Square image instead</button>
       <p class="next-in">Tomorrow’s puzzle in <b data-cd>${countdown()}</b></p>
@@ -151,6 +153,7 @@ export function rewire(app) {
     };
     $('#share').addEventListener('click', send('story'));
     $('#square').addEventListener('click', send('square'));
+    friendsOn($('#fr-on'), 'rewire');
   }
 
   function tick() { $('#time').textContent = clock(base + performance.now() - t0); }

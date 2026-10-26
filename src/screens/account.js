@@ -1,5 +1,6 @@
 // Account sheet: guests add an email and password to keep their streaks; returning players sign in.
 import { sb, createAccount, signIn, signOut } from '../lib/cloud.js';
+import { forgetGames } from '../lib/store.js';
 import { SOUNDS } from '../ui/feedback.js';
 
 const esc = s => String(s).replace(/[&<>"]/g, c => `&#${c.charCodeAt(0)};`);
@@ -35,6 +36,9 @@ export async function openAccount() {
       const b = f.querySelector('.btn'); b.disabled = true; err.textContent = '';
       try {
         await (mode === 'new' ? createAccount(email, pw) : signIn(email, pw));
+        // Signing in switches to that account's games (they come back from the server); a new account
+        // keeps the guest's, since it's the same player.
+        if (mode === 'in') forgetGames();
         SOUNDS.ok(); d.close(); location.reload();
       } catch (x) {
         // One vague message for sign-in, so nobody can test which emails have accounts.
@@ -48,7 +52,7 @@ export async function openAccount() {
     d.innerHTML = `<div class="stack"><h2 class="display">Your <em>account</em></h2><p class="muted">Signed in as ${esc(u.email)}</p>
       <button class="btn wide" data-close>Done</button><button class="link center" data-out>Sign out</button></div>`;
     d.querySelector('[data-close]').addEventListener('click', () => d.close());
-    d.querySelector('[data-out]').addEventListener('click', async () => { await signOut(); location.reload(); });
+    d.querySelector('[data-out]').addEventListener('click', async () => { await signOut(); forgetGames(); location.hash = ''; location.reload(); });
   } else draw('new');
   d.showModal(); SOUNDS.tap();
 }

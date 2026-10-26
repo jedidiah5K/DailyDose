@@ -5,7 +5,7 @@ import { resultFor } from '../lib/store.js';
 import { clock } from '../lib/day.js';
 
 // Finished games for today, as lines for the card and the text share. Add new games here.
-const LINEUP = [
+export const LINEUP = [
   { k: 'rewire', name: 'Rewire', color: '#5CE1FF', emoji: '⚡',
     big: r => `Lit in ${clock(r.ms)}`, small: r => (r.stars ? `${'★'.repeat(r.stars)}${'☆'.repeat(3 - r.stars)}  ` : '') + (r.beat != null ? `Faster than ${r.beat}% of players` : 'City lit') + (r.hints ? ` · ${r.hints} hint${r.hints > 1 ? 's' : ''}` : ' · no hints') },
   { k: 'hunch', name: 'Hunch', color: '#93AAFF', emoji: '🎯',

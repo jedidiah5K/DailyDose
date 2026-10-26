@@ -8,7 +8,7 @@ import { hunchLine } from './hunch.js';
 import { dropLine } from './drop.js';
 import { meldLine } from './meld.js';
 import { lastLine, lastGrid } from './last.js';
-import { openAccount } from './account.js';
+import { friendsStrip } from './friends.js';
 import { shareDose } from '../ui/card.js';
 
 // The lineup. New games plug in here: a key, a building in the skyline (`at`), a screen in main.js, and a result line.
@@ -54,7 +54,7 @@ export function hub(app) {
       <i class="shoot" aria-hidden="true"></i>
       <header class="hub-head">
         <div class="hub-bar"><p class="eyebrow">No. ${puzzleNo()} · ${today}</p>
-          <button class="me" id="me" aria-label="Account" title="Account"><svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c.8-3.6 3.6-5.5 7-5.5s6.2 1.9 7 5.5"/></svg></button></div>
+          <button class="me" id="me" aria-label="You: stats, badges and account" title="You"><svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c.8-3.6 3.6-5.5 7-5.5s6.2 1.9 7 5.5"/></svg></button></div>
         <h1 class="display">Your daily <em>dose</em></h1>
         <div class="hub-meta">
           <span class="pill" title="Miss one night a week and your streak keeps going">${s ? `<b>${s}</b> night${s === 1 ? '' : 's'} in a row<span class="frz">${freezeUsedThisWeek() ? 'freeze used' : '1 freeze left'}</span>` : 'Light your first window'}</span>
@@ -73,6 +73,7 @@ export function hub(app) {
           ${status(g)}
         </button></li>`).join('')}
       </ol>
+      <a class="fr-strip" id="frs" href="#friends"><span class="eyebrow">Friends</span><span class="fr-sum">Add friends with a code</span><span class="fr-go" aria-hidden="true">›</span></a>
       <p class="hint">Same puzzles for everyone on Earth. New ones at midnight UTC.</p>
       <p class="legal"><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a></p>
     </div>
@@ -84,7 +85,8 @@ export function hub(app) {
   };
   // the list, the big button, and the buildings themselves all open games
   app.querySelectorAll('[data-k]').forEach(b => b.addEventListener('click', () => go(b.dataset.k, b)));
-  app.querySelector('#me').addEventListener('click', openAccount);
+  app.querySelector('#me').addEventListener('click', () => { SOUNDS.tap(); location.hash = 'me'; });
+  friendsStrip(app.querySelector('#frs'));
   app.querySelector('#share')?.addEventListener('click', () => { SOUNDS.tap(); shareDose('story'); });
 
   let gone = false;

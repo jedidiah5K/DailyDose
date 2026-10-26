@@ -1,4 +1,5 @@
-// Local-first state, saved on the phone. Accounts and sync come later (Supabase).
+// Local-first state, saved on the phone. Finished games also live on the server and are merged back in
+// (mergeResults), so a signed-in player sees the same history on every phone.
 import { dayKey, prevKey } from './day.js';
 
 const KEY = 'dose:v1';
@@ -11,7 +12,22 @@ export const resultFor = (game, day = dayKey()) => state.results[game]?.[day];
 export function finish(game, result, day = dayKey()) {
   (state.results[game] ||= {})[day] = result;
   save();
+  globalThis.dispatchEvent?.(new Event('dose:finish'));   // badges listen for this
 }
+
+// The server's copy of a finished game is the official one. Returns whether anything changed.
+const same = (a, b) => JSON.stringify(Object.entries(a || {}).sort()) === JSON.stringify(Object.entries(b || {}).sort());
+export function mergeResults(rows) {
+  let changed = false;
+  for (const { game, day, result } of rows) {
+    const mine = (state.results[game] ||= {});
+    if (result && !same(mine[day], result)) { mine[day] = result; changed = true; }
+  }
+  if (changed) save();
+  return changed;
+}
+// Signing in or out switches whose games these are: start clean and let the server fill them back in.
+export function forgetGames() { state.results = {}; state.progress = {}; delete state.badges; save(); }
 
 // Days in a row with at least one game done. Today not played yet doesn't break it.
 export function streak(game, frozen) {

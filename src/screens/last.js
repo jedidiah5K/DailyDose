@@ -5,6 +5,7 @@ import { ROUNDS } from '../games/lastLogic.js';
 import { SOUNDS, buzz } from '../ui/feedback.js';
 import { stars, icon } from '../ui/sky.js';
 import { shareDose } from '../ui/card.js';
+import { friendsOn } from './friends.js';
 
 const calm = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 const wait = ms => new Promise(r => setTimeout(r, calm() ? 0 : ms));
@@ -209,6 +210,7 @@ export function last(app) {
       <h2 class="display"><em>${r.points}</em> points</h2>
       <p class="ls-grid">${lastGrid(r)}</p>
       <p class="muted">${r.beat != null ? `More than ${r.beat}% of players today` : 'You’re one of the first to play today'}${streak('last') > 1 ? ` · ${streak('last')} days in a row` : ''}</p>
+      <div class="fr-on" id="fr-on"></div>
       <button class="btn wide" id="share">Share tonight’s dose</button>
       <button class="link-quiet" id="square">Square image instead</button>
       <p class="next-in">Tomorrow’s rounds in <b data-cd>${countdown()}</b></p>
@@ -217,6 +219,7 @@ export function last(app) {
     const send = fmt => async () => { SOUNDS.tap(); if (await shareDose(fmt) === 'saved') say('Image saved and the text copied. Paste it anywhere.'); };
     $('#share').addEventListener('click', send('story'));
     $('#square').addEventListener('click', send('square'));
+    friendsOn($('#fr-on'), 'last');
   }
 
   if (resultFor('last')) summary(resultFor('last'), false);

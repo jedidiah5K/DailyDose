@@ -69,6 +69,26 @@ export const meldStart = () => rpc('dose_meld_start');
 export const meldServe = () => rpc('dose_meld_serve');
 export const meldAnswer = (text, read, sure) => rpc('dose_meld_answer', { p_text: text, p_read: read ?? null, p_sure: !!sure });
 
+// Names and friends. Friends add each other by typing a friend code; they see each other's name and
+// tonight's results, nothing else.
+export const getMe = () => rpc('dose_me');
+export const setName = name => rpc('dose_set_name', { p_name: name });
+export const addFriend = code => rpc('dose_friend_add', { p_code: code });
+export const removeFriend = id => rpc('dose_friend_remove', { p_id: id });
+export const friendsToday = () => rpc('dose_friends_today');
+// Without making a guest account just to look.
+export const hasAccount = async () => !!(await sb.auth.getSession()).data.session;
+
+// Your finished games from the server (the database only ever returns your own), so stats, streaks
+// and badges match on every phone you sign in on.
+export async function myResults() {
+  // ponytail: newest 1000 games (about 200 nights of all five); page it when someone gets there
+  const { data, error } = await sb.from('dose_plays').select('game, day, result').not('finished_at', 'is', null)
+    .order('day', { ascending: false }).limit(1000);
+  if (error) throw error;
+  return data;
+}
+
 // Today's Hunch: the questions (no answers) and any guesses already made.
 export async function hunchStart() {
   await user();

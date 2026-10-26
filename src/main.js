@@ -10,9 +10,15 @@ import { hunch } from './screens/hunch.js';
 import { drop } from './screens/drop.js';
 import { meld } from './screens/meld.js';
 import { last } from './screens/last.js';
+import { me } from './screens/me.js';
+import { friends } from './screens/friends.js';
+import { state, save, mergeResults } from './lib/store.js';
+import { hasAccount, myResults } from './lib/cloud.js';
+import { BADGES, earned, badgeArt } from './lib/badges.js';
+import { SOUNDS, buzz } from './ui/feedback.js';
 
 const app = document.getElementById('app');
-const SCREENS = { hub, rewire, hunch, drop, meld, last };
+const SCREENS = { hub, rewire, hunch, drop, meld, last, me, friends };
 let cleanup = null;
 
 // Hash routes (#rewire) so the back button and shared links work without a server.
@@ -37,6 +43,30 @@ setInterval(() => {
   if (t === '00:00:00') setTimeout(() => location.reload(), 1500);
 }, 1000);
 show();
+
+// Badges: a finished game can earn one, and each new badge gets a small moment (then lives on the You
+// screen). The first run just remembers what's already earned.
+if (!state.badges) { state.badges = [...earned(state.results)]; save(); }
+addEventListener('dose:finish', () => {
+  const fresh = [...earned(state.results)].filter(id => !state.badges.includes(id));
+  if (!fresh.length) return;
+  state.badges.push(...fresh); save();
+  fresh.forEach((id, i) => setTimeout(() => badgeToast(BADGES.find(b => b.id === id)), 2400 + i * 3200));
+});
+function badgeToast(b) {
+  const t = document.createElement('a'); t.className = 'badge-toast'; t.href = '#me'; t.setAttribute('role', 'status');
+  t.innerHTML = `${badgeArt(b, true)}<span><span class="eyebrow">New badge</span><b>${b.name}</b></span>`;
+  document.body.appendChild(t); SOUNDS.chime(); buzz(20);
+  setTimeout(() => t.classList.add('out'), 4200); setTimeout(() => t.remove(), 4800);
+}
+
+// Games finished on another phone (or before a reinstall) come back from the server; badges earned
+// there arrive quietly. Never makes a guest account just to look.
+hasAccount().then(ok => ok && myResults()).then(rows => {
+  if (!rows || !mergeResults(rows)) return;
+  state.badges = [...new Set([...state.badges, ...earned(state.results)])]; save();
+  if (!location.hash) show();
+}).catch(() => {});
 
 // Updates: the new version installs in the background; when it takes over, offer a one-tap refresh.
 // Coming back to the app checks for a newer version.

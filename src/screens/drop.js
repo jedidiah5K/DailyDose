@@ -5,6 +5,7 @@ import { simulate, cleanShot, piecePlace, W, H, BALL, MAX_PULL, SHOTS, PIECE, ST
 import { SOUNDS, buzz } from '../ui/feedback.js';
 import { stars, icon } from '../ui/sky.js';
 import { shareDose } from '../ui/card.js';
+import { friendsOn } from './friends.js';
 
 const calm = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 const starRow = n => '★'.repeat(n || 0) + '☆'.repeat(3 - (n || 0));
@@ -209,6 +210,7 @@ export function drop(app) {
       <h2 class="display">${r.landed ? (r.shot === 1 ? 'Hole in <em>one</em>' : `On shot <em>${r.shot}</em>`) : `<em>${r.miss} px</em> off`}</h2>
       ${r.landed && r.stars != null ? `<p class="dr-stars">${starRow(r.stars)}</p>` : ''}
       <p class="muted">${r.beat != null ? `Better than ${r.beat}% of players today` : 'You’re one of the first to play today'}${streak('drop') > 1 ? ` · ${streak('drop')} days in a row` : ''}</p>
+      <div class="fr-on" id="fr-on"></div>
       <button class="btn wide" id="share">Share tonight’s dose</button>
       <button class="link-quiet" id="square">Square image instead</button>
       <p class="next-in">Tomorrow’s course in <b data-cd>${countdown()}</b></p>
@@ -217,6 +219,7 @@ export function drop(app) {
     const send = fmt => async () => { SOUNDS.tap(); if (await shareDose(fmt) === 'saved') say('Image saved and the text copied. Paste it anywhere.'); };
     $('#share').addEventListener('click', send('story'));
     $('#square').addEventListener('click', send('square'));
+    friendsOn($('#fr-on'), 'drop');
   }
 
   async function begin() {

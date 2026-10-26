@@ -4,6 +4,7 @@ import { meldStart, meldServe, meldAnswer } from '../lib/cloud.js';
 import { SOUNDS, buzz } from '../ui/feedback.js';
 import { stars, icon } from '../ui/sky.js';
 import { shareDose } from '../ui/card.js';
+import { friendsOn } from './friends.js';
 
 const calm = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => `&#${c.charCodeAt(0)};`);
@@ -157,6 +158,7 @@ export function meld(app) {
       ${r.points != null ? `<p class="muted">${r.score} of 10 landed · read the room ${r.reads} of 5</p>` : ''}
       <div class="m-rows">${row('Herd', r.herd)}${row('Odd', r.odd)}</div>
       <p class="muted">Green: with the crowd. Purple: rare and real.${streak('meld') > 1 ? ` · ${streak('meld')} days in a row` : ''}</p>
+      <div class="fr-on" id="fr-on"></div>
       <button class="btn wide" id="share">Share tonight’s dose</button>
       <button class="link-quiet" id="square">Square image instead</button>
       <p class="next-in">Tomorrow’s prompts in <b data-cd>${countdown()}</b></p>
@@ -165,6 +167,7 @@ export function meld(app) {
     const send = fmt => async () => { SOUNDS.tap(); if (await shareDose(fmt) === 'saved') say('Image saved and the text copied. Paste it anywhere.'); };
     $('#share').addEventListener('click', send('story'));
     $('#square').addEventListener('click', send('square'));
+    friendsOn($('#fr-on'), 'meld');
   }
 
   if (resultFor('meld')) summary(resultFor('meld'), false);
