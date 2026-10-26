@@ -55,8 +55,8 @@ export function rewire(app) {
   const mask = i => rot(p.tiles[i], p.r[i]);
   const current = () => p.tiles.map((_, i) => mask(i));
   const plants = () => p.plants || [p.plant];
-  // Par: the fewest taps that solve it. Shown as you go: 3 stars at par, 2 within 1.5x.
-  const showTaps = () => { const t = $('#taps'); if (p.par == null) return; t.hidden = false; t.textContent = `${p.taps || 0} taps · par ${p.par}`; t.classList.toggle('over', (p.taps || 0) > p.par); };
+  // Par: the fewest taps that solve it. Shown as you go: 3 stars within 25% of par, 2 within double.
+  const showTaps = () => { const t = $('#taps'); if (p.par == null) return; t.hidden = false; t.textContent = `${p.taps || 0} taps · par ${p.par}`; t.classList.toggle('over', (p.taps || 0) > Math.ceil(p.par * 1.25)); };
 
   function draw() {
     const g = $('#grid'), bl = new Set(p.buildings);
@@ -136,17 +136,17 @@ export function rewire(app) {
       ${r.stars ? `<p class="dr-stars">${starRow(r.stars)}</p><p class="muted">${r.taps} taps · par ${r.par}</p>` : ''}
       <p class="muted">${beat}${r.hints ? ` · ${r.hints} hint${r.hints > 1 ? 's' : ''}` : ''}${streak('rewire') > 1 ? ` · ${streak('rewire')} days in a row` : ''}</p>
       <div class="fr-on" id="fr-on"></div>
-      <button class="btn wide" id="share">Share your results</button>
-      <button class="link-quiet" id="square">Square image instead</button>
+      <button class="btn wide" id="share">Share Rewire</button>
+      <button class="link-quiet" id="all">Share today’s whole dose</button>
       <p class="next-in">Tomorrow’s puzzle in <b data-cd>${countdown()}</b></p>
       <a class="link center" href="#">All games</a>
     </div>`;
-    const send = fmt => async () => {
+    const send = (fmt, only) => async () => {
       SOUNDS.tap();
-      if (await shareDose(fmt) === 'saved') say('Image saved and the text copied. Paste it anywhere.');
+      if (await shareDose(fmt, only) === 'saved') say('Image saved and the text copied. Paste it anywhere.');
     };
-    $('#share').addEventListener('click', send('story'));
-    $('#square').addEventListener('click', send('square'));
+    $('#share').addEventListener('click', send('story', 'rewire'));
+    $('#all').addEventListener('click', send('story'));
     friendsOn($('#fr-on'), 'rewire');
   }
 

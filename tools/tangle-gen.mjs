@@ -9,4 +9,5 @@ for (let d = 0; d < days; d++) {
   const { n, edges, start } = generate(day, salt);   // the untangled answer stays here: any answer with no crossings counts
   rows.push(`('tangle', '${day}', '${JSON.stringify({ n, edges, start })}'::jsonb)`);
 }
-console.log(`insert into public.dose_puzzles (game, day, content) values\n${rows.join(',\n')}\non conflict (game, day) do nothing;`);
+console.log(`insert into public.dose_puzzles (game, day, content) values\n${rows.join(',\n')}\non conflict (game, day) do update set content = excluded.content
+  where not exists (select 1 from public.dose_plays x where x.game = 'tangle' and x.day = excluded.day);`);

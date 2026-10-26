@@ -78,10 +78,11 @@ export function hub(app) {
   const left = GAMES.length - played.length;
 
   const row = g => {
-    const r = resultFor(g.k), s = streak(g.k);
-    return `<li><button class="row g-${g.k}${r ? ' is-done' : ''}" data-k="${g.k}">
+    // started but not finished: a half-full circle and a nudge, so it nags a little
+    const r = resultFor(g.k), s = streak(g.k), open = !r && state.progress[g.k]?.day === today;
+    return `<li><button class="row g-${g.k}${r ? ' is-done' : open ? ' is-open' : ''}" data-k="${g.k}">
       <span class="r-ic">${icon(g.k)}</span>
-      <span class="r-body"><b class="r-name">${g.name}</b><span class="r-sub">${r ? g.done(r) : g.line}</span></span>
+      <span class="r-body"><b class="r-name">${g.name}</b><span class="r-sub">${r ? g.done(r) : open ? 'Unfinished · pick it back up' : g.line}</span></span>
       ${s > 1 ? `<span class="r-streak">${flame}<b>${s}</b>days</span>` : ''}
       <span class="r-check">${r ? check : ''}</span>
     </button></li>`;

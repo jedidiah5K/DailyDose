@@ -3,7 +3,7 @@
 export const NEAR = 0.02;      // a dot this close to a line it isn't part of counts as touching it
 export const APART = 0.04;     // two dots closer than this sit on top of each other
 // Weekday sets the size, like Rewire: Monday small, weekend big.
-export const sizeFor = day => [10, 7, 7, 8, 8, 9, 10][new Date(day + 'T00:00:00Z').getUTCDay()];
+export const sizeFor = day => [11, 8, 8, 9, 9, 10, 11][new Date(day + 'T00:00:00Z').getUTCDay()];
 
 const orient = (a, b, c) => (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0]);
 const crosses = (p, q, r, s) => orient(r, s, p) * orient(r, s, q) < 0 && orient(p, q, r) * orient(p, q, s) < 0;
@@ -47,7 +47,7 @@ export function generate(day, salt = '', n = sizeFor(day)) {
     const pairs = [];
     for (let i = 0; i < n; i++) for (let j = i + 1; j < n; j++) pairs.push([i, j, Math.hypot(pts[i][0] - pts[j][0], pts[i][1] - pts[j][1])]);
     pairs.sort((x, y) => x[2] - y[2]);
-    const edges = [], deg = Array(n).fill(0), target = Math.round(n * 1.6);
+    const edges = [], deg = Array(n).fill(0), target = Math.round(n * 1.75);
     for (const [i, j] of pairs) {
       if (edges.length >= target) break;
       if (deg[i] >= 4 || deg[j] >= 4) continue;

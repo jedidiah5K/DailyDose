@@ -93,14 +93,14 @@ export function tangle(app) {
       <h2 class="display">In <em>${clock(r.ms)}</em></h2>
       <p class="muted">${beat} · ${r.moves} move${r.moves === 1 ? '' : 's'}${streak('tangle') > 1 ? ` · ${streak('tangle')} days in a row` : ''}</p>
       <div class="fr-on" id="fr-on"></div>
-      <button class="btn wide" id="share">Share your results</button>
-      <button class="link-quiet" id="square">Square image instead</button>
+      <button class="btn wide" id="share">Share Tangle</button>
+      <button class="link-quiet" id="all">Share today’s whole dose</button>
       <p class="next-in">Tomorrow’s knot in <b data-cd>${countdown()}</b></p>
       <a class="link center" href="#">All games</a>
     </div>`;
-    const send = fmt => async () => { SOUNDS.tap(); if (await shareDose(fmt) === 'saved') say('Image saved and the text copied. Paste it anywhere.'); };
-    $('#share').addEventListener('click', send('story'));
-    $('#square').addEventListener('click', send('square'));
+    const send = (fmt, only) => async () => { SOUNDS.tap(); if (await shareDose(fmt, only) === 'saved') say('Image saved and the text copied. Paste it anywhere.'); };
+    $('#share').addEventListener('click', send('story', 'tangle'));
+    $('#all').addEventListener('click', send('story'));
     friendsOn($('#fr-on'), 'tangle');
   }
 

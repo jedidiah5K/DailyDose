@@ -89,15 +89,15 @@ export function ladder(app) {
       ${best}
       <p class="muted">${[beat, r.solved ? `in ${clock(r.ms)}` : '', streak('ladder') > 1 ? `${streak('ladder')} days in a row` : ''].filter(Boolean).join(' · ')}</p>
       <div class="fr-on" id="fr-on"></div>
-      <button class="btn wide" id="share">Share your results</button>
-      <button class="link-quiet" id="square">Square image instead</button>
+      <button class="btn wide" id="share">Share Ladder</button>
+      <button class="link-quiet" id="all">Share today’s whole dose</button>
       <p class="next-in">Tomorrow’s ladder in <b data-cd>${countdown()}</b></p>
       <a class="link center" href="#">All games</a>
     </div>`;
     if (fresh) { r.solved ? SOUNDS.chime() : SOUNDS.miss(); buzz(r.solved ? 30 : 10); }
-    const send = fmt => async () => { SOUNDS.tap(); if (await shareDose(fmt) === 'saved') say('Image saved and the text copied. Paste it anywhere.'); };
-    $('#share').addEventListener('click', send('story'));
-    $('#square').addEventListener('click', send('square'));
+    const send = (fmt, only) => async () => { SOUNDS.tap(); if (await shareDose(fmt, only) === 'saved') say('Image saved and the text copied. Paste it anywhere.'); };
+    $('#share').addEventListener('click', send('story', 'ladder'));
+    $('#all').addEventListener('click', send('story'));
     friendsOn($('#fr-on'), 'ladder');
   }
 

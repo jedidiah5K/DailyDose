@@ -25,7 +25,8 @@ export const doneTonight = () => LINEUP.filter(g => resultFor(g.k)).map(g => ({ 
 const SERIF = '"Instrument Serif", Georgia, serif', SANS = '"Geist Variable", system-ui, sans-serif', MONO = '"Geist Mono Variable", ui-monospace, monospace';
 
 // The share image: a plain white card, like a clipping. One row per game you finished today.
-export async function drawCard(format = 'story') {
+// only: a game key to share just that game; leave it out for the whole dose.
+export async function drawCard(format = 'story', only) {
   await Promise.all([`96px ${SERIF}`, `italic 96px ${SERIF}`, `400 40px ${SANS}`, `600 40px ${SANS}`, `500 30px ${MONO}`].map(f => document.fonts.load(f).catch(() => {})));
   const W = 1080, H = format === 'story' ? 1920 : 1080, story = format === 'story';
   const c = document.createElement('canvas'); c.width = W; c.height = H;
@@ -45,7 +46,7 @@ export async function drawCard(format = 'story') {
   x.fillStyle = '#DEDAD2'; x.fillRect(pad, top + 110, W - pad * 2, 2);
 
   // one row per finished game: colour square, name, result
-  const games = doneTonight().slice(0, story ? 6 : 3);
+  const games = doneTonight().filter(g => !only || g.k === only).slice(0, story ? 6 : 3);
   const rh = story ? 200 : 170;
   let y = top + 170;
   for (const gm of games) {
@@ -62,14 +63,14 @@ export async function drawCard(format = 'story') {
   return c;
 }
 
-export const shareText = () => [`DAILY DOSE #${puzzleNo()}`, ...doneTonight().map(g => `${g.emoji} ${g.name}: ${g.big(g.r)}`), location.origin].join('\n');
+export const shareText = only => [`DAILY DOSE #${puzzleNo()}`, ...doneTonight().filter(g => !only || g.k === only).map(g => `${g.emoji} ${g.name}: ${g.big(g.r)}`), location.origin].join('\n');
 
 // Share the image (and text) through the phone's share sheet; where that's not possible, save the image and copy the text.
-export async function shareDose(format = 'story') {
-  const canvas = await drawCard(format);
+export async function shareDose(format = 'story', only) {
+  const canvas = await drawCard(format, only);
   const blob = await new Promise(res => canvas.toBlob(res, 'image/png'));
   const file = new File([blob], `daily-dose-${puzzleNo()}-${format}.png`, { type: 'image/png' });
-  const text = shareText();
+  const text = shareText(only);
   if (navigator.canShare?.({ files: [file] })) { try { await navigator.share({ files: [file], text }); } catch (e) {} return 'shared'; }
   const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = file.name; a.click();
   setTimeout(() => URL.revokeObjectURL(a.href), 4000);

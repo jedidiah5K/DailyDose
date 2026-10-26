@@ -25,7 +25,7 @@ export const tabBar = (active, fab = '') => `<nav class="tabbar" aria-label="Mai
 
 // How to play: a few short steps and a little animated example, like the card Wordle shows.
 const HOWTO = {
-  rewire: { name: 'Rewire', steps: ['Tap a tile to turn it a quarter turn.', 'Wire every building to a power plant, with no loose ends.', 'The two plants’ wires must never touch. Par is the fewest taps.'],
+  rewire: { name: 'Rewire', steps: ['Tap a tile to turn it a quarter turn.', 'Wire every building to a power plant, with no loose ends.', 'The two plants’ wires must never touch. Get close to par for three stars.'],
     demo: `<div class="demo demo-rewire"><span class="dt plant"></span><span class="dt wire"><i></i></span><span class="dt bld"></span></div>` },
   hunch: { name: 'Hunch', steps: ['Slide to your guess.', 'Bet on how sure you are: a tight band scores big, a wide one is safer.', 'Points only if the answer lands inside your band.'],
     demo: `<div class="demo demo-hunch"><div class="dh-track"><span class="dh-band"></span><span class="dh-ans"></span></div><b class="dh-pts">+50</b></div>` },
@@ -38,8 +38,8 @@ const HOWTO = {
     demo: `<div class="demo demo-ladder"><p><b>C</b><b>O</b><b>L</b><b>D</b></p><p><b>C</b><b>O</b><b class="n">R</b><b>D</b></p><p><b class="n">W</b><b>O</b><b>R</b><b>D</b></p></div>` },
   anagram: { name: 'Anagram', steps: ['Tap the letters in order to spell the word (or type it).', 'It checks itself when every letter is placed. Tap a placed letter to take it back.', 'Five words, short to long. The clock runs until the last one; skipping costs the word.'],
     demo: `<div class="demo demo-anagram"><p><b>A</b><b>E</b><b>H</b><b>R</b><b>T</b></p><b>HEART</b></div>` },
-  link: { name: 'Missing Link', steps: ['Three clue words, one hidden word that goes with all of them.', 'Type the link. You get three tries for each one.', 'Five links a day: 3 points on the first try, 2 on the second, 1 on the third.'],
-    demo: `<div class="demo demo-link"><p><span>SUN</span><span>MOON</span><span>CANDLE</span></p><b>LIGHT</b></div>` },
+  link: { name: 'Missing Link', steps: ['Three clue words, one hidden word that goes with all of them. It can come before or after each clue.', 'Five links, any order: skip one and come back. Three tries each, and the first letter shows after two misses.', '3 points on the first try, 2 on the second, 1 on the third.'],
+    demo: `<div class="demo demo-link"><p><span>STAR</span><span>TRAFFIC</span><span>HOUSE</span></p><b>LIGHT</b></div>` },
 };
 
 export function howTo(k) {

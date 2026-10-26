@@ -72,7 +72,7 @@ export function anagram(app) {
     try { r = await anagramGuess(w); }
     catch (e) {
       busy = false;
-      if (e.message.includes('not it')) { say(`${w.toUpperCase()} isn’t it.`); SOUNDS.miss(); buzz(15); unpickFrom(0); $('.an-now').classList.add('nope'); return; }
+      if (e.message.includes('not it')) { const right = +(e.message.match(/not it:(\d+)/)?.[1] || 0); say(right ? `Not ${w.toUpperCase()}, but ${right} letter${right === 1 ? ' is' : 's are'} already in the right spot.` : `${w.toUpperCase()} isn’t it. No letter is in the right spot yet.`); SOUNDS.miss(); buzz(15); unpickFrom(0); $('.an-now').classList.add('nope'); return; }
       say(navigator.onLine ? 'Couldn’t check that. Try again.' : 'You’re offline. Words need a connection.'); unpickFrom(0); return;
     }
     busy = false;
@@ -92,15 +92,15 @@ export function anagram(app) {
       <h2 class="display">In <em>${clock(r.ms)}</em></h2>
       <p class="muted">${[beat, streak('anagram') > 1 ? `${streak('anagram')} days in a row` : ''].filter(Boolean).join(' · ')}</p>
       <div class="fr-on" id="fr-on"></div>
-      <button class="btn wide" id="share">Share your results</button>
-      <button class="link-quiet" id="square">Square image instead</button>
+      <button class="btn wide" id="share">Share Anagram</button>
+      <button class="link-quiet" id="all">Share today’s whole dose</button>
       <p class="next-in">Tomorrow’s words in <b data-cd>${countdown()}</b></p>
       <a class="link center" href="#">All games</a>
     </div>`;
     if (fresh) SOUNDS.chime();
-    const share = fmt => async () => { SOUNDS.tap(); if (await shareDose(fmt) === 'saved') say('Image saved and the text copied. Paste it anywhere.'); };
-    $('#share').addEventListener('click', share('story'));
-    $('#square').addEventListener('click', share('square'));
+    const share = (fmt, only) => async () => { SOUNDS.tap(); if (await shareDose(fmt, only) === 'saved') say('Image saved and the text copied. Paste it anywhere.'); };
+    $('#share').addEventListener('click', share('story', 'anagram'));
+    $('#all').addEventListener('click', share('story'));
     friendsOn($('#fr-on'), 'anagram');
   }
 

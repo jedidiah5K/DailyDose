@@ -7,6 +7,14 @@ A daily games hub (NYT Games style): one home screen, a new puzzle in each game 
 - Full brief: Job's build prompt (lineup, rules, Pro, security checklist). Lineup (6): Rewire, Hunch, Missing Link, Tangle, Anagram, Ladder. Retired: Drop, Mind Meld, Last Stand, Cipher (old results stay in dose_plays). Also built: You screen (stats + badges), Friends (typed friend codes, no invite links). Not yet: World Tower, admin page, notifications. Later drops: Bluff, Zoom, Echo.
 - Look (Job's call 2026-10-26, from his KeepUp screenshots): warm paper, home hero = sky by time of day with a moon that fills as you finish games (full moon = all done), week strip of moons, game rows with a circle that fills, floating dark tab bar (Today, Friends, You) + accent play button. Instrument Serif headlines, Geist body, Geist Mono labels. Each game: shared header + How to play pop-up (`src/ui/shell.js`). He rejected: neon night city, plain NYT copy, big colour tiles.
 
+## Difficulty rule for every game (Job, 2026-10-26)
+Hard enough that people get annoyed they can't solve it, but keep wanting more. Every game needs:
+- **Near-miss feedback** that shows how close you were (lit buildings, crossings left, letters in the right spot, first-letter hint, % off), so a miss feels like "I see it now", never "the game is broken".
+- **An "aha"**: simple rules, dense solution space; brute force should stall (Missing Link mixes answer-before and answer-after clues).
+- **Unfinished tension**: a started-but-unfinished game shows a half-full circle on home ("pick it back up"); the moon isn't full until everything is done.
+- **Zero-friction retry**: undo, skip-and-come-back, no long animations or resets between tries.
+Tuning so far: Rewire boards 4-6 wide, 3 stars within 25% of par; Tangle 8-11 dots, about 1.75 strings per dot.
+
 ## Ground rules
 - Ask first: spending money, publishing, renaming, changing game rules or free vs Pro, touching KeepUp/JobDone/Petal data.
 - Email + password only, no magic links, no email confirmation. Guests play via Supabase anonymous sign-in and can add an email/password later (same user id).
@@ -40,7 +48,7 @@ tools/*-gen.mjs          make puzzle content as SQL (random secret per run; outp
 
 ## Content
 - `dose_puzzles` (game, day, content). No client access; only the `dose_<game>_start` functions hand out today's puzzle.
-- Loaded to: Rewire 23 Dec, Tangle 24 Dec, Ladder 9 Dec, Hunch 10 Nov, Missing Link 8 Nov, Anagram 8 Nov. Hunch answers, Missing Link clues and Anagram words need Job's review. Check end dates often: a game with no puzzle says "not ready yet". Generators: tools/rewire-gen.mjs, tangle-gen.mjs, ladder-gen.mjs (content/words4.txt), words-gen.mjs (Missing Link + Anagram from content/*.json).
+- Loaded to: Rewire 23 Dec, Tangle 24 Dec, Ladder 9 Dec, Hunch 10 Nov, Missing Link 9 Nov, Anagram 8 Nov. Hunch answers, Missing Link clues and Anagram words need Job's review. Check end dates often: a game with no puzzle says "not ready yet". Generators: tools/rewire-gen.mjs, tangle-gen.mjs, ladder-gen.mjs (content/words4.txt), words-gen.mjs (Missing Link + Anagram from content/*.json).
 - Drop runs in the Edge Function `dose-drop` (replays shots server-side). Everything else is Postgres functions `dose_<game>_*`.
 
 ## Commands

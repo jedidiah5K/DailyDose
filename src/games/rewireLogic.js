@@ -15,7 +15,7 @@ export const par = (tiles, solution) => tiles.reduce((t, m, i) => t + tapsTo(m, 
 export const plantsOf = p => Array.isArray(p.plants) ? p.plants : [p.plant];
 
 // Weekday sets the size, NYT-style: Monday small, weekend big.
-export const sizeFor = day => [7, 5, 5, 6, 6, 6, 7][new Date(day + 'T00:00:00Z').getUTCDay()];
+export const sizeFor = day => [6, 4, 4, 5, 5, 5, 6][new Date(day + 'T00:00:00Z').getUTCDay()];
 
 function rng(seed) {
   let a = 0; for (const c of seed) a = Math.imul(a ^ c.charCodeAt(0), 2654435761) >>> 0;

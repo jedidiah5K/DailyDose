@@ -567,3 +567,22 @@ p { margin: 0; }
   .page-top h1, .you-head h1 { font-size: 4rem; }
   .badges { grid-template-columns: repeat(4, 1fr); }
 }
+.h-units { justify-self: start; padding: .35rem .8rem; border-radius: 999px; background: var(--surface); font: 500 .72rem var(--mono); letter-spacing: .06em; color: var(--ink-2); }
+
+/* Missing Link: the five links as tabs, and the answer as letter boxes */
+.lk-tabs { list-style: none; margin: 1.2rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: .4rem; }
+.lk-tabs button { width: 100%; height: 2.6rem; border-radius: 12px; background: var(--surface); font: 600 .9rem var(--mono); color: var(--ink-2); transition: background .15s; }
+.lk-tabs button.tried { box-shadow: inset 0 -3px 0 var(--bad); }
+.lk-tabs button.ok { background: var(--tint); color: var(--c); }
+.lk-tabs button.miss { color: var(--muted); text-decoration: line-through; }
+.lk-tabs button.on { background: var(--ink); color: var(--bg); box-shadow: none; text-decoration: none; }
+.lk-boxes { display: flex; justify-content: center; gap: .3rem; }
+.lk-boxes i { display: grid; place-items: center; width: 2.3rem; height: 2.6rem; border-radius: 8px; background: var(--surface); box-shadow: inset 0 -3px 0 var(--line-2); font: 600 1.2rem var(--mono); font-style: normal; }
+.lk-boxes.ok i { background: var(--c); color: var(--on-c); box-shadow: none; animation: tile-pop .25s var(--spring); }
+.lk-boxes.miss i { color: var(--muted); }
+/* started but not finished: the circle is half full, a nudge to come back */
+.row.is-open .r-check { background: conic-gradient(var(--c) 0 50%, transparent 0); box-shadow: inset 0 0 0 1.5px var(--c); }
+.row.is-open .r-sub { color: var(--c); }
+/* started but not finished: the circle is half full, a nudge to come back */
+.row.is-open .r-check { background: conic-gradient(var(--c) 0 50%, transparent 0); box-shadow: inset 0 0 0 1.5px var(--c); }
+.row.is-open .r-sub { color: var(--c); }
