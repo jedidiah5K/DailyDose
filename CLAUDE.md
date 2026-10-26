@@ -5,7 +5,7 @@ A daily games hub (NYT Games style): one home screen, a new puzzle in each game 
 - Live beta: https://daily-dose-azure.vercel.app. Vercel project `daily-dose` deploys every push to `claude/vault-supabase` (the repo's only branch, so it is production). **Ask Job before pushing.**
 - Repo: github.com/jedidiah5K/DailyDose (private).
 - Full brief: Job's build prompt (lineup, rules, Pro, security checklist). Lineup (6): Rewire, Hunch, Missing Link, Tangle, Anagram, Ladder. Retired: Drop, Mind Meld, Last Stand, Cipher (old results stay in dose_plays). Also built: You screen (stats + badges), Friends (typed friend codes, no invite links). Not yet: World Tower, admin page, notifications. Later drops: Bluff, Zoom, Echo.
-- Look (Job's call 2026-10-26, from his KeepUp screenshots): warm paper, home hero = sky by time of day with a moon that fills as you finish games (full moon = all done), week strip of moons, game rows with a circle that fills, floating dark tab bar (Today, Friends, You) + accent play button. Instrument Serif headlines, Geist body, Geist Mono labels. Each game: shared header + How to play pop-up (`src/ui/shell.js`). He rejected: neon night city, plain NYT copy, big colour tiles.
+- Look (Job's call 2026-10-26): home is the day's newspaper, "The Daily Dose": masthead, a top story (next game, big Play, faded "up for grabs" sticker), a 2-column grid with one story per game. Solving a game slaps its sticker on its story (worn, squiggly-edged square in the game colour, `src/ui/stickers.js`). All six = "EXTRA! EXTRA!" box + Sticker Bomb share card (dark card, sticker pile, streak sticker; `src/ui/card.js`). Floating tab bar (Today, Friends, You). Instrument Serif headlines, Geist body, Geist Mono labels. Each game: shared header + How to play pop-up (`src/ui/shell.js`). Rejected so far: neon night city, plain NYT copy, big colour tiles, sky+moon home, retro stickers. Design concepts live on a private canvas (claude.ai/artifact/535JyRRVgKcSJUhSMf5RjA).
 
 ## Difficulty rule for every game (Job, 2026-10-26)
 Hard enough that people get annoyed they can't solve it, but keep wanting more. Every game needs:
@@ -32,7 +32,7 @@ Tuning so far: Rewire boards 4-6 wide, 3 stars within 25% of par; Tangle 8-11 do
 ## Layout
 ```
 src/main.js              hash router (#rewire, #me, #friends ...), history sync, new-badge banners
-src/screens/hub.js       home: GAMES list (add new games here), sky + moon hero, week strip, rows
+src/screens/hub.js       home: GAMES list (add new games here, with a headline), the newspaper and stickers
 src/screens/rewire.js    Rewire play/solve/result     src/games/rewireLogic.js  generator + uniqueness solver
 src/screens/hunch.js     Hunch slider/reveal/summary  content/hunch.json         questions (with sources)
 src/screens/tangle.js    Tangle: drag dots apart      src/games/tangleLogic.js  crossing check + knot maker (same rules in dose_tangle_bad)
