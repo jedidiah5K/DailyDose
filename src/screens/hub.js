@@ -12,24 +12,26 @@ import { linkLine } from './link.js';
 import { anagramLine } from './anagram.js';
 import { shareDose } from '../ui/card.js';
 
-// The lineup, as the day's newspaper: each game is a story with a headline. Solving it earns its sticker.
-// New games plug in here: a key, a screen in main.js, a headline, and a result line.
+// The lineup, as the day's newspaper: each story is the game's name, big. Solving it earns its sticker.
+// New games plug in here: a key, a screen in main.js, and a result line.
 export const GAMES = [
-  { k: 'rewire', name: 'Rewire', c: '#3F7FC4', head: 'City goes dark; electrician wanted', dek: 'Turn the tiles until every building is wired.',
+  { k: 'rewire', name: 'Rewire', c: '#3F7FC4',
     done: r => `wired in ${clock(r.ms)}`, share: rewireLine },
-  { k: 'hunch', name: 'Hunch', c: '#B3881A', btn: '#C99A1E', head: 'Experts baffled: how tall is it, really?', dek: 'Guess five numbers, then bet on how sure you are.',
+  { k: 'hunch', name: 'Hunch', c: '#B3881A', btn: '#C99A1E',
     done: r => r.points != null ? `${r.points} points` : `${Math.round(r.err)}% off`, share: hunchLine },
-  { k: 'link', name: 'Missing Link', c: '#2C9A88', head: 'Three words walk into a bar. One is hiding.', dek: 'Find the word that goes with all three, before or after.',
+  { k: 'link', name: 'Missing Link', c: '#2C9A88',
     done: r => `${r.score} of 15`, share: r => `🔗 ${linkLine(r)}` },
-  { k: 'tangle', name: 'Tangle', c: '#DD7444', head: 'Knot crisis deepens downtown', dek: 'Drag the dots until no two strings cross.',
+  { k: 'tangle', name: 'Tangle', c: '#DD7444',
     done: r => `untied in ${clock(r.ms)}`, share: r => `🪢 ${tangleLine(r)}` },
-  { k: 'anagram', name: 'Anagram', c: '#CF4F7D', head: 'Letters scrambled; police seek order', dek: 'Five words, short to long. Put them back.',
+  { k: 'anagram', name: 'Anagram', c: '#CF4F7D',
     done: r => `${r.solved} of ${r.n}`, share: r => `🔤 ${anagramLine(r)}` },
-  { k: 'ladder', name: 'Ladder', c: '#7D5FC6', head: 'Local climbs a word ladder, refuses help', dek: 'One letter at a time; every rung a real word.',
+  { k: 'ladder', name: 'Ladder', c: '#7D5FC6',
     done: r => r.solved ? (r.steps === r.par ? 'on par' : `${r.steps} steps`) : 'gave up', share: r => `🪜 ${ladderLine(r)}` },
 ];
-// Where each sticker lands in its story (right, top, tilt): a little different each, like it was slapped on.
-const LAND = { rewire: [-6, 38, -9], hunch: [0, 42, 6], link: [-8, 36, -4], tangle: [-2, 42, 9], anagram: [-6, 38, -10], ladder: [-2, 40, 5] };
+// Where each sticker lands in its story: how far from the right edge, how far down (of the story), the lean.
+// They sit in the gap between the name and the rule under it, each leaning its own way.
+const LAND = { rewire: { right: 4, at: 55, r: -11 }, hunch: { right: 10, at: 53, r: 8 }, link: { right: 0, at: 57, r: -5 },
+  tangle: { right: 8, at: 54, r: 13 }, anagram: { right: 2, at: 56, r: -14 }, ladder: { right: 12, at: 53, r: 6 } };
 // Below this many players we keep quiet about the count; "3 playing" reads like an empty room.
 const SHOW_PLAYERS_FROM = 25;
 const FLAME = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c1 3.5-1.5 5-1.5 7.5 0 1.4 1 2.5 2.3 2.5 1.6 0 2.4-1.5 2-3.3C17.5 10.6 19 13 19 15.5A7 7 0 0 1 5 15.5C5 10 10 8 12 2z"/></svg>';
@@ -48,22 +50,19 @@ export function hub(app) {
   const fresh = GAMES.filter(g => resultFor(g.k) && !seen.includes(g.k)).map(g => g.k);
 
   const story = g => {
-    const r = resultFor(g.k), [rt, tp, tilt] = LAND[g.k];
+    const res = resultFor(g.k), { right, at, r: tilt } = LAND[g.k];
     return `<div class="ed-story">
       <a class="ed-head" href="#${g.k}">${g.name}</a>
-      <span class="ed-kick" style="color:${g.c}">${g.head}</span>
-      ${r ? `${sticker(g.k, 60, fresh.includes(g.k) ? 'slap' : '', `right:${rt}px;top:${tp}px;--r:${tilt}deg`)}
-             <span class="ed-res" style="color:${g.c}">✓ ${g.done(r)}</span>`
-          : `${open(g) ? '<span class="ed-open">Unfinished</span>' : ''}
-             <a class="ed-play" href="#${g.k}" style="background:${g.btn || g.c}">${open(g) ? 'Resume' : 'Play'}</a>`}
+      ${res ? `${sticker(g.k, 60, fresh.includes(g.k) ? 'slap' : '', `right:${right}px;top:${at}%;--r:${tilt}deg`)}
+               <span class="ed-res" style="color:${g.c}">✓ ${g.done(res)}</span>`
+            : `${open(g) ? '<span class="ed-open">Unfinished</span>' : ''}
+               <a class="ed-play" href="#${g.k}" style="background:${g.btn || g.c}">${open(g) ? 'Resume' : 'Play'}</a>`}
     </div>`;
   };
 
   const lead = next
     ? `<div class="ed-lead">
         <a class="ed-lhead" href="#${next.k}">${next.name}</a>
-        <span class="ed-kick" style="color:${next.c}">${next.head}</span>
-        <p class="ed-dek">${next.dek}</p>
         <a class="ed-bigplay" href="#${next.k}" style="background:${next.btn || next.c}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12.5-7.5z"/></svg>${open(next) ? 'Resume' : 'Play'} ${next.name}</a>
         <div class="ed-spot" aria-hidden="true">
           <svg viewBox="0 0 100 100"><path d="${EDGE}" fill="rgba(255,255,255,.35)" stroke="#A99F8E" stroke-width="2.4" stroke-dasharray="5 5"/></svg>
@@ -82,7 +81,7 @@ export function hub(app) {
       <div class="ed-top"><span>Est. 2026${state.name ? ` · For ${esc(state.name)}` : ' · Free'}</span>${s ? `<span class="ed-streak">${FLAME}${s}-day streak</span>` : '<span>A new paper at midnight, where you are</span>'}</div>
       <h1 class="ed-name">The Daily <em>Dose</em></h1>
       <div class="ed-date"><span>No. ${puzzleNo()} · ${date}</span>
-        <span class="ed-dots" aria-label="${n} of ${GAMES.length} stickers">${n}/${GAMES.length}${GAMES.map((g, i) => `<i style="${done[i] ? `background:${g.c}` : ''};--t:${LAND[g.k][2]}deg"></i>`).join('')}</span></div>
+        <span class="ed-dots" aria-label="${n} of ${GAMES.length} stickers">${n}/${GAMES.length}${GAMES.map((g, i) => `<i style="${done[i] ? `background:${g.c}` : ''};--t:${LAND[g.k].r}deg"></i>`).join('')}</span></div>
     </header>
     ${lead}
     <div class="ed-grid">${GAMES.map(story).join('')}</div>

@@ -79,11 +79,8 @@ p { margin: 0; }
 .ed-dots { display: inline-flex; align-items: center; gap: 4px; }
 .ed-dots i { width: 8px; height: 8px; border-radius: 2px; box-shadow: inset 0 0 0 1.5px var(--line-2); transform: rotate(var(--t)); }
 .ed-dots i[style*="background"] { box-shadow: none; }
-.ed-kick { font: 700 9px/1.35 var(--mono); letter-spacing: .14em; text-transform: uppercase; }
-.ed-lead { position: relative; display: flex; flex-direction: column; gap: 6px; padding: 2px 0 14px; border-bottom: 2px solid var(--ink); }
-.ed-lead .ed-kick { padding-right: 92px; }
-.ed-lhead { font: 400 33px/.98 var(--serif); padding-right: 92px; color: inherit; text-decoration: none; }
-.ed-dek { margin: 0; font-size: 13px; line-height: 1.42; color: var(--ink-2); padding-right: 92px; }
+.ed-lead { position: relative; display: flex; flex-direction: column; gap: 12px; padding: 6px 0 18px; border-bottom: 2px solid var(--ink); }
+.ed-lhead { font: 400 clamp(2.7rem, 15vw, 3.9rem)/.9 var(--serif); letter-spacing: -.015em; padding-right: 92px; color: inherit; text-decoration: none; }
 .ed-bigplay { align-self: flex-start; margin-top: 6px; display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: 999px; color: #fff;
   font-weight: 700; font-size: 15px; text-decoration: none; box-shadow: 0 4px 0 rgba(0,0,0,.3); transition: transform .12s, box-shadow .12s; }
 .ed-bigplay svg { width: 14px; height: 14px; fill: currentColor; }
@@ -95,18 +92,17 @@ p { margin: 0; }
 @keyframes edspot { 50% { transform: rotate(-6deg) scale(1.05); } }
 .ed-grid { position: relative; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 16px; }
 .ed-grid::before { content: ''; position: absolute; left: 50%; top: 8px; bottom: 8px; width: 1px; background: var(--ink); opacity: .3; }
-.ed-story { position: relative; padding: 12px 2px; border-bottom: 1px solid var(--line-2); min-height: 112px; display: flex; flex-direction: column; gap: 4px; }
-.ed-head { font: 400 18px/1.06 var(--serif); padding-right: 48px; color: inherit; text-decoration: none; }
-.ed-story .ed-kick { padding-right: 48px; }
+.ed-story { position: relative; padding: 14px 2px; border-bottom: 1px solid var(--line-2); min-height: 134px; display: flex; flex-direction: column; gap: 8px; }
+.ed-head { font: 400 clamp(1.55rem, 7.4vw, 1.9rem)/1 var(--serif); letter-spacing: -.01em; color: inherit; text-decoration: none; }
 .ed-res { margin-top: auto; font: 600 11px var(--mono); }
 .ed-open { margin-top: auto; font: 600 10px var(--mono); color: #C23B22; }
 .ed-play { align-self: flex-start; margin-top: auto; padding: 7px 15px; border-radius: 999px; color: #fff; font-weight: 700; font-size: 12px; text-decoration: none;
   box-shadow: 0 3px 0 rgba(0,0,0,.28); transition: transform .12s, box-shadow .12s; }
 .ed-open + .ed-play { margin-top: 4px; }
 .sticker { overflow: visible; }
-.ed-story .sticker { position: absolute; z-index: 3; transform: rotate(var(--r)); }
+.ed-story .sticker { position: absolute; z-index: 3; transform: translateY(-50%) rotate(var(--r)); }
 .ed-story .sticker.slap { animation: edslap .5s .15s cubic-bezier(.2,1.6,.4,1) both; }
-@keyframes edslap { 0% { opacity: 0; transform: scale(1.7) rotate(calc(var(--r) - 18deg)); } 55% { opacity: 1; transform: scale(.9) rotate(var(--r)); } 100% { opacity: 1; transform: rotate(var(--r)); } }
+@keyframes edslap { 0% { opacity: 0; transform: translateY(-50%) scale(1.7) rotate(calc(var(--r) - 18deg)); } 55% { opacity: 1; transform: translateY(-50%) scale(.9) rotate(var(--r)); } 100% { opacity: 1; transform: translateY(-50%) rotate(var(--r)); } }
 .ed-extra { margin: 4px 6px 4px 2px; padding: 16px 18px; background: #FFFDF6; color: #151515; border: 2px solid #151515; box-shadow: 7px 7px 0 #151515; display: flex; flex-direction: column; gap: 8px;
   transform: rotate(-1.5deg); animation: edex .55s cubic-bezier(.3,1.5,.5,1) both; }
 @keyframes edex { from { opacity: 0; transform: scale(.9) rotate(-5deg); } }
@@ -121,9 +117,9 @@ p { margin: 0; }
 @media (min-width: 720px) {
   .hub.ed { max-width: 40rem; }
   .ed-name { font-size: 4.4rem; }
-  .ed-lhead { font-size: 44px; }
-  .ed-head { font-size: 22px; }
-  .ed-story { min-height: 130px; }
+  .ed-lhead { font-size: 72px; }
+  .ed-head { font-size: 34px; }
+  .ed-story { min-height: 166px; }
 }
 
 /* the floating tab bar */
