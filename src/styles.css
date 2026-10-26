@@ -340,6 +340,21 @@ p { margin: 0; }
 .m-prompt { font-size: clamp(2.3rem, 11vw, 3rem) !important; margin-top: .4rem; }
 .m-form { display: flex; gap: .5rem; margin-top: 1rem; }
 .m-form input { flex: 1; min-width: 0; min-height: 3.4rem; padding: 0 1.1rem; border-radius: 16px; border: 1.5px solid rgba(255, 122, 176, .4); background: rgba(255, 255, 255, .05); color: var(--ink); font: 500 1.1rem var(--sans); }
+.m-form.reads { flex-wrap: wrap; }
+.m-form.reads input { flex-basis: 100%; }
+.m-ask { flex-basis: 100%; margin: .4rem 0 0; font-size: .85rem; color: var(--ink-2); }
+.m-reads { flex-basis: 100%; display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; }
+.m-read { display: grid; gap: .2rem; padding: .75rem .4rem; border-radius: 14px; background: var(--c-meld); color: #1A0610; font: 700 1rem/1 var(--sans); transition: transform .12s, opacity .2s; }
+.m-read small { font: 500 .7rem/1 var(--mono); opacity: .75; }
+.m-read:active { transform: scale(.96); }
+.m-read:disabled, .m-sure:disabled { opacity: .5; }
+.m-sure { margin-top: .8rem; padding: .6rem 1rem; border-radius: 999px; font: 600 .74rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); box-shadow: inset 0 0 0 1px var(--line-2); transition: color .2s, background .2s, box-shadow .2s; }
+.m-sure small { margin-left: .3rem; color: var(--muted); }
+.m-sure[aria-pressed="true"] { color: #1A0610; background: var(--warm); box-shadow: 0 0 18px -4px var(--warm); }
+.m-sure[aria-pressed="true"] small { color: #3B2A06; }
+.m-pts { display: flex; flex-wrap: wrap; align-items: baseline; gap: .3rem .7rem; margin: .5rem 0 0; font-size: .9rem; color: var(--ink-2); }
+.m-pts b { font: 700 1.3rem/1 var(--mono); color: var(--muted); }
+.m-pts.up b { color: var(--c-meld); } .m-pts.down b { color: var(--c-last); }
 .m-form input:focus { outline: none; border-color: var(--c-meld); box-shadow: 0 0 0 4px rgba(255, 122, 176, .15); }
 .meld .btn { background: var(--c-meld); color: #2A0A1A; }
 .m-timer { height: 6px; border-radius: 3px; background: rgba(255, 255, 255, .08); overflow: hidden; margin-top: .9rem; }

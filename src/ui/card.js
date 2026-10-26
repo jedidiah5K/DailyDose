@@ -13,7 +13,7 @@ const LINEUP = [
   { k: 'drop', name: 'Drop', color: '#FFA53D', emoji: '⛳',
     big: r => r.landed ? (r.shot === 1 ? 'Hole in one' : `Landed on shot ${r.shot}`) : `Missed by ${r.miss} px`, small: r => (r.landed && r.stars != null ? `${'★'.repeat(r.stars)}${'☆'.repeat(3 - r.stars)}  ` : '') + (r.beat != null ? `Better than ${r.beat}% of players` : 'Three shots, one course') },
   { k: 'meld', name: 'Mind Meld', color: '#FF7AB0', emoji: '🧠',
-    big: r => `${r.score} of 10 landed`, small: r => `Herd ${[...r.herd].map(m => ({ g: '●', y: '◐', x: '○', p: '●', c: '○' })[m]).join(' ')}  ·  Odd ${[...r.odd].map(m => ({ g: '●', y: '◐', x: '○', p: '●', c: '○' })[m]).join(' ')}` },
+    big: r => r.points != null ? `${r.points} points` : `${r.score} of 10 landed`, small: r => `Herd ${[...r.herd].map(m => ({ g: '●', y: '◐', x: '○', p: '●', c: '○' })[m]).join(' ')}  ·  Odd ${[...r.odd].map(m => ({ g: '●', y: '◐', x: '○', p: '●', c: '○' })[m]).join(' ')}` },
   { k: 'last', name: 'Last Stand', color: '#FF4D6D', emoji: '⚔️',
     big: r => `${r.points} points`, small: r => (r.perfect ? 'Survived all 10' : r.banked ? `Banked after round ${r.reached}` : `Out on round ${r.reached + 1}`) + (r.beat != null ? ` · beat ${r.beat}%` : '') },
 ];

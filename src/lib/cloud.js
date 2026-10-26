@@ -67,7 +67,7 @@ export const lastPick = perk => rpc('dose_last_pick', { p_perk: perk });
 export const lastUse = perk => rpc('dose_last_use', { p_perk: perk });
 export const meldStart = () => rpc('dose_meld_start');
 export const meldServe = () => rpc('dose_meld_serve');
-export const meldAnswer = text => rpc('dose_meld_answer', { p_text: text });
+export const meldAnswer = (text, read, sure) => rpc('dose_meld_answer', { p_text: text, p_read: read ?? null, p_sure: !!sure });
 
 // Today's Hunch: the questions (no answers) and any guesses already made.
 export async function hunchStart() {

@@ -16,7 +16,7 @@ const GAMES = [
   { k: 'rewire', at: 3, name: 'Rewire', sign: 'REWIRE', line: 'Turn the wires. Light up the city.', done: r => `Lit in ${clock(r.ms)}${r.stars ? ` ${'★'.repeat(r.stars)}` : ''}`, share: rewireLine },
   { k: 'hunch', at: 7, name: 'Hunch', sign: 'HUNCH', line: 'Guess, then bet on how sure you are.', done: r => r.points != null ? `${r.points} pts` : `${Math.round(r.err)}% off`, share: hunchLine },
   { k: 'drop', at: 11, name: 'Drop', sign: 'DROP', line: 'Place a bumper, grab the stars, land it.', done: r => dropLine(r), share: r => `⛳ ${dropLine(r)}` },
-  { k: 'meld', at: 15, name: 'Mind Meld', sign: 'MELD', line: 'Think like everyone. Then like no one.', done: r => `${r.score} of 10 landed`, share: r => `🧠 ${meldLine(r)}` },
+  { k: 'meld', at: 15, name: 'Mind Meld', sign: 'MELD', line: 'Think like everyone. Then like no one.', done: r => r.points != null ? `${r.points} pts · ${r.score}/10` : `${r.score} of 10 landed`, share: r => `🧠 ${meldLine(r)}` },
   { k: 'last', at: 19, name: 'Last Stand', sign: 'LAST', line: 'Ten rounds. One life.', done: r => lastLine(r), share: r => `⚔️ ${lastGrid(r)} ${lastLine(r)}` },
 ];
 // Below this many players we keep quiet about the count; "3 playing" reads like an empty room.

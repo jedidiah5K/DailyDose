@@ -8,11 +8,13 @@ import { shareDose } from '../ui/card.js';
 const calm = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => `&#${c.charCodeAt(0)};`);
 export const MARKS = { g: '🟩', y: '🟨', x: '⬛', p: '🟪', c: '⬜' };
-export const meldLine = r => `Herd ${[...r.herd].map(m => MARKS[m]).join('')} · Odd ${[...r.odd].map(m => MARKS[m]).join('')}`;
+export const meldLine = r => `${r.points != null ? `${r.points} pts · ` : ''}Herd ${[...r.herd].map(m => MARKS[m]).join('')} · Odd ${[...r.odd].map(m => MARKS[m]).join('')}`;
 const ROUND = {
   herd: { name: 'Herd round', tip: 'Say what most people would say.' },
   odd: { name: 'Odd round', tip: 'Say something real that few people would say.' },
 };
+// Read the room: how many people give your answer.
+const READS = { few: ['Few', 'under 5%'], some: ['Some', '5–20%'], lots: ['Lots', 'over 20%'] };
 const VERDICT = {
   g: 'With the crowd', y: 'Real, but not a top answer', x: 'Not on the list', p: 'Rare. Nicely done.', c: 'Too popular for the Odd round',
 };
@@ -39,7 +41,7 @@ export function meld(app) {
     $('#body').innerHTML = `<div class="h-intro rise">
       <div class="orbs" aria-hidden="true"><i></i><i></i></div>
       <h2 class="display">Think like <em>everyone.</em><br>Then like no one.</h2>
-      <p>Five prompts, twice. First say what most people would say. Then say something real that hardly anyone would.</p>
+      <p>Five prompts, twice. First say what most people would say, and guess how many will agree. Then say something real that hardly anyone would. Once a round, tap I’m sure: double if it lands, minus one if not.</p>
       <ul class="h-rules"><li><b>5</b> prompts</li><li><b>2</b> rounds</li><li><b>20s</b> each</li></ul>
     </div>
     <div class="h-bottom"><button class="btn wide" id="begin">Start</button></div>`;
@@ -77,15 +79,19 @@ export function meld(app) {
     try { s = await meldServe(); }
     catch (e) { say('Couldn’t reach the server. Try again.'); $('#body').innerHTML = '<div class="h-bottom"><button class="btn wide" id="retry">Try again</button></div>'; $('#retry').addEventListener('click', ask); return; }
     if (gone) return;
-    const r = ROUND[s.round], q = p.prompts[s.i];
+    const r = ROUND[s.round], q = p.prompts[s.i], herd = s.round === 'herd';
+    const sureLeft = !p.guesses.some(g => g.r === s.round && g.sure);
     $('#step').textContent = `${s.round === 'herd' ? s.i + 1 : s.i + 6} / 10`;
     $('#body').innerHTML = `<div class="h-q rise">
       <p class="m-round m-${s.round}">${r.name}<span>${r.tip}</span></p>
       <h2 class="display m-prompt">${esc(q)}</h2>
-      <form class="m-form" id="form" autocomplete="off">
+      <form class="m-form${herd ? ' reads' : ''}" id="form" autocomplete="off">
         <input id="ans" maxlength="40" placeholder="Type your answer" autocapitalize="sentences" enterkeyhint="send" aria-label="Your answer">
-        <button class="btn" id="send">Send</button>
+        ${herd ? `<p class="m-ask">How many people will say it? Tap to send.</p>
+        <div class="m-reads">${Object.entries(READS).map(([k, [name, sub]]) => `<button class="m-read" type="button" data-read="${k}">${name}<small>${sub}</small></button>`).join('')}</div>`
+        : '<button class="btn" id="send">Send</button>'}
       </form>
+      ${sureLeft ? '<button class="m-sure" id="sure" type="button" aria-pressed="false" title="Once a round: double if it lands, minus one if not">I’m sure <small>×2</small></button>' : ''}
       <div class="m-timer" aria-hidden="true"><i id="bar"></i></div>
     </div>`;
     const input = $('#ans'), bar = $('#bar');
@@ -100,13 +106,17 @@ export function meld(app) {
       if (left <= 0) submit();
     };
     clearInterval(timer); timer = setInterval(tick, 100); tick();
+    let sure = false;
+    $('#sure')?.addEventListener('click', e => { sure = !sure; e.currentTarget.setAttribute('aria-pressed', sure); SOUNDS.tap(); buzz(sure ? 12 : 5); });
     $('#form').addEventListener('submit', e => { e.preventDefault(); submit(); });
-    async function submit() {
+    app.querySelectorAll('.m-read').forEach(b => b.addEventListener('click', () => submit(b.dataset.read)));
+    const lock = on => { app.querySelectorAll('#form button, #sure').forEach(b => { b.disabled = on; }); input.disabled = on; };
+    async function submit(read = null) {
       if (busy) return; busy = true; clearInterval(timer);
-      $('#send').disabled = true; input.disabled = true;
+      lock(true);
       let g;
-      try { g = await meldAnswer(input.value.trim()); }
-      catch (e) { busy = false; $('#send').disabled = false; input.disabled = false; say('Couldn’t send that. Try again.'); return; }
+      try { g = await meldAnswer(input.value.trim(), read, sure); }
+      catch (e) { busy = false; lock(false); say('Couldn’t send that. Try again.'); return; }
       busy = false;
       if (gone) return;
       p.guesses.push(g); save();
@@ -126,6 +136,10 @@ export function meld(app) {
       <h2 class="display h-small">${esc(q)}</h2>
       <div class="m-meet ${calm() ? '' : 'play'} mk-${g.mark}"><span class="m-you">${yours}</span><span class="m-verdict">${MARKS[g.mark]} ${VERDICT[g.mark]}</span></div>
       <p class="muted">${line}${g.share != null ? ` · about ${Math.round(g.share)}% of people` : ''}</p>
+      ${g.pts != null ? `<p class="m-pts${g.pts > 0 ? ' up' : g.pts < 0 ? ' down' : ''}"><b>${g.pts > 0 ? '+' : ''}${g.pts}</b>${[
+        g.sure && (g.mark === 'g' || g.mark === 'p' ? 'Sure, and right: double' : 'Sure, but missed: −1'),
+        g.read && g.band && (g.read_ok ? 'You read the room: +1' : `Read the room: it was ${READS[g.band][0].toLowerCase()}, not ${READS[g.read][0].toLowerCase()}`),
+      ].filter(Boolean).map(t => `<span>${t}</span>`).join('')}</p>` : ''}
       <ol class="m-top">${top.map((t, n) => `<li class="${t.label === g.label ? 'mine' : ''}" style="--w:${t.share / max};--n:${n}"><span>${esc(t.label)}</span><b>${Math.round(t.share)}%</b></li>`).join('')}</ol>
       <p class="eyebrow">Top answers so far${g.of < 30 ? ' · early, mostly our estimates' : ''}</p>
     </div>
@@ -139,7 +153,8 @@ export function meld(app) {
     const row = (name, marks) => `<div class="m-row"><span>${name}</span><b>${[...marks].map(m => `<i class="mk mk-${m}"></i>`).join('')}</b></div>`;
     $('#body').innerHTML = `<div class="result h-sum ${fresh ? 'rise' : ''}">
       <p class="eyebrow">Today’s meld</p>
-      <h2 class="display"><em>${r.score}</em> of 10 landed</h2>
+      <h2 class="display">${r.points != null ? `<em>${r.points}</em> points` : `<em>${r.score}</em> of 10 landed`}</h2>
+      ${r.points != null ? `<p class="muted">${r.score} of 10 landed · read the room ${r.reads} of 5</p>` : ''}
       <div class="m-rows">${row('Herd', r.herd)}${row('Odd', r.odd)}</div>
       <p class="muted">Green: with the crowd. Purple: rare and real.${streak('meld') > 1 ? ` · ${streak('meld')} days in a row` : ''}</p>
       <button class="btn wide" id="share">Share tonight’s dose</button>
