@@ -9,11 +9,11 @@ test('badges come from results: firsts, full nights and game feats', () => {
   const all = {
     rewire: { [day]: { ms: 50000, stars: 3 } }, hunch: { [day]: { points: 200, hits: 5 } },
     tangle: { [day]: { ms: 25000 } },
-    ladder: { [day]: { solved: true, steps: 6, par: 5 } },
+    ladder: { [day]: { solved: true, steps: 6, par: 5 } }, link: { [day]: { score: 15, solved: 5 } }, anagram: { [day]: { solved: 5, n: 5, ms: 200000 } },
   };
   const got = earned(all);
-  for (const id of ['first', 'full', 'par', 'quick', 'bullseye', 'nimble']) expect(got.has(id)).toBe(true);
-  for (const id of ['week', 'shortest', 'regular']) expect(got.has(id)).toBe(false);
+  for (const id of ['first', 'full', 'par', 'quick', 'bullseye', 'nimble', 'linked']) expect(got.has(id)).toBe(true);
+  for (const id of ['week', 'shortest', 'regular', 'unscrambled']) expect(got.has(id)).toBe(false);
 });
 
 test('streak badges use the best run ever, freezes included', () => {

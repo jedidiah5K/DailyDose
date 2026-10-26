@@ -51,6 +51,10 @@ async function rpc(name, args) {
 }
 export const ladderStart = () => rpc('dose_ladder_start');
 export const ladderStep = word => rpc('dose_ladder_step', { p_word: word });
+export const linkStart = () => rpc('dose_link_start');
+export const linkGuess = w => rpc('dose_link_guess', { p_guess: w });
+export const anagramStart = () => rpc('dose_anagram_start');
+export const anagramGuess = w => rpc('dose_anagram_guess', { p_guess: w });
 export const tangleStart = () => rpc('dose_tangle_start');
 export const tangleSubmit = (pos, moves) => rpc('dose_tangle_submit', { p_pos: pos, p_moves: moves });
 

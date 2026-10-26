@@ -12,10 +12,16 @@ export const gameHeader = (k, name, right = '') => `<header class="v-top gm-top 
   <div class="gm-right">${right}<button class="gm-help" id="help" type="button" aria-label="How to play" title="How to play">?</button></div>
 </header>`;
 
-export const pageHeader = title => `<header class="v-top gm-top">
-  <a href="#" class="back" aria-label="Back to all games" title="Back"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></a>
-  <p class="gm-title"><b>${title}</b></p><span></span>
-</header>`;
+export const pageHeader = (title, label = '') => `<header class="page-top"><p class="eyebrow">${label}</p><h1 class="display">${title}</h1></header>`;
+
+// The floating tab bar on the main screens (Today, Friends, You), with an optional round action button.
+const TABS = [['today', '#', 'Today', '<path d="M5 12.5l4.5 4.5L19 7.5"/>'],
+  ['friends', '#friends', 'Friends', '<circle cx="9" cy="8.5" r="3.2"/><path d="M3.5 19c.7-3.2 2.8-5 5.5-5s4.8 1.8 5.5 5"/><circle cx="16.5" cy="9.5" r="2.6"/><path d="M15.5 14.2c2.3-.3 4.3 1.2 5 4.3"/>'],
+  ['me', '#me', 'You', '<circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c.8-3.6 3.6-5.5 7-5.5s6.2 1.9 7 5.5"/>']];
+export const tabBar = (active, fab = '') => `<nav class="tabbar" aria-label="Main">
+  ${TABS.map(([k, href, label, d]) => `<a href="${href}" class="tab${k === active ? ' on' : ''}"${k === active ? ' aria-current="page"' : ''}><svg viewBox="0 0 24 24" aria-hidden="true">${d}</svg><span>${label}</span></a>`).join('')}
+  ${fab}
+</nav>`;
 
 // How to play: a few short steps and a little animated example, like the card Wordle shows.
 const HOWTO = {
@@ -30,7 +36,9 @@ const HOWTO = {
       <circle class="mover" cx="15" cy="55" r="5"><animate attributeName="cx" values="15;15;60;60" keyTimes="0;.25;.55;1" dur="3.2s" repeatCount="indefinite"/><animate attributeName="cy" values="55;55;6;6" keyTimes="0;.25;.55;1" dur="3.2s" repeatCount="indefinite"/></circle></svg></div>` },
   ladder: { name: 'Ladder', steps: ['Change one letter at a time.', 'Every step has to be a real word.', 'Reach the bottom word in as few steps as you can.'],
     demo: `<div class="demo demo-ladder"><p><b>C</b><b>O</b><b>L</b><b>D</b></p><p><b>C</b><b>O</b><b class="n">R</b><b>D</b></p><p><b class="n">W</b><b>O</b><b>R</b><b>D</b></p></div>` },
-  link: { name: 'Missing Link', steps: ['Three clue words, one hidden word that goes with all of them.', 'Type the link. You get three tries for each one.', 'Five links a night. Fewer tries and less time score higher.'],
+  anagram: { name: 'Anagram', steps: ['Tap the letters in order to spell the word (or type it).', 'It checks itself when every letter is placed. Tap a placed letter to take it back.', 'Five words, short to long. The clock runs until the last one; skipping costs the word.'],
+    demo: `<div class="demo demo-anagram"><p><b>A</b><b>E</b><b>H</b><b>R</b><b>T</b></p><b>HEART</b></div>` },
+  link: { name: 'Missing Link', steps: ['Three clue words, one hidden word that goes with all of them.', 'Type the link. You get three tries for each one.', 'Five links a day: 3 points on the first try, 2 on the second, 1 on the third.'],
     demo: `<div class="demo demo-link"><p><span>SUN</span><span>MOON</span><span>CANDLE</span></p><b>LIGHT</b></div>` },
 };
 

@@ -4,7 +4,8 @@ A daily games hub (NYT Games style): one home screen, a new puzzle in each game 
 
 - Live beta: https://daily-dose-azure.vercel.app. Vercel project `daily-dose` deploys every push to `claude/vault-supabase` (the repo's only branch, so it is production). **Ask Job before pushing.**
 - Repo: github.com/jedidiah5K/DailyDose (private).
-- Full brief: Job's build prompt (lineup, rules, Pro, security checklist). Lineup: Rewire, Hunch, Tangle, Ladder (Cipher dropped 2026-10-26; Job is picking its replacement, Missing Link is the front-runner). Retired: Drop, Mind Meld, Last Stand (old results stay in `dose_plays`). Every game uses the shared header + How to play pop-up in `src/ui/shell.js`; one night background, each game keeps its colour and board (`src/themes.css`).
+- Full brief: Job's build prompt (lineup, rules, Pro, security checklist). Lineup (6): Rewire, Hunch, Missing Link, Tangle, Anagram, Ladder. Retired: Drop, Mind Meld, Last Stand, Cipher (old results stay in dose_plays). Also built: You screen (stats + badges), Friends (typed friend codes, no invite links). Not yet: World Tower, admin page, notifications. Later drops: Bluff, Zoom, Echo.
+- Look (Job's call 2026-10-26, from his KeepUp screenshots): warm paper, home hero = sky by time of day with a moon that fills as you finish games (full moon = all done), week strip of moons, game rows with a circle that fills, floating dark tab bar (Today, Friends, You) + accent play button. Instrument Serif headlines, Geist body, Geist Mono labels. Each game: shared header + How to play pop-up (`src/ui/shell.js`). He rejected: neon night city, plain NYT copy, big colour tiles.
 
 ## Ground rules
 - Ask first: spending money, publishing, renaming, changing game rules or free vs Pro, touching KeepUp/JobDone/Petal data.
@@ -23,22 +24,23 @@ A daily games hub (NYT Games style): one home screen, a new puzzle in each game 
 ## Layout
 ```
 src/main.js              hash router (#rewire, #me, #friends ...), history sync, new-badge banners
-src/screens/hub.js       home: GAMES list (add new games here), countdown, streak, share
+src/screens/hub.js       home: GAMES list (add new games here), sky + moon hero, week strip, rows
 src/screens/rewire.js    Rewire play/solve/result     src/games/rewireLogic.js  generator + uniqueness solver
 src/screens/hunch.js     Hunch slider/reveal/summary  content/hunch.json         questions (with sources)
 src/screens/tangle.js    Tangle: drag dots apart      src/games/tangleLogic.js  crossing check + knot maker (same rules in dose_tangle_bad)
-src/screens/cipher.js    Cipher: crack a quote        content/cipher.json       quotes (key + quote stay on the server)
+src/screens/link.js      Missing Link: 3 clues, 1 word content/link.json         5 links a day (answers stay on the server)
+src/screens/anagram.js   Anagram: 5 words, short-long content/anagram.json      words; scrambles made by tools/words-gen.mjs
 src/screens/ladder.js    Ladder: word to word         content/words4.txt        word list (also in dose_words)
 src/lib/cloud.js         Supabase calls               src/lib/store.js          local state ('dose:v1'), streaks, mergeResults
 src/screens/me.js        You: name, account, stats    src/lib/badges.js         badges, worked out from results (nothing stored)
 src/screens/friends.js   friend codes, friends list, friends on result screens and the home row
 src/ui/card.js           LINEUP: each game's name, colour and result line (share card, friends, stats)
-tools/*-gen.mjs          make Rewire / Drop / Last Stand content as SQL (random secret per run; output *.local.sql is gitignored)
+tools/*-gen.mjs          make puzzle content as SQL (random secret per run; output *.local.sql is gitignored)
 ```
 
 ## Content
 - `dose_puzzles` (game, day, content). No client access; only the `dose_<game>_start` functions hand out today's puzzle.
-- Loaded to: Rewire 23 Dec, Tangle 24 Dec, Ladder 9 Dec, Cipher 4 Dec, Hunch 10 Nov. Hunch answers and Cipher quotes need Job's review. Check end dates often: a game with no puzzle says "not ready yet". Generators: tools/rewire-gen.mjs, tangle-gen.mjs, ladder-gen.mjs (uses content/words4.txt), cipher-gen.mjs (content/cipher.json).
+- Loaded to: Rewire 23 Dec, Tangle 24 Dec, Ladder 9 Dec, Hunch 10 Nov, Missing Link 8 Nov, Anagram 8 Nov. Hunch answers, Missing Link clues and Anagram words need Job's review. Check end dates often: a game with no puzzle says "not ready yet". Generators: tools/rewire-gen.mjs, tangle-gen.mjs, ladder-gen.mjs (content/words4.txt), words-gen.mjs (Missing Link + Anagram from content/*.json).
 - Drop runs in the Edge Function `dose-drop` (replays shots server-side). Everything else is Postgres functions `dose_<game>_*`.
 
 ## Commands

@@ -8,3 +8,11 @@ export const ICONS = {
   anagram: '<rect x="2.5" y="8" width="8" height="8" rx="1.5"/><rect x="13.5" y="8" width="8" height="8" rx="1.5"/><path d="M6.5 5.5c2-3 9-3 11 0M17.5 18.5c-2 3-9 3-11 0"/>',
 };
 export const icon = (k, cls = '') => `<svg class="gi ${cls}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[k] || ''}</svg>`;
+
+// The moon fills as you play: f = share of today's games done (0 = new moon, 1 = full moon).
+export function moonPath(f, cx, cy, r) {
+  if (f <= 0) return '';
+  if (f >= 1) return `M${cx} ${cy - r}A${r} ${r} 0 1 1 ${cx} ${cy + r}A${r} ${r} 0 1 1 ${cx} ${cy - r}Z`;
+  const rx = Math.abs(r * (1 - 2 * f)).toFixed(2);
+  return `M${cx} ${cy - r}A${r} ${r} 0 0 1 ${cx} ${cy + r}A${rx} ${r} 0 0 ${f > .5 ? 1 : 0} ${cx} ${cy - r}Z`;
+}

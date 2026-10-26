@@ -1,9 +1,9 @@
-import { pageHeader } from '../ui/shell.js';
+import { pageHeader, tabBar } from '../ui/shell.js';
 // Friends: everyone has a friend code, and typing a friend's code makes you friends both ways (no links).
 // Friends see each other's name and tonight's results, nothing else. Also here: the friends row on the
 // home screen and the "friends tonight" list on each result screen.
 import { getMe, setName, addFriend, removeFriend, friendsToday, hasAccount } from '../lib/cloud.js';
-import { resultFor } from '../lib/store.js';
+import { resultFor, state, save } from '../lib/store.js';
 import { LINEUP } from '../ui/card.js';
 import { SOUNDS, buzz } from '../ui/feedback.js';
 
@@ -13,7 +13,7 @@ const nameOf = f => esc(f.name || 'Friend');
 const lit = f => Object.keys(f.results).length;
 const dots = f => `<span class="fr-dots" aria-label="${lit(f)} of ${LINEUP.length} played today">${LINEUP.map(g => `<i class="${f.results[g.k] ? 'on' : ''}" style="--c:${g.color}"></i>`).join('')}</span>`;
 // Higher is better, so a game's results can be put in order.
-const SCORE = { rewire: r => -r.ms, hunch: r => r.points ?? -r.err, tangle: r => -r.ms, ladder: r => r.solved ? 100 - r.steps - r.ms / 1e8 : -1 };
+const SCORE = { rewire: r => -r.ms, hunch: r => r.points ?? -r.err, tangle: r => -r.ms, link: r => r.score - r.ms / 1e9, anagram: r => r.solved - r.ms / 1e9, ladder: r => r.solved ? 100 - r.steps - r.ms / 1e8 : -1 };
 
 // Friends' results only change when someone finishes a game: one fetch a minute is plenty.
 let cache = null;
@@ -60,7 +60,7 @@ export function nameForm(host, current, saved) {
     const n = f.nm.value.trim();
     if (!n) return (err.textContent = 'Type a name first.');
     b.disabled = true; err.textContent = '';
-    try { const name = await setName(n); SOUNDS.ok(); buzz(10); saved(name); }
+    try { const name = await setName(n); state.name = name; save(); SOUNDS.ok(); buzz(10); saved(name); }
     catch (x) { b.disabled = false; err.textContent = /bad name/.test(x.message) ? 'Use up to 20 letters, numbers or emoji (no < or >).' : 'Couldn’t save that. Try again.'; }
   });
   return f;
@@ -68,8 +68,8 @@ export function nameForm(host, current, saved) {
 
 export function friends(app) {
   let gone = false, me = null, list = [];
-  app.innerHTML = `<main class="screen game friends">
-    ${pageHeader('Friends')}
+  app.innerHTML = `<main class="screen game friends has-tabs">
+    ${pageHeader('Friends', 'Same puzzles, side by side')}
     <section id="name" hidden></section>
     <section class="fr-me">
       <p class="eyebrow">Your friend code</p>
@@ -82,6 +82,7 @@ export function friends(app) {
       <p class="err" id="msg" role="status"></p>
     </form>
     <section class="fr-sec"><p class="eyebrow" id="count">Today</p><ol class="fr-list" id="list"><li class="fr-skel"></li><li class="fr-skel"></li></ol></section>
+    ${tabBar('friends')}
   </main>`;
   const $ = s => app.querySelector(s);
   const say = t => { $('#msg').textContent = t; };

@@ -1,4 +1,4 @@
-import { pageHeader } from '../ui/shell.js';
+import { tabBar } from '../ui/shell.js';
 // You: your name, your account, nights in a row, badges, and how you're doing at each game.
 // Results come from the server (so every phone you sign in on agrees), and from this phone while offline.
 import { state, streak, mergeResults, save } from '../lib/store.js';
@@ -20,14 +20,16 @@ const STATS = {
   rewire: rs => { const t = nums(rs.map(r => r.ms)); return [['best', clock(Math.min(...t))], ['average', clock(avg(t))], ['at par', count(rs, r => r.stars === 3)]]; },
   hunch: rs => { const p = nums(rs.map(r => r.points)); return p.length ? [['best', Math.max(...p)], ['average', Math.round(avg(p))], ['all 5 in band', count(rs, r => r.hits === 5)]] : [['average error', `${Math.round(avg(nums(rs.map(r => r.err))))}%`]]; },
   tangle: rs => { const t = nums(rs.map(r => r.ms)); return [['best', clock(Math.min(...t))], ['average', clock(avg(t))], ['under 30s', count(rs, r => r.ms < 30000)]]; },
+  link: rs => { const p = rs.map(r => r.score); return [['best', `${Math.max(...p)}/15`], ['average', (avg(p)).toFixed(1)], ['perfect', count(rs, r => r.score === 15)]]; },
+  anagram: rs => { const all = rs.filter(r => r.solved === r.n); return [['all five', count(rs, r => r.solved === r.n)], ['best', all.length ? clock(Math.min(...all.map(r => r.ms))) : '—'], ['average', clock(avg(rs.map(r => r.ms)))]]; },
   ladder: rs => { const won = rs.filter(r => r.solved); return [['finished', `${Math.round(100 * won.length / rs.length)}%`], ['on par', count(won, r => r.steps === r.par)], ['average', won.length ? `${(avg(won.map(r => r.steps))).toFixed(1)} steps` : '—']]; },
 };
 
 export function me(app) {
   let gone = false, who = { name: null, friends: null };
 
-  app.innerHTML = `<main class="screen game you">
-    ${pageHeader('You')}
+  app.innerHTML = `<main class="screen game you has-tabs">
+    <header class="page-top"><p class="eyebrow">You · stats, badges and account</p></header>
     <section class="you-head">
       <h1 class="display" id="who">You</h1>
       <button class="link-quiet" id="rename" type="button">Add your name</button>
@@ -38,6 +40,7 @@ export function me(app) {
     <a class="you-friends" href="#friends"><span>Friends</span><span class="mono" id="fcount"></span><span aria-hidden="true">›</span></a>
     <section class="you-sec"><p class="eyebrow" id="bcount">Badges</p><ul class="badges" id="badges"></ul></section>
     <section class="you-sec"><p class="eyebrow">Your games</p><ol class="you-stats" id="stats"></ol></section>
+    ${tabBar('me')}
   </main>`;
   const $ = s => app.querySelector(s);
 
@@ -83,6 +86,7 @@ export function me(app) {
     const [m, rows] = await Promise.all([getMe(), myResults()]);
     if (gone) return;
     who = m;
+    if (m && (m.name || null) !== (state.name || null)) { state.name = m.name || null; save(); }
     if (mergeResults(rows)) { state.badges = [...new Set([...(state.badges || []), ...earned(state.results)])]; save(); }
     draw();
   }).catch(() => {});

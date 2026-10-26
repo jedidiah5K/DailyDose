@@ -1,0 +1,21 @@
+{
+  "note": "Anagram: five words a day, short to long. Picked so the letters make no other everyday word; 'also' lists rare ones we accept anyway. Days run in order from 'from'. Needs Job's review.",
+  "from": "2026-10-26",
+  "also": { "orange": ["onager"], "winter": ["twiner"] },
+  "days": [
+    ["chair", "world", "monkey", "pencil", "rainbow"],
+    ["tiger", "candy", "butter", "rocket", "dolphin"],
+    ["pizza", "beach", "summer", "bridge", "pumpkin"],
+    ["magic", "queen", "circus", "jungle", "chicken"],
+    ["sugar", "piano", "doctor", "pillow", "library"],
+    ["robot", "juice", "cheese", "turtle", "morning"],
+    ["clock", "sheep", "cookie", "rabbit", "journey"],
+    ["fruit", "honey", "pocket", "window", "volcano"],
+    ["storm", "whale", "purple", "yellow", "balloon"],
+    ["eagle", "knife", "pepper", "guitar", "captain"],
+    ["music", "chess", "market", "island", "freedom"],
+    ["plant", "light", "basket", "kitten", "holiday"],
+    ["fairy", "mouse", "hammer", "orange", "diamond"],
+    ["ghost", "towel", "winter", "shadow", "giraffe"]
+  ]
+}
