@@ -1,7 +1,7 @@
 // Badges: worked out from your finished games, so nothing extra is stored. Earned once and never taken
 // away (streak badges look at your best run ever, freezes included, same as the home screen).
 import { countStreak } from './store.js';
-import { icon } from '../ui/sky.js';
+import { icon } from '../ui/icons.js';
 
 const GAMES = ['rewire', 'hunch', 'tangle', 'ladder'];
 const any = (results, k, test) => Object.values(results[k] || {}).some(test);
@@ -42,5 +42,5 @@ export function earned(results) {
 // A badge is a small neon ring: the game's icon in its colour, or a number for the all-games ones.
 // Not earned yet: an unlit dashed outline.
 const WINDOW = '<svg class="gi" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="1.5"/><path d="M12 5v14M5 12h14"/></svg>';
-export const badgeArt = (b, on) => `<span class="bdg${on ? ' on' : ''}" style="--bc:var(${b.k ? `--c-${b.k}` : '--warm'})" aria-hidden="true">${
+export const badgeArt = (b, on) => `<span class="bdg${on ? ' on' : ''}" style="--bc:var(${b.k ? `--c-${b.k}` : '--c-hunch'})" aria-hidden="true">${
   b.k ? icon(b.k) : b.mark === 'window' ? WINDOW : `<b>${b.mark}</b>`}</span>`;

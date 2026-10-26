@@ -1,3 +1,4 @@
+import { pageHeader } from '../ui/shell.js';
 // Friends: everyone has a friend code, and typing a friend's code makes you friends both ways (no links).
 // Friends see each other's name and tonight's results, nothing else. Also here: the friends row on the
 // home screen and the "friends tonight" list on each result screen.
@@ -5,13 +6,12 @@ import { getMe, setName, addFriend, removeFriend, friendsToday, hasAccount } fro
 import { resultFor } from '../lib/store.js';
 import { LINEUP } from '../ui/card.js';
 import { SOUNDS, buzz } from '../ui/feedback.js';
-import { stars } from '../ui/sky.js';
 
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => `&#${c.charCodeAt(0)};`);
 const pretty = code => code ? `${code.slice(0, 4)} ${code.slice(4)}` : '';
 const nameOf = f => esc(f.name || 'Friend');
 const lit = f => Object.keys(f.results).length;
-const dots = f => `<span class="fr-dots" aria-label="${lit(f)} of 5 played tonight">${LINEUP.map(g => `<i class="${f.results[g.k] ? 'on' : ''}" style="--c:${g.color}"></i>`).join('')}</span>`;
+const dots = f => `<span class="fr-dots" aria-label="${lit(f)} of ${LINEUP.length} played today">${LINEUP.map(g => `<i class="${f.results[g.k] ? 'on' : ''}" style="--c:${g.color}"></i>`).join('')}</span>`;
 // Higher is better, so a game's results can be put in order.
 const SCORE = { rewire: r => -r.ms, hunch: r => r.points ?? -r.err, tangle: r => -r.ms, ladder: r => r.solved ? 100 - r.steps - r.ms / 1e8 : -1 };
 
@@ -33,8 +33,8 @@ export async function friendsOn(el, game) {
   if (mine) rows.push({ name: 'You', r: mine, me: true });
   rows.sort((a, b) => SCORE[game](b.r) - SCORE[game](a.r));
   el.innerHTML = rows.length > 1
-    ? `<p class="eyebrow">Friends tonight</p><ol class="fr-board">${rows.map((x, i) => `<li class="${x.me ? 'mine' : ''}"><span class="mono">${i + 1}</span><span>${x.name}</span><b>${esc(g.big(x.r))}</b></li>`).join('')}</ol>`
-    : `<p class="fr-none">None of your friends has played ${g.name} yet tonight.</p>`;
+    ? `<p class="eyebrow">Friends today</p><ol class="fr-board">${rows.map((x, i) => `<li class="${x.me ? 'mine' : ''}"><span class="mono">${i + 1}</span><span>${x.name}</span><b>${esc(g.big(x.r))}</b></li>`).join('')}</ol>`
+    : `<p class="fr-none">None of your friends has played ${g.name} yet today.</p>`;
 }
 
 // Home screen: a quiet row. With friends, how many games each has lit tonight.
@@ -69,12 +69,7 @@ export function nameForm(host, current, saved) {
 export function friends(app) {
   let gone = false, me = null, list = [];
   app.innerHTML = `<main class="screen game friends">
-    <div class="stars" aria-hidden="true">${stars(30, 23)}</div>
-    <header class="v-top">
-      <a href="#" class="back" aria-label="Back to all games" title="Back"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></a>
-      <p class="neon-title g-friends">Friends</p>
-      <span class="v-pad"></span>
-    </header>
+    ${pageHeader('Friends')}
     <section id="name" hidden></section>
     <section class="fr-me">
       <p class="eyebrow">Your friend code</p>
@@ -86,17 +81,17 @@ export function friends(app) {
       <div class="fr-row"><input id="fc" maxlength="12" placeholder="Their code" autocapitalize="characters" spellcheck="false" enterkeyhint="go"><button class="btn" id="addbtn">Add</button></div>
       <p class="err" id="msg" role="status"></p>
     </form>
-    <section class="fr-sec"><p class="eyebrow" id="count">Tonight</p><ol class="fr-list" id="list"><li class="fr-skel"></li><li class="fr-skel"></li></ol></section>
+    <section class="fr-sec"><p class="eyebrow" id="count">Today</p><ol class="fr-list" id="list"><li class="fr-skel"></li><li class="fr-skel"></li></ol></section>
   </main>`;
   const $ = s => app.querySelector(s);
   const say = t => { $('#msg').textContent = t; };
 
   function drawList() {
     list.sort((a, b) => lit(b) - lit(a) || (a.name || '').localeCompare(b.name || ''));
-    $('#count').textContent = list.length ? `${list.length} friend${list.length === 1 ? '' : 's'} · tonight` : 'No friends yet';
+    $('#count').textContent = list.length ? `${list.length} friend${list.length === 1 ? '' : 's'} · today` : 'No friends yet';
     if (!list.length) { $('#list').innerHTML = '<li class="fr-empty">Send your code to a friend, or type theirs above. Then you’ll see each other’s results here every night.</li>'; return; }
     $('#list').innerHTML = list.map((f, i) => `<li class="fr-item">
-      <button class="fr-head" type="button" aria-expanded="false" data-i="${i}"><span class="fr-name">${nameOf(f)}</span>${dots(f)}<span class="fr-n mono">${lit(f)}/5</span></button>
+      <button class="fr-head" type="button" aria-expanded="false" data-i="${i}"><span class="fr-name">${nameOf(f)}</span>${dots(f)}<span class="fr-n mono">${lit(f)}/${LINEUP.length}</span></button>
       <div class="fr-detail" hidden>
         <ul>${LINEUP.map(g => `<li style="--c:${g.color}"><span>${g.name}</span><b>${f.results[g.k] ? esc(g.big(f.results[g.k])) : '<span class="muted">Not yet</span>'}</b></li>`).join('')}</ul>
         <button class="link-quiet fr-remove" type="button" data-id="${esc(f.id)}">Remove ${nameOf(f)}</button>

@@ -1,3 +1,4 @@
+import { pageHeader } from '../ui/shell.js';
 // You: your name, your account, nights in a row, badges, and how you're doing at each game.
 // Results come from the server (so every phone you sign in on agrees), and from this phone while offline.
 import { state, streak, mergeResults, save } from '../lib/store.js';
@@ -8,7 +9,6 @@ import { sb, getMe, hasAccount, myResults } from '../lib/cloud.js';
 import { openAccount } from './account.js';
 import { nameForm } from './friends.js';
 import { SOUNDS } from '../ui/feedback.js';
-import { stars } from '../ui/sky.js';
 
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => `&#${c.charCodeAt(0)};`);
 const nums = xs => xs.filter(v => typeof v === 'number');
@@ -27,12 +27,7 @@ export function me(app) {
   let gone = false, who = { name: null, friends: null };
 
   app.innerHTML = `<main class="screen game you">
-    <div class="stars" aria-hidden="true">${stars(32, 29)}</div>
-    <header class="v-top">
-      <a href="#" class="back" aria-label="Back to all games" title="Back"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></a>
-      <p class="neon-title g-you">You</p>
-      <span class="v-pad"></span>
-    </header>
+    ${pageHeader('You')}
     <section class="you-head">
       <h1 class="display" id="who">You</h1>
       <button class="link-quiet" id="rename" type="button">Add your name</button>

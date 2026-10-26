@@ -3,7 +3,7 @@ import { shareDose } from '../ui/card.js';
 import { state, save, finish, resultFor, streak } from '../lib/store.js';
 import { hunchStart, hunchBet } from '../lib/cloud.js';
 import { SOUNDS, buzz } from '../ui/feedback.js';
-import { stars, icon } from '../ui/sky.js';
+import { icon } from '../ui/icons.js';
 import { friendsOn } from './friends.js';
 import { gameHeader, wireHelp, burst } from '../ui/shell.js';
 
@@ -46,7 +46,6 @@ export function hunch(app) {
   let busy = false, gone = false;
 
   app.innerHTML = `<main class="screen game hunch">
-    <div class="stars" aria-hidden="true">${stars(40, 9)}</div>
     ${gameHeader('hunch', 'Hunch', '<span class="eyebrow mono" id="step"></span>')}
     <div class="g-play"><section id="body" class="h-body"><div class="h-skel"><i></i><i></i><i></i></div></section></div>
     <aside class="g-side">    <p class="v-msg" id="msg" role="status"></p></aside>
@@ -146,7 +145,7 @@ export function hunch(app) {
       <p class="muted">${r.points != null ? `${r.hits} of 5 inside your band · average error ${Math.round(r.err)}%` : 'Average error across your five guesses'}${streak('hunch') > 1 ? ` · ${streak('hunch')} days in a row` : ''}</p>
       <ol class="h-list">${p ? p.guesses.map((g, i) => `<li><span>${p.questions[i].q}</span><b class="${g.in ? 'in' : ''}">${g.pts != null ? `${g.pts > 0 ? '+' : ''}${g.pts}` : isYear(p.questions[i]) ? `${Math.abs(g.v - g.a)} yr` : `${Math.round(g.err)}%`}</b></li>`).join('') : ''}</ol>
       <div class="fr-on" id="fr-on"></div>
-      <button class="btn wide" id="share">Share tonight’s dose</button>
+      <button class="btn wide" id="share">Share your results</button>
       <button class="link-quiet" id="square">Square image instead</button>
       <p class="next-in">Tomorrow’s puzzle in <b data-cd>${countdown()}</b></p>
       <a class="link center" href="#">All games</a>

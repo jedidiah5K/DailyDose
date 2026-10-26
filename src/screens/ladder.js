@@ -3,7 +3,7 @@ import { shareDose } from '../ui/card.js';
 import { state, save, finish, resultFor, streak } from '../lib/store.js';
 import { ladderStart, ladderStep } from '../lib/cloud.js';
 import { SOUNDS, buzz } from '../ui/feedback.js';
-import { stars, icon } from '../ui/sky.js';
+import { icon } from '../ui/icons.js';
 import { friendsOn } from './friends.js';
 import { gameHeader, wireHelp, burst } from '../ui/shell.js';
 
@@ -17,7 +17,6 @@ export function ladder(app) {
   let s = null, busy = false, gone = false, giveArmed = 0;
 
   app.innerHTML = `<main class="screen game ladder">
-    <div class="stars" aria-hidden="true">${stars(30, 67)}</div>
     ${gameHeader('ladder', 'Ladder', '<span class="eyebrow mono" id="steps"></span>')}
     <div class="g-play"><section id="body" class="ld-body">
       <div class="h-intro rise">
@@ -88,7 +87,7 @@ export function ladder(app) {
       ${best}
       <p class="muted">${[beat, r.solved ? `in ${clock(r.ms)}` : '', streak('ladder') > 1 ? `${streak('ladder')} days in a row` : ''].filter(Boolean).join(' · ')}</p>
       <div class="fr-on" id="fr-on"></div>
-      <button class="btn wide" id="share">Share tonight’s dose</button>
+      <button class="btn wide" id="share">Share your results</button>
       <button class="link-quiet" id="square">Square image instead</button>
       <p class="next-in">Tomorrow’s ladder in <b data-cd>${countdown()}</b></p>
       <a class="link center" href="#">All games</a>

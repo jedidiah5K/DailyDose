@@ -4,7 +4,7 @@ import { state, save, finish, resultFor, streak } from '../lib/store.js';
 import { rewireStart, rewireSubmit, rewireHint } from '../lib/cloud.js';
 import { rot, trace, countSolutions, plantsOf } from '../games/rewireLogic.js';
 import { SOUNDS, buzz } from '../ui/feedback.js';
-import { stars, icon } from '../ui/sky.js';
+import { icon } from '../ui/icons.js';
 import { friendsOn } from './friends.js';
 import { gameHeader, wireHelp, burst } from '../ui/shell.js';
 
@@ -32,20 +32,18 @@ export function rewire(app) {
   let busy = false, gone = false, timer = 0, base = 0, t0 = 0;
 
   app.innerHTML = `<main class="screen game rewire">
-    <div class="stars" aria-hidden="true">${stars(34, 5)}</div>
     ${gameHeader('rewire', 'Rewire', '<span class="eyebrow mono" id="time">0:00</span>')}
     <div class="g-play">
     <div class="rw-stage">
       <div class="grid" id="grid" style="--w:6">${'<span class="tl"></span>'.repeat(36)}</div>
       <div class="rw-cover" id="cover">
-        <h2 class="display">Light up the <em>city</em></h2>
+        <h2 class="display">Wire up the city</h2>
         <p>Turn the tiles so every building connects to a power plant. No loose ends, and two plants’ wires never touch.</p>
         <button class="btn" id="start">Start</button>
         <p class="eyebrow">The clock starts when you tap Start</p>
       </div>
     </div>
     <div class="rw-tools"><span class="taps mono" id="taps" hidden></span><button class="hint-btn" id="hint" hidden>Hint <span>+30s</span></button></div>
-    <div class="skyline" id="sky" aria-hidden="true"></div>
     </div>
     <aside class="g-side">    <p class="v-msg" id="msg" role="status"></p>
     <section id="bottom"></section></aside>
@@ -64,8 +62,6 @@ export function rewire(app) {
     const g = $('#grid'), bl = new Set(p.buildings);
     g.style.setProperty('--w', p.w);
     g.innerHTML = p.tiles.map((m, i) => `<button class="tl${p.locked?.includes(i) ? ' locked' : ''}" data-i="${i}" style="--r:${p.r[i]}" aria-label="Tile ${i % p.w + 1}, ${Math.floor(i / p.w) + 1}">${tileSvg(m, plants().includes(i) ? (plants().length > 1 ? `plant p${plants().indexOf(i)}` : 'plant') : bl.has(i) ? 'bld' : '')}</button>`).join('');
-    // skyline: one tower per building, heights from the grid so it's the same for everyone
-    $('#sky').innerHTML = p.buildings.map((b, k) => `<i style="--h:${30 + (b * 37 % 55)}%;--k:${k}"></i>`).join('');
     g.querySelectorAll('.tl').forEach(t => t.addEventListener('click', () => turn(+t.dataset.i)));
     power(false);
   }
@@ -129,20 +125,18 @@ export function rewire(app) {
 
   async function lightUp() {
     $('.rewire').classList.add('won'); SOUNDS.hum(); burst('var(--c-rewire)');
-    const sky = [...$('#sky').children];
-    for (const [k, el] of sky.entries()) { await wait(Math.max(40, 500 / sky.length)); el.classList.add('lit'); SOUNDS.light(k); }
-    await wait(500);
+    await wait(900);
   }
 
   function result(r, fresh) {
     const beat = r.beat != null ? `Faster than ${r.beat}% of players today` : 'You’re one of the first to finish today';
     $('#bottom').innerHTML = `<div class="result ${fresh ? 'rise' : ''}">
-      <p class="eyebrow">City lit</p>
+      <p class="eyebrow">Solved</p>
       <h2 class="display">In <em>${clock(r.ms)}</em></h2>
       ${r.stars ? `<p class="dr-stars">${starRow(r.stars)}</p><p class="muted">${r.taps} taps · par ${r.par}</p>` : ''}
       <p class="muted">${beat}${r.hints ? ` · ${r.hints} hint${r.hints > 1 ? 's' : ''}` : ''}${streak('rewire') > 1 ? ` · ${streak('rewire')} days in a row` : ''}</p>
       <div class="fr-on" id="fr-on"></div>
-      <button class="btn wide" id="share">Share tonight’s dose</button>
+      <button class="btn wide" id="share">Share your results</button>
       <button class="link-quiet" id="square">Square image instead</button>
       <p class="next-in">Tomorrow’s puzzle in <b data-cd>${countdown()}</b></p>
       <a class="link center" href="#">All games</a>
@@ -178,13 +172,12 @@ export function rewire(app) {
     if (power(false)) solved();
   }
 
-  // Already done today: show the lit city and the result.
+  // Already done today: show the solved board and the result.
   function showDone(r) {
     const sol = []; countSolutions(p.tiles, p.w, plants(), 400000, sol);
     p.r = p.tiles.map((m, i) => [0, 1, 2, 3].find(k => rot(m, k) === sol[i]) ?? 0); p.done = true; save();
     finish('rewire', r, day);
     draw(); $('#cover').classList.add('gone'); $('.rewire').classList.add('won', 'still');
-    [...$('#sky').children].forEach(el => el.classList.add('lit'));
     $('#time').textContent = clock(r.ms);
     result(r, false);
   }
