@@ -50,7 +50,7 @@ export function me(app) {
 
   function draw() {
     const res = state.results, got = earned(res);
-    const total = Object.values(res).reduce((n, days) => n + Object.keys(days).length, 0);
+    const total = LINEUP.reduce((n, g) => n + Object.keys(res[g.k] || {}).length, 0);   // today's lineup only (not the retired Vault)
     $('#big').innerHTML = [['Nights in a row', streak()], ['Best run', bestStreak(res)], ['Games played', total]]
       .map(([l, v]) => `<li><b class="display">${v}</b><span>${l}</span></li>`).join('');
     $('#bcount').textContent = `Badges · ${got.size} of ${BADGES.length}`;
