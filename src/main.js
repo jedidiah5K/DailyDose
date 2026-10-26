@@ -1,5 +1,4 @@
-import '@fontsource-variable/libre-franklin';
-import '@fontsource-variable/source-serif-4';
+import '@fontsource-variable/nunito';
 import './styles.css';
 import { countdown, dayKey } from './lib/day.js';
 import { hub } from './screens/hub.js';

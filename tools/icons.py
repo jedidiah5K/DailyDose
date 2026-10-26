@@ -18,7 +18,7 @@ def inside(x, y, x0, y0):
 
 def draw(n):
     s = 512 / n
-    px = bytearray(b'\xff' * (n * n * 3))
+    px = bytearray(bytes([0xFA, 0xF7, 0xF2]) * (n * n))
     for y in range(n):
         for x in range(n):
             for col, x0, y0 in TILES:
@@ -30,4 +30,4 @@ for size, name in [(512, 'icon-512.png'), (192, 'icon-192.png'), (180, 'apple-to
     png(f'public/icons/{name}', size, size, draw(size))
     print('wrote', name)
 svg = ''.join(f'<rect x="{x0}" y="{y0}" width="{SIDE}" height="{SIDE}" rx="{R}" fill="#{c[0]:02X}{c[1]:02X}{c[2]:02X}"/>' for c, x0, y0 in TILES)
-open('public/icons/icon.svg', 'w').write(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="112" fill="#fff"/>{svg}</svg>\n')
+open('public/icons/icon.svg', 'w').write(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="112" fill="#FAF7F2"/>{svg}</svg>\n')

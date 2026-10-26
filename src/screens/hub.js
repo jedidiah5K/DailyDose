@@ -25,16 +25,20 @@ export function hub(app) {
   const s = streak();
   const played = GAMES.filter(g => resultFor(g.k));
   const next = GAMES.find(g => !resultFor(g.k));
-  // One obvious thing to do: the next game you haven't played gets the filled button.
-  const action = g => {
+  // One obvious thing to do: the next game you haven't played gets a full-width tile and the Play button.
+  const tile = g => {
     const r = resultFor(g.k);
-    if (r) return `<span class="r-done">${g.done(r)}</span>`;
-    return `<span class="r-play${g === next ? ' main' : ''}">Play</span>`;
+    return `<li class="${g === next ? 'wide' : ''}"><button class="tile g-${g.k}${r ? ' is-done' : ''}" data-k="${g.k}">
+        <span class="t-ic">${icon(g.k)}</span>
+        <span class="t-name">${g.name}</span>
+        <span class="t-line">${g.line}</span>
+        <span class="t-status">${r ? g.done(r) : 'Play'}</span>
+      </button></li>`;
   };
 
   app.innerHTML = `<main class="screen hub">
     <header class="hub-top">
-      <p class="logo">Daily Dose</p>
+      <p class="logo"><i class="logo-mark" aria-hidden="true"></i>Daily Dose</p>
       <button class="me" id="me" aria-label="You: stats, badges and account" title="You"><svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c.8-3.6 3.6-5.5 7-5.5s6.2 1.9 7 5.5"/></svg></button>
     </header>
     <section class="hub-head">
@@ -42,13 +46,7 @@ export function hub(app) {
       <p class="hub-meta"><span>No. ${puzzleNo()}</span><span title="Miss one day a week and your streak keeps going">${s ? `${s}-day streak · ${freezeUsedThisWeek() ? 'freeze used' : '1 freeze left'}` : 'Play one to start a streak'}</span><span id="live" hidden></span></p>
     </section>
     ${next ? '' : `<div class="all-done"><p><b>All ${GAMES.length} done today.</b> New puzzles in <span data-cd>${countdown()}</span></p><button class="btn" id="share">Share your results</button></div>`}
-    <ol class="board">
-      ${GAMES.map(g => `<li><button class="row g-${g.k}${resultFor(g.k) ? ' is-done' : ''}" data-k="${g.k}">
-        <span class="r-ic">${icon(g.k)}</span>
-        <span class="r-body"><span class="r-name">${g.name}</span><span class="r-line">${g.line}</span></span>
-        ${action(g)}
-      </button></li>`).join('')}
-    </ol>
+    <ol class="tiles">${[next, ...GAMES.filter(g => g !== next)].filter(Boolean).map(tile).join('')}</ol>
     ${next ? `<p class="tonight">${played.length} of ${GAMES.length} done · New puzzles in <span data-cd>${countdown()}</span></p>` : ''}
     <a class="fr-strip" id="frs" href="#friends"><span class="fr-label">Friends</span><span class="fr-sum">Add friends with a code</span><span class="fr-go" aria-hidden="true">›</span></a>
     <p class="hint">Same puzzles for everyone. New ones every day at midnight UTC.</p>

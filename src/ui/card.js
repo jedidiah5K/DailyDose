@@ -17,19 +17,19 @@ export const LINEUP = [
 ];
 export const doneTonight = () => LINEUP.filter(g => resultFor(g.k)).map(g => ({ ...g, r: resultFor(g.k) }));
 
-const SERIF = '"Source Serif 4 Variable", Georgia, serif', SANS = '"Libre Franklin Variable", Arial, sans-serif';
+const SERIF = '"Nunito Variable", system-ui, sans-serif', SANS = SERIF;
 
 // The share image: a plain white card, like a clipping. One row per game you finished today.
 export async function drawCard(format = 'story') {
-  await Promise.all([`700 96px ${SERIF}`, `400 40px ${SANS}`, `700 40px ${SANS}`].map(f => document.fonts.load(f).catch(() => {})));
+  await Promise.all([`900 96px ${SERIF}`, `400 40px ${SANS}`, `700 40px ${SANS}`].map(f => document.fonts.load(f).catch(() => {})));
   const W = 1080, H = format === 'story' ? 1920 : 1080, story = format === 'story';
   const c = document.createElement('canvas'); c.width = W; c.height = H;
   const x = c.getContext('2d'), pad = 96;
-  x.fillStyle = '#FFFFFF'; x.fillRect(0, 0, W, H);
+  x.fillStyle = '#FAF7F2'; x.fillRect(0, 0, W, H);
 
   // masthead
   const top = story ? 220 : 130;
-  x.fillStyle = '#121212'; x.font = `700 ${story ? 120 : 96}px ${SERIF}`; x.fillText('Daily Dose', pad, top);
+  x.fillStyle = '#121212'; x.font = `900 ${story ? 120 : 96}px ${SERIF}`; x.fillText('Daily Dose', pad, top);
   x.fillStyle = '#6E6E6E'; x.font = `400 36px ${SANS}`;
   const date = new Date().toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' });
   x.fillText(`${date} · No. ${puzzleNo()}`, pad, top + 70);
@@ -40,8 +40,8 @@ export async function drawCard(format = 'story') {
   const rh = story ? 200 : 170;
   let y = top + 170;
   for (const gm of games) {
-    x.fillStyle = gm.color; x.beginPath(); x.roundRect(pad, y, 110, 110, 20); x.fill();
-    x.fillStyle = '#121212'; x.font = `700 44px ${SERIF}`; x.fillText(gm.name, pad + 150, y + 42);
+    x.fillStyle = gm.color; x.beginPath(); x.roundRect(pad, y, 110, 110, 28); x.fill();
+    x.fillStyle = '#121212'; x.font = `900 44px ${SERIF}`; x.fillText(gm.name, pad + 150, y + 42);
     x.font = `700 52px ${SANS}`; x.fillText(gm.big(gm.r), pad + 150, y + 104);
     x.fillStyle = '#6E6E6E'; x.font = `400 30px ${SANS}`; x.fillText(gm.small(gm.r), pad + 150, y + 148);
     y += rh;
