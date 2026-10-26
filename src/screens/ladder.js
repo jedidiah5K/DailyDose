@@ -3,8 +3,9 @@ import { shareDose } from '../ui/card.js';
 import { state, save, finish, resultFor, streak } from '../lib/store.js';
 import { ladderStart, ladderStep } from '../lib/cloud.js';
 import { SOUNDS, buzz } from '../ui/feedback.js';
-import { stars, icon, sideBlurb } from '../ui/sky.js';
+import { stars, icon } from '../ui/sky.js';
 import { friendsOn } from './friends.js';
+import { gameHeader, wireHelp, burst } from '../ui/shell.js';
 
 export const ladderLine = r => r.solved ? `${r.steps} step${r.steps === 1 ? '' : 's'}${r.steps === r.par ? ' · par' : ` · par ${r.par}`}` : 'Gave up';
 const WHY = { 'not a word': w => `${w.toUpperCase()} isn’t in our word list.`, 'change one letter': () => 'Change exactly one letter.', 'already used': () => 'You’ve used that word already.', 'four letters': () => 'Words have four letters.' };
@@ -17,11 +18,7 @@ export function ladder(app) {
 
   app.innerHTML = `<main class="screen game ladder">
     <div class="stars" aria-hidden="true">${stars(30, 67)}</div>
-    <header class="v-top">
-      <a href="#" class="back" aria-label="Back to all games" title="Back"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></a>
-      <p class="neon-title g-ladder">${icon('ladder')}Ladder <span>No. ${puzzleNo()}</span></p>
-      <span class="eyebrow mono" id="steps"></span>
-    </header>
+    ${gameHeader('ladder', 'Ladder', '<span class="eyebrow mono" id="steps"></span>')}
     <div class="g-play"><section id="body" class="ld-body">
       <div class="h-intro rise">
         <h2 class="display">One letter at a <em>time</em></h2>
@@ -29,10 +26,10 @@ export function ladder(app) {
       </div>
       <div class="h-bottom"><button class="btn wide" id="begin">Start</button></div>
     </section></div>
-    <aside class="g-side">${sideBlurb('ladder', 'Ladder', 'Turn the top word into the bottom word, changing one letter per step. Every step has to be a real word. Fewest steps wins.')}
-    <p class="v-msg" id="msg" role="status"></p>
+    <aside class="g-side">    <p class="v-msg" id="msg" role="status"></p>
     <section id="bottom"></section></aside>
   </main>`;
+  wireHelp(app, 'ladder');
   const $ = q => app.querySelector(q);
   const say = t => { $('#msg').textContent = t; };
 
@@ -41,7 +38,7 @@ export function ladder(app) {
 
   function draw() {
     const chain = s.chain, done = !!s.result;
-    $('#steps').textContent = `${chain.length - 1} step${chain.length === 2 ? '' : 's'} · par ${s.par}`;
+    $('#steps').textContent = `${chain.length - 1}/${s.par}`; $('#steps').title = `${chain.length - 1} steps, par ${s.par}`;
     $('#body').innerHTML = `<ol class="ld-ladder">
       ${chain.map((w, i) => rung(w, chain[i - 1], i === 0 ? 'top' : '')).join('')}
       ${done ? '' : `<li class="ld-rung ld-input"><form id="form" autocomplete="off"><input id="w" maxlength="4" autocapitalize="characters" spellcheck="false" enterkeyhint="go" aria-label="Next word" placeholder="····"></form></li>`}
@@ -79,7 +76,7 @@ export function ladder(app) {
     s = r;
     if (grew) { SOUNDS.link(r.chain.length); buzz(10); } else SOUNDS.tap();
     draw();
-    if (r.result) { finish('ladder', r.result, day); result(r.result, true); }
+    if (r.result) { finish('ladder', r.result, day); if (r.result.solved) burst('var(--c-ladder)'); result(r.result, true); }
   }
 
   function result(r, fresh) {

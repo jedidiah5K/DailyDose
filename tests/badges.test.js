@@ -8,11 +8,11 @@ test('badges come from results: firsts, full nights and game feats', () => {
   const day = '2026-10-26';
   const all = {
     rewire: { [day]: { ms: 50000, stars: 3 } }, hunch: { [day]: { points: 200, hits: 5 } },
-    tangle: { [day]: { ms: 25000 } }, cipher: { [day]: { solved: true, misses: 0 } },
+    tangle: { [day]: { ms: 25000 } },
     ladder: { [day]: { solved: true, steps: 6, par: 5 } },
   };
   const got = earned(all);
-  for (const id of ['first', 'full', 'par', 'quick', 'bullseye', 'nimble', 'codebreaker']) expect(got.has(id)).toBe(true);
+  for (const id of ['first', 'full', 'par', 'quick', 'bullseye', 'nimble']) expect(got.has(id)).toBe(true);
   for (const id of ['week', 'shortest', 'regular']) expect(got.has(id)).toBe(false);
 });
 

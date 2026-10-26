@@ -4,8 +4,9 @@ import { state, save, finish, resultFor, streak } from '../lib/store.js';
 import { rewireStart, rewireSubmit, rewireHint } from '../lib/cloud.js';
 import { rot, trace, countSolutions, plantsOf } from '../games/rewireLogic.js';
 import { SOUNDS, buzz } from '../ui/feedback.js';
-import { stars, icon, sideBlurb } from '../ui/sky.js';
+import { stars, icon } from '../ui/sky.js';
 import { friendsOn } from './friends.js';
+import { gameHeader, wireHelp, burst } from '../ui/shell.js';
 
 const calm = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 const wait = ms => new Promise(r => setTimeout(r, calm() ? 0 : ms));
@@ -32,11 +33,7 @@ export function rewire(app) {
 
   app.innerHTML = `<main class="screen game rewire">
     <div class="stars" aria-hidden="true">${stars(34, 5)}</div>
-    <header class="v-top">
-      <a href="#" class="back" aria-label="Back to all games" title="Back"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></a>
-      <p class="neon-title g-rewire">${icon('rewire')}Rewire <span>No. ${puzzleNo()}</span></p>
-      <span class="eyebrow mono" id="time">0:00</span>
-    </header>
+    ${gameHeader('rewire', 'Rewire', '<span class="eyebrow mono" id="time">0:00</span>')}
     <div class="g-play">
     <div class="rw-stage">
       <div class="grid" id="grid" style="--w:6">${'<span class="tl"></span>'.repeat(36)}</div>
@@ -50,10 +47,10 @@ export function rewire(app) {
     <div class="rw-tools"><span class="taps mono" id="taps" hidden></span><button class="hint-btn" id="hint" hidden>Hint <span>+30s</span></button></div>
     <div class="skyline" id="sky" aria-hidden="true"></div>
     </div>
-    <aside class="g-side">${sideBlurb('rewire', 'Rewire', 'Turn the tiles so every building is wired to a power plant. No loose ends, and the two plants’ wires never touch. Par is the fewest taps.')}
-    <p class="v-msg" id="msg" role="status"></p>
+    <aside class="g-side">    <p class="v-msg" id="msg" role="status"></p>
     <section id="bottom"></section></aside>
   </main>`;
+  wireHelp(app, 'rewire');
   const $ = s => app.querySelector(s);
   const say = t => { $('#msg').textContent = t; };
 
@@ -131,7 +128,7 @@ export function rewire(app) {
   }
 
   async function lightUp() {
-    $('.rewire').classList.add('won'); SOUNDS.hum(); buzz(30);
+    $('.rewire').classList.add('won'); SOUNDS.hum(); burst('var(--c-rewire)');
     const sky = [...$('#sky').children];
     for (const [k, el] of sky.entries()) { await wait(Math.max(40, 500 / sky.length)); el.classList.add('lit'); SOUNDS.light(k); }
     await wait(500);

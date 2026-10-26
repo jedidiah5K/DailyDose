@@ -2,7 +2,6 @@ import '@fontsource/instrument-serif/400.css';
 import '@fontsource/instrument-serif/400-italic.css';
 import '@fontsource-variable/geist';
 import '@fontsource-variable/geist-mono';
-import '@fontsource/special-elite/latin-400.css';
 import '@fontsource/caveat/latin-500.css';
 import '@fontsource/caveat/latin-700.css';
 import '@fontsource/architects-daughter/latin-400.css';
@@ -16,7 +15,6 @@ import { hub } from './screens/hub.js';
 import { rewire } from './screens/rewire.js';
 import { hunch } from './screens/hunch.js';
 import { tangle } from './screens/tangle.js';
-import { cipher } from './screens/cipher.js';
 import { ladder } from './screens/ladder.js';
 import { me } from './screens/me.js';
 import { friends } from './screens/friends.js';
@@ -26,7 +24,7 @@ import { BADGES, earned, badgeArt } from './lib/badges.js';
 import { SOUNDS, buzz } from './ui/feedback.js';
 
 const app = document.getElementById('app');
-const SCREENS = { hub, rewire, hunch, tangle, cipher, ladder, me, friends };
+const SCREENS = { hub, rewire, hunch, tangle, ladder, me, friends };
 let cleanup = null;
 
 // Hash routes (#rewire) so the back button and shared links work without a server.

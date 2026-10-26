@@ -12,8 +12,6 @@ export const LINEUP = [
     big: r => r.points != null ? `${r.points} points` : `${Math.round(r.err)}% off`, small: r => r.points != null ? `${r.hits} of 5 in band${r.theme ? ` · theme: ${r.theme}` : ''}` : `Average error ${Math.round(r.err)}%` },
   { k: 'tangle', name: 'Tangle', color: '#FF6F59', emoji: '🪢',
     big: r => `Untangled in ${clock(r.ms)}`, small: r => (r.beat != null ? `Faster than ${r.beat}% of players` : 'Knot untied') + ` · ${r.moves} moves` },
-  { k: 'cipher', name: 'Cipher', color: '#EFE3C2', emoji: '🔐',
-    big: r => r.solved ? (r.misses ? `${r.misses} slip${r.misses > 1 ? 's' : ''}` : 'No slips') : 'Not cracked', small: r => r.solved ? (r.beat != null ? `Better than ${r.beat}% of players` : 'Code cracked') : 'Out of guesses' },
   { k: 'ladder', name: 'Ladder', color: '#B79CFF', emoji: '🪜',
     big: r => r.solved ? `${r.steps} steps` : 'Gave up', small: r => `Par ${r.par}` + (r.beat != null ? ` · beat ${r.beat}%` : '') },
 ];

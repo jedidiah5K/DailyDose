@@ -3,8 +3,9 @@ import { shareDose } from '../ui/card.js';
 import { state, save, finish, resultFor, streak } from '../lib/store.js';
 import { hunchStart, hunchBet } from '../lib/cloud.js';
 import { SOUNDS, buzz } from '../ui/feedback.js';
-import { stars, icon, sideBlurb } from '../ui/sky.js';
+import { stars, icon } from '../ui/sky.js';
 import { friendsOn } from './friends.js';
+import { gameHeader, wireHelp, burst } from '../ui/shell.js';
 
 const calm = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 const wait = ms => new Promise(r => setTimeout(r, calm() ? 0 : ms));
@@ -46,15 +47,11 @@ export function hunch(app) {
 
   app.innerHTML = `<main class="screen game hunch">
     <div class="stars" aria-hidden="true">${stars(40, 9)}</div>
-    <header class="v-top">
-      <a href="#" class="back" aria-label="Back to all games" title="Back"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></a>
-      <p class="neon-title g-hunch">${icon('hunch')}Hunch <span>No. ${puzzleNo()}</span></p>
-      <span class="eyebrow mono" id="step"></span>
-    </header>
+    ${gameHeader('hunch', 'Hunch', '<span class="eyebrow mono" id="step"></span>')}
     <div class="g-play"><section id="body" class="h-body"><div class="h-skel"><i></i><i></i><i></i></div></section></div>
-    <aside class="g-side">${sideBlurb('hunch', 'Hunch', 'Five questions with a number for an answer. Slide to your guess, then bet on how close you are: a tight band scores big, a wide one plays it safe.')}
-    <p class="v-msg" id="msg" role="status"></p></aside>
+    <aside class="g-side">    <p class="v-msg" id="msg" role="status"></p></aside>
   </main>`;
+  wireHelp(app, 'hunch');
   const $ = s => app.querySelector(s);
   const say = t => { $('#msg').textContent = t; };
   const doubled = () => p?.guesses.some(g => g.dbl);
@@ -101,7 +98,7 @@ export function hunch(app) {
       catch (e) { busy = false; $('#go').disabled = false; say(navigator.onLine ? 'Couldn’t reach the server. Try again.' : 'You’re offline. Your guess is still set; try again when you’re back.'); return; }
       if (gone) return;
       p.guesses.push(g); save();
-      if (g.result) finish('hunch', g.result, day);
+      if (g.result) { finish('hunch', g.result, day); burst('var(--c-hunch)'); }
       busy = false;
       reveal(i, true);
     });

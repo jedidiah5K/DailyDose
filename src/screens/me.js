@@ -20,7 +20,6 @@ const STATS = {
   rewire: rs => { const t = nums(rs.map(r => r.ms)); return [['best', clock(Math.min(...t))], ['average', clock(avg(t))], ['at par', count(rs, r => r.stars === 3)]]; },
   hunch: rs => { const p = nums(rs.map(r => r.points)); return p.length ? [['best', Math.max(...p)], ['average', Math.round(avg(p))], ['all 5 in band', count(rs, r => r.hits === 5)]] : [['average error', `${Math.round(avg(nums(rs.map(r => r.err))))}%`]]; },
   tangle: rs => { const t = nums(rs.map(r => r.ms)); return [['best', clock(Math.min(...t))], ['average', clock(avg(t))], ['under 30s', count(rs, r => r.ms < 30000)]]; },
-  cipher: rs => { const won = rs.filter(r => r.solved); return [['cracked', `${Math.round(100 * won.length / rs.length)}%`], ['no slips', count(won, r => !r.misses)], ['best', won.length ? clock(Math.min(...won.map(r => r.ms))) : '—']]; },
   ladder: rs => { const won = rs.filter(r => r.solved); return [['finished', `${Math.round(100 * won.length / rs.length)}%`], ['on par', count(won, r => r.steps === r.par)], ['average', won.length ? `${(avg(won.map(r => r.steps))).toFixed(1)} steps` : '—']]; },
 };
 

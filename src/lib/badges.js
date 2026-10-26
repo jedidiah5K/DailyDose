@@ -3,12 +3,12 @@
 import { countStreak } from './store.js';
 import { icon } from '../ui/sky.js';
 
-const GAMES = ['rewire', 'hunch', 'tangle', 'cipher', 'ladder'];
+const GAMES = ['rewire', 'hunch', 'tangle', 'ladder'];
 const any = (results, k, test) => Object.values(results[k] || {}).some(test);
 
 export const BADGES = [
   { id: 'first', name: 'First light', how: 'Finish any game', mark: 'window', test: (_, n) => n.total > 0 },
-  { id: 'full', name: 'Full dose', how: 'All five games in one night', mark: '5', test: (_, n) => n.fullNights > 0 },
+  { id: 'full', name: 'Full dose', how: 'Every game in one night', mark: String(GAMES.length), test: (_, n) => n.fullNights > 0 },
   { id: 'week', name: 'A week of nights', how: '7 nights in a row', mark: '7', test: (_, n) => n.best >= 7 },
   { id: 'month', name: 'A month of nights', how: '30 nights in a row', mark: '30', test: (_, n) => n.best >= 30 },
   { id: 'regular', name: 'Regular', how: '50 games played', mark: '50', test: (_, n) => n.total >= 50 },
@@ -16,7 +16,6 @@ export const BADGES = [
   { id: 'quick', k: 'rewire', name: 'Quick wiring', how: 'Solve Rewire in under a minute', test: r => any(r, 'rewire', x => x.ms < 60000) },
   { id: 'bullseye', k: 'hunch', name: 'Bullseye', how: 'All 5 Hunch guesses in your band', test: r => any(r, 'hunch', x => x.hits === 5) },
   { id: 'nimble', k: 'tangle', name: 'Nimble fingers', how: 'Untangle a knot in under 30 seconds', test: r => any(r, 'tangle', x => x.ms < 30000) },
-  { id: 'codebreaker', k: 'cipher', name: 'Codebreaker', how: 'Crack a Cipher with no slips', test: r => any(r, 'cipher', x => x.solved && x.misses === 0) },
   { id: 'shortest', k: 'ladder', name: 'Shortest way', how: 'Finish Ladder in par steps', test: r => any(r, 'ladder', x => x.solved && x.steps === x.par) },
 ];
 

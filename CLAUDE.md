@@ -4,7 +4,7 @@ A daily games hub (NYT Games style): one home screen, a new puzzle in each game 
 
 - Live beta: https://daily-dose-azure.vercel.app. Vercel project `daily-dose` deploys every push to `claude/vault-supabase` (the repo's only branch, so it is production). **Ask Job before pushing.**
 - Repo: github.com/jedidiah5K/DailyDose (private).
-- Full brief: Job's build prompt (lineup, rules, Pro, security checklist). Built: Rewire, Hunch, Tangle, Cipher, Ladder (Job replaced Drop, Mind Meld and Last Stand on 2026-10-26; their old results stay in dose_plays), You screen (stats + badges), Friends (typed friend codes, Job's call: no invite links). Not yet: World Tower, admin page, notifications. Later drops: Bluff, Zoom, Echo.
+- Full brief: Job's build prompt (lineup, rules, Pro, security checklist). Lineup: Rewire, Hunch, Tangle, Ladder (Cipher dropped 2026-10-26; Job is picking its replacement, Missing Link is the front-runner). Retired: Drop, Mind Meld, Last Stand (old results stay in `dose_plays`). Every game uses the shared header + How to play pop-up in `src/ui/shell.js`; one night background, each game keeps its colour and board (`src/themes.css`).
 
 ## Ground rules
 - Ask first: spending money, publishing, renaming, changing game rules or free vs Pro, touching KeepUp/JobDone/Petal data.

@@ -49,8 +49,6 @@ async function rpc(name, args) {
   if (error) throw error;
   return data;
 }
-export const cipherStart = () => rpc('dose_cipher_start');
-export const cipherGuess = (c, p) => rpc('dose_cipher_guess', { p_c: c, p_p: p });
 export const ladderStart = () => rpc('dose_ladder_start');
 export const ladderStep = word => rpc('dose_ladder_step', { p_word: word });
 export const tangleStart = () => rpc('dose_tangle_start');

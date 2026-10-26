@@ -4,8 +4,9 @@ import { state, save, finish, resultFor, streak } from '../lib/store.js';
 import { tangleStart, tangleSubmit } from '../lib/cloud.js';
 import { tangles } from '../games/tangleLogic.js';
 import { SOUNDS, buzz } from '../ui/feedback.js';
-import { stars, icon, sideBlurb } from '../ui/sky.js';
+import { stars, icon } from '../ui/sky.js';
 import { friendsOn } from './friends.js';
+import { gameHeader, wireHelp, burst } from '../ui/shell.js';
 
 export const tangleLine = r => `Untangled in ${clock(r.ms)}`;
 
@@ -18,11 +19,7 @@ export function tangle(app) {
 
   app.innerHTML = `<main class="screen game tangle">
     <div class="stars" aria-hidden="true">${stars(32, 41)}</div>
-    <header class="v-top">
-      <a href="#" class="back" aria-label="Back to all games" title="Back"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></a>
-      <p class="neon-title g-tangle">${icon('tangle')}Tangle <span>No. ${puzzleNo()}</span></p>
-      <span class="eyebrow mono" id="time">0:00</span>
-    </header>
+    ${gameHeader('tangle', 'Tangle', '<span class="eyebrow mono" id="time">0:00</span>')}
     <div class="g-play">
     <div class="tg-stage">
       <svg class="tg-board" id="board" viewBox="0 0 100 100" aria-label="Tangle board"></svg>
@@ -35,10 +32,10 @@ export function tangle(app) {
     </div>
     <p class="tg-count mono" id="count" aria-live="polite"></p>
     </div>
-    <aside class="g-side">${sideBlurb('tangle', 'Tangle', 'Every dot is pinned to string. Drag the pins until no two strings cross. The clock runs until the last one is clear.')}
-    <p class="v-msg" id="msg" role="status"></p>
+    <aside class="g-side">    <p class="v-msg" id="msg" role="status"></p>
     <section id="bottom"></section></aside>
   </main>`;
+  wireHelp(app, 'tangle');
   const $ = s => app.querySelector(s);
   const say = t => { $('#msg').textContent = t; };
   const svg = $('#board');
@@ -86,7 +83,7 @@ export function tangle(app) {
     if (gone) return;
     p.done = true; save(); finish('tangle', res, day);
     $('#time').textContent = clock(res.ms); $('#count').textContent = '';
-    $('.tangle').classList.add('won'); SOUNDS.hum(); buzz(30);
+    $('.tangle').classList.add('won'); SOUNDS.hum(); burst('var(--c-tangle)');
     result(res, true);
   }
 

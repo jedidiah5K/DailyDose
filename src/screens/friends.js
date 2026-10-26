@@ -13,7 +13,7 @@ const nameOf = f => esc(f.name || 'Friend');
 const lit = f => Object.keys(f.results).length;
 const dots = f => `<span class="fr-dots" aria-label="${lit(f)} of 5 played tonight">${LINEUP.map(g => `<i class="${f.results[g.k] ? 'on' : ''}" style="--c:${g.color}"></i>`).join('')}</span>`;
 // Higher is better, so a game's results can be put in order.
-const SCORE = { rewire: r => -r.ms, hunch: r => r.points ?? -r.err, tangle: r => -r.ms, cipher: r => r.solved ? 100 - r.misses - r.ms / 1e8 : -1, ladder: r => r.solved ? 100 - r.steps - r.ms / 1e8 : -1 };
+const SCORE = { rewire: r => -r.ms, hunch: r => r.points ?? -r.err, tangle: r => -r.ms, ladder: r => r.solved ? 100 - r.steps - r.ms / 1e8 : -1 };
 
 // Friends' results only change when someone finishes a game: one fetch a minute is plenty.
 let cache = null;
