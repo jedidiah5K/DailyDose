@@ -540,3 +540,9 @@ p { margin: 0; }
 .an-pool button:active:not(:disabled) { transform: translateY(2px); box-shadow: inset 0 0 0 1.5px var(--line-2), 0 1px 0 var(--line-2); }
 .an-pool button.used { opacity: .18; }
 @keyframes in { from { opacity: 0; transform: translateY(8px); } }
+
+/* wide screens: the sky keeps its phone shape, centred above the list, instead of stretching edge to edge */
+@media (min-width: 560px) {
+  .hero { max-width: 32rem; height: auto; aspect-ratio: 390 / 320; margin: 1.25rem auto -2px; border-radius: 28px 28px 0 0; }
+  .hero-text { padding-top: 1.6rem; }
+}
