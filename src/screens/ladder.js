@@ -25,12 +25,14 @@ export function ladder(app) {
       </div>
       <div class="h-bottom"><button class="btn wide" id="begin">Start</button></div>
     </section></div>
-    <aside class="g-side">    <p class="v-msg" id="msg" role="status"></p>
+    <aside class="g-side">    <p class="v-msg top" id="msg" role="status"></p>
     <section id="bottom"></section></aside>
   </main>`;
   wireHelp(app, 'ladder');
   const $ = q => app.querySelector(q);
-  const say = t => { $('#msg').textContent = t; };
+  // messages pop up at the top, where the phone keyboard can't cover them, then fade
+  let toastT = 0;
+  const say = t => { const m = $('#msg'); m.textContent = t; m.classList.remove('pop'); void m.offsetWidth; m.classList.add('pop'); clearTimeout(toastT); if (t) toastT = setTimeout(() => { m.textContent = ''; }, 2800); };
   // a wrong or rejected word shakes the ladder
   const shake = () => { const b = $('#body'); b.classList.remove('nope'); void b.offsetWidth; b.classList.add('nope'); };
 

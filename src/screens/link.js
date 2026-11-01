@@ -25,11 +25,13 @@ export function link(app) {
       </div>
       <div class="h-bottom"><button class="btn wide" id="begin">Start</button></div>
     </section></div>
-    <div class="g-side"><p class="v-msg" id="msg" role="status"></p><section id="bottom"></section></div>
+    <div class="g-side"><p class="v-msg top" id="msg" role="status"></p><section id="bottom"></section></div>
   </main>`;
   wireHelp(app, 'link');
   const $ = q => app.querySelector(q);
-  const say = t => { $('#msg').textContent = t; };
+  // messages pop up at the top, where the phone keyboard can't cover them, then fade
+  let toastT = 0;
+  const say = t => { const m = $('#msg'); m.textContent = t; m.classList.remove('pop'); void m.offsetWidth; m.classList.add('pop'); clearTimeout(toastT); if (t) toastT = setTimeout(() => { m.textContent = ''; }, 2800); };
   const shake = () => { const b = $('.lk-now'); if (!b) return; b.classList.remove('nope'); void b.offsetWidth; b.classList.add('nope'); };
   const nextOpen = from => { for (let d = 1; d <= s.n; d++) { const k = (from + d) % s.n; if (!s.links[k].done) return k; } return -1; };
 
@@ -37,14 +39,15 @@ export function link(app) {
     const done = !!s.result;
     $('#step').textContent = done ? `${s.result.score}/15` : `${s.links.filter(l => l.done).length}/${s.n}`;
     const l = s.links[cur];
-    const boxes = [...Array(l.len)].map((_, i) => `<i>${l.done ? l.answer[i].toUpperCase() : i === 0 && l.hint ? l.hint : ''}</i>`).join('');
+    // the boxes are the answer field: a see-through input sits on top and each letter lands in its box
+    const boxes = (v = '') => [...Array(l.len)].map((_, i) => `<i class="${i === v.length ? 'at' : ''}">${l.done ? l.answer[i].toUpperCase() : v[i] || (i === 0 && l.hint ? `<s>${l.hint}</s>` : '')}</i>`).join('');
     $('#body').innerHTML = `
       <ol class="lk-tabs" aria-label="Links">${s.links.map((x, k) => `<li><button class="${k === cur ? 'on ' : ''}${x.solved ? 'ok' : x.done ? 'miss' : x.tries.length ? 'tried' : ''}" data-k="${k}" aria-label="Link ${k + 1}${x.solved ? ', solved' : x.done ? ', missed' : ''}">${x.solved ? '✓' : x.done ? '✕' : k + 1}</button></li>`).join('')}</ol>
       <div class="lk-now">
         <ul class="lk-clues">${l.clues.map((c, i) => `<li style="--i:${i}">${c}</li>`).join('')}</ul>
-        <p class="lk-boxes ${l.solved ? 'ok' : l.done ? 'miss' : ''}" aria-label="${l.len} letters">${boxes}</p>
-        ${l.done ? `<p class="lk-tries"><span>${l.solved ? ['First try.', 'Second try.', 'Third try.'][l.tries.length - 1] || 'Got it.' : `It was ${l.answer.toUpperCase()}.`}</span></p>` : `
-        <form id="form" class="lk-form" autocomplete="off"><input id="w" maxlength="20" autocapitalize="characters" spellcheck="false" enterkeyhint="go" aria-label="Your answer" placeholder="Type the link"><button class="btn" id="go">Guess</button></form>
+        ${l.done ? `<p class="lk-boxes ${l.solved ? 'ok' : 'miss'}" aria-label="${l.len} letters">${boxes()}</p>
+        <p class="lk-tries"><span>${l.solved ? ['First try.', 'Second try.', 'Third try.'][l.tries.length - 1] || 'Got it.' : `It was ${l.answer.toUpperCase()}.`}</span></p>` : `
+        <form id="form" class="lk-form" autocomplete="off"><label class="lk-type"><p class="lk-boxes" id="boxes">${boxes()}</p><input id="w" maxlength="${l.len}" autocapitalize="characters" autocorrect="off" spellcheck="false" enterkeyhint="go" aria-label="Your answer, ${l.len} letters"></label><button class="btn wide" id="go">Guess</button></form>
         <p class="lk-tries">${[0, 1, 2].map(i => `<i class="${l.tries[i] ? 'used' : ''}"></i>`).join('')}<span>${l.tries.length ? `Not ${l.tries.map(t => t.toUpperCase()).join(', ')}` : '3 tries'}</span></p>`}
         ${done ? '' : `<div class="ld-tools">${nextOpen(cur) >= 0 ? '<button class="hint-btn" id="skip">Next link ›</button>' : ''}${l.done ? '' : '<button class="link-quiet" id="give">Give up this one</button>'}</div>`}
       </div>`;
@@ -57,7 +60,7 @@ export function link(app) {
     if (done || l.done) return;
     const input = $('#w');
     if (matchMedia('(hover: hover)').matches) setTimeout(() => input.focus(), 50);
-    input.addEventListener('input', () => { input.value = input.value.replace(/[^a-z ]/gi, '').toUpperCase(); });
+    input.addEventListener('input', () => { input.value = input.value.replace(/[^a-z]/gi, '').toUpperCase(); $('#boxes').innerHTML = boxes(input.value); });
     $('#form').addEventListener('submit', e => { e.preventDefault(); guess(input.value); });
   }
 
