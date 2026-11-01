@@ -26,7 +26,7 @@ let cleanup = null;
 function show() {
   const name = location.hash.slice(1);
   let ran = false;
-  const go = () => { if (ran) return; ran = true; cleanup?.(); cleanup = (SCREENS[name] || hub)(app); };
+  const go = () => { if (ran) return; ran = true; cleanup?.(); cleanup = (Object.hasOwn(SCREENS, name) ? SCREENS[name] : hub)(app); };
   // The cross-fade is a nice-to-have: if the browser skips it (page in the background, low memory),
   // draw the screen anyway.
   if (document.startViewTransition && !document.hidden && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
