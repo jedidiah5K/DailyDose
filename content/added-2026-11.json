@@ -1,0 +1,1379 @@
+{
+ "anagram": [
+  {
+   "words": [
+    "torch",
+    "ruler",
+    "dragon",
+    "banana",
+    "cricket"
+   ],
+   "scrambles": [
+    "rchot",
+    "elurr",
+    "aorgdn",
+    "nanbaa",
+    "kiecrct"
+   ],
+   "also": [
+    [],
+    [],
+    [],
+    [],
+    []
+   ]
+  },
+  {
+   "words": [
+    "nurse",
+    "dough",
+    "engine",
+    "velvet",
+    "iceberg"
+   ],
+   "scrambles": [
+    "snrue",
+    "ghdou",
+    "ienneg",
+    "letvev",
+    "egbirce"
+   ],
+   "also": [
+    [],
+    [],
+    [],
+    [],
+    []
+   ]
+  },
+  {
+   "words": [
+    "yacht",
+    "uncle",
+    "sponge",
+    "jigsaw",
+    "cabbage"
+   ],
+   "scrambles": [
+    "hctya",
+    "eucnl",
+    "gnopes",
+    "wijags",
+    "ecbagab"
+   ],
+   "also": [
+    [],
+    [],
+    [],
+    [],
+    []
+   ]
+  },
+  {
+   "words": [
+    "oasis",
+    "glove",
+    "oyster",
+    "coffee",
+    "bicycle"
+   ],
+   "scrambles": [
+    "assoi",
+    "eolgv",
+    "osyret",
+    "ffeeco",
+    "blceyci"
+   ],
+   "also": [
+    [],
+    [],
+    [],
+    [],
+    []
+   ]
+  },
+  {
+   "words": [
+    "flute",
+    "fudge",
+    "tunnel",
+    "button",
+    "pyramid"
+   ],
+   "scrambles": [
+    "feltu",
+    "edfgu",
+    "lnuent",
+    "nbttou",
+    "dmpayir"
+   ],
+   "also": [
+    [],
+    [],
+    [],
+    [],
+    []
+   ]
+  },
+  {
+   "words": [
+    "raven",
+    "pearl",
+    "fridge",
+    "bottle",
+    "kingdom"
+   ],
+   "scrambles": [
+    "nvear",
+    "rlpae",
+    "gefdir",
+    "lboett",
+    "ognmidk"
+   ],
+   "also": [
+    [],
+    [],
+    [],
+    [],
+    []
+   ]
+  },
+  {
+   "words": [
+    "thumb",
+    "lemur",
+    "jacket",
+    "cobweb",
+    "quarter"
+   ],
+   "scrambles": [
+    "tbmhu",
+    "reulm",
+    "atkcje",
+    "bobcew",
+    "aetqrru"
+   ],
+   "also": [
+    [],
+    [],
+    [],
+    [],
+    []
+   ]
+  },
+  {
+   "words": [
+    "koala",
+    "tulip",
+    "castle",
+    "spirit",
+    "compass"
+   ],
+   "scrambles": [
+    "aaklo",
+    "liutp",
+    "tlcesa",
+    "ptiirs",
+    "ssocmap"
+   ],
+   "also": [
+    [],
+    [],
+    [],
+    [],
+    []
+   ]
+  },
+  {
+   "words": [
+    "viper",
+    "grass",
+    "walrus",
+    "kidney",
+    "dentist"
+   ],
+   "scrambles": [
+    "epvri",
+    "srasg",
+    "uarlsw",
+    "edynik",
+    "ttinsed"
+   ],
+   "also": [
+    [],
+    [],
+    [],
+    [],
+    []
+   ]
+  },
+  {
+   "words": [
+    "crumb",
+    "jelly",
+    "pirate",
+    "napkin",
+    "harmony"
+   ],
+   "scrambles": [
+    "cbrum",
+    "ellyj",
+    "epitra",
+    "akinnp",
+    "anhmory"
+   ],
+   "also": [
+    [],
+    [],
+    [],
+    [],
+    []
+   ]
+  },
+  {
+   "words": [
+    "salad",
+    "skunk",
+    "tomato",
+    "cactus",
+    "unicorn"
+   ],
+   "scrambles": [
+    "adlas",
+    "nskuk",
+    "otaomt",
+    "tcsuca",
+    "ounicnr"
+   ],
+   "also": [
+    [],
+    [],
+    [],
+    [],
+    []
+   ]
+  },
+  {
+   "words": [
+    "vault",
+    "brick",
+    "wizard",
+    "violin",
+    "octopus"
+   ],
+   "scrambles": [
+    "lvuta",
+    "ckbir",
+    "dawzri",
+    "onliiv",
+    "ouptosc"
+   ],
+   "also": [
+    [],
+    [],
+    [],
+    [],
+    []
+   ]
+  },
+  {
+   "words": [
+    "medal",
+    "squid",
+    "locket",
+    "noodle",
+    "mammoth"
+   ],
+   "scrambles": [
+    "madle",
+    "isqdu",
+    "cteokl",
+    "denolo",
+    "omtmmah"
+   ],
+   "also": [
+    [],
+    [],
+    [],
+    [],
+    []
+   ]
+  },
+  {
+   "words": [
+    "panda",
+    "feast",
+    "muffin",
+    "magnet",
+    "lantern"
+   ],
+   "scrambles": [
+    "dapan",
+    "afste",
+    "fmniuf",
+    "entgma",
+    "elnatrn"
+   ],
+   "also": [
+    [],
+    [],
+    [],
+    [],
+    []
+   ]
+  },
+  {
+   "words": [
+    "cocoa",
+    "lunch",
+    "bucket",
+    "helmet",
+    "scooter"
+   ],
+   "scrambles": [
+    "ooacc",
+    "ulcnh",
+    "cutbek",
+    "hletme",
+    "eroocst"
+   ],
+   "also": [
+    [],
+    [],
+    [],
+    [],
+    []
+   ]
+  },
+  {
+   "words": [
+    "bacon",
+    "wheat",
+    "toffee",
+    "hockey",
+    "cupcake"
+   ],
+   "scrambles": [
+    "onacb",
+    "ewtah",
+    "feetof",
+    "ykecho",
+    "akucecp"
+   ],
+   "also": [
+    [],
+    [],
+    [],
+    [],
+    []
+   ]
+  },
+  {
+   "words": [
+    "noble",
+    "frost",
+    "zipper",
+    "spider",
+    "fortune"
+   ],
+   "scrambles": [
+    "oblne",
+    "rfost",
+    "rizpep",
+    "irespd",
+    "fureont"
+   ],
+   "also": [
+    [],
+    [],
+    [],
+    [],
+    []
+   ]
+  },
+  {
+   "words": [
+    "lilac",
+    "yeast",
+    "meadow",
+    "saddle",
+    "vampire"
+   ],
+   "scrambles": [
+    "alcil",
+    "tayse",
+    "oawmde",
+    "sdlade",
+    "vriepam"
+   ],
+   "also": [
+    [],
+    [],
+    [],
+    [],
+    []
+   ]
+  },
+  {
+   "words": [
+    "crown",
+    "truck",
+    "puzzle",
+    "beetle",
+    "whistle"
+   ],
+   "scrambles": [
+    "norcw",
+    "krutc",
+    "zpulze",
+    "eebelt",
+    "wtiehsl"
+   ],
+   "also": [
+    [],
+    [],
+    [],
+    [],
+    []
+   ]
+  },
+  {
+   "words": [
+    "cliff",
+    "waltz",
+    "sketch",
+    "lizard",
+    "jackpot"
+   ],
+   "scrambles": [
+    "ilfcf",
+    "atzlw",
+    "kethsc",
+    "izrlda",
+    "kcjtpoa"
+   ],
+   "also": [
+    [],
+    [],
+    [],
+    [],
+    []
+   ]
+  },
+  {
+   "words": [
+    "hippo",
+    "cabin",
+    "rhythm",
+    "kettle",
+    "blanket"
+   ],
+   "scrambles": [
+    "iophp",
+    "nbiac",
+    "ytrmhh",
+    "ekttel",
+    "labektn"
+   ],
+   "also": [
+    [],
+    [],
+    [],
+    [],
+    []
+   ]
+  },
+  {
+   "words": [
+    "bloom",
+    "chalk",
+    "candle",
+    "donkey",
+    "penguin"
+   ],
+   "scrambles": [
+    "lmobo",
+    "ckhla",
+    "alednc",
+    "nyodek",
+    "pgnineu"
+   ],
+   "also": [
+    [],
+    [],
+    [],
+    [],
+    []
+   ]
+  }
+ ],
+ "link": [
+  {
+   "links": [
+    {
+     "clues": [
+      "SEA",
+      "EGG",
+      "FISH"
+     ],
+     "answer": "shell",
+     "also": []
+    },
+    {
+     "clues": [
+      "TEA",
+      "BOARD",
+      "CAKE"
+     ],
+     "answer": "cup",
+     "also": []
+    },
+    {
+     "clues": [
+      "EAR",
+      "BOXING",
+      "LEADER"
+     ],
+     "answer": "ring",
+     "also": []
+    },
+    {
+     "clues": [
+      "AIR",
+      "PASS",
+      "HOLE"
+     ],
+     "answer": "port",
+     "also": []
+    },
+    {
+     "clues": [
+      "RAIL",
+      "HALL",
+      "SIDE"
+     ],
+     "answer": "way",
+     "also": []
+    }
+   ]
+  },
+  {
+   "links": [
+    {
+     "clues": [
+      "TABLE",
+      "LAP",
+      "HILL"
+     ],
+     "answer": "top",
+     "also": []
+    },
+    {
+     "clues": [
+      "CORN",
+      "BATTLE",
+      "MINE"
+     ],
+     "answer": "field",
+     "also": []
+    },
+    {
+     "clues": [
+      "MAIN",
+      "HOME",
+      "MARK"
+     ],
+     "answer": "land",
+     "also": []
+    },
+    {
+     "clues": [
+      "HONEY",
+      "LIGHT",
+      "SHINE"
+     ],
+     "answer": "moon",
+     "also": []
+    },
+    {
+     "clues": [
+      "HOT",
+      "BOARD",
+      "TIME"
+     ],
+     "answer": "spring",
+     "also": []
+    }
+   ]
+  },
+  {
+   "links": [
+    {
+     "clues": [
+      "STRAW",
+      "BLUE",
+      "GOOSE"
+     ],
+     "answer": "berry",
+     "also": []
+    },
+    {
+     "clues": [
+      "TEA",
+      "HOLE",
+      "LUCK"
+     ],
+     "answer": "pot",
+     "also": []
+    },
+    {
+     "clues": [
+      "EARTH",
+      "BOOK",
+      "HOLE"
+     ],
+     "answer": "worm",
+     "also": []
+    },
+    {
+     "clues": [
+      "RAIN",
+      "TAIL",
+      "WAIST"
+     ],
+     "answer": "coat",
+     "also": []
+    },
+    {
+     "clues": [
+      "RAIN",
+      "CROSS",
+      "STRING"
+     ],
+     "answer": "bow",
+     "also": []
+    }
+   ]
+  },
+  {
+   "links": [
+    {
+     "clues": [
+      "PEA",
+      "SHELL",
+      "CASE"
+     ],
+     "answer": "nut",
+     "also": []
+    },
+    {
+     "clues": [
+      "LOOK",
+      "BREAK",
+      "WORK"
+     ],
+     "answer": "out",
+     "also": []
+    },
+    {
+     "clues": [
+      "BLACK",
+      "CAGE",
+      "LOVE"
+     ],
+     "answer": "bird",
+     "also": []
+    },
+    {
+     "clues": [
+      "PLAY",
+      "UNDER",
+      "HOG"
+     ],
+     "answer": "ground",
+     "also": []
+    },
+    {
+     "clues": [
+      "STICK",
+      "SERVICE",
+      "READ"
+     ],
+     "answer": "lip",
+     "also": []
+    }
+   ]
+  },
+  {
+   "links": [
+    {
+     "clues": [
+      "RING",
+      "ACHE",
+      "DRUM"
+     ],
+     "answer": "ear",
+     "also": []
+    },
+    {
+     "clues": [
+      "SUN",
+      "WALL",
+      "POT"
+     ],
+     "answer": "flower",
+     "also": []
+    },
+    {
+     "clues": [
+      "SNOW",
+      "HORSE",
+      "LACE"
+     ],
+     "answer": "shoe",
+     "also": []
+    },
+    {
+     "clues": [
+      "BLACK",
+      "CHAIN",
+      "JUNK"
+     ],
+     "answer": "mail",
+     "also": []
+    },
+    {
+     "clues": [
+      "COUNT",
+      "TOWN",
+      "SHOW"
+     ],
+     "answer": "down",
+     "also": []
+    }
+   ]
+  },
+  {
+   "links": [
+    {
+     "clues": [
+      "SAND",
+      "TEA",
+      "HAND"
+     ],
+     "answer": "bag",
+     "also": []
+    },
+    {
+     "clues": [
+      "RAIN",
+      "TEAR",
+      "OUT"
+     ],
+     "answer": "drop",
+     "also": []
+    },
+    {
+     "clues": [
+      "SEA",
+      "WALK",
+      "KICK"
+     ],
+     "answer": "side",
+     "also": []
+    },
+    {
+     "clues": [
+      "HORSE",
+      "WILL",
+      "HOUSE"
+     ],
+     "answer": "power",
+     "also": []
+    },
+    {
+     "clues": [
+      "RUBBER",
+      "WAGON",
+      "HEAD"
+     ],
+     "answer": "band",
+     "also": []
+    }
+   ]
+  },
+  {
+   "links": [
+    {
+     "clues": [
+      "LIFE",
+      "SAIL",
+      "HOUSE"
+     ],
+     "answer": "boat",
+     "also": []
+    },
+    {
+     "clues": [
+      "BIRD",
+      "LAND",
+      "BUG"
+     ],
+     "answer": "lady",
+     "also": []
+    },
+    {
+     "clues": [
+      "PONY",
+      "COCK",
+      "SPIN"
+     ],
+     "answer": "tail",
+     "also": []
+    },
+    {
+     "clues": [
+      "HOPPER",
+      "LAND",
+      "SEA"
+     ],
+     "answer": "grass",
+     "also": []
+    },
+    {
+     "clues": [
+      "MUG",
+      "BIG",
+      "GUN"
+     ],
+     "answer": "shot",
+     "also": []
+    }
+   ]
+  },
+  {
+   "links": [
+    {
+     "clues": [
+      "SEAT",
+      "BLACK",
+      "CONVEYOR"
+     ],
+     "answer": "belt",
+     "also": []
+    },
+    {
+     "clues": [
+      "FOOT",
+      "BLUE",
+      "FINGER"
+     ],
+     "answer": "print",
+     "also": []
+    },
+    {
+     "clues": [
+      "BRAIN",
+      "THUNDER",
+      "SAND"
+     ],
+     "answer": "storm",
+     "also": []
+    },
+    {
+     "clues": [
+      "POT",
+      "BLACK",
+      "KNIFE"
+     ],
+     "answer": "jack",
+     "also": []
+    },
+    {
+     "clues": [
+      "LADY",
+      "BED",
+      "LITTER"
+     ],
+     "answer": "bug",
+     "also": []
+    }
+   ]
+  },
+  {
+   "links": [
+    {
+     "clues": [
+      "HOME",
+      "NET",
+      "FIRE"
+     ],
+     "answer": "work",
+     "also": []
+    },
+    {
+     "clues": [
+      "BOW",
+      "NECK",
+      "BREAKER"
+     ],
+     "answer": "tie",
+     "also": []
+    },
+    {
+     "clues": [
+      "DUST",
+      "FRYING",
+      "CAKE"
+     ],
+     "answer": "pan",
+     "also": []
+    },
+    {
+     "clues": [
+      "BUTTON",
+      "PIGEON",
+      "MAN"
+     ],
+     "answer": "hole",
+     "also": []
+    },
+    {
+     "clues": [
+      "THUNDER",
+      "BURST",
+      "STORM"
+     ],
+     "answer": "cloud",
+     "also": []
+    }
+   ]
+  },
+  {
+   "links": [
+    {
+     "clues": [
+      "SUPER",
+      "FLEA",
+      "STOCK"
+     ],
+     "answer": "market",
+     "also": []
+    },
+    {
+     "clues": [
+      "BACK",
+      "WISH",
+      "DRY"
+     ],
+     "answer": "bone",
+     "also": []
+    },
+    {
+     "clues": [
+      "MICRO",
+      "HEAT",
+      "BRAIN"
+     ],
+     "answer": "wave",
+     "also": []
+    },
+    {
+     "clues": [
+      "ICE",
+      "FEET",
+      "SHOULDER"
+     ],
+     "answer": "cold",
+     "also": []
+    },
+    {
+     "clues": [
+      "SHEEP",
+      "BANANA",
+      "HEAD"
+     ],
+     "answer": "skin",
+     "also": []
+    }
+   ]
+  }
+ ],
+ "hunch": [
+  {
+   "questions": [
+    {
+     "q": "How many bones are in an adult human body?",
+     "unit": "bones",
+     "min": 10,
+     "max": 1000,
+     "answer": 206,
+     "source": "https://en.wikipedia.org/wiki/Human_skeleton",
+     "log": true
+    },
+    {
+     "q": "How many minutes are in a day?",
+     "unit": "minutes",
+     "min": 100,
+     "max": 10000,
+     "answer": 1440,
+     "source": "https://en.wikipedia.org/wiki/Day",
+     "log": true
+    },
+    {
+     "q": "How tall is the Eiffel Tower?",
+     "unit": "m",
+     "min": 50,
+     "max": 2000,
+     "answer": 330,
+     "source": "https://en.wikipedia.org/wiki/Eiffel_Tower",
+     "log": true
+    },
+    {
+     "q": "What year did the Titanic sink?",
+     "unit": "",
+     "min": 1850,
+     "max": 1950,
+     "answer": 1912,
+     "source": "https://en.wikipedia.org/wiki/Titanic"
+    },
+    {
+     "q": "How many keys are on a standard piano?",
+     "unit": "keys",
+     "min": 10,
+     "max": 200,
+     "answer": 88,
+     "source": "https://en.wikipedia.org/wiki/Piano"
+    }
+   ]
+  },
+  {
+   "questions": [
+    {
+     "q": "At what temperature does water boil, in Fahrenheit?",
+     "unit": "°F",
+     "min": 32,
+     "max": 1000,
+     "answer": 212,
+     "source": "https://en.wikipedia.org/wiki/Fahrenheit",
+     "log": true
+    },
+    {
+     "q": "How many hearts does an octopus have?",
+     "unit": "hearts",
+     "min": 1,
+     "max": 10,
+     "answer": 3,
+     "source": "https://en.wikipedia.org/wiki/Octopus"
+    },
+    {
+     "q": "What year did people first land on the Moon?",
+     "unit": "",
+     "min": 1900,
+     "max": 2000,
+     "answer": 1969,
+     "source": "https://en.wikipedia.org/wiki/Apollo_11"
+    },
+    {
+     "q": "How long is a marathon, to the nearest km?",
+     "unit": "km",
+     "min": 5,
+     "max": 200,
+     "answer": 42,
+     "source": "https://en.wikipedia.org/wiki/Marathon",
+     "log": true
+    },
+    {
+     "q": "How many players does each soccer team have on the field?",
+     "unit": "players",
+     "min": 3,
+     "max": 30,
+     "answer": 11,
+     "source": "https://en.wikipedia.org/wiki/Association_football"
+    }
+   ]
+  },
+  {
+   "questions": [
+    {
+     "q": "How many countries are in the European Union?",
+     "unit": "countries",
+     "min": 5,
+     "max": 100,
+     "answer": 27,
+     "source": "https://en.wikipedia.org/wiki/Member_state_of_the_European_Union",
+     "log": true
+    },
+    {
+     "q": "How tall is Mount Everest?",
+     "unit": "m",
+     "min": 1000,
+     "max": 20000,
+     "answer": 8849,
+     "source": "https://en.wikipedia.org/wiki/Mount_Everest",
+     "log": true
+    },
+    {
+     "q": "What year did the Berlin Wall fall?",
+     "unit": "",
+     "min": 1950,
+     "max": 2010,
+     "answer": 1989,
+     "source": "https://en.wikipedia.org/wiki/Fall_of_the_Berlin_Wall"
+    },
+    {
+     "q": "How many strings does a violin have?",
+     "unit": "strings",
+     "min": 1,
+     "max": 20,
+     "answer": 4,
+     "source": "https://en.wikipedia.org/wiki/Violin"
+    },
+    {
+     "q": "How many seconds are in an hour?",
+     "unit": "seconds",
+     "min": 100,
+     "max": 100000,
+     "answer": 3600,
+     "source": "https://en.wikipedia.org/wiki/Hour",
+     "log": true
+    }
+   ]
+  },
+  {
+   "theme": "Space",
+   "questions": [
+    {
+     "q": "How many moons does Mars have?",
+     "unit": "moons",
+     "min": 0,
+     "max": 20,
+     "answer": 2,
+     "source": "https://en.wikipedia.org/wiki/Moons_of_Mars"
+    },
+    {
+     "q": "How many Earth days is one year on Venus?",
+     "unit": "days",
+     "min": 10,
+     "max": 1000,
+     "answer": 225,
+     "source": "https://en.wikipedia.org/wiki/Venus",
+     "log": true
+    },
+    {
+     "q": "How many people have walked on the Moon?",
+     "unit": "people",
+     "min": 1,
+     "max": 100,
+     "answer": 12,
+     "source": "https://en.wikipedia.org/wiki/List_of_people_who_have_walked_on_the_Moon",
+     "log": true
+    },
+    {
+     "q": "What year was the Hubble Space Telescope launched?",
+     "unit": "",
+     "min": 1960,
+     "max": 2020,
+     "answer": 1990,
+     "source": "https://en.wikipedia.org/wiki/Hubble_Space_Telescope"
+    },
+    {
+     "q": "How far is the Moon from Earth, on average?",
+     "unit": "km",
+     "min": 10000,
+     "max": 10000000,
+     "answer": 384400,
+     "source": "https://en.wikipedia.org/wiki/Moon",
+     "log": true
+    }
+   ]
+  },
+  {
+   "questions": [
+    {
+     "q": "How tall is the Burj Khalifa, the world’s tallest building?",
+     "unit": "m",
+     "min": 100,
+     "max": 3000,
+     "answer": 828,
+     "source": "https://en.wikipedia.org/wiki/Burj_Khalifa",
+     "log": true
+    },
+    {
+     "q": "What year did the first iPhone come out?",
+     "unit": "",
+     "min": 1990,
+     "max": 2020,
+     "answer": 2007,
+     "source": "https://en.wikipedia.org/wiki/IPhone_(1st_generation)"
+    },
+    {
+     "q": "How many teeth does an adult human have, wisdom teeth included?",
+     "unit": "teeth",
+     "min": 5,
+     "max": 100,
+     "answer": 32,
+     "source": "https://en.wikipedia.org/wiki/Human_tooth",
+     "log": true
+    },
+    {
+     "q": "How many squares are on a chessboard?",
+     "unit": "squares",
+     "min": 10,
+     "max": 500,
+     "answer": 64,
+     "source": "https://en.wikipedia.org/wiki/Chessboard",
+     "log": true
+    },
+    {
+     "q": "How many Earth days is one year on Mars?",
+     "unit": "days",
+     "min": 100,
+     "max": 5000,
+     "answer": 687,
+     "source": "https://en.wikipedia.org/wiki/Mars",
+     "log": true
+    }
+   ]
+  },
+  {
+   "questions": [
+    {
+     "q": "How long is the Nile?",
+     "unit": "km",
+     "min": 500,
+     "max": 50000,
+     "answer": 6650,
+     "source": "https://en.wikipedia.org/wiki/Nile",
+     "log": true
+    },
+    {
+     "q": "What year was the Statue of Liberty dedicated?",
+     "unit": "",
+     "min": 1800,
+     "max": 1950,
+     "answer": 1886,
+     "source": "https://en.wikipedia.org/wiki/Statue_of_Liberty"
+    },
+    {
+     "q": "How many chambers does the human heart have?",
+     "unit": "chambers",
+     "min": 1,
+     "max": 12,
+     "answer": 4,
+     "source": "https://en.wikipedia.org/wiki/Heart"
+    },
+    {
+     "q": "How deep is the Mariana Trench at its deepest?",
+     "unit": "m",
+     "min": 1000,
+     "max": 50000,
+     "answer": 10935,
+     "source": "https://en.wikipedia.org/wiki/Mariana_Trench",
+     "log": true
+    },
+    {
+     "q": "How many cards are in a standard deck, without jokers?",
+     "unit": "cards",
+     "min": 10,
+     "max": 200,
+     "answer": 52,
+     "source": "https://en.wikipedia.org/wiki/Standard_52-card_deck",
+     "log": true
+    }
+   ]
+  },
+  {
+   "theme": "Sports",
+   "questions": [
+    {
+     "q": "How many holes are in a standard round of golf?",
+     "unit": "holes",
+     "min": 3,
+     "max": 50,
+     "answer": 18,
+     "source": "https://en.wikipedia.org/wiki/Golf"
+    },
+    {
+     "q": "What year were the first modern Olympic Games held?",
+     "unit": "",
+     "min": 1850,
+     "max": 1950,
+     "answer": 1896,
+     "source": "https://en.wikipedia.org/wiki/1896_Summer_Olympics"
+    },
+    {
+     "q": "How many points is a touchdown worth in American football?",
+     "unit": "points",
+     "min": 1,
+     "max": 20,
+     "answer": 6,
+     "source": "https://en.wikipedia.org/wiki/Touchdown"
+    },
+    {
+     "q": "How many teams play in the 2026 FIFA World Cup?",
+     "unit": "teams",
+     "min": 8,
+     "max": 100,
+     "answer": 48,
+     "source": "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup",
+     "log": true
+    },
+    {
+     "q": "How many players does each basketball team have on the court?",
+     "unit": "players",
+     "min": 2,
+     "max": 20,
+     "answer": 5,
+     "source": "https://en.wikipedia.org/wiki/Basketball"
+    }
+   ]
+  },
+  {
+   "questions": [
+    {
+     "q": "How fast does sound travel through air at room temperature?",
+     "unit": "m/s",
+     "min": 50,
+     "max": 5000,
+     "answer": 343,
+     "source": "https://en.wikipedia.org/wiki/Speed_of_sound",
+     "log": true
+    },
+    {
+     "q": "How many planets are in our solar system?",
+     "unit": "planets",
+     "min": 2,
+     "max": 30,
+     "answer": 8,
+     "source": "https://en.wikipedia.org/wiki/Solar_System"
+    },
+    {
+     "q": "What year did World War II end?",
+     "unit": "",
+     "min": 1900,
+     "max": 2000,
+     "answer": 1945,
+     "source": "https://en.wikipedia.org/wiki/World_War_II"
+    },
+    {
+     "q": "How many legs does a spider have?",
+     "unit": "legs",
+     "min": 2,
+     "max": 30,
+     "answer": 8,
+     "source": "https://en.wikipedia.org/wiki/Spider"
+    },
+    {
+     "q": "About how many minutes does sunlight take to reach Earth?",
+     "unit": "minutes",
+     "min": 1,
+     "max": 1000,
+     "answer": 8,
+     "source": "https://en.wikipedia.org/wiki/Sunlight",
+     "log": true
+    }
+   ]
+  }
+ ]
+}
