@@ -3,7 +3,7 @@
 import { countStreak } from './store.js';
 import { icon } from '../ui/icons.js';
 
-const GAMES = ['rewire', 'hunch', 'link', 'tangle', 'anagram', 'ladder'];
+const GAMES = ['blend', 'link', 'ladder'];   // today's lineup (retired games keep their old badges)
 const any = (results, k, test) => Object.values(results[k] || {}).some(test);
 
 export const BADGES = [
@@ -17,7 +17,7 @@ export const BADGES = [
   { id: 'bullseye', k: 'hunch', name: 'Bullseye', how: 'All 5 Hunch guesses in your band', test: r => any(r, 'hunch', x => x.hits === 5) },
   { id: 'nimble', k: 'tangle', name: 'Nimble fingers', how: 'Untangle a knot in under 30 seconds', test: r => any(r, 'tangle', x => x.ms < 30000) },
   { id: 'linked', k: 'link', name: 'Perfect links', how: 'All five links on the first try', test: r => any(r, 'link', x => x.score === 15) },
-  { id: 'unscrambled', k: 'anagram', name: 'Quick letters', how: 'All five anagrams in under 2 minutes', test: r => any(r, 'anagram', x => x.solved === x.n && x.ms < 120000) },
+  { id: 'rarefinds', k: 'blend', name: 'Rare finds', how: 'Two rare finds in one Blend', test: r => any(r, 'blend', x => (x.gems || []).filter(Boolean).length >= 2) },
   { id: 'shortest', k: 'ladder', name: 'Shortest way', how: 'Finish Ladder in par steps', test: r => any(r, 'ladder', x => x.solved && x.steps === x.par) },
 ];
 

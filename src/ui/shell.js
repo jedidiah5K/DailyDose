@@ -38,6 +38,8 @@ const HOWTO = {
     demo: `<div class="demo demo-ladder"><p><b>C</b><b>O</b><b>L</b><b>D</b></p><p><b>C</b><b>O</b><b class="n">R</b><b>D</b></p><p><b class="n">W</b><b>O</b><b>R</b><b>D</b></p></div>` },
   anagram: { name: 'Anagram', steps: ['Tap the letters in order to spell the word (or type it).', 'It checks itself when every letter is placed. Tap a placed letter to take it back.', 'Five words, short to long. The clock runs until the last one; skipping costs the word.'],
     demo: `<div class="demo demo-anagram"><p><b>A</b><b>E</b><b>H</b><b>R</b><b>T</b></p><b>HEART</b></div>` },
+  blend: { name: 'Blend', steps: ['Five prompts, 20 seconds each. Type the first thing that fits.', '“Think like everyone”: match the answer most people give. “Think like no one”: a real answer few people give.', 'Up to 100 points a prompt. A rare answer nobody saw coming is a 💎.'],
+    demo: `<div class="demo demo-blend"><p>A fruit that’s yellow</p><b>BANANA · 71%</b></div>` },
   link: { name: 'Missing Link', steps: ['Three clue words, one hidden word that goes with all of them. It can come before or after each clue.', 'Five links, any order: skip one and come back. Three tries each, and the first letter shows after two misses.', '3 points on the first try, 2 on the second, 1 on the third.'],
     demo: `<div class="demo demo-link"><p><span>STAR</span><span>TRAFFIC</span><span>HOUSE</span></p><b>LIGHT</b></div>` },
 };

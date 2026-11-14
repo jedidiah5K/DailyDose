@@ -4,19 +4,14 @@ import { puzzleNo } from '../lib/day.js';
 import { stickerSvgDoc } from './stickers.js';
 import { resultFor, streak } from '../lib/store.js';
 import { clock } from '../lib/day.js';
+import { blendTiles } from '../screens/blend.js';
 
 // Finished games for today, as lines for the card and the text share. Add new games here.
 export const LINEUP = [
-  { k: 'rewire', name: 'Rewire', color: '#3F7FC4', emoji: '⚡',
-    big: r => `Wired in ${clock(r.ms)}`, small: r => (r.stars ? `${'★'.repeat(r.stars)}${'☆'.repeat(3 - r.stars)}  ` : '') + (r.beat != null ? `Faster than ${r.beat}% of players` : 'Solved') + (r.hints ? ` · ${r.hints} hint${r.hints > 1 ? 's' : ''}` : ' · no hints') },
-  { k: 'hunch', name: 'Hunch', color: '#C99A1E', emoji: '🎯',
-    big: r => r.points != null ? `${r.points} points` : `${Math.round(r.err)}% off`, small: r => r.points != null ? `${r.hits} of 5 in band${r.theme ? ` · theme: ${r.theme}` : ''}` : `Average error ${Math.round(r.err)}%` },
+  { k: 'blend', name: 'Blend', color: '#CF4F7D', emoji: '🥤',
+    big: r => `${r.score} of 500`, small: r => blendTiles(r) + (r.beat != null ? ` · beat ${r.beat}%` : '') },
   { k: 'link', name: 'Missing Link', color: '#2C9A88', emoji: '🔗',
     big: r => `${r.score} of 15`, small: r => `${r.solved} of 5 links` + (r.beat != null ? ` · beat ${r.beat}%` : '') },
-  { k: 'tangle', name: 'Tangle', color: '#DD7444', emoji: '🪢',
-    big: r => `Untangled in ${clock(r.ms)}`, small: r => (r.beat != null ? `Faster than ${r.beat}% of players` : 'Knot untied') + ` · ${r.moves} moves` },
-  { k: 'anagram', name: 'Anagram', color: '#CF4F7D', emoji: '🔤',
-    big: r => `${r.solved} of ${r.n} in ${clock(r.ms)}`, small: r => r.beat != null ? `Better than ${r.beat}% of players` : 'Unscrambled' },
   { k: 'ladder', name: 'Ladder', color: '#7D5FC6', emoji: '🪜',
     big: r => r.solved ? `${r.steps} steps` : 'Gave up', small: r => `Par ${r.par}` + (r.beat != null ? ` · beat ${r.beat}%` : '') },
 ];
@@ -26,11 +21,10 @@ const SERIF = '"Instrument Serif", Georgia, serif', MONO = '"Geist Mono Variable
 // What each game's sticker says on the card.
 const TAG = {
   rewire: r => clock(r.ms), hunch: r => r.points != null ? `${r.points} PTS` : `${Math.round(r.err)}% OFF`, link: r => `${r.score}/15`,
-  tangle: r => clock(r.ms), anagram: r => `${r.solved}/${r.n}`, ladder: r => r.solved ? (r.steps === r.par ? 'ON PAR' : `${r.steps} STEPS`) : 'GAVE UP',
+  tangle: r => clock(r.ms), blend: r => `${r.score} PTS`, ladder: r => r.solved ? (r.steps === r.par ? 'ON PAR' : `${r.steps} STEPS`) : 'GAVE UP',
 };
 // The pile on the card (centre x, centre y, size, tilt in a 360x640 card), drawn back to front.
-const PILE = [['rewire', 84, 318, 136, -12], ['link', 262, 306, 146, 9], ['anagram', 82, 492, 128, 10],
-  ['tangle', 284, 478, 128, -14], ['hunch', 178, 404, 134, -3], ['ladder', 190, 540, 118, 6]];
+const PILE = [['link', 258, 330, 150, 9], ['ladder', 104, 500, 136, -10], ['blend', 176, 410, 156, -4]];
 
 async function drawSticker(x, k, cx, cy, size, tilt, text) {
   const img = new Image();

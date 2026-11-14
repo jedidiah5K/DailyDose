@@ -21,7 +21,7 @@ const STATS = {
   hunch: rs => { const p = nums(rs.map(r => r.points)); return p.length ? [['best', Math.max(...p)], ['average', Math.round(avg(p))], ['all 5 in band', count(rs, r => r.hits === 5)]] : [['average error', `${Math.round(avg(nums(rs.map(r => r.err))))}%`]]; },
   tangle: rs => { const t = nums(rs.map(r => r.ms)); return [['best', clock(Math.min(...t))], ['average', clock(avg(t))], ['under 30s', count(rs, r => r.ms < 30000)]]; },
   link: rs => { const p = rs.map(r => r.score); return [['best', `${Math.max(...p)}/15`], ['average', (avg(p)).toFixed(1)], ['perfect', count(rs, r => r.score === 15)]]; },
-  anagram: rs => { const all = rs.filter(r => r.solved === r.n); return [['all five', count(rs, r => r.solved === r.n)], ['best', all.length ? clock(Math.min(...all.map(r => r.ms))) : '—'], ['average', clock(avg(rs.map(r => r.ms)))]]; },
+  blend: rs => { const p = rs.map(r => r.score); return [['best', Math.max(...p)], ['average', Math.round(avg(p))], ['rare finds', rs.reduce((n, r) => n + (r.gems || []).filter(Boolean).length, 0)]]; },
   ladder: rs => { const won = rs.filter(r => r.solved); return [['finished', `${Math.round(100 * won.length / rs.length)}%`], ['on par', count(won, r => r.steps === r.par)], ['average', won.length ? `${(avg(won.map(r => r.steps))).toFixed(1)} steps` : '—']]; },
 };
 

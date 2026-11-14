@@ -4,34 +4,25 @@ import { playingToday, hasAccount, getMe } from '../lib/cloud.js';
 import { SOUNDS, buzz } from '../ui/feedback.js';
 import { tabBar } from '../ui/shell.js';
 import { ensureStickerDefs, sticker, EDGE } from '../ui/stickers.js';
-import { rewireLine } from './rewire.js';
-import { hunchLine } from './hunch.js';
-import { tangleLine } from './tangle.js';
 import { ladderLine } from './ladder.js';
 import { linkLine } from './link.js';
-import { anagramLine } from './anagram.js';
+import { blendLine } from './blend.js';
 import { shareDose } from '../ui/card.js';
 
 // The lineup, as the day's newspaper: each story is the game's name, big. Solving it earns its sticker.
 // New games plug in here: a key, a screen in main.js, and a result line.
 export const GAMES = [
-  { k: 'rewire', name: 'Rewire', c: '#3F7FC4',
-    done: r => `wired in ${clock(r.ms)}`, share: rewireLine },
-  { k: 'hunch', name: 'Hunch', c: '#B3881A', btn: '#C99A1E',
-    done: r => r.points != null ? `${r.points} points` : `${Math.round(r.err)}% off`, share: hunchLine },
+  { k: 'blend', name: 'Blend', c: '#CF4F7D',
+    done: r => `${r.score} of 500`, share: r => `🥤 ${blendLine(r)}` },
   { k: 'link', name: 'Missing Link', c: '#2C9A88',
     done: r => `${r.score} of 15`, share: r => `🔗 ${linkLine(r)}` },
-  { k: 'tangle', name: 'Tangle', c: '#DD7444',
-    done: r => `untied in ${clock(r.ms)}`, share: r => `🪢 ${tangleLine(r)}` },
-  { k: 'anagram', name: 'Anagram', c: '#CF4F7D',
-    done: r => `${r.solved} of ${r.n}`, share: r => `🔤 ${anagramLine(r)}` },
   { k: 'ladder', name: 'Ladder', c: '#7D5FC6',
     done: r => r.solved ? (r.steps === r.par ? 'on par' : `${r.steps} steps`) : 'gave up', share: r => `🪜 ${ladderLine(r)}` },
 ];
 // Where each sticker lands in its story: how far from the right edge, how far down (of the story), the lean.
 // They sit in the gap between the name and the rule under it, each leaning its own way.
 const LAND = { rewire: { right: 4, at: 55, r: -11 }, hunch: { right: 10, at: 53, r: 8 }, link: { right: 0, at: 57, r: -5 },
-  tangle: { right: 8, at: 54, r: 13 }, anagram: { right: 2, at: 56, r: -14 }, ladder: { right: 12, at: 53, r: 6 } };
+  tangle: { right: 8, at: 54, r: 13 }, blend: { right: 2, at: 56, r: -14 }, ladder: { right: 12, at: 53, r: 6 } };
 // Below this many players we keep quiet about the count; "3 playing" reads like an empty room.
 const SHOW_PLAYERS_FROM = 25;
 const FLAME = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c1 3.5-1.5 5-1.5 7.5 0 1.4 1 2.5 2.3 2.5 1.6 0 2.4-1.5 2-3.3C17.5 10.6 19 13 19 15.5A7 7 0 0 1 5 15.5C5 10 10 8 12 2z"/></svg>';

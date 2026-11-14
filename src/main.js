@@ -5,12 +5,9 @@ import '@fontsource-variable/geist-mono';
 import './styles.css';
 import { countdown, dayKey } from './lib/day.js';
 import { hub } from './screens/hub.js';
-import { rewire } from './screens/rewire.js';
-import { hunch } from './screens/hunch.js';
-import { tangle } from './screens/tangle.js';
 import { ladder } from './screens/ladder.js';
 import { link } from './screens/link.js';
-import { anagram } from './screens/anagram.js';
+import { blend } from './screens/blend.js';
 import { me } from './screens/me.js';
 import { friends } from './screens/friends.js';
 import { state, save, mergeResults } from './lib/store.js';
@@ -19,7 +16,7 @@ import { BADGES, earned, badgeArt } from './lib/badges.js';
 import { SOUNDS, buzz } from './ui/feedback.js';
 
 const app = document.getElementById('app');
-const SCREENS = { hub, rewire, hunch, tangle, ladder, link, anagram, me, friends };
+const SCREENS = { hub, ladder, link, blend, me, friends };
 let cleanup = null;
 
 // Hash routes (#rewire) so the back button and shared links work without a server.

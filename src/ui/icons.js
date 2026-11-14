@@ -5,6 +5,7 @@ export const ICONS = {
   tangle: '<circle cx="5" cy="5.5" r="2"/><circle cx="19" cy="5.5" r="2"/><circle cx="5" cy="18.5" r="2"/><circle cx="19" cy="18.5" r="2"/><path d="M6.6 7 17.4 17M17.4 7 6.6 17"/>',
   ladder: '<path d="M7 3v18M17 3v18M7 7.5h10M7 12h10M7 16.5h10"/>',
   link: '<path d="M10 14a4 4 0 0 0 5.7 0l3.5-3.5a4 4 0 0 0-5.7-5.7L12 6.3"/><path d="M14 10a4 4 0 0 0-5.7 0l-3.5 3.5a4 4 0 0 0 5.7 5.7l1.5-1.5"/>',
+  blend: '<circle cx="9" cy="9.5" r="5.5"/><circle cx="15" cy="9.5" r="5.5"/><circle cx="12" cy="15" r="5.5"/>',
   anagram: '<rect x="2.5" y="8" width="8" height="8" rx="1.5"/><rect x="13.5" y="8" width="8" height="8" rx="1.5"/><path d="M6.5 5.5c2-3 9-3 11 0M17.5 18.5c-2 3-9 3-11 0"/>',
 };
 export const icon = (k, cls = '') => `<svg class="gi ${cls}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[k] || ''}</svg>`;
