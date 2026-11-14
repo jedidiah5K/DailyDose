@@ -52,7 +52,7 @@ tools/*-gen.mjs          make puzzle content as SQL (random secret per run; outp
 
 ## Content
 - `dose_puzzles` (game, day, content). No client access; only the `dose_<game>_start` functions hand out today's puzzle.
-- Loaded to: Blend, The Shot, Rush, Drop 14 Nov only (more days written in content/, load the rest before launch), Rewire 23 Dec, Tangle 24 Dec, Ladder 9 Dec, Hunch 10 Nov, Missing Link 9 Nov, Anagram 8 Nov. Hunch answers, Missing Link clues and Anagram words need Job's review. Check end dates often: a game with no puzzle says "not ready yet". Generators: tools/rewire-gen.mjs, tangle-gen.mjs, ladder-gen.mjs (content/words4.txt), words-gen.mjs (Missing Link + Anagram from content/*.json).
+- Loaded to (checked 2026-11-14): Blend 21 Nov, Drop 22 Nov, Rush 23 Nov, The Shot 29 Nov, Ladder 9 Dec, Missing Link 24 Dec. Write more Blend, Drop, Rush and Shot days soon: they run out first. Load by pasting rows from the generators into SQL (one row per line). Hunch answers, Missing Link clues and Anagram words need Job's review. Check end dates often: a game with no puzzle says "not ready yet". Generators: tools/rewire-gen.mjs, tangle-gen.mjs, ladder-gen.mjs (content/words4.txt), words-gen.mjs (Missing Link + Anagram from content/*.json).
 - Drop runs in the Edge Function `dose-drop` (replays shots server-side). Everything else is Postgres functions `dose_<game>_*`.
 
 ## Commands
