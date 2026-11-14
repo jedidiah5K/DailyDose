@@ -4,7 +4,7 @@ A daily games hub (NYT Games style): one home screen, a new puzzle in each game 
 
 - Live beta: https://daily-dose-azure.vercel.app. Vercel project `daily-dose` deploys every push to `claude/vault-supabase` (the repo's only branch, so it is production). **Ask Job before pushing.**
 - Repo: github.com/jedidiah5K/DailyDose (private).
-- Full brief: Job's build prompt (lineup, rules, Pro, security checklist). Lineup (Job, 2026-11-14): Blend, Missing Link, Ladder live; The Shot (7 s), Rush (30 s), Drop (push-your-luck higher/lower) to build. Each game should give a different feeling (mind-reading, panic, snap, nerve, aha, calm). Benched: Hunch. Retired: Rewire, Tangle, Anagram, old Drop, Mind Meld, Last Stand, Cipher (code and old results stay). Also built: You screen (stats + badges), Friends (typed friend codes, no invite links). Not yet: World Tower, admin page, notifications. Later drops: Bluff, Zoom, Echo.
+- Full brief: Job's build prompt (lineup, rules, Pro, security checklist). Lineup (Job, 2026-11-14), in home order: The Shot (1 question, 7 s), Rush (30 s typing), Blend, Drop (higher/lower, pot doubles, bank or bust; key 'hilo' because 'drop' is the retired game), Missing Link, Ladder. Screens are plain for now: the coffee-shop look is being designed in another conversation. Each game should give a different feeling (mind-reading, panic, snap, nerve, aha, calm). Benched: Hunch. Retired: Rewire, Tangle, Anagram, old Drop, Mind Meld, Last Stand, Cipher (code and old results stay). Also built: You screen (stats + badges), Friends (typed friend codes, no invite links). Not yet: World Tower, admin page, notifications. Later drops: Bluff, Zoom, Echo.
 - Look (Job's calls, 2026-10-26): home is the day's newspaper, "The Daily Dose": masthead, a top story (next game, big Play, faded "up for grabs" sticker), a 2-column grid with one story per game. **A story is only the game's name, big serif** — Job cut the descriptive joke lines and the dek the same night, and asked for the names enlarged to fill the space they left. Solving a game slaps its sticker on its story (worn, squiggly-edged square in the game colour, `src/ui/stickers.js`). All six = "EXTRA! EXTRA!" box + Sticker Bomb share card (dark card, sticker pile, the streak as a small line under the date; `src/ui/card.js`). Floating tab bar (Today, Friends, You). Instrument Serif headlines, Geist body, Geist Mono labels. Each game: shared header + How to play pop-up (`src/ui/shell.js`). Rejected so far: neon night city, plain NYT copy, big colour tiles, sky+moon home, retro stickers, per-game joke headlines on home. Design concepts live on a private canvas (claude.ai/artifact/535JyRRVgKcSJUhSMf5RjA).
 
 ## Difficulty rule for every game (Job, 2026-10-26)
@@ -38,6 +38,9 @@ src/screens/hunch.js     Hunch slider/reveal/summary  content/hunch.json        
 src/screens/tangle.js    Tangle: drag dots apart      src/games/tangleLogic.js  crossing check + knot maker (same rules in dose_tangle_bad)
 src/screens/link.js      Missing Link: 3 clues, 1 word content/link.json         5 links a day (answers stay on the server)
 src/screens/blend.js     Blend: 5 typed prompts, 20 s  content/blend.json        answer lists + guessed weights (tools/blend-gen.mjs)
+src/screens/shot.js      The Shot: 1 question, 7 s     content/shot.json         (tools/daily-gen.mjs makes Shot, Rush, Drop)
+src/screens/rush.js      Rush: 30 s, many answers      content/rush.json         borrows Blend's lists
+src/screens/drop.js      Drop (key hilo): higher/lower content/drop.json         number pools; chains of 12
 src/screens/anagram.js   Anagram: 5 words, short-long content/anagram.json      words; scrambles made by tools/words-gen.mjs
 src/screens/ladder.js    Ladder: word to word         content/words4.txt        word list (also in dose_words)
 src/lib/cloud.js         Supabase calls               src/lib/store.js          local state ('dose:v1'), streaks, mergeResults
@@ -49,7 +52,7 @@ tools/*-gen.mjs          make puzzle content as SQL (random secret per run; outp
 
 ## Content
 - `dose_puzzles` (game, day, content). No client access; only the `dose_<game>_start` functions hand out today's puzzle.
-- Loaded to: Blend 14 Nov only (8 days written in content/blend.json, load the rest before launch), Rewire 23 Dec, Tangle 24 Dec, Ladder 9 Dec, Hunch 10 Nov, Missing Link 9 Nov, Anagram 8 Nov. Hunch answers, Missing Link clues and Anagram words need Job's review. Check end dates often: a game with no puzzle says "not ready yet". Generators: tools/rewire-gen.mjs, tangle-gen.mjs, ladder-gen.mjs (content/words4.txt), words-gen.mjs (Missing Link + Anagram from content/*.json).
+- Loaded to: Blend, The Shot, Rush, Drop 14 Nov only (more days written in content/, load the rest before launch), Rewire 23 Dec, Tangle 24 Dec, Ladder 9 Dec, Hunch 10 Nov, Missing Link 9 Nov, Anagram 8 Nov. Hunch answers, Missing Link clues and Anagram words need Job's review. Check end dates often: a game with no puzzle says "not ready yet". Generators: tools/rewire-gen.mjs, tangle-gen.mjs, ladder-gen.mjs (content/words4.txt), words-gen.mjs (Missing Link + Anagram from content/*.json).
 - Drop runs in the Edge Function `dose-drop` (replays shots server-side). Everything else is Postgres functions `dose_<game>_*`.
 
 ## Commands

@@ -7,13 +7,22 @@ import { ensureStickerDefs, sticker, EDGE } from '../ui/stickers.js';
 import { ladderLine } from './ladder.js';
 import { linkLine } from './link.js';
 import { blendLine } from './blend.js';
+import { shotLine } from './shot.js';
+import { rushLine } from './rush.js';
+import { dropLine } from './drop.js';
 import { shareDose } from '../ui/card.js';
 
 // The lineup, as the day's newspaper: each story is the game's name, big. Solving it earns its sticker.
 // New games plug in here: a key, a screen in main.js, and a result line.
 export const GAMES = [
+  { k: 'shot', name: 'The Shot', c: '#3F7FC4',
+    done: r => r.ok ? `${(r.ms / 1000).toFixed(1)}s` : 'missed', share: r => `🎯 ${shotLine(r)}` },
+  { k: 'rush', name: 'Rush', c: '#DD7444',
+    done: r => `${r.points} points`, share: r => `⏱️ ${rushLine(r)}` },
   { k: 'blend', name: 'Blend', c: '#CF4F7D',
     done: r => `${r.score} of 500`, share: r => `🥤 ${blendLine(r)}` },
+  { k: 'hilo', name: 'Drop', c: '#B3881A', btn: '#C99A1E',
+    done: r => r.bust ? 'busted' : `banked ${r.banked.toLocaleString()}`, share: r => `💰 ${dropLine(r)}` },
   { k: 'link', name: 'Missing Link', c: '#2C9A88',
     done: r => `${r.score} of 15`, share: r => `🔗 ${linkLine(r)}` },
   { k: 'ladder', name: 'Ladder', c: '#7D5FC6',
@@ -21,8 +30,8 @@ export const GAMES = [
 ];
 // Where each sticker lands in its story: how far from the right edge, how far down (of the story), the lean.
 // They sit in the gap between the name and the rule under it, each leaning its own way.
-const LAND = { rewire: { right: 4, at: 55, r: -11 }, hunch: { right: 10, at: 53, r: 8 }, link: { right: 0, at: 57, r: -5 },
-  tangle: { right: 8, at: 54, r: 13 }, blend: { right: 2, at: 56, r: -14 }, ladder: { right: 12, at: 53, r: 6 } };
+const LAND = { shot: { right: 4, at: 55, r: -11 }, rush: { right: 10, at: 53, r: 8 }, blend: { right: 2, at: 56, r: -14 },
+  hilo: { right: 8, at: 54, r: 13 }, link: { right: 0, at: 57, r: -5 }, ladder: { right: 12, at: 53, r: 6 } };
 // Below this many players we keep quiet about the count; "3 playing" reads like an empty room.
 const SHOW_PLAYERS_FROM = 25;
 const FLAME = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c1 3.5-1.5 5-1.5 7.5 0 1.4 1 2.5 2.3 2.5 1.6 0 2.4-1.5 2-3.3C17.5 10.6 19 13 19 15.5A7 7 0 0 1 5 15.5C5 10 10 8 12 2z"/></svg>';

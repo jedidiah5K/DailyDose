@@ -38,6 +38,12 @@ const HOWTO = {
     demo: `<div class="demo demo-ladder"><p><b>C</b><b>O</b><b>L</b><b>D</b></p><p><b>C</b><b>O</b><b class="n">R</b><b>D</b></p><p><b class="n">W</b><b>O</b><b>R</b><b>D</b></p></div>` },
   anagram: { name: 'Anagram', steps: ['Tap the letters in order to spell the word (or type it).', 'It checks itself when every letter is placed. Tap a placed letter to take it back.', 'Five words, short to long. The clock runs until the last one; skipping costs the word.'],
     demo: `<div class="demo demo-anagram"><p><b>A</b><b>E</b><b>H</b><b>R</b><b>T</b></p><b>HEART</b></div>` },
+  shot: { name: 'The Shot', steps: ['One question a day. You get 7 seconds and one try.', 'Type the answer. The boxes show how many letters it has.', 'See how many players got it, and how fast you were.'],
+    demo: `<div class="demo demo-blend"><p>Capital of Australia?</p><b>CANBERRA · 4.2s</b></div>` },
+  rush: { name: 'Rush', steps: ['One category, 30 seconds.', 'Type as many answers as you can, one at a time, pressing enter after each.', 'Common answers score 1, less common 2, rare ones 3.'],
+    demo: `<div class="demo demo-blend"><p>US states</p><b>TEXAS · OHIO · IDAHO +3</b></div>` },
+  hilo: { name: 'Drop', steps: ['Each card hides a number. Call the next card higher or lower within 7 seconds.', 'Every right call doubles your pot: 10, 20, 40, 80…', 'Bank it between cards whenever you like. One wrong call and the pot is gone.'],
+    demo: `<div class="demo demo-blend"><p>Pot 80 → 160?</p><b>BANK IT · OR GO</b></div>` },
   blend: { name: 'Blend', steps: ['Five prompts, 20 seconds each. Type the first thing that fits.', '“Think like everyone”: match the answer most people give. “Think like no one”: a real answer few people give.', 'Up to 100 points a prompt. A rare answer nobody saw coming is a 💎.'],
     demo: `<div class="demo demo-blend"><p>A fruit that’s yellow</p><b>BANANA · 71%</b></div>` },
   link: { name: 'Missing Link', steps: ['Three clue words, one hidden word that goes with all of them. It can come before or after each clue.', 'Five links, any order: skip one and come back. Three tries each, and the first letter shows after two misses.', '3 points on the first try, 2 on the second, 1 on the third.'],
@@ -78,4 +84,33 @@ export function burst(color) {
   }).join('');
   document.body.appendChild(box);
   setTimeout(() => box.remove(), 1400);
+}
+
+// Messages pop up at the top, where the phone keyboard can't cover them, then fade.
+export function toaster(el) {
+  let t = 0;
+  return msg => { el.textContent = msg; el.classList.remove('pop'); void el.offsetWidth; el.classList.add('pop'); clearTimeout(t); if (msg) t = setTimeout(() => { el.textContent = ''; }, 2800); };
+}
+
+// Numbers roll up to their value instead of jumping.
+export function roll(el, to = +el.dataset.to) {
+  if (!el) return;
+  const from = +el.textContent || 0, t0 = performance.now();
+  if (calm()) { el.textContent = to; return; }
+  const f = t => { const x = Math.min(1, (t - t0) / 600); el.textContent = Math.round(from + (to - from) * (1 - (1 - x) ** 3)); if (x < 1 && el.isConnected) requestAnimationFrame(f); };
+  requestAnimationFrame(f);
+}
+
+export const esc = s => String(s ?? '').replace(/[<>&"]/g, c => `&#${c.charCodeAt(0)};`);
+
+// A draining bar for timed games: calls done() once when it hits zero. Returns stop().
+export function timerBar(bar, secs, endAt, total, done) {
+  const step = () => {
+    const left = Math.max(0, endAt - Date.now());
+    bar.style.transform = `scaleX(${left / total})`; if (secs) secs.textContent = `${Math.ceil(left / 1000)}s`;
+    if (left < Math.min(5000, total / 3)) bar.parentElement.classList.add('low');
+    if (left <= 0) { clearInterval(id); done(); }
+  };
+  const id = setInterval(step, 100); step();
+  return () => clearInterval(id);
 }

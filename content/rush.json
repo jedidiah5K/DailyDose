@@ -1,0 +1,16 @@
+{
+  "_note": "Rush: one category a day, 30 seconds, type as many as you can. 'use' borrows a long answer list from content/blend.json (by its q); or give 'a' and 'alias' here. Weight sets the points: 3+ = 1 point, 1 to 3 = 2 points, under 1 = 3 points (rare).",
+  "from": "2026-11-14",
+  "days": [
+    { "q": "US states", "use": "A US state" },
+    { "q": "Countries in Europe", "use": "A country in Europe" },
+    { "q": "Dog breeds", "use": "A dog breed" },
+    { "q": "Musical instruments", "use": "A musical instrument" },
+    { "q": "Car brands", "use": "A car brand" },
+    { "q": "Vegetables", "use": "A vegetable" },
+    { "q": "Countries in Africa", "use": "A country in Africa" },
+    { "q": "Olympic sports", "use": "An Olympic sport" },
+    { "q": "Chemical elements", "use": "A chemical element" },
+    { "q": "Bones in your body", "use": "A bone in the human body" }
+  ]
+}

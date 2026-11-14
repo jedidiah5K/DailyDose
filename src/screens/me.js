@@ -21,6 +21,9 @@ const STATS = {
   hunch: rs => { const p = nums(rs.map(r => r.points)); return p.length ? [['best', Math.max(...p)], ['average', Math.round(avg(p))], ['all 5 in band', count(rs, r => r.hits === 5)]] : [['average error', `${Math.round(avg(nums(rs.map(r => r.err))))}%`]]; },
   tangle: rs => { const t = nums(rs.map(r => r.ms)); return [['best', clock(Math.min(...t))], ['average', clock(avg(t))], ['under 30s', count(rs, r => r.ms < 30000)]]; },
   link: rs => { const p = rs.map(r => r.score); return [['best', `${Math.max(...p)}/15`], ['average', (avg(p)).toFixed(1)], ['perfect', count(rs, r => r.score === 15)]]; },
+  shot: rs => { const ok = rs.filter(r => r.ok); return [['got it', `${ok.length} of ${rs.length}`], ['fastest', ok.length ? `${(Math.min(...ok.map(r => r.ms)) / 1000).toFixed(1)}s` : '—']]; },
+  rush: rs => { const p = rs.map(r => r.points); return [['best', Math.max(...p)], ['average', Math.round(avg(p))], ['rare', rs.reduce((n, r) => n + r.rare, 0)]]; },
+  hilo: rs => { const b = rs.map(r => r.banked); return [['best', Math.max(...b).toLocaleString()], ['busts', count(rs, r => r.bust)], ['cleared', count(rs, r => r.cleared)]]; },
   blend: rs => { const p = rs.map(r => r.score); return [['best', Math.max(...p)], ['average', Math.round(avg(p))], ['rare finds', rs.reduce((n, r) => n + (r.gems || []).filter(Boolean).length, 0)]]; },
   ladder: rs => { const won = rs.filter(r => r.solved); return [['finished', `${Math.round(100 * won.length / rs.length)}%`], ['on par', count(won, r => r.steps === r.par)], ['average', won.length ? `${(avg(won.map(r => r.steps))).toFixed(1)} steps` : '—']]; },
 };

@@ -4,7 +4,7 @@ import { state, save, finish, resultFor, streak } from '../lib/store.js';
 import { blendStart, blendOpen, blendAnswer } from '../lib/cloud.js';
 import { SOUNDS, buzz } from '../ui/feedback.js';
 import { friendsOn } from './friends.js';
-import { gameHeader, wireHelp, burst } from '../ui/shell.js';
+import { gameHeader, wireHelp, burst, toaster, roll, esc, timerBar } from '../ui/shell.js';
 
 const MODE = {
   crowd: { name: 'Think like everyone', how: 'Match the answer most people give.' },
@@ -13,7 +13,6 @@ const MODE = {
 const tile = (p, gem) => gem ? '💎' : p >= 70 ? '🟩' : p >= 35 ? '🟨' : p > 0 ? '🟧' : '⬛';
 export const blendTiles = r => r.points.map((p, i) => tile(p, r.gems?.[i])).join('');
 export const blendLine = r => `${r.score}/500 ${blendTiles(r)}`;
-const esc = s => String(s ?? '').replace(/[<>&"]/g, c => `&#${c.charCodeAt(0)};`);
 const LIMIT = 20000;
 
 // Blend: five prompts, 20 seconds each, type the first thing that fits. "Think like everyone" scores for
@@ -21,7 +20,7 @@ const LIMIT = 20000;
 // runs the clock and keeps the answer lists; the phone only sees a prompt once it's opened.
 export function blend(app) {
   const day = dayKey();
-  let s = null, busy = false, gone = false, tick = 0, revealK = -1;
+  let s = null, busy = false, gone = false, stop = () => {}, revealK = -1;
 
   app.innerHTML = `<main class="screen game blend">
     ${gameHeader('blend', 'Blend', '<span class="eyebrow mono" id="step"></span>')}
@@ -36,15 +35,14 @@ export function blend(app) {
   </main>`;
   wireHelp(app, 'blend');
   const $ = q => app.querySelector(q);
-  let toastT = 0;
-  const say = t => { const m = $('#msg'); m.textContent = t; m.classList.remove('pop'); void m.offsetWidth; m.classList.add('pop'); clearTimeout(toastT); if (t) toastT = setTimeout(() => { m.textContent = ''; }, 2800); };
+  const say = toaster($('#msg'));
   const dots = () => `<ol class="bl-dots" aria-label="Prompts">${s.modes.map((m, i) => {
     const p = s.prompts[i]; const on = p?.done ? `${p.gem ? 'gem' : p.points >= 35 ? 'ok' : p.points > 0 ? 'meh' : 'miss'}` : !s.result && i === s.prompts.filter(x => x.done).length ? 'now' : '';
     return `<li class="${m} ${on}" title="${MODE[m].name}">${p?.done ? tile(p.points, p.gem) : i + 1}</li>`;
   }).join('')}</ol>`;
 
   function draw() {
-    clearInterval(tick);
+    stop();
     const k = s.prompts.length - 1, cur = s.prompts[k];
     $('#step').textContent = s.result ? `${s.result.score}/500` : `${Math.min(s.prompts.filter(p => p.done).length + 1, s.n)}/${s.n}`;
     if (s.result && revealK < 0) { $('#body').innerHTML = dots() + past(); return; }
@@ -75,20 +73,14 @@ export function blend(app) {
       <div class="bl-clock" aria-hidden="true"><i id="bar"></i></div><p class="bl-secs mono" id="secs"></p>
       <form id="form" class="bl-form" autocomplete="off"><input id="w" maxlength="30" autocorrect="off" autocapitalize="none" spellcheck="false" enterkeyhint="go" placeholder="Type it…" aria-label="Your answer"><button class="btn" id="lock">Lock it in</button></form>
     </div>`;
-    const input = $('#w'), bar = $('#bar'), secs = $('#secs');
+    const input = $('#w');
     setTimeout(() => input.focus(), 30);
-    const step = () => {
-      const left = Math.max(0, end - Date.now());
-      bar.style.transform = `scaleX(${left / LIMIT})`; secs.textContent = `${Math.ceil(left / 1000)}s`;
-      if (left < 5000) bar.parentElement.classList.add('low');
-      if (left <= 0) { clearInterval(tick); answer(k, input.value); }
-    };
-    step(); tick = setInterval(step, 100);
+    stop = timerBar($('#bar'), $('#secs'), end, LIMIT, () => answer(k, input.value));
     $('#form').addEventListener('submit', e => { e.preventDefault(); if (!input.value.trim()) { say('Type something first.'); return; } answer(k, input.value); });
   }
 
   async function answer(k, w) {
-    if (busy) return; busy = true; clearInterval(tick);
+    if (busy) return; busy = true; stop();
     let r;
     for (let i = 0; i < 3 && !r; i++) { try { r = await blendAnswer(k, w); } catch (e) { if (/not open/.test(e.message)) break; await new Promise(t => setTimeout(t, 600)); } }
     busy = false;
@@ -115,14 +107,6 @@ export function blend(app) {
     </div>${s.result ? '' : `<div class="h-bottom"><button class="btn wide" id="next">${k + 1 < s.n ? 'Next prompt' : 'See your score'}</button></div>`}`;
     roll($('[data-to]'));
     $('#next')?.addEventListener('click', () => { SOUNDS.tap(); revealK = -1; draw(); });
-  }
-
-  // numbers roll up instead of jumping
-  function roll(el) {
-    const to = +el.dataset.to, t0 = performance.now();
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { el.textContent = to; return; }
-    const f = t => { const x = Math.min(1, (t - t0) / 600); el.textContent = Math.round(to * (1 - (1 - x) ** 3)); if (x < 1 && !gone) requestAnimationFrame(f); };
-    requestAnimationFrame(f);
   }
 
   const past = () => `<ul class="bl-past">${s.prompts.map(p => `<li><span>${esc(p.q)}</span><b>${p.raw ? esc(p.raw) : '—'}</b><em>${p.points}</em></li>`).join('')}</ul>`;
@@ -160,5 +144,5 @@ export function blend(app) {
 
   $('#begin').addEventListener('click', () => { SOUNDS.tap(); buzz(); load(); });
   if (resultFor('blend') || state.progress.blend?.day === day) load();
-  return () => { gone = true; clearInterval(tick); };
+  return () => { gone = true; stop(); };
 }

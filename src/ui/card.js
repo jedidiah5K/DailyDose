@@ -5,11 +5,18 @@ import { stickerSvgDoc } from './stickers.js';
 import { resultFor, streak } from '../lib/store.js';
 import { clock } from '../lib/day.js';
 import { blendTiles } from '../screens/blend.js';
+import { dropTiles } from '../screens/drop.js';
 
 // Finished games for today, as lines for the card and the text share. Add new games here.
 export const LINEUP = [
+  { k: 'shot', name: 'The Shot', color: '#3F7FC4', emoji: '🎯',
+    big: r => r.ok ? `Got it in ${(r.ms / 1000).toFixed(1)}s` : 'Missed', small: r => `${r.pct}% got today’s shot` },
+  { k: 'rush', name: 'Rush', color: '#DD7444', emoji: '⏱️',
+    big: r => `${r.points} points`, small: r => `${r.found} found` + (r.rare ? ` · ${r.rare} rare` : '') + (r.beat != null ? ` · beat ${r.beat}%` : '') },
   { k: 'blend', name: 'Blend', color: '#CF4F7D', emoji: '🥤',
     big: r => `${r.score} of 500`, small: r => blendTiles(r) + (r.beat != null ? ` · beat ${r.beat}%` : '') },
+  { k: 'hilo', name: 'Drop', color: '#C99A1E', emoji: '💰',
+    big: r => r.bust ? `Busted at ${r.rights + 1}` : `Banked ${r.banked.toLocaleString()}`, small: r => dropTiles(r) },
   { k: 'link', name: 'Missing Link', color: '#2C9A88', emoji: '🔗',
     big: r => `${r.score} of 15`, small: r => `${r.solved} of 5 links` + (r.beat != null ? ` · beat ${r.beat}%` : '') },
   { k: 'ladder', name: 'Ladder', color: '#7D5FC6', emoji: '🪜',
@@ -20,11 +27,12 @@ export const doneTonight = () => LINEUP.filter(g => resultFor(g.k)).map(g => ({ 
 const SERIF = '"Instrument Serif", Georgia, serif', MONO = '"Geist Mono Variable", ui-monospace, monospace';
 // What each game's sticker says on the card.
 const TAG = {
-  rewire: r => clock(r.ms), hunch: r => r.points != null ? `${r.points} PTS` : `${Math.round(r.err)}% OFF`, link: r => `${r.score}/15`,
-  tangle: r => clock(r.ms), blend: r => `${r.score} PTS`, ladder: r => r.solved ? (r.steps === r.par ? 'ON PAR' : `${r.steps} STEPS`) : 'GAVE UP',
+  shot: r => r.ok ? `${(r.ms / 1000).toFixed(1)}S` : 'MISSED', rush: r => `${r.points} PTS`, blend: r => `${r.score} PTS`,
+  hilo: r => r.bust ? 'BUST' : `${r.banked}`, link: r => `${r.score}/15`, ladder: r => r.solved ? (r.steps === r.par ? 'ON PAR' : `${r.steps} STEPS`) : 'GAVE UP',
 };
 // The pile on the card (centre x, centre y, size, tilt in a 360x640 card), drawn back to front.
-const PILE = [['link', 258, 330, 150, 9], ['ladder', 104, 500, 136, -10], ['blend', 176, 410, 156, -4]];
+const PILE = [['shot', 84, 318, 136, -12], ['link', 262, 306, 146, 9], ['rush', 82, 492, 128, 10],
+  ['hilo', 284, 478, 128, -14], ['blend', 178, 404, 134, -3], ['ladder', 190, 540, 118, 6]];
 
 async function drawSticker(x, k, cx, cy, size, tilt, text) {
   const img = new Image();

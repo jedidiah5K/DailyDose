@@ -3,7 +3,7 @@
 import { countStreak } from './store.js';
 import { icon } from '../ui/icons.js';
 
-const GAMES = ['blend', 'link', 'ladder'];   // today's lineup (retired games keep their old badges)
+const GAMES = ['shot', 'rush', 'blend', 'hilo', 'link', 'ladder'];   // today's lineup (retired games keep their old badges)
 const any = (results, k, test) => Object.values(results[k] || {}).some(test);
 
 export const BADGES = [

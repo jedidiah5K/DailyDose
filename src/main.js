@@ -8,6 +8,9 @@ import { hub } from './screens/hub.js';
 import { ladder } from './screens/ladder.js';
 import { link } from './screens/link.js';
 import { blend } from './screens/blend.js';
+import { shot } from './screens/shot.js';
+import { rush } from './screens/rush.js';
+import { drop } from './screens/drop.js';
 import { me } from './screens/me.js';
 import { friends } from './screens/friends.js';
 import { state, save, mergeResults } from './lib/store.js';
@@ -16,7 +19,7 @@ import { BADGES, earned, badgeArt } from './lib/badges.js';
 import { SOUNDS, buzz } from './ui/feedback.js';
 
 const app = document.getElementById('app');
-const SCREENS = { hub, ladder, link, blend, me, friends };
+const SCREENS = { hub, shot, rush, blend, hilo: drop, link, ladder, me, friends };
 let cleanup = null;
 
 // Hash routes (#rewire) so the back button and shared links work without a server.

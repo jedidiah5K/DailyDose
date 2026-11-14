@@ -9,7 +9,7 @@ test('badges come from results: firsts, full nights and game feats', () => {
   const all = {
     rewire: { [day]: { ms: 50000, stars: 3 } }, hunch: { [day]: { points: 200, hits: 5 } },
     tangle: { [day]: { ms: 25000 } },
-    ladder: { [day]: { solved: true, steps: 6, par: 5 } }, link: { [day]: { score: 15, solved: 5 } }, blend: { [day]: { score: 300, gems: [false, true, false, false, false] } },
+    ladder: { [day]: { solved: true, steps: 6, par: 5 } }, shot: { [day]: { ok: true, ms: 4000 } }, rush: { [day]: { points: 20, found: 12, rare: 1 } }, hilo: { [day]: { banked: 80, rights: 3 } }, link: { [day]: { score: 15, solved: 5 } }, blend: { [day]: { score: 300, gems: [false, true, false, false, false] } },
   };
   const got = earned(all);
   for (const id of ['first', 'full', 'par', 'quick', 'bullseye', 'nimble', 'linked']) expect(got.has(id)).toBe(true);

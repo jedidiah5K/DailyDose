@@ -1,0 +1,22 @@
+{
+  "_note": "The Shot: one question a day, 7 seconds. 'a' = every answer that counts (lowercase letters, digits, spaces). 'show' = how the answer is shown after. Aim for questions most people know but can't pull out in 7 seconds. Job to review.",
+  "from": "2026-11-14",
+  "days": [
+    { "q": "What's the capital of Australia?", "show": "Canberra", "a": ["canberra"] },
+    { "q": "How many hearts does an octopus have?", "show": "Three", "a": ["3", "three"] },
+    { "q": "What's the largest organ in the human body?", "show": "Skin", "a": ["skin", "the skin"] },
+    { "q": "Which country gave the Statue of Liberty to the USA?", "show": "France", "a": ["france"] },
+    { "q": "What's the smallest country in the world?", "show": "Vatican City", "a": ["vatican city", "vatican", "the vatican", "holy see"] },
+    { "q": "What's the fastest land animal?", "show": "Cheetah", "a": ["cheetah"] },
+    { "q": "What's the currency of Japan?", "show": "Yen", "a": ["yen", "japanese yen"] },
+    { "q": "Fe is the chemical symbol for which element?", "show": "Iron", "a": ["iron"] },
+    { "q": "What's the hardest natural substance?", "show": "Diamond", "a": ["diamond", "diamonds"] },
+    { "q": "Which planet has the most moons?", "show": "Saturn", "a": ["saturn"] },
+    { "q": "What's the longest river in Africa?", "show": "Nile", "a": ["nile", "the nile", "river nile"] },
+    { "q": "How many bones does an adult human have?", "show": "206", "a": ["206", "two hundred and six", "two hundred six"] },
+    { "q": "Who painted the Mona Lisa?", "show": "Da Vinci", "a": ["da vinci", "leonardo", "leonardo da vinci", "davinci"] },
+    { "q": "What's the only food that never goes off?", "show": "Honey", "a": ["honey"] },
+    { "q": "What's the tallest mountain in Africa?", "show": "Kilimanjaro", "a": ["kilimanjaro", "mount kilimanjaro", "mt kilimanjaro"] },
+    { "q": "What gas do plants take in from the air?", "show": "Carbon dioxide", "a": ["carbon dioxide", "co2"] }
+  ]
+}

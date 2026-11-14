@@ -68,6 +68,17 @@ export const linkGuess = (k, w) => rpc('dose_link_guess', { p_k: k, p_guess: w }
 export const blendStart = () => rpc('dose_blend_start');
 export const blendOpen = k => rpc('dose_blend_open', { p_k: k });
 export const blendAnswer = (k, w) => rpc('dose_blend_answer', { p_k: k, p_text: w });
+export const shotStart = () => rpc('dose_shot_start');
+export const shotOpen = () => rpc('dose_shot_open');
+export const shotAnswer = w => rpc('dose_shot_answer', { p_text: w });
+export const rushStart = () => rpc('dose_rush_start');
+export const rushOpen = () => rpc('dose_rush_open');
+export const rushAdd = w => rpc('dose_rush_add', { p_text: w });
+export const rushFinish = () => rpc('dose_rush_finish');
+export const hiloStart = () => rpc('dose_hilo_start');
+export const hiloOpen = () => rpc('dose_hilo_open');
+export const hiloCall = dir => rpc('dose_hilo_call', { p_dir: dir });
+export const hiloBank = () => rpc('dose_hilo_bank');
 export const anagramStart = () => rpc('dose_anagram_start');
 export const anagramGuess = w => rpc('dose_anagram_guess', { p_guess: w });
 export const tangleStart = () => rpc('dose_tangle_start');

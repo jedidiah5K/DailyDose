@@ -6,7 +6,7 @@ import { ICONS } from './icons.js';
 const FLAME = '<path d="M12 2c1 3.5-1.5 5-1.5 7.5 0 1.4 1 2.5 2.3 2.5 1.6 0 2.4-1.5 2-3.3C17.5 10.6 19 13 19 15.5A7 7 0 0 1 5 15.5C5 10 10 8 12 2z"/>';
 export const STICKER = {  // colour, seed for its scuffs
   rewire: ['#3F7FC4', 3], hunch: ['#C99A1E', 8], link: ['#2C9A88', 14], tangle: ['#DD7444', 21],
-  blend: ['#CF4F7D', 30], ladder: ['#7D5FC6', 41], streak: ['#E9A13B', 52],
+  blend: ['#CF4F7D', 30], shot: ['#3F7FC4', 60], rush: ['#DD7444', 66], hilo: ['#C99A1E', 72], ladder: ['#7D5FC6', 41], streak: ['#E9A13B', 52],
 };
 const iconOf = k => k === 'streak' ? FLAME : ICONS[k];
 
