@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Daily Dose · Café</title>
+<meta name="theme-color" content="#5F7A5A">
+<!-- shortcut: Google Fonts for the mockup only; the real app self-hosts (guide + GDPR) -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caprasimo&family=Figtree:wght@500;600;700;800&display=swap">
+<style>
+:root{
+  --sage-2:#5F7A5A; --paper:#FFF6E6; --ink:#2C2116; --wood:#6E4A2C; --espresso:#2A170D; --crema:#C98A50;
+  --tile:#EFE4D0; --grout:#DCCDB3;
+  --font-display:'Caprasimo',serif; --font-ui:'Figtree',system-ui,sans-serif; --ease-out:cubic-bezier(.23,1,.32,1);
+  --top:60px; --side:215px;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{color:var(--ink);font-family:var(--font-ui);overscroll-behavior:none;
+  background:linear-gradient(var(--grout) 1px,transparent 1px) 0 0/34px 17px,linear-gradient(90deg,var(--grout) 1px,transparent 1px) 0 0/34px 34px,var(--tile)}
+.app{min-height:100svh;display:flex;flex-direction:column}
+.top{height:var(--top);display:flex;align-items:center;gap:10px;padding:0 max(16px,env(safe-area-inset-left));padding-top:env(safe-area-inset-top);background:var(--sage-2);color:var(--paper)}
+.wordmark{font-family:var(--font-display);font-size:clamp(20px,6vw,28px);line-height:1;margin:0;font-weight:400}
+.spacer{flex:1}
+.streak{display:flex;align-items:center;gap:4px;font-weight:800;font-size:17px;font-variant-numeric:tabular-nums}
+.icon-btn{width:44px;height:44px;border-radius:50%;border:0;background:rgba(0,0,0,.18);color:inherit;display:grid;place-items:center;cursor:pointer;flex:none}
+.main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:12px max(12px,env(safe-area-inset-left)) calc(12px + env(safe-area-inset-bottom))}
+
+/* ---------- the stage: tall art on portrait screens, wide art on landscape ones ---------- */
+.stage{position:relative;container-type:inline-size;border-radius:14px;overflow:hidden;box-shadow:0 0 0 6px var(--wood),0 18px 40px rgba(60,40,20,.25);
+  aspect-ratio:941/1672;width:min(100%,max(240px,calc((100svh - var(--top) - var(--side)) * 941 / 1672)));
+  background:url(art/room-tall.webp) center/100% 100% no-repeat;--fs:2.9cqw}
+@media (orientation:landscape){
+  .stage{aspect-ratio:1672/941;width:min(100%,calc((100svh - var(--top) - var(--side)) * 1672 / 941));background-image:url(art/room-wide.webp);--fs:1.45cqw}
+}
+.sp{position:absolute;left:var(--x);bottom:var(--b);transform:translateX(-50%);image-rendering:pixelated;display:block}
+.sp img{display:block;image-rendering:pixelated}
+
+/* positions, sized by HEIGHT against the door so people, animals and the machine share one scale.
+   x = centre, b = bottom edge, h = height, all % of the stage. Portrait (tall room) first, then landscape (wide room).
+   Tall room has no visible floor: people stand behind the counter and the counter layer hides their legs. */
+.sp{height:var(--h);width:auto}
+div.sp img{height:100%;width:auto;max-width:none}
+.machine{--x:50%;--b:11%;--h:18%}
+.table{--x:25%;--b:11%;--h:19%}
+.cat{--x:12%;--b:36.4%;--h:4.2%}
+.dog{--x:94%;--b:21.4%;--h:5.5%}
+.q1{--x:67%;--b:12%;--h:30%}.q2{--x:81%;--b:13%;--h:28.5%;filter:brightness(.92)}
+.street{left:0;width:50%;bottom:41%;height:7%}
+.board{left:36%;bottom:39%}
+.front{position:absolute;inset:0;background:inherit;background-size:100% 100%;clip-path:polygon(0 81.2%,100% 74%,100% 100%,0 100%);pointer-events:none}
+@media (orientation:landscape){
+  .machine{--x:50%;--b:11%;--h:27%}
+  .table{--x:19%;--b:29%;--h:28%}
+  .cat{--x:14%;--b:42.4%;--h:5%}
+  .dog{--x:83%;--b:29%;--h:7%}
+  .q1{--x:64%;--b:25.5%;--h:40%}.q2{--x:73%;--b:27.5%;--h:37.5%}
+  .street{left:4%;width:22%;bottom:47.5%;height:8.5%}
+  .board{left:27%;bottom:44%}
+  .front{clip-path:inset(78.2% 0 0 0)}
+}
+
+/* life */
+.cat img{transform-origin:50% 100%;animation:breathe 3.6s ease-in-out infinite}
+@keyframes breathe{50%{transform:scaleY(1.04)}}
+.dog img{transform-origin:50% 100%;animation:tilt 4.5s ease-in-out infinite}
+@keyframes tilt{0%,80%,100%{transform:rotate(0)}86%,94%{transform:rotate(-5deg)}}
+.q img{animation:idle 2.6s ease-in-out infinite}.q2 img{animation-delay:.5s}.q3 img{animation-delay:1.1s}
+@keyframes idle{50%{transform:translateY(-1.5%)}}
+.bubble{position:absolute;bottom:102%;left:50%;transform:translateX(-50%);font-size:max(9px,var(--fs));font-weight:800;background:var(--paper);color:var(--ink);border-radius:999px;padding:.35em .8em;white-space:nowrap;box-shadow:0 2px 0 rgba(0,0,0,.15)}
+.street{position:absolute;overflow:hidden;opacity:.75}
+.walker{position:absolute;bottom:0;height:100%;animation:walk linear infinite}
+.walker img{height:100%;width:auto;display:block;animation:bob .5s steps(2) infinite}
+.walker.back img{transform:scaleX(-1)}
+@keyframes walk{from{left:-15%}to{left:105%}}
+@keyframes bob{50%{translate:0 -3%}}
+.board{position:absolute;background:#2E3A2F;border:.5em solid #8A5A33;border-radius:.4em;color:#F4F1E8;text-align:center;padding:.3em .6em;font-size:max(8px,calc(var(--fs) * .8));line-height:1.15;font-weight:700}
+.board b{display:block;font-family:var(--font-display);font-size:1.4em;font-weight:400}
+
+/* ---------- the shots: the games. They glow, bob and carry their name, so they read as buttons ---------- */
+.shotbar{position:absolute;inset:0;pointer-events:none}
+.slot{pointer-events:auto;position:absolute;bottom:.6%;width:14%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:.2em;height:15%;background:none;border:0;padding:0;cursor:pointer;font:inherit;font-size:max(9px,var(--fs))}
+@media (orientation:landscape){.slot{width:8%;height:13%}}
+.slot .glow{position:absolute;bottom:2.4em;left:50%;width:120%;aspect-ratio:3/1;transform:translateX(-50%);border-radius:50%;background:radial-gradient(closest-side,var(--c),transparent);opacity:.55;animation:pulse 2.4s ease-in-out infinite}
+.slot.done .glow{opacity:.18;animation:none}
+@keyframes pulse{50%{opacity:.85}}
+.slot .nm{font-weight:800;color:#FFF3E2;text-align:center;line-height:1.05;text-shadow:0 1px 0 rgba(40,20,8,.85),0 0 6px rgba(40,20,8,.6)}
+.slot .res{font-size:.85em;font-weight:700;color:#FFE1B8;font-variant-numeric:tabular-nums;text-shadow:0 1px 0 rgba(40,20,8,.85)}
+.slot .nm::before{content:'';display:block;width:1.6em;height:.28em;border-radius:1em;background:var(--c);margin:0 auto .25em}
+.slot[aria-pressed=true] .nm{color:#FFE7A8}
+.slot:focus-visible{outline:3px solid #FFE1B8;outline-offset:2px;border-radius:12px}
+.glass{position:absolute;transform:translateX(-50%);pointer-events:none;width:var(--gw);
+  transition:left .55s var(--ease-out),bottom .55s var(--ease-out),width .55s var(--ease-out)}
+.glass img{width:100%;display:block;image-rendering:pixelated;animation:float 2.4s ease-in-out infinite}
+.glass.done img{animation:none}
+@keyframes float{50%{transform:translateY(-6%)}}
+.glass.in img{animation:spinIn .55s var(--ease-out)}
+@keyframes spinIn{0%{rotate:0deg}55%{rotate:-22deg}100%{rotate:0deg}}
+.glass::after{content:'';position:absolute;left:12%;top:8%;width:12%;height:0;background:linear-gradient(#fff,transparent);opacity:0}
+.slot:hover~.glass,.glass.hint{filter:brightness(1.08)}
+.sparkle{position:absolute;width:.5em;height:.5em;background:#FFF6D8;clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);animation:twinkle 2.2s ease-in-out infinite;pointer-events:none}
+@keyframes twinkle{0%,100%{opacity:0;transform:scale(.4)}50%{opacity:1;transform:scale(1)}}
+.stream{position:absolute;left:calc(50% - .35cqw);width:.7cqw;height:0;background:linear-gradient(#5A3018,#3A1E0E);bottom:var(--sb)}
+.pouring .stream{height:var(--sh);transition:height .2s}
+.steam{position:absolute;width:var(--stw);opacity:0;pointer-events:none}
+.pouring .steam,.steam.idle{animation:rise 2.8s ease-out infinite}
+@keyframes rise{0%{opacity:0;transform:translate(-50%,10%) scale(.7)}35%{opacity:.85}100%{opacity:0;transform:translate(-50%,-60%) scale(1.15)}}
+
+/* ---------- the dive: pulling the shot drops you into the coffee, then the game opens ---------- */
+.dive{position:fixed;inset:0;z-index:50;pointer-events:none;visibility:hidden;
+  background:radial-gradient(circle at 50% 45%,#6B3E1E 0,#3A1E0E 38%,var(--espresso) 70%);
+  clip-path:circle(0 at var(--dx,50%) var(--dy,50%));transition:clip-path .75s cubic-bezier(.7,0,.3,1)}
+.dive::before{content:'';position:absolute;inset:-50%;background:conic-gradient(from 0deg,transparent 0 8%,rgba(201,138,80,.35) 10% 14%,transparent 16% 33%,rgba(201,138,80,.3) 36% 39%,transparent 42% 60%,rgba(201,138,80,.35) 63% 67%,transparent 70%);animation:swirl 6s linear infinite;mask:radial-gradient(circle,#000 25%,transparent 60%)}
+@keyframes swirl{to{rotate:360deg}}
+.dive.on{visibility:visible;pointer-events:auto;clip-path:circle(150% at var(--dx,50%) var(--dy,50%))}
+.card{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:14px;text-align:center;color:#FFF1DC;padding:24px;opacity:0;transform:scale(.96);transition:opacity .3s .55s,transform .3s .55s var(--ease-out)}
+.dive.on .card{opacity:1;transform:none}
+.card .band{width:64px;height:8px;border-radius:8px;background:var(--c)}
+.card h2{font-family:var(--font-display);font-weight:400;font-size:clamp(40px,11vw,72px);margin:0;line-height:1}
+.card p{margin:0;max-width:30ch;font-size:17px;line-height:1.4;color:#E9D3B4}
+.card button{margin-top:10px;min-height:52px;padding:0 28px;border-radius:999px;border:0;font:800 17px var(--font-ui);cursor:pointer}
+.card .go{background:var(--paper);color:var(--ink);box-shadow:0 5px 0 #1A0D06}
+.card .back{background:none;color:#E9D3B4;min-height:44px}
+
+/* ---------- actions ---------- */
+.side{width:min(100%,440px);display:flex;flex-direction:column;align-items:center;gap:10px}
+.serve{width:100%;min-height:56px;border:0;border-radius:999px;background:var(--paper);color:var(--ink);font:800 clamp(15px,4.6vw,18px) var(--font-ui);display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;box-shadow:0 5px 0 var(--wood);padding:0 18px;text-align:center}
+.serve .dot{width:14px;height:14px;border-radius:50%;flex:none}
+.reset{font-size:13px;font-weight:700;color:#5A4634;display:flex;gap:6px;align-items:center}
+.tabs{display:flex;gap:6px;background:var(--sage-2);border-radius:999px;padding:5px}
+.tabs a{min-width:76px;min-height:40px;display:grid;place-items:center;border-radius:999px;color:#E9F0E4;font-weight:800;font-size:14px;text-decoration:none}
+.tabs a[aria-current]{background:var(--paper);color:var(--ink)}
+.side .wordmark{display:none}
+@media (orientation:landscape){ :root{--side:185px} }
+@media (orientation:landscape) and (max-height:520px){
+  :root{--top:0px;--side:16px}
+  .top{display:none}
+  .main{flex-direction:row;gap:16px;padding-block:8px}
+  .stage{width:min(calc(100vw - 290px),calc((100svh - 16px) * 1672 / 941))}
+  .side{width:220px}
+  .side .wordmark{display:block;color:var(--sage-2)}
+}
+@media (max-width:300px){ .tabs a{min-width:60px;font-size:12px} .serve{font-size:14px} }
+.tap{transition:transform 140ms var(--ease-out)}.tap:active{transform:scale(.96)}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <h1 class="wordmark">Daily Dose</h1>
+    <span class="spacer"></span>
+    <span class="streak" id="streak"></span>
+    <button class="icon-btn tap" aria-label="Mute café sounds" title="Mute café sounds">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M17 9a4 4 0 0 1 0 6"/></svg>
+    </button>
+  </header>
+
+  <main class="main">
+    <section class="stage" id="stage" aria-label="The café">
+      <div class="street" id="street" aria-hidden="true"></div>
+      <div class="board" aria-hidden="true"><b id="players"></b>in today</div>
+      <div class="sp cat"><img src="art/sprites/cat-sleep.png" alt=""></div>
+      <img class="sp table" src="art/sprites/table.png" alt="">
+      <div id="queue"></div>
+      <div class="sp dog"><img src="art/sprites/dog.png" alt=""></div>
+      <div class="front" aria-hidden="true"></div>
+      <img class="sp machine" src="art/sprites/machine.png" alt="">
+      <img class="steam idle" id="steam" src="art/sprites/steam.png" alt="">
+      <div class="stream" id="stream"></div>
+      <div class="shotbar" id="shots"></div>
+    </section>
+
+    <div class="side">
+      <p class="wordmark">Daily Dose</p>
+      <button class="serve tap" id="serve"></button>
+      <div class="reset">New shots in <span class="roll" id="clock"></span></div>
+      <nav class="tabs" aria-label="Sections"><a href="#" aria-current="page">Today</a><a href="#friends">Friends</a><a href="#me">You</a></nav>
+    </div>
+  </main>
+
+  <div class="dive" id="dive" role="dialog" aria-modal="true" aria-label="Game">
+    <div class="card"><span class="band"></span><h2 id="dname"></h2><p id="dline"></p>
+      <button class="go tap" id="dgo">Start</button><button class="back tap" id="dback">Back to the café</button></div>
+  </div>
+</div>
+
+<script type="module">
+import { data, flame, rollingClock, SHARED_CSS } from './cafe.js';
+document.head.insertAdjacentHTML('afterbegin', `<style>${SHARED_CSS}</style>`);
+const $ = id => document.getElementById(id);
+const stage = $('stage');
+const LINES = { // mock one-liners for the game card
+  shot: 'One question. Seven seconds. Trust your gut.',
+  blend: 'Five prompts. Match the crowd, or find what nobody said.',
+  rush: 'Thirty seconds. Name as many as you can.',
+  drop: 'Higher or lower. The pot doubles. Bank it or bust.',
+  link: 'Three clues, one word that links them.',
+  ladder: 'Change one letter at a time to climb from word to word.',
+};
+const games = data.games.map((g, i) => ({ ...g, i }));
+const open = () => games.filter(g => !g.done);
+let chosen = games.find(g => g.key === data.suggestedNext && !g.done) || open()[0];
+const wide = () => matchMedia('(orientation: landscape)').matches;
+
+$('streak').innerHTML = flame(data.streak, 20) + `<span>${data.streak}</span>`;
+$('players').textContent = data.playersToday.toLocaleString('en');
+const QUEUE = ['m-glasses', 'm-longhair'];                 // the two main customers
+const PEOPLE = ['p-hoodie', 'p-braids', 'p-granny', 'm-glasses-walk']; // background regulars walking past
+$('street').innerHTML = Array.from({ length: 4 }, (_, i) => `<div class="walker ${i % 2 ? 'back' : ''}" style="animation-duration:${14 + i * 4}s;animation-delay:-${i * 5}s;${i % 2 ? 'animation-direction:reverse' : ''}"><img src="art/sprites/${PEOPLE[i % 4]}.png" alt=""></div>`).join('');
+
+// Geometry that depends on the art: where the glass sits inside the machine, and the row along the counter.
+function geo() {
+  const W = wide();
+  const ratio = W ? 1672 / 941 : 941 / 1672;                                   // stage width / height
+  const m = W ? { b: 11, h: 27 } : { b: 11, h: 18 };                          // machine bottom + height, % of stage height
+  m.w = m.h * (348 / 364) / ratio; const mH = m.h;                             // its width in % of stage width
+  return {
+    rowX: i => 50 + (i - 2.5) * (W ? 8.2 : 15.6),
+    rowB: W ? 6.6 : 6.6, rowW: W ? 3.8 : 8.6,
+    inB: m.b + mH * 0.16, inW: m.w * 0.24,                                     // on the drip tray, under the spout
+    streamB: m.b + mH * 0.16 + m.w * 0.24 * (144 / 120) * ratio * 0.95,
+    streamH: mH * 0.09, steamB: m.b + mH * 0.96, steamW: m.w * 0.3,
+  };
+}
+
+function render() {
+  const G = geo();
+  $('shots').innerHTML = games.map(g => `
+    <button class="slot tap ${g.done ? 'done' : ''}" style="left:${G.rowX(g.i)}%;--c:${g.colour}" data-k="${g.key}" aria-pressed="${g === chosen}"
+      aria-label="${g.name}${g.done ? ', done, ' + g.result : ''}">
+      <span class="glow"></span><span class="nm">${g.name}</span>${g.done ? `<span class="res">${g.result}</span>` : ''}</button>`).join('') +
+    games.map(g => {
+      const isIn = g === chosen;
+      return `<div class="glass ${isIn ? 'in' : ''} ${g.done ? 'done' : ''}" id="glass-${g.key}" style="left:${isIn ? 50 : G.rowX(g.i)}%;bottom:${isIn ? G.inB : G.rowB}%;--gw:${isIn ? G.inW : G.rowW}%">
+        <img src="art/sprites/shot-${g.done ? 'full' : 'empty'}-${g.i}.png" alt="">
+        ${!g.done && !isIn ? `<span class="sparkle" style="left:80%;top:${10 + g.i * 7 % 30}%;animation-delay:${g.i * .35}s"></span>` : ''}</div>`;
+    }).join('');
+  const set = (el, o) => Object.entries(o).forEach(([k, v]) => el.style.setProperty(k, v));
+  set($('stream'), { '--sb': G.streamB + '%', '--sh': G.streamH + '%' });
+  set($('steam'), { left: '50%', bottom: G.steamB + '%', '--stw': G.steamW + '%' });
+  const left = open();
+  $('queue').innerHTML = left.slice(0, 2).reverse().map((g, j, a) => { const i = a.length - 1 - j; return `<div class="sp q q${i + 1}"><img src="art/sprites/${QUEUE[i]}.png" alt="">${i === 0 && chosen ? `<span class="bubble">${chosen.drink}, please</span>` : ''}</div>`; }).join('');
+  $('serve').innerHTML = chosen ? `<span class="dot" style="background:${chosen.colour}"></span>Pull the shot: ${chosen.name}` : 'Dose complete';
+  document.querySelectorAll('.slot').forEach(b => b.onclick = () => pick(b.dataset.k));
+}
+function pick(k) {
+  const g = games.find(x => x.key === k);
+  if (g.done || g === chosen || stage.classList.contains('pouring')) return;
+  chosen = g; render();
+}
+// Pull: espresso pours into the glass, then the screen dives into the coffee and the game card opens.
+$('serve').addEventListener('click', () => {
+  if (!chosen || stage.classList.contains('pouring')) return;
+  stage.classList.add('pouring');
+  setTimeout(() => {
+    const r = $('glass-' + chosen.key).getBoundingClientRect();
+    const d = $('dive');
+    d.style.setProperty('--dx', r.left + r.width / 2 + 'px'); d.style.setProperty('--dy', r.top + r.height / 3 + 'px');
+    d.style.setProperty('--c', chosen.colour);
+    $('dname').textContent = chosen.name; $('dline').textContent = LINES[chosen.key];
+    d.classList.add('on'); stage.classList.remove('pouring');
+    $('dgo').focus();
+  }, 1000);
+});
+function surface(played) {
+  $('dive').classList.remove('on');
+  if (played) { chosen.done = true; chosen.result = chosen.result || 'Played'; chosen = open()[0]; }
+  setTimeout(render, 300);
+}
+$('dgo').onclick = () => surface(true);   // mockup: "Start" stands in for playing the game
+$('dback').onclick = () => surface(false);
+addEventListener('keydown', e => { if (e.key === 'Escape' && $('dive').classList.contains('on')) surface(false); });
+matchMedia('(orientation: landscape)').addEventListener('change', render);
+render();
+rollingClock($('clock'));
+</script>
+</body>
+</html>

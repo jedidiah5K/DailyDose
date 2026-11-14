@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Daily Dose · Pixel Café</title>
+<meta name="theme-color" content="#5F7A5A">
+<!-- shortcut: Google Fonts for the mockup only; the real app self-hosts (guide + GDPR) -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caprasimo&family=Figtree:wght@500;600;700;800&display=swap">
+<style>
+:root{
+  --sage:#7E9A78; --sage-2:#5F7A5A; --paper:#FFF6E6; --ink:#2C2116; --wood:#6E4A2C; --accent:#C8402B;
+  --tile:#EFE4D0; --grout:#DCCDB3;
+  --font-display:'Caprasimo',serif; --font-ui:'Figtree',system-ui,sans-serif; --ease-out:cubic-bezier(.23,1,.32,1);
+  --top:60px; --side:215px; /* room kept for the header and the button block */
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{color:var(--ink);font-family:var(--font-ui);overscroll-behavior:none;
+  /* on wide screens the café wall carries on past the picture */
+  background:linear-gradient(var(--grout) 1px,transparent 1px) 0 0/34px 17px,linear-gradient(90deg,var(--grout) 1px,transparent 1px) 0 0/34px 34px,var(--tile)}
+.app{min-height:100svh;display:flex;flex-direction:column}
+
+.top{height:var(--top);display:flex;align-items:center;gap:10px;padding:0 max(16px,env(safe-area-inset-left));padding-top:env(safe-area-inset-top);background:var(--sage-2);color:var(--paper)}
+.wordmark{font-family:var(--font-display);font-size:clamp(20px,6vw,28px);line-height:1;margin:0;font-weight:400}
+.spacer{flex:1}
+.streak{display:flex;align-items:center;gap:4px;font-weight:800;font-size:17px;font-variant-numeric:tabular-nums}
+.icon-btn{width:44px;height:44px;border-radius:50%;border:0;background:rgba(0,0,0,.18);color:inherit;display:grid;place-items:center;cursor:pointer;flex:none}
+
+.main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:12px max(12px,env(safe-area-inset-left)) calc(12px + env(safe-area-inset-bottom))}
+
+/* the stage: one fixed-ratio picture, scaled to the space, always centred.
+   Every sprite and label inside is sized in cqw so it scales with the picture. */
+.stage{position:relative;aspect-ratio:288/512;container-type:inline-size;
+  width:min(100%,max(240px,calc((100svh - var(--top) - var(--side)) * .5625)));
+  border-radius:14px;overflow:hidden;box-shadow:0 0 0 6px var(--wood),0 18px 40px rgba(60,40,20,.25);
+  background:url(art/corner-day.png) center/100% 100% no-repeat;image-rendering:pixelated}
+.layer{position:absolute}
+.px{display:block;height:auto;image-rendering:pixelated}
+.outline{filter:drop-shadow(.3cqw 0 0 #6B5442) drop-shadow(-.3cqw 0 0 #6B5442) drop-shadow(0 .3cqw 0 #6B5442) drop-shadow(0 -.3cqw 0 #6B5442)}
+
+.street{left:0;width:46%;top:50%;height:12%;overflow:hidden}
+.street .px-person{width:5cqw}
+.walker.lane0{bottom:3.5cqw;opacity:.6}.walker.lane1{bottom:1.5cqw;opacity:.8}.walker.lane2{bottom:0}
+@keyframes walk{from{transform:translateX(-6cqw)}to{transform:translateX(48cqw)}}
+@keyframes walkL{from{transform:translateX(48cqw)}to{transform:translateX(-6cqw)}}
+
+.friends{left:19%;width:20%;bottom:38.5%;display:flex;justify-content:space-around;align-items:flex-end}
+.friend{display:flex;flex-direction:column;align-items:center;gap:.8cqw;background:none;border:0;padding:0;cursor:pointer;color:inherit;font:inherit}
+.friends .px-person{width:7cqw}
+.tag{font-size:max(9px,2.8cqw);font-weight:800;background:var(--paper);color:var(--ink);padding:.4cqw 1.6cqw;border-radius:999px;white-space:nowrap}
+.tag.beat{background:var(--accent);color:#fff}
+.aboard{left:39%;bottom:39.2%;width:15cqw}
+.aboard .board{background:#2E3A2F;border:.8cqw solid #8A5A33;border-radius:.8cqw;color:#F4F1E8;text-align:center;padding:1cqw .5cqw;font-size:max(8px,2.4cqw);line-height:1.15;font-weight:700}
+.aboard .board b{display:block;font-family:var(--font-display);font-size:max(10px,3.6cqw);font-weight:400}
+
+.seats{left:4%;bottom:24.4%}.seats .px-table{width:28cqw;height:auto}
+.queue{left:71%;bottom:24.4%;display:flex;gap:1.4cqw;align-items:flex-end}
+.queue .px-person{width:7.4cqw}
+.queue .q{display:flex;flex-direction:column;align-items:center;gap:.6cqw;animation:idle 2.4s ease-in-out infinite}
+.queue .q:nth-child(2){animation-delay:.4s;margin-left:-3.5cqw;scale:.9;filter:brightness(.92)}
+@keyframes idle{50%{transform:translateY(-.5cqw)}}
+.bubble{font-size:max(9px,2.8cqw);font-weight:800;background:var(--paper);color:var(--ink);border-radius:2cqw;padding:.5cqw 1.6cqw;white-space:nowrap;transform:translateX(-30%)}
+.dog{right:1%;bottom:23.6%;z-index:2}.dog .px{width:11cqw}
+.dog .px-dog{transform-origin:50% 100%;animation:tilt 4s ease-in-out infinite}
+@keyframes tilt{0%,80%,100%{transform:rotate(0)}86%,94%{transform:rotate(-6deg)}}
+.cat{left:2%;bottom:37.4%}.cat .px{width:16cqw}
+.cat .px-cat-asleep{animation:breathe 3.6s ease-in-out infinite;transform-origin:50% 100%}
+@keyframes breathe{50%{transform:scaleY(1.06)}}
+
+/* the espresso machine sits dead centre; the chosen shot glass spins into the gap under its spout */
+.machine{left:50%;bottom:17%;width:40cqw;transform:translateX(-50%)}
+.machine .px{width:100%}
+.machine-steam{position:absolute;top:-6cqw;left:12%;width:1cqw;height:5cqw;background:rgba(255,255,255,.75);animation:puff 2.6s ease-out infinite}
+.machine-steam+.machine-steam{left:80%;animation-delay:1.3s}
+@keyframes puff{0%{opacity:0;transform:translateY(1cqw)}40%{opacity:.9}100%{opacity:0;transform:translateY(-3cqw)}}
+.stream{left:calc(50% - .5cqw);bottom:23.65%;width:1cqw;height:0;background:#4A2A18}
+.pouring .stream{height:1.15%;transition:height .25s}
+
+.slot{position:absolute;bottom:1.2%;width:14cqw;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.3cqw;background:none;border:0;padding:0;cursor:pointer;font:inherit;min-height:44px}
+.slot .coaster{width:9cqw;height:1.6cqw;border-radius:50%;background:#7A4A2A;box-shadow:inset 0 -.4cqw 0 #5A3420}
+.slot .nm{font-size:max(9px,2.9cqw);font-weight:800;color:#FFF3E2;text-align:center;line-height:1.1;text-shadow:0 1px 0 rgba(60,30,10,.7)}
+.slot .res{font-size:max(8px,2.5cqw);font-weight:700;color:#FFE1B8;font-variant-numeric:tabular-nums;text-shadow:0 1px 0 rgba(60,30,10,.7)}
+.slot[aria-pressed=true] .nm{color:#FFE7A8}
+.slot:focus-visible{outline:3px solid #FFE1B8;outline-offset:2px;border-radius:12px}
+.glass{position:absolute;width:8.5cqw;transform:translateX(-50%);pointer-events:none;
+  transition:left .5s var(--ease-out),bottom .5s var(--ease-out),width .5s var(--ease-out)}
+.glass.in{animation:spinIn .5s var(--ease-out)}
+@keyframes spinIn{0%{rotate:0deg}60%{rotate:-25deg}100%{rotate:0deg}}
+.glass.in::after{content:'';position:absolute;inset:-30%;border-radius:50%;background:radial-gradient(rgba(255,214,140,.5),transparent 65%);z-index:-1}
+
+/* the one main action, then the countdown, then the tab bar */
+.side{width:min(100%,440px);display:flex;flex-direction:column;align-items:center;gap:10px}
+.serve{width:100%;min-height:56px;border:0;border-radius:999px;background:var(--paper);color:var(--ink);font:800 clamp(15px,4.6vw,18px) var(--font-ui);display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;box-shadow:0 5px 0 var(--wood);padding:0 18px;text-align:center}
+.serve .dot{width:14px;height:14px;border-radius:50%;flex:none}
+.reset{font-size:13px;font-weight:700;color:#5A4634;display:flex;gap:6px;align-items:center}
+.tabs{display:flex;gap:6px;background:var(--sage-2);border-radius:999px;padding:5px}
+.tabs a{min-width:76px;min-height:40px;display:grid;place-items:center;border-radius:999px;color:#E9F0E4;font-weight:800;font-size:14px;text-decoration:none}
+.tabs a[aria-current]{background:var(--paper);color:var(--ink)}
+.side .wordmark{display:none}
+
+/* wide screens (tablet landscape, desktop): picture in the middle, actions beside it */
+@media (orientation:landscape) and (min-width:700px){
+  :root{--side:40px}
+  .main{flex-direction:row;gap:32px}
+  .side{width:300px}
+}
+/* short landscape (phone on its side): no header, the picture takes the full height */
+@media (orientation:landscape) and (max-height:520px){
+  :root{--top:0px;--side:24px}
+  .top{display:none}
+  .main{flex-direction:row;gap:20px;padding-block:8px}
+  .side{width:min(280px,45vw)}
+  .side .wordmark{display:block;color:var(--sage-2)}
+}
+/* tiny screens (flip phones): let the page scroll instead of shrinking the café */
+@media (max-width:300px){ .tabs a{min-width:60px;font-size:12px} .serve{font-size:14px} }
+.tap{transition:transform 140ms var(--ease-out)}.tap:active{transform:scale(.96)}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <h1 class="wordmark">Daily Dose</h1>
+    <span class="spacer"></span>
+    <span class="streak" id="streak"></span>
+    <button class="icon-btn tap" aria-label="Mute café sounds" title="Mute café sounds">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M17 9a4 4 0 0 1 0 6"/></svg>
+    </button>
+  </header>
+
+  <main class="main">
+    <section class="stage" aria-label="The café">
+      <div class="layer street" id="walkers" aria-hidden="true"></div>
+      <div class="layer friends" id="friends"></div>
+      <div class="layer aboard" aria-hidden="true"><div class="board"><b id="players"></b>in today</div></div>
+      <div class="layer seats" id="seats"></div>
+      <div class="layer queue" id="queue" aria-hidden="true"></div>
+      <div class="layer dog outline" id="dog" aria-hidden="true"></div>
+      <div class="layer cat outline" id="cat" aria-hidden="true"></div>
+      <div class="layer machine" aria-hidden="true"><span class="machine-steam"></span><span class="machine-steam"></span><span id="machine"></span></div>
+      <div class="layer stream" aria-hidden="true"></div>
+      <div id="shots"></div>
+    </section>
+
+    <div class="side">
+      <p class="wordmark">Daily Dose</p>
+      <button class="serve tap" id="serve"></button>
+      <div class="reset">New drinks in <span class="roll" id="clock"></span></div>
+      <nav class="tabs" aria-label="Sections"><a href="#" aria-current="page">Today</a><a href="#friends">Friends</a><a href="#me">You</a></nav>
+    </div>
+  </main>
+</div>
+
+<script type="module">
+import { data, person, table, walkers, crowdSize, shotGlass, espressoMachine, siameseAsleep, maltese, flame, rollingClock, SHARED_CSS } from './cafe.js';
+document.head.insertAdjacentHTML('afterbegin', `<style>${SHARED_CSS}</style>`); // page styles win
+const $ = id => document.getElementById(id);
+const stage = document.querySelector('.stage');
+const games = data.games.map(g => ({ ...g }));
+const open = () => games.filter(g => !g.done);
+let chosen = games.find(g => g.key === data.suggestedNext && !g.done) || open()[0];
+
+$('streak').innerHTML = flame(data.streak, 20) + `<span>${data.streak}</span>`;
+$('players').textContent = data.playersToday.toLocaleString('en');
+$('walkers').innerHTML = walkers(crowdSize(data.playersToday), { px: 3 });
+$('friends').innerHTML = data.friends.slice(0, 2).map(f => `<button class="friend tap" aria-label="${f.name}: ${f.line}"><span class="tag ${f.beatYou ? 'beat' : ''}">${f.beatYou ? f.name + ' beat you' : f.name}</span>${person(f.look, 4)}</button>`).join('');
+$('seats').innerHTML = table(4, 1, { px: 3.4 });
+$('dog').innerHTML = maltese();
+$('cat').innerHTML = siameseAsleep();
+$('machine').innerHTML = espressoMachine();
+
+// six slots along the front of the counter; each glass sits on its slot until it's chosen
+const X = i => 50 + (i - 2.5) * 15.2; // % across the stage, symmetric around the machine
+$('shots').innerHTML = games.map((g, i) => `
+  <button class="slot tap" style="left:${X(i)}%" data-k="${g.key}" aria-label="${g.name}${g.done ? ', done, ' + g.result : ''}">
+    <span class="coaster"></span><span class="nm">${g.name}</span>${g.done ? `<span class="res">${g.result}</span>` : ''}</button>
+  <div class="glass" id="glass-${g.key}" style="left:${X(i)}%;bottom:8%"></div>`).join('');
+
+function render() {
+  games.forEach((g, i) => {
+    const el = $('glass-' + g.key), isIn = g === chosen;
+    el.innerHTML = shotGlass(g);
+    el.classList.toggle('in', isIn);
+    Object.assign(el.style, isIn ? { left: '50%', bottom: '19.6%', width: '5.6cqw' } : { left: X(i) + '%', bottom: '8%', width: '8.5cqw' });
+    document.querySelector(`.slot[data-k=${g.key}]`).setAttribute('aria-pressed', isIn);
+  });
+  const left = open();
+  $('queue').innerHTML = left.slice(0, 2).map((g, i) => `<div class="q">${i === 0 && chosen ? `<span class="bubble">${chosen.drink}, please</span>` : ''}${person(i + 3, 4)}</div>`).join('');
+  $('serve').innerHTML = chosen ? `<span class="dot" style="background:${chosen.colour}"></span>Pull the shot: ${chosen.name}` : 'Dose complete';
+}
+document.querySelectorAll('.slot').forEach(b => b.addEventListener('click', () => {
+  const g = games.find(x => x.key === b.dataset.k);
+  if (g.done || g === chosen || stage.classList.contains('pouring')) return;
+  chosen = g; render();
+}));
+// Serve: espresso pours, the glass fills, then the game would open. Mockup: mark it done and move on.
+$('serve').addEventListener('click', () => {
+  if (!chosen || stage.classList.contains('pouring')) return;
+  stage.classList.add('pouring');
+  setTimeout(() => {
+    chosen.done = true; chosen.result = chosen.result || 'Played';
+    stage.classList.remove('pouring');
+    chosen = open()[0]; render();
+  }, 1100);
+});
+render();
+rollingClock($('clock'));
+</script>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Daily Dose · Café Arcade</title>
+<meta name="theme-color" content="#2547D0">
+<!-- shortcut: Google Fonts for the mockup only; the real app self-hosts (guide + GDPR) -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&display=swap">
+<style>
+:root{
+  --wall:#2547D0; --wall-2:#1C38AA; --butter:#FFD84D; --cherry:#F2453D; --mint:#6FE3B5; --ink:#121212; --paper:#FFF7E3;
+  --sky-1:#8FD8FF; --sky-2:#DDF4FF; --street:#E9D9B9; --line:3px solid var(--ink);
+  --font:'Baloo 2',system-ui,sans-serif; --ease-out:cubic-bezier(.23,1,.32,1);
+}
+[data-time=night]{ --wall:#18245E; --wall-2:#111A47; --sky-1:#0F1430; --sky-2:#2B1F4E; --street:#3A3448; }
+*{box-sizing:border-box}
+body{margin:0;background:var(--wall);font-family:var(--font);color:var(--ink);overscroll-behavior:none}
+.app{max-width:430px;margin:0 auto;min-height:100svh;position:relative;overflow:hidden}
+.scene{position:relative;height:812px;min-height:100svh;background:radial-gradient(circle,rgba(255,255,255,.07) 2px,transparent 2.5px) 0 0/22px 22px,var(--wall)}
+
+.top{position:absolute;top:0;left:0;right:0;z-index:8;display:flex;align-items:center;gap:8px;padding:calc(12px + env(safe-area-inset-top)) 14px 0}
+.marquee{background:var(--butter);border:var(--line);border-radius:14px;padding:2px 14px 0;box-shadow:4px 4px 0 var(--ink);transform:rotate(-2deg)}
+.marquee h1{margin:0;font-size:30px;line-height:1.1;font-weight:800;letter-spacing:-.01em}
+.top .spacer{flex:1}
+.chip{height:44px;display:flex;align-items:center;gap:2px;padding:0 12px 0 6px;border:var(--line);border-radius:999px;background:var(--paper);font-weight:800;font-size:18px;box-shadow:3px 3px 0 var(--ink);font-variant-numeric:tabular-nums}
+.icon-btn{width:44px;height:44px;border-radius:50%;border:var(--line);background:var(--paper);display:grid;place-items:center;box-shadow:3px 3px 0 var(--ink);cursor:pointer;color:var(--ink)}
+
+.window{position:absolute;left:14px;right:14px;top:80px;height:236px;border:var(--line);border-radius:22px;overflow:hidden;background:linear-gradient(var(--sky-1),var(--sky-2) 78%);box-shadow:0 0 0 7px var(--paper),0 0 0 10px var(--ink)}
+.cloud{position:absolute;top:24px;width:70px;height:22px;background:#fff;border-radius:20px;opacity:.9;animation:cloud 40s linear infinite}
+.cloud::before{content:'';position:absolute;left:14px;top:-12px;width:34px;height:30px;border-radius:50%;background:#fff}
+[data-time=night] .cloud{display:none}
+@keyframes cloud{from{transform:translateX(-90px)}to{transform:translateX(420px)}}
+.moon{display:none;position:absolute;top:22px;right:40px;width:30px;height:30px;border-radius:50%;background:#FFE8A3;box-shadow:inset -8px -4px 0 #E8C97A}
+[data-time=night] .moon{display:block}
+.shops{position:absolute;bottom:52px;left:0;right:0;height:96px;display:flex;align-items:flex-end;gap:6px;padding:0 8px}
+.shops span{flex:1;border:var(--line);border-bottom:0;border-radius:8px 8px 0 0;background:#FF9E7A}
+.shops span:nth-child(2){background:var(--mint)}.shops span:nth-child(3){background:var(--butter)}.shops span:nth-child(4){background:#B9A6FF}
+[data-time=night] .shops span{filter:brightness(.45)}
+.street{position:absolute;bottom:0;left:0;right:0;height:52px;background:var(--street);border-top:var(--line)}
+.lanes{position:absolute;left:0;right:0;bottom:4px;height:60px}
+.walker.lane0{bottom:32px}.walker.lane1{bottom:16px}.walker.lane2{bottom:4px}
+.friends{position:absolute;bottom:0;left:6px;right:96px;display:flex;justify-content:space-around;align-items:flex-end;z-index:3}
+.friend{display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:0;padding:0;cursor:pointer;font:inherit}
+.tag{font-size:12px;font-weight:800;background:var(--paper);border:2px solid var(--ink);padding:0 7px;border-radius:999px;white-space:nowrap}
+.tag.beat{background:var(--cherry);color:#fff}
+.board{position:absolute;right:8px;bottom:6px;width:80px;z-index:3;background:var(--ink);color:var(--butter);border-radius:10px;padding:5px 4px 3px;text-align:center;font-weight:700;font-size:12px;line-height:1.05;transform:rotate(3deg);box-shadow:0 0 0 3px var(--paper)}
+.board b{display:block;font-size:20px;font-weight:800;color:#fff}
+.glass{position:absolute;inset:0;pointer-events:none;z-index:4;background:linear-gradient(120deg,transparent 18%,rgba(255,255,255,.35) 18% 23%,transparent 23% 27%,rgba(255,255,255,.2) 27% 29%,transparent 29%)}
+
+.queue{position:absolute;left:142px;right:86px;top:326px;display:flex;gap:6px;align-items:flex-end;z-index:2}
+.queue .q{display:flex;flex-direction:column;align-items:center;gap:2px;animation:idle 1.8s ease-in-out infinite}
+.queue .q:nth-child(2n){animation-delay:.5s}
+@keyframes idle{50%{transform:translateY(-3px)}}
+.bubble{font-size:12px;font-weight:800;background:var(--paper);border:2px solid var(--ink);border-radius:10px;padding:0 6px;white-space:nowrap}
+.props{position:absolute;left:10px;right:10px;top:300px;display:flex;align-items:flex-end;justify-content:space-between;z-index:3;pointer-events:none}
+.dog-spot{position:absolute;right:8px;top:328px;z-index:4}
+
+.counter{position:absolute;left:0;right:0;top:404px;bottom:0;border-top:var(--line);
+  background:conic-gradient(var(--cherry) 25%,var(--paper) 0 50%,var(--cherry) 0 75%,var(--paper) 0) 0 0/36px 36px}
+.counter::before{content:'';position:absolute;left:0;right:0;top:0;height:22px;background:var(--butter);border-bottom:var(--line)}
+.tray{position:absolute;left:14px;right:14px;top:438px;background:var(--paper);border:var(--line);border-radius:24px;box-shadow:5px 5px 0 var(--ink);padding:10px 8px 8px;display:grid;grid-template-columns:repeat(3,1fr);gap:2px 4px;z-index:3}
+.cupbtn{background:none;border:0;border-radius:16px;padding:2px 0 4px;display:flex;flex-direction:column;align-items:center;gap:0;cursor:pointer;font:inherit;min-height:44px;transition:transform 160ms var(--ease-out)}
+.cupbtn:active{transform:scale(.94)}
+.cupbtn .nm{font-weight:800;font-size:17px;line-height:1.05}
+.cupbtn .res{font-weight:700;font-size:13px;color:#5A5348;font-variant-numeric:tabular-nums}
+.cupbtn .res.play{color:var(--wall)}
+.cupbtn.next{background:var(--butter);box-shadow:inset 0 0 0 3px var(--ink)}
+.cupbtn.next .cup{animation:boing 1.6s var(--ease-out) infinite;transform-origin:50% 100%}
+@keyframes boing{0%,60%,100%{transform:scale(1,1)}68%{transform:scale(1.08,.9)}76%{transform:scale(.94,1.08) translateY(-6px)}86%{transform:scale(1.02,.98)}}
+.cupbtn:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+
+.cta{position:absolute;left:14px;right:14px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:7;display:flex;flex-direction:column;gap:6px;align-items:center}
+.serve{width:100%;height:60px;border:var(--line);border-radius:18px;background:var(--mint);font:800 21px var(--font);color:var(--ink);box-shadow:5px 5px 0 var(--ink);cursor:pointer;transition:transform 140ms var(--ease-out),box-shadow 140ms var(--ease-out)}
+.serve:active{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--ink)}
+.reset{background:var(--ink);color:var(--paper);font-weight:700;font-size:14px;border-radius:999px;padding:2px 12px;display:flex;gap:6px}
+
+.below{background:var(--paper);border-top:var(--line);padding:22px 14px 60px}
+.below h2{margin:0 0 6px;font-size:26px;font-weight:800}
+.frow{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:2px dashed rgba(0,0,0,.12);min-height:56px}
+.frow .who{flex:1}.frow b{display:block;font-size:17px}.frow span{font-size:15px;color:#5A5348}
+.bar{width:84px;height:14px;border:2px solid var(--ink);border-radius:999px;overflow:hidden;background:#fff}.bar i{display:block;height:100%;background:var(--mint)}
+
+/* Dose complete: the window seat */
+.done-layer{position:fixed;inset:0;z-index:20;display:none;flex-direction:column;align-items:center;justify-content:center;gap:20px;background:rgba(18,18,18,.6)}
+[data-done] .done-layer{display:flex}
+.seat{width:320px;height:400px;border:var(--line);border-radius:26px;overflow:hidden;position:relative;box-shadow:6px 6px 0 var(--ink);background:linear-gradient(#FFC48A,#FFE2B0 60%);animation:seatin 550ms var(--ease-out) both}
+@keyframes seatin{from{transform:scale(.95) translateY(24px);opacity:0}}
+.seat .pane{position:absolute;left:18px;right:18px;top:18px;height:210px;border:var(--line);border-radius:16px;background:linear-gradient(#7FCBFF,#FFD9A8);overflow:hidden}
+.seat .pane::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:6px;margin-left:-3px;background:var(--paper);border-left:2px solid var(--ink);border-right:2px solid var(--ink)}
+.seat .sun{position:absolute;right:30px;top:30px;width:46px;height:46px;border-radius:50%;background:#FFE36E;box-shadow:0 0 30px 10px rgba(255,227,110,.6)}
+.seat .chalk{position:absolute;left:0;right:0;top:120px;text-align:center;font-size:34px;font-weight:800;color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.25);transform:rotate(-4deg);line-height:1}
+.seat .chalk small{display:block;font-size:15px;font-weight:700;margin-top:4px}
+.seat .table{position:absolute;left:-10px;right:-10px;top:270px;height:30px;background:#C98A50;border-top:var(--line);border-bottom:var(--line)}
+.seat .mugs{position:absolute;left:0;right:0;top:206px;display:flex;justify-content:center}
+.seat .mugs .cup{margin:0 -5px}
+.seat .catspot{position:absolute;left:20px;top:306px}
+.seat .bench{position:absolute;left:0;right:0;bottom:0;height:70px;background:var(--cherry);border-top:var(--line)}
+.done-actions{width:320px;display:flex;flex-direction:column;gap:8px}
+.ghost{height:48px;border:0;background:none;color:#fff;font:800 17px var(--font);cursor:pointer}
+</style>
+</head>
+<body>
+<div class="app">
+  <section class="scene" aria-label="The café">
+    <header class="top">
+      <div class="marquee"><h1>Daily Dose</h1></div>
+      <span class="spacer"></span>
+      <span class="chip" id="streak"></span>
+      <button class="icon-btn tap" aria-label="Mute café sounds" title="Mute café sounds">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M17 9a4 4 0 0 1 0 6"/></svg>
+      </button>
+    </header>
+
+    <div class="window">
+      <div class="cloud" style="animation-delay:-8s"></div><div class="cloud" style="top:52px;animation-duration:55s;animation-delay:-30s"></div><div class="moon"></div>
+      <div class="shops"><span style="height:80%"></span><span style="height:100%"></span><span style="height:65%"></span><span style="height:90%"></span></div>
+      <div class="street"></div>
+      <div class="lanes" id="walkers"></div>
+      <div class="friends" id="friends"></div>
+      <div class="board"><b id="players"></b>in today</div>
+      <div class="glass"></div>
+    </div>
+
+    <div class="queue" id="queue" aria-hidden="true"></div>
+    <div class="props" id="props"></div>
+    <div class="dog-spot" id="dog"></div>
+    <div class="counter"></div>
+    <div class="tray" id="cups"></div>
+
+    <div class="cta">
+      <button class="serve" id="serve"></button>
+      <div class="reset">New drinks in <span class="roll" id="clock"></span></div>
+    </div>
+  </section>
+
+  <section class="below">
+    <h2>At the window</h2>
+    <div id="flist"></div>
+  </section>
+
+  <div class="done-layer" role="dialog" aria-label="Dose complete">
+    <div class="seat">
+      <div class="pane"><div class="sun"></div><div class="chalk">Dose complete<small>Sat 14 Nov, 12 days running</small></div></div>
+      <div class="mugs" id="mugs"></div>
+      <div class="table"></div>
+      <div class="bench"></div>
+      <div class="catspot" id="seatcat"></div>
+    </div>
+    <div class="done-actions">
+      <button class="serve">Share the window seat</button>
+      <button class="ghost tap">Back to the café</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { data, night, person, walkers, crowdSize, cup, machine, cat, dog, flame, rollingClock, SHARED_CSS } from './cafe.js';
+document.head.insertAdjacentHTML('beforeend', `<style>${SHARED_CSS}</style>`);
+const $ = id => document.getElementById(id);
+const open = data.games.filter(g => !g.done);
+const next = data.games.find(g => g.key === data.suggestedNext && !g.done) || open[0];
+const L = { line: '#121212', lw: 2.4 };
+$('streak').innerHTML = flame(data.streak, 20) + data.streak;
+$('players').textContent = data.playersToday.toLocaleString('en');
+$('walkers').innerHTML = walkers(crowdSize(data.playersToday), { px: 4, seed: 11 });
+$('friends').innerHTML = data.friends.map(f => `<button class="friend tap" aria-label="${f.name}: ${f.line}"><span class="tag ${f.beatYou ? 'beat' : ''}">${f.beatYou ? f.name + ' beat you' : f.name}</span>${person(f.look, 5)}</button>`).join('');
+$('queue').innerHTML = open.map((g, i) => `<div class="q">${i === 0 ? `<span class="bubble">${g.drink}!</span>` : ''}${person(i + 1, 4)}</div>`).join('');
+$('props').innerHTML = machine({ body: '#F2453D', metal: '#FFF7E3', ...L, w: 116 }) + cat({ fur: '#FFFFFF', stripe: '#F2A65A', ...L, w: 72 }) + '<span style="width:66px"></span>';
+$('dog').innerHTML = dog({ ...L, w: 64 });
+$('cups').innerHTML = data.games.map(g => `<button class="cupbtn ${g === next ? 'next' : ''}" aria-label="${g.name}, ${g.done ? 'done, ' + g.result : 'play'}">
+  ${cup(g, { body: '#FFFFFF', ...L, w: 50 })}<span class="nm">${g.name}</span><span class="res ${g.done ? '' : 'play'}">${g.done ? g.result : 'Play'}</span></button>`).join('');
+$('serve').textContent = next ? `Serve ${next.name}` : 'Dose complete';
+rollingClock($('clock'));
+$('flist').innerHTML = [...data.friends, ...data.regulars].slice(0, 4).map(f => `<div class="frow">${person(f.look, 4)}<div class="who"><b>${f.name}</b><span>${f.line || 'Fills in until you add friends'}</span></div>${f.done != null ? `<div class="bar" aria-label="${f.done} of 6"><i style="width:${f.done / 6 * 100}%"></i></div>` : ''}</div>`).join('');
+$('mugs').innerHTML = data.games.map(g => cup({ ...g, done: true }, { body: '#FFFFFF', ...L, w: 50 })).join('');
+$('seatcat').innerHTML = cat({ fur: '#FFFFFF', stripe: '#F2A65A', ...L, w: 80 });
+</script>
+</body>
+</html>

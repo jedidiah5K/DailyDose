@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Daily Dose · Corner Café</title>
+<meta name="theme-color" content="#A9BFA0">
+<!-- shortcut: Google Fonts for the mockup only; the real app self-hosts (guide + GDPR) -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caprasimo&family=Figtree:wght@500;600;700;800&display=swap">
+<style>
+:root{
+  --wall:#A9BFA0; --wall-2:#93AC8A; --trim:#F4E3C3; --wood:#9C5F33; --wood-top:#C98A50; --wood-edge:#7A4524;
+  --ink:#2C2116; --ink-2:#5A4634; --paper:#FFF6E6; --sky-1:#BFE3F2; --sky-2:#F6E3C4; --street:#C9B9A3; --curb:#A8957D;
+  --accent:#D9472B; --sun:rgba(255,224,150,.28);
+  --font-display:'Caprasimo',serif; --font-ui:'Figtree',system-ui,sans-serif;
+  --ease-out:cubic-bezier(.23,1,.32,1); --r-card:18px;
+}
+[data-time=night]{
+  --wall:#4C5D49; --wall-2:#3F4F3C; --trim:#C9B48E; --wood:#6E3F22; --wood-top:#8E5732; --wood-edge:#4F2C17;
+  --ink:#FFF1DC; --ink-2:#D9C4A6; --paper:#2A2219; --sky-1:#1B2442; --sky-2:#3B2F4F; --street:#3A3430; --curb:#2C2724;
+  --sun:rgba(255,190,110,.10);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--wall);color:var(--ink);font-family:var(--font-ui);overscroll-behavior:none}
+.app{max-width:430px;margin:0 auto;min-height:100svh;position:relative;overflow:hidden}
+
+/* top bar */
+.top{display:flex;align-items:center;gap:10px;padding:calc(14px + env(safe-area-inset-top)) 18px 8px;position:relative;z-index:5}
+.wordmark{font-family:var(--font-display);font-size:30px;line-height:1;color:var(--ink);margin:0}
+[data-time=day] .wordmark{color:#2C2116}
+.top .spacer{flex:1}
+.streak{display:flex;align-items:center;gap:4px;font-weight:800;font-size:17px;font-variant-numeric:tabular-nums}
+.icon-btn{width:44px;height:44px;border-radius:50%;border:0;background:rgba(0,0,0,.08);color:var(--ink);display:grid;place-items:center;cursor:pointer}
+
+/* scene */
+.scene{position:relative;height:612px}
+.sun{position:absolute;inset:0;pointer-events:none;z-index:4;background:
+  linear-gradient(115deg,transparent 18%,var(--sun) 18% 26%,transparent 26% 33%,var(--sun) 33% 37%,transparent 37%);mix-blend-mode:soft-light}
+[data-time=night] .sun{background:radial-gradient(circle at 70% 8%,rgba(255,200,120,.35),transparent 45%);mix-blend-mode:normal}
+.window{position:absolute;left:16px;top:6px;width:250px;height:236px;border-radius:14px 14px 4px 4px;overflow:hidden;
+  background:linear-gradient(var(--sky-1),var(--sky-2) 70%);box-shadow:0 0 0 8px var(--trim),0 10px 0 8px var(--wall-2)}
+.window .bldg{position:absolute;bottom:58px;left:0;right:0;height:90px;display:flex;align-items:flex-end;gap:6px;padding:0 6px}
+.window .bldg span{flex:1;background:rgba(120,90,70,.35);border-radius:4px 4px 0 0}
+[data-time=night] .window .bldg span{background:#232038;box-shadow:inset 0 0 0 999px rgba(0,0,0,0)}
+[data-time=night] .window .bldg span::after{content:'';display:block;width:6px;height:6px;margin:14px auto 0;background:#FFD27A;box-shadow:10px 18px #FFD27A,-8px 30px #FFD27A}
+.window .street{position:absolute;left:0;right:0;bottom:0;height:58px;background:var(--street);border-top:6px solid var(--curb)}
+.window .lanes{position:absolute;left:0;right:0;bottom:6px;height:60px}
+.walker.lane0{bottom:34px;opacity:.75}.walker.lane1{bottom:16px}.walker.lane2{bottom:4px}
+.window .friends{position:absolute;bottom:0;left:104px;right:66px;display:flex;justify-content:space-around;align-items:flex-end;z-index:2}
+.friend{display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:0;padding:0;cursor:pointer;color:inherit;font:inherit}
+.tag{font-size:11px;font-weight:800;background:var(--paper);color:var(--ink);padding:2px 7px;border-radius:999px;white-space:nowrap}
+.friend .beat{background:var(--accent);color:#fff}
+.aboard{position:absolute;right:8px;bottom:6px;width:62px;z-index:3}
+.aboard .board{background:#2E3A2F;border:4px solid #8A5A33;border-radius:4px;color:#F4F1E8;text-align:center;padding:5px 2px;font-size:10px;line-height:1.15;font-weight:700}
+.aboard .board b{display:block;font-family:var(--font-display);font-size:14px;font-weight:400}
+.aboard .legs{height:10px;margin:0 8px;border-left:4px solid #8A5A33;border-right:4px solid #8A5A33}
+.mullion{position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,transparent calc(50% - 3px),var(--trim) calc(50% - 3px) calc(50% + 3px),transparent calc(50% + 3px)),linear-gradient(transparent 40%,var(--trim) 40% calc(40% + 6px),transparent calc(40% + 6px))}
+.glare{position:absolute;inset:0;pointer-events:none;background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.22) 30% 36%,transparent 36% 42%,rgba(255,255,255,.14) 42% 44%,transparent 44%)}
+
+.door{position:absolute;right:16px;top:6px;width:92px;height:330px;background:var(--trim);border-radius:10px 10px 0 0;padding:8px}
+.door .pane{height:150px;border-radius:6px;background:linear-gradient(var(--sky-1),var(--sky-2));position:relative;overflow:hidden}
+.door .pane .glare{opacity:.8}
+.door .sign{position:absolute;top:30px;left:50%;transform:translateX(-50%) rotate(-4deg);background:var(--accent);color:#fff;font-weight:800;font-size:12px;padding:4px 8px;border-radius:4px;letter-spacing:.04em;transform-origin:50% -20px;animation:sway 4s ease-in-out infinite}
+@keyframes sway{50%{transform:translateX(-50%) rotate(4deg)}}
+.door .panel{height:120px;margin-top:10px;border-radius:6px;background:var(--wall-2);opacity:.6}
+.door .knob{position:absolute;left:12px;top:180px;width:10px;height:10px;border-radius:50%;background:#C9A04A}
+.seats{position:absolute;left:20px;top:186px;z-index:3}
+.dog-spot{position:absolute;right:24px;top:270px;z-index:3}
+
+.plant{position:absolute;left:274px;top:-6px;width:40px}
+.plant .pot{width:28px;height:22px;margin:0 auto;background:#C2603D;border-radius:0 0 8px 8px}
+.plant .leaves{height:70px;background:radial-gradient(circle at 30% 30%,#4E7A45 0 9px,transparent 10px),radial-gradient(circle at 70% 45%,#5E8B52 0 10px,transparent 11px),radial-gradient(circle at 40% 70%,#4E7A45 0 9px,transparent 10px),radial-gradient(circle at 60% 90%,#3F6838 0 8px,transparent 9px);transform-origin:top;animation:sway2 6s ease-in-out infinite}
+@keyframes sway2{50%{transform:rotate(3deg)}}
+
+/* queue: customers waiting over the counter, one per game left */
+.queue{position:absolute;left:128px;right:100px;top:262px;height:90px;display:flex;align-items:flex-end;gap:8px;z-index:2}
+.queue .q{display:flex;flex-direction:column;align-items:center;gap:2px;animation:idle 2.4s ease-in-out infinite}
+.queue .q:nth-child(2){animation-delay:.4s}.queue .q:nth-child(3){animation-delay:.9s}.queue .q:nth-child(4){animation-delay:1.3s}
+@keyframes idle{50%{transform:translateY(-2px)}}
+.queue .bubble{font-size:10px;font-weight:800;background:var(--paper);color:var(--ink);border-radius:8px;padding:2px 6px;white-space:nowrap}
+.served{position:absolute;right:108px;top:300px;display:flex;gap:6px;opacity:.85;z-index:2}
+
+/* counter */
+.shelf{position:absolute;left:0;right:0;top:340px;height:20px;background:var(--wood-edge)}
+.backbar{position:absolute;left:12px;right:12px;top:258px;height:84px;display:flex;align-items:flex-end;justify-content:space-between;pointer-events:none}
+.counter{position:absolute;left:0;right:0;top:352px;bottom:0;background:var(--wood);border-top:14px solid var(--wood-top);box-shadow:inset 0 6px 0 rgba(0,0,0,.08)}
+.props{position:absolute;left:10px;right:10px;top:-120px;display:flex;align-items:flex-end;justify-content:space-between;z-index:3}
+.tipjar{width:52px;height:62px;border-radius:8px 8px 14px 14px;background:rgba(255,255,255,.35);border:3px solid rgba(255,255,255,.7);position:relative;overflow:hidden}
+.tipjar .coins{position:absolute;left:0;right:0;bottom:0;background:repeating-linear-gradient(0deg,#E8B931 0 5px,#C9971E 5px 7px);transition:height 400ms var(--ease-out)}
+.tipjar .lbl{position:absolute;top:8px;width:100%;text-align:center;font-size:10px;font-weight:800;color:var(--ink)}
+.cups{position:absolute;left:8px;right:8px;top:14px;display:grid;grid-template-columns:repeat(6,1fr);gap:2px}
+.cupbtn{background:none;border:0;padding:6px 0 0;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;color:var(--paper);font:inherit;position:relative;min-height:44px}
+.cupbtn .nm{font-size:11px;font-weight:800;color:#FFF3E2;text-align:center;line-height:1.1}
+.cupbtn .res{font-size:10px;font-weight:700;color:#FFE1B8;font-variant-numeric:tabular-nums}
+.cupbtn.next .cup{animation:hop 2.2s var(--ease-out) infinite;filter:drop-shadow(0 0 10px rgba(255,214,140,.9))}
+@keyframes hop{0%,70%,100%{transform:translateY(0)}78%{transform:translateY(-8px)}86%{transform:translateY(0)}92%{transform:translateY(-3px)}}
+.cupbtn.is-done{opacity:.95}
+.cupbtn:focus-visible{outline:3px solid #FFE1B8;outline-offset:2px;border-radius:12px}
+
+.cta{position:absolute;left:18px;right:18px;bottom:20px;display:flex;flex-direction:column;align-items:center;gap:10px;z-index:5}
+.serve{width:100%;height:58px;border:0;border-radius:999px;background:var(--paper);color:#2C2116;font:800 18px var(--font-ui);display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;box-shadow:0 6px 0 rgba(0,0,0,.25)}
+[data-time=night] .serve{background:#FFE7BF}
+.serve .dot{width:14px;height:14px;border-radius:50%;background:#F0452B}
+.reset{font-size:13px;font-weight:700;color:#FFE7C7;display:flex;gap:6px;align-items:center}
+
+/* below the fold */
+.below{background:var(--paper);border-radius:28px 28px 0 0;margin-top:-6px;padding:24px 18px 60px;position:relative;z-index:6;color:var(--ink)}
+[data-time=day] .below{color:#2C2116}
+.below h2{font-family:var(--font-display);font-weight:400;font-size:24px;margin:0 0 12px}
+.frow{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(0,0,0,.08);min-height:56px}
+.frow:last-child{border-bottom:0}
+.frow .who{flex:1}.frow .who b{display:block;font-size:16px}.frow .who span{font-size:14px;color:var(--ink-2)}
+.pips{display:flex;gap:3px}.pips i{width:8px;height:14px;border-radius:3px;background:rgba(0,0,0,.12)}.pips i.on{background:#C98A50}
+.streakcard{margin-top:22px;display:flex;align-items:center;gap:14px;background:rgba(0,0,0,.05);border-radius:var(--r-card);padding:14px 16px}
+.streakcard b{font-family:var(--font-display);font-weight:400;font-size:30px;font-variant-numeric:tabular-nums}
+
+/* Dose complete: the barista pins your polaroid on the regulars' wall */
+.done-layer{position:fixed;inset:0;z-index:20;display:none;align-items:center;justify-content:center;background:rgba(40,28,18,.55)}
+[data-done] .done-layer{display:flex}
+.polaroid{width:300px;background:#FFFDF8;padding:14px 14px 18px;border-radius:4px;box-shadow:0 30px 60px rgba(0,0,0,.35);transform:rotate(-3deg);animation:pin 700ms var(--ease-out) both;position:relative;color:#2C2116}
+@keyframes pin{from{transform:translateY(40px) rotate(6deg) scale(.95);opacity:0}}
+.polaroid .tape{position:absolute;top:-12px;left:50%;width:90px;height:24px;margin-left:-45px;background:rgba(240,214,150,.75);transform:rotate(2deg)}
+.polaroid .photo{height:250px;border-radius:2px;background:linear-gradient(#93AC8A 0 55%,#C98A50 55%);position:relative;overflow:hidden;display:flex;align-items:flex-end;justify-content:center;padding-bottom:22px;gap:0}
+.polaroid .photo .cup{margin:0 -4px}
+.polaroid .photo .sunb{position:absolute;inset:0;background:linear-gradient(115deg,transparent 20%,rgba(255,236,190,.4) 20% 34%,transparent 34%)}
+.polaroid .photo .cat{position:absolute;right:10px;top:72px}
+.polaroid .cap{font-family:var(--font-display);font-size:28px;margin:14px 2px 2px}
+.polaroid .sub{font-size:14px;font-weight:600;color:#6B5744;margin:0 2px}
+.done-actions{position:absolute;bottom:calc(28px + env(safe-area-inset-bottom));left:18px;right:18px;display:flex;flex-direction:column;gap:10px}
+.done-actions .serve{background:#FFE7BF}
+.ghost{height:48px;border:0;background:none;color:#FFF1DC;font:700 16px var(--font-ui);cursor:pointer}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <h1 class="wordmark">Daily Dose</h1>
+    <span class="spacer"></span>
+    <span class="streak" id="streak"></span>
+    <button class="icon-btn tap" aria-label="Mute café sounds" title="Mute café sounds">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M17 9a4 4 0 0 1 0 6"/></svg>
+    </button>
+  </header>
+
+  <section class="scene" aria-label="The café">
+    <div class="window">
+      <div class="bldg"><span style="height:70%"></span><span style="height:100%"></span><span style="height:55%"></span><span style="height:85%"></span></div>
+      <div class="street"></div>
+      <div class="lanes" id="walkers"></div>
+      <div class="friends" id="friends"></div>
+      <div class="aboard"><div class="board"><b id="players"></b>in today</div><div class="legs"></div></div>
+      <div class="mullion"></div><div class="glare"></div>
+    </div>
+    <div class="plant" aria-hidden="true"><div class="pot"></div><div class="leaves"></div></div>
+    <div class="door" aria-hidden="true"><div class="pane"><div class="glare"></div></div><div class="sign">OPEN</div><div class="panel"></div><div class="knob"></div></div>
+    <div class="seats" id="seats"></div>
+    <div class="dog-spot" id="dog"></div>
+
+    <div class="queue" id="queue" aria-hidden="true"></div>
+
+    <div class="counter">
+      <div class="props" id="props"></div>
+      <div class="cups" id="cups"></div>
+    </div>
+    <div class="sun"></div>
+
+    <div class="cta">
+      <button class="serve tap" id="serve"></button>
+      <div class="reset">New drinks in <span class="roll" id="clock"></span></div>
+    </div>
+  </section>
+
+  <section class="below">
+    <h2>At the window</h2>
+    <div id="flist"></div>
+    <div class="streakcard"><span id="flame2"></span><div><b id="streak2"></b><div>days in a row. Freeze ready if you miss one.</div></div></div>
+  </section>
+
+  <div class="done-layer" role="dialog" aria-label="Dose complete">
+    <div class="polaroid">
+      <div class="tape"></div>
+      <div class="photo"><div class="sunb"></div><span id="pcat"></span><span id="pcups" style="display:flex;position:relative"></span></div>
+      <p class="cap">Dose complete</p>
+      <p class="sub">Saturday 14 November, day 12 in a row</p>
+    </div>
+    <div class="done-actions">
+      <button class="serve tap">Share your polaroid</button>
+      <button class="ghost tap">Back to the café</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { data, night, person, table, walkers, crowdSize, cup, machine, cat, dog, flame, rollingClock, SHARED_CSS } from './cafe.js';
+document.head.insertAdjacentHTML('beforeend', `<style>${SHARED_CSS}</style>`);
+const $ = id => document.getElementById(id);
+const open = data.games.filter(g => !g.done), doneN = 6 - open.length;
+const next = data.games.find(g => g.key === data.suggestedNext && !g.done) || open[0];
+
+$('streak').innerHTML = flame(data.streak, 20) + `<span>${data.streak}</span>`;
+$('players').textContent = data.playersToday.toLocaleString('en');
+$('walkers').innerHTML = walkers(crowdSize(data.playersToday), { px: 4 });
+$('friends').innerHTML = data.friends.map(f => `<button class="friend tap" aria-label="${f.name}: ${f.line}"><span class="tag ${f.beatYou ? 'beat' : ''}">${f.beatYou ? f.name + ' beat you' : f.name}</span>${person(f.look, 5)}</button>`).join('');
+$('dog').innerHTML = dog({ w: 62 });
+$('seats').innerHTML = table(4, 1, { px: 3 });
+$('queue').innerHTML = open.map((g, i) => `<div class="q">${i === 0 ? `<span class="bubble">${g.drink}, please</span>` : ''}${person(i + 3, 4)}</div>`).join('');
+$('props').innerHTML = machine({ body: night ? '#B8442C' : '#D9472B', w: 118 }) +
+  `<div class="tipjar" aria-label="Tip jar, ${doneN} of 6"><span class="lbl">TIPS</span><div class="coins" style="height:${doneN / 6 * 80}%"></div></div>` + cat({ w: 78 }) + '<span style="width:70px"></span>';
+$('cups').innerHTML = data.games.map(g => `<button class="cupbtn tap ${g.done ? 'is-done' : ''} ${g === next ? 'next' : ''}" aria-label="${g.name}, ${g.done ? 'done, ' + g.result : 'play'}">
+  ${cup(g, { body: '#FFFDF7', w: 54 })}<span class="nm">${g.name}</span>${g.done ? `<span class="res">${g.result}</span>` : ''}</button>`).join('');
+$('serve').innerHTML = next ? `<span class="dot" style="background:${next.colour}"></span>Serve the ${next.drink.toLowerCase()}: ${next.name}` : 'Dose complete';
+rollingClock($('clock'));
+$('flist').innerHTML = [...data.friends, ...data.regulars.slice(0, Math.max(0, 4 - data.friends.length))].map(f => `<div class="frow">${person(f.look, 4)}<div class="who"><b>${f.name}</b><span>${f.line || 'Fills in until you add friends'}</span></div>${f.done != null ? `<div class="pips" aria-label="${f.done} of 6">${Array.from({ length: 6 }, (_, i) => `<i class="${i < f.done ? 'on' : ''}"></i>`).join('')}</div>` : ''}</div>`).join('');
+$('flame2').innerHTML = flame(data.streak, 34); $('streak2').textContent = data.streak;
+$('pcups').innerHTML = data.games.map(g => cup({ ...g, done: true }, { body: '#FFFDF7', w: 50 })).join('');
+$('pcat').innerHTML = cat({ w: 70 });
+</script>
+</body>
+</html>

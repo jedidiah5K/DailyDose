@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Daily Dose · Simple</title>
+<meta name="theme-color" content="#F3E6CF">
+<!-- shortcut: Google Fonts for the mockup only; the real app self-hosts (guide + GDPR) -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&family=Figtree:wght@600;700;800&display=swap">
+<style>
+/* One idea, like Krillion's dive: the page runs from a sunny café wall down into dark espresso.
+   One scene in the middle (the machine and six shots), one big button, a few small moving things. */
+:root{
+  --wall:#F3E6CF; --wall-2:#EAD6B4; --edge:#E3A462; --wood:#B5743D; --wood-2:#9C6232; --front:#6E4024;
+  --esp:#3A2214; --esp-2:#1E110A; --crema:#E8B65A; --cream:#FFF4E0; --ink:#3A2214;
+  --px:'Pixelify Sans',system-ui,sans-serif; --ui:'Figtree',system-ui,sans-serif; --ease:cubic-bezier(.23,1,.32,1);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:var(--ui);color:var(--ink);background:var(--esp-2);overscroll-behavior:none;overflow-x:hidden}
+.app{min-height:100svh;display:flex;flex-direction:column}
+
+/* ---------- top: the wall, title, drifting steam clouds, a sunbeam ---------- */
+.sky{position:relative;flex:1 0 auto;background:linear-gradient(var(--wall),var(--wall-2));overflow:hidden;
+  display:flex;flex-direction:column;align-items:center;padding:calc(12px + env(safe-area-inset-top)) 16px 0}
+.sky::before{content:'';position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(118deg,transparent 22%,rgba(255,226,160,.45) 22% 30%,transparent 30% 36%,rgba(255,226,160,.3) 36% 39%,transparent 39%)}
+.bar{position:absolute;top:calc(12px + env(safe-area-inset-top));left:12px;right:12px;display:flex;justify-content:space-between;z-index:3}
+.sq{width:44px;height:44px;display:grid;place-items:center;background:var(--esp);color:var(--cream);border:0;cursor:pointer;box-shadow:inset 0 0 0 2px #5A3A24,3px 3px 0 rgba(58,34,20,.25)}
+.cloud{position:absolute;opacity:.55;image-rendering:pixelated;pointer-events:none;animation:drift linear infinite}
+@keyframes drift{from{transform:translateX(-30vw)}to{transform:translateX(130vw)}}
+.title{position:relative;z-index:2;text-align:center;margin-top:clamp(56px,10svh,110px)}
+h1{font-family:var(--px);font-weight:700;font-size:clamp(44px,13vw,80px);line-height:.95;margin:0;color:var(--esp);letter-spacing:.02em;
+  text-shadow:4px 4px 0 var(--crema)}
+.kicker{font-family:var(--px);font-weight:500;font-size:clamp(14px,4vw,18px);letter-spacing:.35em;color:#9C6232;margin:12px 0 0}
+.line{font-size:15px;font-weight:700;color:#7A5638;margin:10px 0 0}
+
+/* ---------- middle: the counter scene. Machine dead centre, six shots in front ---------- */
+.scene{position:relative;width:100%;margin-top:auto;
+  background:linear-gradient(transparent 0 72%,var(--edge) 72% 75%,var(--wood) 75% 90%,var(--front) 90%)}
+.scene::after{content:'';position:absolute;left:0;right:0;top:75%;height:15%;pointer-events:none;
+  background:repeating-linear-gradient(90deg,transparent 0 46px,rgba(0,0,0,.06) 46px 48px)}
+.stage{position:relative;margin:0 auto;width:min(100%,520px);aspect-ratio:4/3}
+.sp{position:absolute;left:var(--x);bottom:var(--b);height:var(--h);transform:translateX(-50%);image-rendering:pixelated}
+.machine{--x:50%;--b:25%;--h:64%}
+.cat{--x:63%;--b:84%;--h:13%}
+.cat img,.cat{transform-origin:50% 100%}
+.cat img{height:100%;display:block;animation:breathe 3.6s ease-in-out infinite;image-rendering:pixelated}
+@keyframes breathe{50%{transform:scaleY(1.05)}}
+.puff{position:absolute;left:50%;bottom:86%;height:16%;opacity:0;image-rendering:pixelated;animation:rise 3s ease-out infinite;pointer-events:none}
+.puff+.puff{animation-delay:1.5s;left:44%}
+@keyframes rise{0%{opacity:0;transform:translate(-50%,10%) scale(.6)}30%{opacity:.8}100%{opacity:0;transform:translate(-50%,-90%) scale(1.2)}}
+
+.slot{position:absolute;bottom:0;height:30%;width:15%;transform:translateX(-50%);background:none;border:0;padding:0 0 3%;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-end;font:inherit}
+.slot .nm{font-family:var(--px);font-weight:500;font-size:clamp(10px,2.8vw,13px);color:var(--cream);text-align:center;line-height:1.05;text-shadow:1px 1px 0 #2A170D}
+.slot .res{font-size:clamp(9px,2.4vw,11px);font-weight:800;color:var(--crema);text-shadow:1px 1px 0 #2A170D}
+.slot:focus-visible{outline:3px solid var(--crema);outline-offset:2px}
+.glass{position:absolute;transform:translateX(-50%);pointer-events:none;transition:left .5s var(--ease),bottom .5s var(--ease),height .5s var(--ease)}
+.glass img{height:100%;display:block;image-rendering:pixelated}
+.glass:not(.done):not(.in) img{animation:float 2.4s ease-in-out infinite}
+.glass.in img{animation:spin .5s var(--ease)}
+@keyframes float{50%{transform:translateY(-8%)}}
+@keyframes spin{55%{rotate:-22deg}}
+.glass:not(.done)::before{content:'';position:absolute;left:50%;bottom:-6%;width:140%;aspect-ratio:3/1;transform:translateX(-50%);border-radius:50%;
+  background:radial-gradient(closest-side,var(--c),transparent);opacity:.6;animation:pulse 2.4s ease-in-out infinite;z-index:-1}
+@keyframes pulse{50%{opacity:.95}}
+.stream{position:absolute;left:calc(50% - 2px);width:4px;height:0;background:#4A2611;bottom:var(--sb)}
+.pouring .stream{height:var(--sh);transition:height .2s}
+
+/* ---------- bottom: dark espresso, one button ---------- */
+.deep{background:linear-gradient(var(--esp),var(--esp-2));color:var(--cream);display:flex;flex-direction:column;align-items:center;gap:14px;
+  padding:18px 16px calc(22px + env(safe-area-inset-bottom))}
+.cta{width:min(100%,480px);min-height:64px;border:0;cursor:pointer;background:#2A170D;color:var(--cream);
+  font:700 clamp(18px,5vw,22px) var(--px);letter-spacing:.18em;box-shadow:inset 0 0 0 3px var(--crema),0 0 0 3px #2A170D,0 6px 0 3px #120905;
+  display:flex;align-items:center;justify-content:center;gap:14px;transition:transform .14s var(--ease)}
+.cta:active{transform:translateY(3px)}
+.cta .arrow{animation:nudge 1.4s ease-in-out infinite}
+@keyframes nudge{50%{transform:translateY(3px)}}
+.meta{font-family:var(--px);font-size:14px;letter-spacing:.2em;color:#C9A985;display:flex;gap:10px;align-items:center}
+.chips{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.chip{min-height:44px;padding:0 16px;display:grid;place-items:center;background:none;color:#E9D3B4;border:0;box-shadow:inset 0 0 0 2px #5A3A24;font:500 14px var(--px);letter-spacing:.15em;cursor:pointer;text-decoration:none}
+.reset{font-size:13px;font-weight:700;color:#A88866;display:flex;gap:6px;align-items:center}
+
+/* ---------- the dive into the coffee ---------- */
+.dive{position:fixed;inset:0;z-index:50;visibility:hidden;pointer-events:none;background:radial-gradient(circle at 50% 45%,#6B3E1E,#3A1E0E 40%,var(--esp-2) 75%);
+  clip-path:circle(0 at var(--dx,50%) var(--dy,50%));transition:clip-path .75s cubic-bezier(.7,0,.3,1)}
+.dive.on{visibility:visible;pointer-events:auto;clip-path:circle(150% at var(--dx,50%) var(--dy,50%))}
+.dive::before{content:'';position:absolute;inset:-50%;background:conic-gradient(from 0deg,transparent 0 8%,rgba(232,182,90,.3) 10% 14%,transparent 16% 33%,rgba(232,182,90,.25) 36% 39%,transparent 42% 60%,rgba(232,182,90,.3) 63% 67%,transparent 70%);animation:swirl 6s linear infinite;mask:radial-gradient(circle,#000 25%,transparent 60%)}
+@keyframes swirl{to{rotate:360deg}}
+.card{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:14px;text-align:center;color:var(--cream);padding:24px;opacity:0;transition:opacity .3s .55s}
+.dive.on .card{opacity:1}
+.card .band{width:64px;height:8px;background:var(--c)}
+.card h2{font:700 clamp(40px,12vw,72px)/1 var(--px);margin:0}
+.card p{margin:0;max-width:30ch;font-size:17px;line-height:1.4;color:#E9D3B4}
+
+/* wide screens: same column, the scene just gets more wall and counter either side */
+@media (orientation:landscape) and (max-height:560px){
+  .title{margin-top:8px} h1{font-size:40px} .kicker{margin-top:6px} .line{display:none}
+  .stage{width:min(100%,360px)}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <section class="sky">
+    <div class="bar">
+      <button class="sq" aria-label="Menu" title="Menu"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><rect x="2" y="4" width="16" height="3"/><rect x="2" y="9" width="16" height="3"/><rect x="2" y="14" width="16" height="3"/></svg></button>
+      <button class="sq" aria-label="Mute café sounds" title="Mute café sounds"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M2 7h4l5-4v14l-5-4H2z"/><rect x="13" y="7" width="2" height="6"/><rect x="16" y="5" width="2" height="10"/></svg></button>
+    </div>
+    <img class="cloud" src="art/sprites/steam.png" alt="" style="top:16%;height:70px;animation-duration:60s;animation-delay:-10s">
+    <img class="cloud" src="art/sprites/steam.png" alt="" style="top:34%;height:46px;animation-duration:80s;animation-delay:-45s">
+    <img class="cloud" src="art/sprites/steam.png" alt="" style="top:8%;height:36px;animation-duration:95s;animation-delay:-70s">
+
+    <div class="title">
+      <h1>DAILY<br>DOSE</h1>
+      <p class="kicker">SIX SHOTS A DAY</p>
+      <p class="line">Pick a shot, pull it, play it.</p>
+    </div>
+
+    <div class="scene">
+      <div class="stage" id="stage">
+        <img class="puff" src="art/sprites/steam.png" alt=""><img class="puff" src="art/sprites/steam.png" alt="">
+        <img class="sp machine" src="art/sprites/machine.png" alt="">
+        <div class="sp cat"><img src="art/sprites/cat-sleep.png" alt=""></div>
+        <div class="stream" id="stream"></div>
+        <div id="shots"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="deep">
+    <button class="cta" id="cta"></button>
+    <div class="meta"><span>DOSE #14</span><span>·</span><span id="streak"></span></div>
+    <div class="chips"><a class="chip" href="#friends">FRIENDS</a><a class="chip" href="#me">YOU</a><button class="chip">HOW TO PLAY</button></div>
+    <div class="reset">New shots in <span class="roll" id="clock"></span></div>
+  </section>
+
+  <div class="dive" id="dive" role="dialog" aria-modal="true" aria-label="Game">
+    <div class="card"><span class="band"></span><h2 id="dname"></h2><p id="dline"></p>
+      <button class="cta" id="dgo" style="width:auto;padding:0 32px">START</button>
+      <button class="chip" id="dback">BACK TO THE CAFÉ</button></div>
+  </div>
+</div>
+
+<script type="module">
+import { data, flame, rollingClock, SHARED_CSS } from './cafe.js';
+document.head.insertAdjacentHTML('afterbegin', `<style>${SHARED_CSS}</style>`);
+const $ = id => document.getElementById(id);
+const stage = $('stage');
+const LINES = {
+  shot: 'One question. Seven seconds. Trust your gut.',
+  blend: 'Five prompts. Match the crowd, or find what nobody said.',
+  rush: 'Thirty seconds. Name as many as you can.',
+  drop: 'Higher or lower. The pot doubles. Bank it or bust.',
+  link: 'Three clues, one word that links them.',
+  ladder: 'Change one letter at a time to climb from word to word.',
+};
+const games = data.games.map((g, i) => ({ ...g, i }));
+const open = () => games.filter(g => !g.done);
+let chosen = games.find(g => g.key === data.suggestedNext && !g.done) || open()[0];
+$('streak').innerHTML = `STREAK ${data.streak}`;
+
+// all positions in % of the 4:3 stage
+const M = { b: 25, h: 64 };                       // machine
+const X = i => 50 + (i - 2.5) * 16;               // row of shots along the counter
+const ROW = { b: 13, h: 16 }, IN = { b: M.b + M.h * .16, h: M.h * .19 };
+const SPOUT = M.b + M.h * .38;
+
+function render() {
+  $('shots').innerHTML = games.map(g => `
+    <button class="slot" style="left:${X(g.i)}%" data-k="${g.key}" aria-pressed="${g === chosen}" aria-label="${g.name}${g.done ? ', done, ' + g.result : ''}">
+      <span class="nm">${g.name}</span>${g.done ? `<span class="res">${g.result}</span>` : ''}</button>`).join('') +
+    games.map(g => { const isIn = g === chosen; return `
+    <div class="glass ${isIn ? 'in' : ''} ${g.done ? 'done' : ''}" id="glass-${g.key}" style="--c:${g.colour};left:${isIn ? 50 : X(g.i)}%;bottom:${isIn ? IN.b : ROW.b}%;height:${isIn ? IN.h : ROW.h}%">
+      <img src="art/sprites/shot-${g.done ? 'full' : 'empty'}-${g.i}.png" alt=""></div>`; }).join('');
+  $('stream').style.setProperty('--sb', IN.b + IN.h + '%');
+  $('stream').style.setProperty('--sh', SPOUT - IN.b - IN.h + '%');
+  $('cta').innerHTML = chosen ? `<span class="arrow">▼</span>PULL ${chosen.name.toUpperCase()}<span class="arrow">▼</span>` : 'DOSE COMPLETE';
+  document.querySelectorAll('.slot').forEach(b => b.onclick = () => {
+    const g = games.find(x => x.key === b.dataset.k);
+    if (g.done || g === chosen || stage.classList.contains('pouring')) return;
+    chosen = g; render();
+  });
+}
+$('cta').onclick = () => {
+  if (!chosen || stage.classList.contains('pouring')) return;
+  stage.classList.add('pouring');
+  setTimeout(() => {
+    const r = $('glass-' + chosen.key).getBoundingClientRect(), d = $('dive');
+    d.style.setProperty('--dx', r.left + r.width / 2 + 'px'); d.style.setProperty('--dy', r.top + r.height / 3 + 'px');
+    d.style.setProperty('--c', chosen.colour);
+    $('dname').textContent = chosen.name; $('dline').textContent = LINES[chosen.key];
+    d.classList.add('on'); stage.classList.remove('pouring'); $('dgo').focus();
+  }, 1000);
+};
+function surface(played) {
+  $('dive').classList.remove('on');
+  if (played) { chosen.done = true; chosen.result = chosen.result || 'Played'; chosen = open()[0]; }
+  setTimeout(render, 300);
+}
+$('dgo').onclick = () => surface(true);     // mockup: Start stands in for playing the game
+$('dback').onclick = () => surface(false);
+addEventListener('keydown', e => { if (e.key === 'Escape' && $('dive').classList.contains('on')) surface(false); });
+render();
+rollingClock($('clock'));
+</script>
+</body>
+</html>
