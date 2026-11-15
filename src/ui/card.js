@@ -84,10 +84,12 @@ export async function drawCard(format = 'story', only) {
   }
 
   // the mugs on the counter, two rows of three: full with a score once played, empty and faded if not
-  const big = !!only, mh = big ? 132 : 62;
+  const big = !!only, mh = big ? 132 : 58;
+  // both rows stand on the counter top (y 429-543); the front row sits in the gaps so the back scores show
+  const at = i => big ? [180, 506] : i < 3 ? [58 + 102 * i, 480] : [109 + 102 * (i - 3), 537];
   keys.forEach((k, i) => {
     const mug = art[i * 2], co = art[i * 2 + 1], g = games.find(v => v.k === k);
-    const cx = (big ? 180 : 75 + 105 * (i % 3)) * S, base = big ? 506 : i < 3 ? 440 : 545;
+    const [ux, base] = at(i), cx = ux * S;
     const cw = mh * 1.15 * S, ch = co ? cw * co.height / co.width : 0;
     x.globalAlpha = g ? 1 : .45;
     if (co) x.drawImage(co, cx - cw / 2, base * S - ch, cw, ch);
@@ -95,10 +97,10 @@ export async function drawCard(format = 'story', only) {
     x.globalAlpha = 1;
   });
   if (!big) keys.forEach((k, i) => {   // scores last, so the front row never covers the back row's
-    const g = games.find(v => v.k === k), cx = (75 + 105 * (i % 3)) * S, base = i < 3 ? 440 : 545;
+    const g = games.find(v => v.k === k), [ux, base] = at(i), cx = ux * S;
     if (g) {
       x.font = `700 ${15 * S}px ${FONT}`; x.lineJoin = 'round'; x.lineWidth = 4 * S; x.strokeStyle = '#3B2416';
-      const ty = (base + (i < 3 ? 18 : 21)) * S; x.strokeText(TAG[k](g.r), cx, ty); x.fillStyle = '#F6E7C8'; x.fillText(TAG[k](g.r), cx, ty);
+      const ty = (base + (i < 3 ? 15 : 21)) * S; x.strokeText(TAG[k](g.r), cx, ty); x.fillStyle = '#F6E7C8'; x.fillText(TAG[k](g.r), cx, ty);
     }
   });
 
