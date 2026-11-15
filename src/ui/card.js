@@ -96,12 +96,14 @@ export async function drawCard(format = 'story', only) {
     if (mug) { const h = mh * S, w = h * mug.width / mug.height; x.drawImage(mug, cx - w * RIM[k], base * S - ch * .45 - h, w, h); }
     x.globalAlpha = 1;
   });
-  if (!big) keys.forEach((k, i) => {   // scores last, so the front row never covers the back row's
+  if (!big) keys.forEach((k, i) => {   // scores last, each on a cream tag: back row above its mug, front row below
     const g = games.find(v => v.k === k), [ux, base] = at(i), cx = ux * S;
-    if (g) {
-      x.font = `700 ${15 * S}px ${FONT}`; x.lineJoin = 'round'; x.lineWidth = 4 * S; x.strokeStyle = '#3B2416';
-      const ty = (base + (i < 3 ? 15 : 21)) * S; x.strokeText(TAG[k](g.r), cx, ty); x.fillStyle = '#F6E7C8'; x.fillText(TAG[k](g.r), cx, ty);
-    }
+    if (!g) return;
+    const t = TAG[k](g.r); x.font = `700 ${14 * S}px ${FONT}`;
+    const w = x.measureText(t).width + 14 * S, h = 21 * S, cy = (i < 3 ? base - 92 : base + 14) * S;   // tag top
+    x.fillStyle = '#3B2416'; x.fillRect(cx - w / 2 - 2 * S, cy, w + 4 * S, h); x.fillRect(cx - w / 2, cy - 2 * S, w, h + 4 * S);   // pixel-cornered border
+    x.fillStyle = '#F6E7C8'; x.fillRect(cx - w / 2, cy, w, h);
+    x.fillStyle = '#3B2416'; x.fillText(t, cx, cy + 15.5 * S);
   });
 
   // the golden pill: where to play
