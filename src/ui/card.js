@@ -56,7 +56,8 @@ export async function drawCard(format = 'story', only) {
   // the cream signboard: what you did today
   const [t1, t2] = only ? [games[0]?.name || 'Daily Dose', games[0] ? games[0].big(games[0].r) : '']
     : [all ? 'Full dose' : `${games.length} of ${LINEUP.length} shots`, run > 1 ? `${run} days in a row` : all ? 'Every shot pulled' : `${LINEUP.length - games.length} still brewing`];
-  const bx = 34 * S, by = 196 * S, bw = 292 * S, bh = 132 * S, n = 4 * S;
+  // a full dose turns the board into a loyalty card, one stamp per game
+  const bx = 34 * S, by = (all ? 186 : 196) * S, bw = 292 * S, bh = (all ? 166 : 132) * S, n = 4 * S;
   const board = (pad, col) => { x.fillStyle = col; x.beginPath(); x.moveTo(bx - pad + n, by - pad); x.lineTo(bx + bw + pad - n, by - pad); x.lineTo(bx + bw + pad - n, by - pad + n); x.lineTo(bx + bw + pad, by - pad + n);
     x.lineTo(bx + bw + pad, by + bh + pad - n); x.lineTo(bx + bw + pad - n, by + bh + pad - n); x.lineTo(bx + bw + pad - n, by + bh + pad); x.lineTo(bx - pad + n, by + bh + pad);
     x.lineTo(bx - pad + n, by + bh + pad - n); x.lineTo(bx - pad, by + bh + pad - n); x.lineTo(bx - pad, by - pad + n); x.lineTo(bx - pad + n, by - pad + n); x.closePath(); x.fill(); };
@@ -64,28 +65,45 @@ export async function drawCard(format = 'story', only) {
   x.fillStyle = 'rgba(59,36,22,.12)'; x.fillRect(bx, by + bh - 6 * S, bw, 6 * S);   // a pixel shadow along the bottom
   x.textAlign = 'center'; x.fillStyle = '#3B2416';
   const fit = (t, size, max) => { let sz = size * S; x.font = `700 ${sz}px ${FONT}`; while (x.measureText(t).width > max * S && sz > 9 * S) { sz -= 1 * S; x.font = `700 ${sz}px ${FONT}`; } };
-  fit(t1, 50, 260); x.fillText(t1, 180 * S, by + 60 * S);
-  x.fillStyle = '#9A4E1F'; fit(t2, 24, 260); x.fillText(t2, 180 * S, by + 94 * S);
-  x.fillStyle = 'rgba(59,36,22,.6)'; x.font = `700 ${12 * S}px ${FONT}`;
-  x.fillText(`Daily Dose #${puzzleNo()}, ${new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}`, 180 * S, by + 118 * S);
+  const stamp = `Daily Dose #${puzzleNo()}, ${new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}`;
+  if (all) {
+    fit(t1, 42, 260); x.fillText(t1, 180 * S, by + 46 * S);
+    keys.forEach((k, i) => {
+      const cx = (75 + 42 * i) * S, cy = by + 88 * S, r = 17 * S, mug = art[i * 2];
+      x.setLineDash([3 * S, 3 * S]); x.lineWidth = 1.5 * S; x.strokeStyle = 'rgba(59,36,22,.35)'; x.beginPath(); x.arc(cx, cy, r + 2 * S, 0, 7); x.stroke(); x.setLineDash([]);
+      x.save(); x.translate(cx, cy); x.rotate((i % 2 ? 8 : -10) * Math.PI / 180);
+      if (mug) { const h = 22 * S, w = h * mug.width / mug.height; x.drawImage(mug, -w * RIM[k], -h / 2, w, h); }
+      x.globalAlpha = .85; x.lineWidth = 2.5 * S; x.strokeStyle = '#B8322A'; x.beginPath(); x.arc(0, 0, r, 0, 7); x.stroke(); x.globalAlpha = 1; x.restore();
+    });
+    x.fillStyle = '#9A4E1F'; fit(t2, 18, 260); x.fillText(t2, 180 * S, by + 134 * S);
+    x.fillStyle = 'rgba(59,36,22,.6)'; x.font = `700 ${11 * S}px ${FONT}`; x.fillText(stamp, 180 * S, by + 153 * S);
+  } else {
+    fit(t1, 50, 260); x.fillText(t1, 180 * S, by + 60 * S);
+    x.fillStyle = '#9A4E1F'; fit(t2, 24, 260); x.fillText(t2, 180 * S, by + 94 * S);
+    x.fillStyle = 'rgba(59,36,22,.6)'; x.font = `700 ${12 * S}px ${FONT}`; x.fillText(stamp, 180 * S, by + 118 * S);
+  }
 
-  // the mugs on the counter: full with a score once played, empty and faded if not
-  const big = !!only, slot = big ? [180] : keys.map((_, i) => 32 + 59.2 * i), base = big ? 506 : 486, mh = big ? 132 : 52;
+  // the mugs on the counter, two rows of three: full with a score once played, empty and faded if not
+  const big = !!only, mh = big ? 132 : 62;
   keys.forEach((k, i) => {
-    const mug = art[i * 2], co = art[i * 2 + 1], g = games.find(v => v.k === k), cx = slot[i] * S;
+    const mug = art[i * 2], co = art[i * 2 + 1], g = games.find(v => v.k === k);
+    const cx = (big ? 180 : 75 + 105 * (i % 3)) * S, base = big ? 506 : i < 3 ? 440 : 545;
     const cw = mh * 1.15 * S, ch = co ? cw * co.height / co.width : 0;
     x.globalAlpha = g ? 1 : .45;
     if (co) x.drawImage(co, cx - cw / 2, base * S - ch, cw, ch);
     if (mug) { const h = mh * S, w = h * mug.width / mug.height; x.drawImage(mug, cx - w * RIM[k], base * S - ch * .45 - h, w, h); }
     x.globalAlpha = 1;
-    if (g && !big) {
-      x.font = `700 ${13 * S}px ${FONT}`; x.lineJoin = 'round'; x.lineWidth = 4 * S; x.strokeStyle = '#3B2416';
-      x.strokeText(TAG[k](g.r), cx, (base + 22) * S); x.fillStyle = '#F6E7C8'; x.fillText(TAG[k](g.r), cx, (base + 22) * S);
+  });
+  if (!big) keys.forEach((k, i) => {   // scores last, so the front row never covers the back row's
+    const g = games.find(v => v.k === k), cx = (75 + 105 * (i % 3)) * S, base = i < 3 ? 440 : 545;
+    if (g) {
+      x.font = `700 ${15 * S}px ${FONT}`; x.lineJoin = 'round'; x.lineWidth = 4 * S; x.strokeStyle = '#3B2416';
+      const ty = (base + (i < 3 ? 18 : 21)) * S; x.strokeText(TAG[k](g.r), cx, ty); x.fillStyle = '#F6E7C8'; x.fillText(TAG[k](g.r), cx, ty);
     }
   });
 
   // the golden pill: where to play
-  const pw = 236 * S, ph = pill ? pw * pill.height / pill.width : 52 * S, py = 586 * S - ph / 2;
+  const pw = 236 * S, ph = pill ? pw * pill.height / pill.width : 52 * S, py = 606 * S - ph / 2;
   if (pill) x.drawImage(pill, 180 * S - pw / 2, py, pw, ph);
   x.fillStyle = '#F6E7CB'; fit(SITE, 13, 160); x.fillText(SITE, 180 * S, py + ph / 2 + 4.5 * S);
   return c;
