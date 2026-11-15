@@ -30,11 +30,20 @@
   letter-spacing: .14em; text-transform: uppercase; }
 .ch-live { position: absolute; left: 50%; translate: -50% 0; z-index: 5; margin: 0; padding: .3em .9em; border-radius: 999px; background: #3A2214; color: #F6E7CB;
   font: 600 22px 'Pixelify Sans', sans-serif; white-space: nowrap; }
-/* the dive: the game's colour floods in before its screen opens */
-.cafe-home::after { content: ''; position: fixed; inset: 0; z-index: 30; background: var(--dive, transparent); opacity: 0; pointer-events: none; transition: opacity .3s .35s; }
-.cafe-home.diving::after { opacity: 1; }
+/* the dive: espresso swirls out from the mug's rim until it fills the screen, then drains to show the game */
+.ch-coffee { position: fixed; inset: 0; z-index: 60; overflow: hidden; pointer-events: none; background: #3B1E0E;
+  clip-path: circle(0 at var(--x) var(--y)); transition: clip-path .75s cubic-bezier(.6, 0, .3, 1), opacity .45s; }
+.ch-coffee.on { clip-path: circle(160vmax at var(--x) var(--y)); }
+.ch-coffee.out { opacity: 0; }
+.ch-coffee i { position: absolute; left: var(--x); top: var(--y); width: 320vmax; height: 320vmax; translate: -50% -50%;
+  background:
+    radial-gradient(circle, #F6D38E 0 1.2%, #E0A55A 2.6%, #B8702F 5%, rgba(138, 74, 30, .85) 9%, transparent 20%),
+    repeating-radial-gradient(circle, transparent 0 3%, rgba(214, 150, 80, .12) 3% 3.6%),
+    repeating-conic-gradient(#3B1E0E 0 16deg, #57301A 26deg, #3B1E0E 40deg);
+  animation: ch-swirl 1.8s linear infinite; }
+@keyframes ch-swirl { from { rotate: 0deg; scale: 1; } to { rotate: 360deg; scale: 1.15; } }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-@media (prefers-reduced-motion: reduce) { .ch-bob, .ch-zzz, .ch-drip { animation: none; } .ch-mug, .ch-drop { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .ch-bob, .ch-zzz, .ch-drip { animation: none; } .ch-mug, .ch-drop { transition: none; } .ch-coffee { transition: opacity .3s; clip-path: none; opacity: 0; } .ch-coffee.on { opacity: 1; } .ch-coffee i { animation: none; } }
 /* short landscape screens: the tab bar stands up along the right edge so the scene keeps its height */
 @media (orientation: landscape) and (max-height: 560px) {
   .screen.hub.cafe-home { --tabs: 0px; }
@@ -42,3 +51,15 @@
   .cafe-home .tabbar { left: auto; right: calc(.6rem + env(safe-area-inset-right)); bottom: 50%; translate: 0 50%; flex-direction: column; }
   .cafe-home .tab { min-width: 0; padding: .5rem .55rem; }
 }
+/* mugs ask to be tapped: unplayed ones take turns doing a little hop; finished ones wear a gold tick */
+.ch-mug:not(.done):not(.sel) img { animation: ch-hop 4.2s var(--d, 0s) ease-out infinite; }
+@keyframes ch-hop { 0%, 12%, 100% { translate: 0 0; } 4% { translate: 0 -14%; } 8% { translate: 0 0; } 10% { translate: 0 -4%; } }
+.ch-tick { position: absolute; z-index: 12; display: grid; place-items: center; width: 1.5em; height: 1.5em; border-radius: 50%; translate: -50% 0;
+  background: #F2A93B; color: #3A2214; border: .14em solid #3A2214; font-style: normal; font-weight: 700; line-height: 1; pointer-events: none; }
+.ch-hint { position: absolute; z-index: 21; translate: -50% -100%; margin: 0; padding: .45em .8em; border-radius: .6em; white-space: nowrap; pointer-events: none;
+  background: #F6E7CB; color: #3A2214; border: .16em solid #3A2214; box-shadow: 0 .2em 0 #6E4024; font: 700 1em 'Pixelify Sans', sans-serif;
+  animation: ch-nudge 1.2s ease-in-out infinite; }
+.ch-hint::after { content: ''; position: absolute; left: calc(50% + var(--tx, 0px)); bottom: -.55em; width: .8em; height: .8em; translate: -50% 0; rotate: 45deg;
+  background: #F6E7CB; border-right: .16em solid #3A2214; border-bottom: .16em solid #3A2214; }
+@keyframes ch-nudge { 50% { translate: -50% calc(-100% - .35em); } }
+@media (prefers-reduced-motion: reduce) { .ch-mug img, .ch-hint { animation: none !important; } }

@@ -54,7 +54,7 @@ export function hub(app) {
   </main>`;
   const st = app.querySelector('#st'), fit = app.querySelector('.ch-fit');
   const timers = [], every = (f, ms) => timers.push(setInterval(f, ms)), later = (f, ms) => timers.push(setTimeout(f, ms));
-  let gone = false;
+  let gone = false, coffee = null;
   const place = () => { st.style.transform = `translate(-50%,-50%) scale(${Math.min(fit.clientWidth / L.w, fit.clientHeight / L.h)})`; };
   // turning the phone swaps to the other layout: just draw the home screen again
   const onResize = () => { if ((innerWidth > innerHeight) !== wide) dispatchEvent(new HashChangeEvent('hashchange')); else place(); };
@@ -137,11 +137,24 @@ export function hub(app) {
       const x = L.slots[k] - w * RIM[g.k], y = L.row - parseFloat(co.style.height) * .45 - h;
       const b = document.createElement('button'); b.className = 'ch-mug' + (done ? ' done' : '');
       b.setAttribute('aria-label', done ? `${g.name}, finished: see your result` : `${g.name}${open(g) ? ', unfinished' : ''}`);
-      b.style.cssText = `left:${x}px;top:${y}px;width:${w}px;height:${h}px;transform-origin:${RIM[g.k] * 100}% 100%`;
+      b.style.cssText = `left:${x}px;top:${y}px;width:${w}px;height:${h}px;transform-origin:${RIM[g.k] * 100}% 100%;--d:${k * .7}s`;
       const img = new Image(); img.src = src.src; img.alt = ''; b.appendChild(img); st.appendChild(b);
+      if (done) { // a gold tick on the coaster: this one's finished
+        const t = document.createElement('i'); t.className = 'ch-tick'; t.textContent = '✓'; const cw = parseFloat(co.style.width);
+        t.style.cssText = `left:${L.slots[k] + cw * .22}px;top:${L.row - parseFloat(co.style.height) * 1.1}px;font-size:${cw * .32}px`; st.appendChild(t);
+      }
       const c = { g, b, img, co, x, y, w, h, done };
-      b.addEventListener('click', () => done ? go(c) : pick(c)); return c;
+      b.addEventListener('click', () => { hint?.remove(); try { localStorage.setItem('dose:seen:mugs', '1'); } catch (e) {} done ? go(c) : pick(c); }); return c;
     });
+    // first visit: point at the mugs until one gets tapped
+    let hint = null;
+    try { if (!localStorage.getItem('dose:seen:mugs')) {
+      const first = cups.find(c => !c.done && c.g !== next) || cups[0];
+      hint = document.createElement('p'); hint.className = 'ch-hint'; hint.textContent = 'Tap a mug to pick a game';
+      hint.style.cssText = `left:${Math.min(Math.max(first.x + first.w / 2, L.w * .32), L.w * .68)}px;top:${first.y - L.mug * 70}px;font-size:${L.foot[1] * 1.5}px`;
+      hint.style.setProperty('--tx', `${first.x + first.w / 2 - Math.min(Math.max(first.x + first.w / 2, L.w * .32), L.w * .68)}px`);
+      st.appendChild(hint);
+    } } catch (e) {}
     const at = c => `translate(${SPOUT.x - (c.x + c.w * RIM[c.g.k])}px,${SPOUT.y - (c.y + c.h)}px) scale(${UNDER})`;
     let sel = null, busy = false;
     function pick(c, quiet) {
@@ -163,15 +176,17 @@ export function hub(app) {
       st.appendChild(d);
       later(() => { d.remove(); c.img.src = I['mug_' + (ART[c.g.k] + 6)].src; SOUNDS.ok?.();
         ['lever_7', 'lever_8', 'lever_5'].forEach((n, i) => later(() => { const p = put(n, [SPOUT.x + (i - 1) * mb.w * .1, SPOUT.y - c.h * UNDER, L.mug * .5], 17, 'ch-puff'); later(() => p.remove(), 1100); }, i * 140)); }, 800);
-      // the dive: the counter drops away, the shot swells into its game
+      // the dive: the counter drops away and you fall into the coffee itself, swirling out from the mug's rim
       later(() => {
         st.querySelectorAll('.ch-mug:not(.sel), .ch-drop').forEach(e => e.style.translate = `0 ${L.h}px`);
         cups.forEach(x => x.co.style.translate = `0 ${L.h}px`); cat.style.translate = zz.style.translate = `0 ${L.h}px`;
-        const k = Math.max(L.w / c.w, L.h / c.h) * 1.3;
-        c.b.style.transform = `translate(${L.w / 2 - (c.x + c.w * RIM[c.g.k])}px,${L.h / 2 + c.h * k / 2 - (c.y + c.h)}px) scale(${k})`;
-        app.querySelector('.cafe-home').style.setProperty('--dive', c.g.c); app.querySelector('.cafe-home').classList.add('diving');
+        const r = c.b.getBoundingClientRect();
+        coffee = document.createElement('div'); coffee.className = 'ch-coffee'; coffee.setAttribute('aria-hidden', 'true');
+        coffee.style.setProperty('--x', `${r.left + r.width * RIM[c.g.k]}px`); coffee.style.setProperty('--y', `${r.top + r.height * .16}px`);
+        coffee.innerHTML = '<i></i>'; document.body.appendChild(coffee);
+        requestAnimationFrame(() => requestAnimationFrame(() => coffee.classList.add('on')));
       }, 1300);
-      later(() => { location.hash = '#' + c.g.k; }, 1950);
+      later(() => { location.hash = '#' + c.g.k; }, 2100);
     });
 
     if (next) pick(cups[GAMES.indexOf(next)], true); else label.textContent = 'Get your dose card';
@@ -206,5 +221,9 @@ export function hub(app) {
   // your name, refreshed quietly for the menu and share card
   hasAccount().then(ok => ok && getMe()).then(m => { if (!m || (m.name || null) === (state.name || null) || gone) return; state.name = m.name || null; save(); }).catch(() => {});
 
-  return () => { gone = true; timers.forEach(t => { clearInterval(t); clearTimeout(t); }); removeEventListener('resize', onResize); };
+  return () => {
+    gone = true; timers.forEach(t => { clearInterval(t); clearTimeout(t); }); removeEventListener('resize', onResize);
+    // the game screen surfaces through the coffee as it drains away
+    const cof = coffee; if (cof) { cof.classList.add('out'); setTimeout(() => cof.remove(), 500); }
+  };
 }
