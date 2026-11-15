@@ -46,7 +46,7 @@ const HOWTO = {
     demo: `<div class="demo demo-blend"><p>Pot 80 → 160?</p><b>BANK IT · OR GO</b></div>` },
   blend: { name: 'Blend', steps: ['Five prompts, 20 seconds each. Type the first thing that fits.', '“Think like everyone”: match the answer most people give. “Think like no one”: a real answer few people give.', 'Up to 100 points a prompt. A rare answer nobody saw coming is a 💎.'],
     demo: `<div class="demo demo-blend"><p>A fruit that’s yellow</p><b>BANANA · 71%</b></div>` },
-  link: { name: 'Missing Link', steps: ['Three clue words, one hidden word that goes with all of them. It can come before or after each clue.', 'Five links, any order: skip one and come back. Three tries each, and the first letter shows after two misses.', '3 points on the first try, 2 on the second, 1 on the third.'],
+  link: { name: 'Missing Link', steps: ['One hidden word goes with every clue. It can come before or after each clue.', 'You start with one clue. Stuck? Show another, or a wrong guess shows it for you. Up to three clues, three guesses.', 'Solve it on 1 clue for 3 points, 2 clues for 2, 3 clues for 1. Five links, any order.'],
     demo: `<div class="demo demo-link"><p><span>STAR</span><span>TRAFFIC</span><span>HOUSE</span></p><b>LIGHT</b></div>` },
 };
 

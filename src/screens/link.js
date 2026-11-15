@@ -22,7 +22,7 @@ export function link(app) {
       <div class="h-intro g-intro rise">
         <img class="g-mug" src="/art/mugs/link-empty.webp" alt="" width="104" height="97">
         <h2 class="display">Find the <em>link</em></h2>
-        <p>Three words, one hidden word that goes with all of them, before or after. Five links, any order, three tries each.</p>
+        <p>One hidden word goes with every clue, before or after. You start with one clue: the fewer you need, the more you score.</p>
       </div>
       <div class="h-bottom"><button class="btn wide" id="begin">Start</button></div>
     </section></div>
@@ -50,9 +50,10 @@ export function link(app) {
         <p class="lk-tries"><span>${l.solved ? ['First try.', 'Second try.', 'Third try.'][l.tries.length - 1] || 'Got it.' : `It was ${l.answer.toUpperCase()}.`}</span></p>` : `
         <form id="form" class="lk-form" autocomplete="off"><label class="lk-type"><p class="lk-boxes" id="boxes">${boxes()}</p><input id="w" maxlength="${l.len}" autocapitalize="characters" autocorrect="off" spellcheck="false" enterkeyhint="go" aria-label="Your answer, ${l.len} letters"></label><button class="btn wide" id="go">Guess</button></form>
         <p class="lk-tries">${[0, 1, 2].map(i => `<i class="${l.tries[i] ? 'used' : ''}"></i>`).join('')}<span>${l.tries.length ? `Not ${l.tries.map(t => t.toUpperCase()).join(', ')}` : '3 tries'}</span></p>`}
-        ${done ? '' : `<div class="ld-tools">${nextOpen(cur) >= 0 ? '<button class="hint-btn" id="skip">Next link ›</button>' : ''}${l.done ? '' : '<button class="link-quiet" id="give">Give up this one</button>'}</div>`}
+        ${done ? '' : `<div class="ld-tools">${l.more ? '<button class="hint-btn" id="more">Show another clue</button>' : ''}${nextOpen(cur) >= 0 ? '<button class="hint-btn" id="skip">Next link ›</button>' : ''}${l.done ? '' : '<button class="link-quiet" id="give">Give up this one</button>'}</div>`}
       </div>`;
     app.querySelectorAll('.lk-tabs [data-k]').forEach(b => b.addEventListener('click', () => { cur = +b.dataset.k; SOUNDS.tap(); say(''); draw(); }));
+    $('#more')?.addEventListener('click', () => { SOUNDS.tap(); guess('+'); });
     $('#skip')?.addEventListener('click', () => { cur = nextOpen(cur); SOUNDS.tap(); say(''); draw(); });
     $('#give')?.addEventListener('click', e => {
       if (Date.now() - giveArmed > 3000) { giveArmed = Date.now(); e.target.textContent = 'Tap again to give up'; SOUNDS.tap(); return; }
@@ -67,7 +68,7 @@ export function link(app) {
 
   async function guess(w) {
     if (busy) return;
-    if (w !== '?' && !w.trim()) { say('Type a word first.'); shake(); return; }
+    if (w !== '?' && w !== '+' && !w.trim()) { say('Type a word first.'); shake(); return; }
     busy = true;
     const k = cur;
     let r;
@@ -75,16 +76,17 @@ export function link(app) {
     catch (e) { busy = false; const why = Object.keys(WHY).find(x => e.message.includes(x)); say(why ? WHY[why] : navigator.onLine ? 'Couldn’t check that. Try again.' : 'You’re offline. Guesses need a connection.'); buzz(10); shake(); return; }
     busy = false;
     if (gone) return;
-    s = r;
+    const l0 = s.links[k].clues.length; s = r;
     const was = r.links[k];
-    if (was.solved) { say(`${was.answer.toUpperCase()}. ${['First try!', 'Got it.', 'Just in time.'][was.tries.length - 1] || ''}`); SOUNDS.ok(); buzz(12); }
+    if (w === '+') { say(''); draw(); return; }
+    if (was.solved) { say(`${was.answer.toUpperCase()}. ${['On one clue!', 'Two clues.', 'Just in time.'][was.used - 1] || ''}`); SOUNDS.ok(); buzz(12); }
     else if (was.done) { say(w === '?' ? '' : `Not ${w.toUpperCase()}.`); SOUNDS.miss(); buzz(15); }
-    else { say(`Not ${w.toUpperCase()}. ${3 - was.tries.length} ${3 - was.tries.length === 1 ? 'try' : 'tries'} left${was.hint ? `. It starts with ${was.hint}.` : '.'}`); SOUNDS.miss(); buzz(15); }
+    else { say(`Not ${w.toUpperCase()}. ${3 - was.tries.length} ${3 - was.tries.length === 1 ? 'try' : 'tries'} left${was.hint ? `. It starts with ${was.hint}.` : was.clues.length > l0 ? '. Here’s another clue.' : '.'}`); SOUNDS.miss(); buzz(15); }
     // a finished link moves you on to the next open one after a beat, so you see the answer first
     if (was.done && !r.result) { draw(); setTimeout(() => { if (!gone && s === r) { cur = nextOpen(k); draw(); } }, 1100); }
     else { draw(); if (!was.done) shake(); }
     // the aha: the chain snaps together; first-try solves get the big burst
-    if (was.solved) { $('.lk-now')?.classList.add('linked'); if (was.tries.length === 1) burst('#F2A93B'); }
+    if (was.solved) { $('.lk-now')?.classList.add('linked'); if (was.used === 1) burst('#F2A93B'); }
     if (r.result) { finish('link', r.result, day); if (r.result.solved) burst('var(--c-link)'); result(r.result, true); }
   }
 
@@ -94,7 +96,7 @@ export function link(app) {
       <img class="g-mug" src="/art/mugs/link-${r.solved ? 'full' : 'empty'}.webp" alt="" width="80" height="75">
       <p class="eyebrow">${r.solved === 5 ? 'All five linked' : `${r.solved} of 5 linked`}</p>
       <h2 class="display"><em>${r.score}</em> of 15</h2>
-      <p class="lk-dots">${r.tries.map(t => `<i class="t${t}" title="${t ? `try ${t}` : 'missed'}"></i>`).join('')}</p>
+      <p class="lk-dots">${r.tries.map(t => `<i class="t${t}" title="${t ? `${t} clue${t > 1 ? 's' : ''}` : 'missed'}"></i>`).join('')}</p>
       <p class="muted">${[beat, `in ${clock(r.ms)}`, streak('link') > 1 ? `${streak('link')} days in a row` : ''].filter(Boolean).join(' · ')}</p>
       <div class="fr-on" id="fr-on"></div>
       <button class="btn wide" id="share">Share Missing Link</button>
