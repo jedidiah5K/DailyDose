@@ -21,8 +21,9 @@ export function drop(app) {
   app.innerHTML = `<main class="screen game drop">
     ${gameHeader(K, 'Drop', '<span class="eyebrow mono" id="step"></span>')}
     <div class="g-play"><section id="body" class="bl-body">
-      <div class="h-intro rise">
-        <h2 class="display">Bank it, or <em>let it ride.</em></h2>
+      <div class="h-intro g-intro rise">
+        <img class="g-mug" src="/art/mugs/hilo-empty.webp" alt="" width="104" height="85">
+        <h2 class="display">Bank it,<br>or <em>let it ride.</em></h2>
         <p>Higher or lower, 7 seconds a card. Every right call doubles your pot. Stop whenever you like. One wrong call and you lose it all.</p>
       </div>
       <div class="h-bottom"><button class="btn wide" id="begin">Deal me in</button></div>
@@ -53,7 +54,7 @@ export function drop(app) {
     } else {
       $('#body').innerHTML = `<div class="bl-now dr">${head}</div>
         <div class="h-bottom dr-next"><button class="btn wide" id="next">${step ? 'Next card' : 'Turn the first card'}</button>
-        ${step ? `<button class="link-quiet" id="bank">Bank ${s.pot.toLocaleString()} and stop</button>` : ''}</div>`;
+        ${step ? `<button class="dr-bank" id="bank"><b>Bank ${s.pot.toLocaleString()}</b><span>and stop</span></button>` : ''}</div>`;
       $('#next').addEventListener('click', next);
       $('#bank')?.addEventListener('click', bank);
     }
@@ -75,9 +76,10 @@ export function drop(app) {
     if (!r) { fail(); try { s = await hiloStart(); draw(); } catch (e) {} return; }
     s = r;
     const ok = s.calls.at(-1)?.ok;
-    if (ok) { SOUNDS.ok(); buzz(12); } else { SOUNDS.miss(); buzz([30, 40, 30]); }
+    if (ok) { SOUNDS.ok(); buzz(12); } else { SOUNDS.miss(); buzz([30, 40, 30]); app.querySelector('.dr-pot')?.classList.add('shatter'); }
     if (dir === 'out') say('Time’s up.');
-    draw(ok ? 'ok' : 'bust');
+    // let the pot shatter first; taps stay locked until the result shows
+    if (ok) draw('ok'); else { busy = true; setTimeout(() => { busy = false; if (!gone) draw('bust'); }, 450); }
   }
 
   async function bank() {
@@ -95,6 +97,7 @@ export function drop(app) {
       <ol class="dr-chain">${r.chain.map((x, i) => `<li class="${i <= r.rights ? 'seen' : ''}${i === r.rights + 1 ? (r.bust ? ' bust' : ' stop') : ''}"><span>${esc(x.n)}</span><b>${esc(x.s)}</b></li>`).join('')}</ol></div>`;
     const crowd = r.crowd != null ? `Most people stopped after ${r.crowd} right call${r.crowd === 1 ? '' : 's'}` : 'You’re one of the first to play today';
     $('#bottom').innerHTML = `<div class="result ${fresh ? 'rise' : ''}">
+      <img class="g-mug" src="/art/mugs/hilo-${r.bust ? 'empty' : 'full'}.webp" alt="" width="80" height="66">
       <p class="eyebrow">${r.cleared ? 'Cleared the whole chain' : r.bust ? `Busted on card ${r.rights + 2}` : `Banked after ${r.rights} right call${r.rights === 1 ? '' : 's'}`}</p>
       <h2 class="display"><em>${r.banked.toLocaleString()}</em> banked</h2>
       <p class="bl-tiles">${dropTiles(r)}</p>

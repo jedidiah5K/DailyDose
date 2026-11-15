@@ -18,8 +18,9 @@ export function rush(app) {
   app.innerHTML = `<main class="screen game rush">
     ${gameHeader('rush', 'Rush', '<span class="eyebrow mono" id="step"></span>')}
     <div class="g-play"><section id="body" class="bl-body">
-      <div class="h-intro rise">
-        <h2 class="display">Thirty seconds. <em>Go.</em></h2>
+      <div class="h-intro g-intro rise">
+        <img class="g-mug" src="/art/mugs/rush-empty.webp" alt="" width="104" height="98">
+        <h2 class="display">Thirty seconds.<br><em>Go.</em></h2>
         <p>One category. Type as many as you can, one at a time. Rare ones are worth more.</p>
       </div>
       <div class="h-bottom"><button class="btn wide" id="begin">Start the clock</button></div>
@@ -80,6 +81,7 @@ export function rush(app) {
     $('#step').textContent = `${r.points} pts`;
     $('#body').innerHTML = `<div class="bl-reveal"><p class="bl-mode">${esc(s.q)}</p><ul class="ru-found">${chips(s.found)}</ul></div>`;
     $('#bottom').innerHTML = `<div class="result rise">
+      <img class="g-mug" src="/art/mugs/rush-full.webp" alt="" width="80" height="75">
       <p class="eyebrow">${r.found} found${r.rare ? ` · ${r.rare} rare 💎` : ''}</p>
       <h2 class="display"><em>${r.points}</em> points</h2>
       ${r.missed.length ? `<p class="muted ru-missed">You missed <b>${r.missed.map(esc).join(', ')}</b></p>` : ''}

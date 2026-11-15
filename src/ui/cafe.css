@@ -1,0 +1,275 @@
+/* One font for the whole app (Job, 2026-11-15): Pixelify Sans, matching the pixel art. */
+:root { --serif: 'Pixelify Sans', system-ui, sans-serif; --sans: var(--serif); --mono: var(--serif); }
+body { font-weight: 500; }
+.display, em { font-style: normal; }
+
+/* Café look for the game screens (Job, 2026-11-15): each game sits in its own pixel-art backdrop,
+   the board lives on a cream signboard card with a chunky espresso outline (same as the home sign),
+   main actions use the golden pill button from the home screen. Visual only: no game logic here. */
+.screen.game, .howto {
+  --esp: #3A2214; --cream: #F6E7CB; --gold: #F2A93B; --wood: #6E4024;
+  --ink: var(--esp); --ink-2: #5A3A22; --muted: #7D5C40; --bg: var(--cream); --surface: #EFDDBA; --tile: #E6D2AC;
+  --line: #D9C29A; --line-2: var(--esp); --bad: #D8402E; --good: #2F8A4E;
+  --pixel: 'Pixelify Sans', system-ui, sans-serif; --ui: var(--pixel);
+  color-scheme: light; color: var(--esp); font-family: var(--ui);
+  background: var(--world, var(--cream)) center / cover no-repeat;
+}
+.howto { background: var(--cream); border: 4px solid var(--esp); border-radius: 18px; box-shadow: inset 0 0 0 3px #EAD3AA, 0 6px 0 var(--wood); }
+.howto .demo { background: var(--surface); border: 3px solid var(--esp); border-radius: 12px; }
+.howto .demo-blend p { font: 700 1.2rem var(--pixel); }
+.howto .ht-x { color: var(--esp); font-weight: 700; }
+/* café game colours everywhere a game shows its colour (icons, pop-up demos) */
+.g-shot { --c: #FFC93C; } .g-blend { --c: #FF8A5B; } .g-rush { --c: #F0452B; } .g-hilo { --c: #1F9A5D; } .g-link { --c: #3D6FD9; } .g-ladder { --c: #C9A46A; }
+.g-shot, .g-blend, .g-ladder, .game.shot, .game.blend, .game.ladder { --on-c: #3A2214; }
+.game.shot { --c: #FFC93C; --world: url(/art/worlds/shot.webp); }
+.game.blend { --c: #FF8A5B; --world: url(/art/worlds/blend.webp); }
+.game.rush { --c: #F0452B; --world: url(/art/worlds/rush.webp); }
+.game.drop { --c: #1F9A5D; --world: url(/art/worlds/hilo.webp); }
+.game.mlink { --c: #3D6FD9; --world: url(/art/worlds/link.webp); }
+.game.ladder { --c: #C9A46A; --world: url(/art/worlds/ladder.webp); }
+
+/* type: one pixel face; weight and size do the hierarchy */
+.screen.game .display { font-family: var(--pixel); font-weight: 700; letter-spacing: 0; line-height: 1.05; }
+.screen.game em { font-style: normal; }
+.screen.game .eyebrow { font: 700 .72rem/1.3 var(--ui); letter-spacing: .16em; color: var(--ink-2); }
+.screen.game .mono { font-family: var(--ui); font-weight: 800; }
+
+/* header: square pixel buttons either side, the game's name on a dark pill in the middle */
+.game .gm-top { padding: .2rem 0 .8rem; }
+.game .back, .game .gm-help { display: grid; place-items: center; width: 2.9rem; height: 2.9rem; margin: 0; border-radius: 12px;
+  background: #4A2C17; border: 3px solid var(--gold); color: var(--cream); box-shadow: 0 3px 0 #1E1009; }
+.game .back:active, .game .gm-help:active { translate: 0 2px; box-shadow: 0 1px 0 #1E1009; background: #4A2C17; }
+.game .gm-help { font: 700 1.15rem/1 var(--ui); }
+.game .back svg { stroke-width: 3; }
+.game .gm-title { gap: .55rem; padding: .45rem .95rem .45rem .55rem; border-radius: 999px; background: var(--esp); color: var(--cream);
+  box-shadow: 0 3px 0 #1E1009; }
+.game .gm-title .gi { background: var(--c); color: var(--esp); border-radius: 8px; }
+.game .gm-title b { font: 700 1.35rem/1 var(--pixel); }
+.game .gm-title span { color: var(--gold); font-weight: 800; }
+
+/* the signboard card */
+.game .h-intro, .game .bl-now, .game .result {
+  background: var(--cream); border: 4px solid var(--esp); border-radius: 16px;
+  box-shadow: inset 0 0 0 3px #EAD3AA, 0 6px 0 var(--wood);
+}
+.game .h-intro { margin-top: 1.4rem; padding: 1.4rem 1.3rem 1.5rem; justify-items: center; text-align: center; }
+.game .h-intro p { color: var(--ink-2); }
+.game .bl-now { padding: 1.3rem 1.2rem 1.2rem; margin-top: 1rem; }
+.game .result { padding: 1.4rem 1.2rem 1.1rem; }
+.game .result h2 { font-size: clamp(2.2rem, 11vw, 3rem); }
+.game .result .muted { color: var(--ink-2); }
+
+/* the golden pill: caps stay crisp, the middle stretches */
+.game .btn, .howto .btn { min-height: 3.6rem; padding: 0 .4rem; border-radius: 0; background: none; color: var(--cream);
+  border-style: solid; border-width: 0 2.9rem; border-image: url(/art/ui/pill.webp) 0 128 fill / 0 2.9rem stretch;
+  font: 700 1.1rem/1 var(--ui); letter-spacing: .04em; text-transform: uppercase; }
+.game .btn:active:not(:disabled), .howto .btn:active {  transform: none; border-image-source: url(/art/ui/pill-down.webp); }
+
+/* typing */
+.game .bl-now, .game .bl-form { grid-template-columns: minmax(0, 1fr); }
+.game .bl-form input { min-width: 0; width: 100%; min-height: 3.6rem; border: 4px solid var(--esp); border-radius: 12px; background: #FFF8EA; color: var(--esp);
+  font: 700 1.5rem var(--pixel); box-shadow: inset 0 3px 0 rgba(58,34,20,.12); }
+.game .bl-form input:focus { border-color: var(--esp); box-shadow: inset 0 3px 0 rgba(58,34,20,.12), 0 0 0 4px var(--gold); }
+.game .bl-form input::placeholder { color: #B79B7A; font-size: 1.1rem; }
+
+/* timer: chunky pixel bar in the game colour, heats to red when low */
+.game .bl-clock { height: 20px; border-radius: 10px; background: #4A2C17; border: 3px solid var(--esp); box-shadow: 0 3px 0 rgba(58,34,20,.3); }
+.game .bl-clock i { background: var(--c); box-shadow: inset 0 4px 0 rgba(255,255,255,.35); border-radius: 6px; }
+.game .bl-clock.low i { background: var(--bad); animation: cafe-pulse .5s steps(2) infinite; }
+@keyframes cafe-pulse { 50% { opacity: .65; } }
+.game .bl-secs { color: var(--ink-2); font-weight: 800; }
+
+/* toast and loading */
+.game .v-msg.top { background: var(--esp); color: var(--cream); border: 3px solid var(--gold); border-radius: 999px; font-weight: 700; }
+.game .h-skel i { background: linear-gradient(90deg, #EAD3AA, var(--cream), #EAD3AA); background-size: 200% 100%; }
+.game .next-in b { color: var(--esp); }
+
+/* How to play pop-up matches the card */
+.howto .display { font-family: var(--pixel, 'Pixelify Sans'); font-weight: 700; }
+
+/* The Shot */
+.g-mug { width: 6.5rem; height: auto; image-rendering: auto; margin: -.2rem auto .2rem; filter: drop-shadow(0 4px 0 rgba(58,34,20,.25)); }
+.g-intro .g-mug { animation: g-bob 2.4s ease-in-out infinite; }
+@keyframes g-bob { 50% { translate: 0 -4px; } }
+.game.shot .h-intro h2 { font-size: clamp(2rem, 9vw, 2.5rem); }
+.game.shot .bl-q { text-align: center; }
+.game.shot .sh-shape { justify-content: center; }
+.game .sh-shape i { width: 1.15rem; height: 1.4rem; border-radius: 3px; background: #FFF8EA; border: 2px solid var(--esp); }
+.result .g-mug { width: 5rem; }
+@media (prefers-reduced-motion: reduce) { .g-intro .g-mug, .game .bl-clock.low i { animation: none; } }
+
+/* Blend: two moods you can't mix up. "Think like everyone" = warm cream card with a crowd of dots;
+   "Think like no one" = dark espresso card with a gold sparkle. */
+.game .bl-ready, .game .bl-reveal { background: var(--cream); border: 4px solid var(--esp); border-radius: 16px;
+  box-shadow: inset 0 0 0 3px #EAD3AA, 0 6px 0 var(--wood); padding: 1.3rem 1.2rem; margin-top: 1rem; }
+.game .bl-ready { justify-items: center; text-align: center; padding-block: 1.8rem; }
+.game .bl-ready h2 { font-size: clamp(2rem, 10vw, 2.6rem); }
+.game .bl-ready.rare h2, .game .bl-now.rare .bl-mode, .game .bl-reveal.rare .bl-mode { font-style: normal; }
+.game .bl-ready.rare, .game .bl-now.rare, .game .bl-reveal.rare { background: #2E1B10; color: var(--cream); border-color: var(--gold);
+  box-shadow: inset 0 0 0 3px #4A2C17, 0 6px 0 #1E1009; }
+.game .rare .eyebrow, .game .rare .muted, .game .rare p { color: #EBD7B5; }
+.game .bl-mode { justify-self: start; display: inline-flex; align-items: center; gap: .45rem; padding: .3rem .7rem; border-radius: 999px;
+  font: 700 .75rem/1 var(--pixel); letter-spacing: .08em; text-transform: uppercase; background: var(--c); color: var(--esp); }
+.game .bl-mode::before { content: '● ● ●'; font-size: .55rem; letter-spacing: -.05em; }
+.game .rare .bl-mode { background: var(--gold); color: var(--esp); }
+.game .rare .bl-mode::before { content: '✦'; font-size: .85rem; }
+.game .bl-ready::before { content: '● ● ● ● ●'; color: var(--c); letter-spacing: .1em; font-size: .9rem; }
+.game .bl-ready.rare::before { content: '✦'; color: var(--gold); font-size: 1.6rem; animation: bl-twinkle 1.6s steps(2) infinite; }
+@keyframes bl-twinkle { 50% { opacity: .45; scale: .85; } }
+.game .rare .bl-form input { border-color: var(--gold); }
+
+/* progress: five little tiles, solid for crowd prompts, dashed for rare ones */
+.game .bl-dots { margin-top: .4rem; gap: .5rem; }
+.game .bl-dots li { width: 2.5rem; height: 2.5rem; border-radius: 10px; background: var(--cream); border: 3px solid var(--esp); color: var(--esp);
+  font: 700 .95rem var(--pixel); box-shadow: 0 3px 0 var(--wood); }
+.game .bl-dots li.rare { background: #2E1B10; color: var(--gold); border-color: var(--esp); }
+.game .bl-dots li.now { border-color: var(--gold); box-shadow: 0 3px 0 var(--wood), 0 0 0 3px var(--gold); color: var(--esp); background: #FFF3D6; }
+.game .bl-dots li.rare.now { background: #4A2C17; color: var(--gold); }
+.game .bl-dots li.ok, .game .bl-dots li.gem, .game .bl-dots li.meh, .game .bl-dots li.miss { border: 3px solid var(--esp); background: var(--cream); }
+
+/* reveal */
+.game .bl-you { font: 700 clamp(2.2rem, 11vw, 2.8rem)/1 var(--pixel); }
+.game .bl-pts b { display: inline-block; min-width: 2.6ch; padding: .1rem .5rem; border-radius: 8px; background: var(--c); color: var(--esp);
+  font: 700 1.5rem var(--pixel); border: 3px solid var(--esp); text-align: center; }
+.game .bl-gem { background: var(--gold); color: var(--esp); border: 2px solid var(--esp); font-weight: 700; }
+.game .bl-top li, .game .bl-past li { background: #FFF8EA; border: 3px solid var(--esp); border-radius: 10px; color: var(--esp); font-weight: 600; }
+.game .bl-top li i { background: color-mix(in srgb, var(--c) 45%, #FFF8EA); }
+.game .bl-top li b, .game .bl-past em { font: 700 .9rem var(--pixel); color: var(--esp); }
+.game .bl-top li.me { box-shadow: 0 0 0 3px var(--gold); }
+.game .rare .bl-top li { border-color: #4A2C17; }
+.game .bl-past span { color: var(--muted); }
+.game .bl-tiles { font-size: 1.5rem; }
+
+/* Rush: panic. Score in the header, answers pile up as pixel chips, and the card heats up in the last seconds. */
+.game .gm-right .eyebrow { padding: .35rem .6rem; border-radius: 999px; background: var(--esp); color: var(--cream); letter-spacing: .06em;
+  box-shadow: 0 3px 0 #1E1009; }
+.game .gm-right .eyebrow:empty { display: none; }
+.game .gm-right .eyebrow b { color: var(--gold); font-weight: 700; }
+.game .ru-found { gap: .45rem; margin-top: .6rem; }
+.game .ru-found li { padding: .4rem .75rem; border-radius: 10px; background: #FFF8EA; border: 3px solid var(--esp); color: var(--esp);
+  font: 600 .95rem var(--pixel); box-shadow: 0 3px 0 var(--wood); }
+.game .ru-found li b { font: 700 .8rem var(--pixel); color: var(--esp); background: var(--c); border-radius: 6px; padding: .05rem .3rem; }
+.game .ru-found li.p2 { background: #FFE0CF; }
+.game .ru-found li.p3 { background: var(--gold); box-shadow: 0 3px 0 var(--wood), 0 0 0 3px #FFF1C2; }
+.game .ru-found li.p3::before { content: '💎 '; }
+.game .bl-now .ru-found li:last-child { animation: ru-pop .28s var(--spring) both; }
+@keyframes ru-pop { from { scale: .4; opacity: 0; } }
+.game .ru-missed b { color: var(--bad); }
+/* the last seconds: card border goes red and the whole card throbs */
+.game.rush .bl-now:has(.bl-clock.low) { border-color: var(--bad); box-shadow: inset 0 0 0 3px #F6C2B4, 0 6px 0 #8E2416;
+  animation: ru-heat .5s ease-in-out infinite; }
+@keyframes ru-heat { 50% { box-shadow: inset 0 0 0 3px #F6C2B4, 0 6px 0 #8E2416, 0 0 0 6px rgba(240,69,43,.35); } }
+.game.rush .bl-q { text-align: center; }
+@media (prefers-reduced-motion: reduce) { .game.rush .bl-now, .game .ru-found li { animation: none !important; } }
+
+/* Drop: nerve. A gold pot up top, cards like a dealer's, chunky Higher/Lower, a coin-gold Bank button that glows. */
+.game .dr-pot { justify-self: center; display: flex; align-items: center; gap: .5rem; padding: .35rem .9rem .35rem .5rem; border-radius: 999px;
+  background: var(--esp); color: var(--cream); font: 700 .8rem var(--pixel); letter-spacing: .1em; text-transform: uppercase; box-shadow: 0 3px 0 #1E1009; }
+.game .dr-pot::before { content: ''; width: 1.6rem; height: 1.6rem; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #FFE79A, #F2A93B 60%, #B9741E);
+  border: 2px solid #1E1009; }
+.game .dr-pot b { font: 700 1.7rem var(--pixel); color: var(--gold); margin: 0; letter-spacing: 0; }
+.game .bl-now.dr { justify-items: stretch; }
+.game .dr .bl-mode { justify-self: center; }
+.game .dr-card { padding: 1rem 1.1rem; border-radius: 12px; background: #FFF8EA; border: 4px solid var(--esp); box-shadow: 0 5px 0 var(--wood); }
+.game .dr-card span { font: 600 1.3rem/1.15 var(--pixel); }
+.game .dr-card b { font: 700 1.5rem var(--pixel); color: var(--esp); background: var(--cream); border: 3px solid var(--esp); border-radius: 8px; padding: .1rem .5rem; }
+.game .dr-card.next { color: var(--cream); background: #176B42 repeating-linear-gradient(45deg, transparent 0 8px, rgba(255,255,255,.06) 8px 16px); }
+.game .dr-card.next b { background: var(--gold); color: var(--esp); font-size: 1.5rem; }
+.game .dr-card.ok { box-shadow: 0 5px 0 var(--wood), 0 0 0 4px #7FD49A; animation: ru-pop .3s var(--spring); }
+.game .dr-card.bust { box-shadow: 0 5px 0 var(--wood), 0 0 0 4px var(--bad); animation: dr-shake .4s; }
+@keyframes dr-shake { 20%, 60% { translate: -6px 0; } 40%, 80% { translate: 6px 0; } }
+.game .dr-calls { gap: .7rem; }
+.game .dr-calls .btn { border-image: none; border: 4px solid var(--esp); border-radius: 14px; background: var(--c); color: var(--cream);
+  box-shadow: 0 5px 0 var(--wood); padding: 0 .6rem; gap: .4rem; text-transform: none; font-size: 1.2rem; }
+.game .dr-calls .btn[data-c="lo"] { background: #4A2C17; }
+.game .dr-calls .btn[data-c="hi"]::before { content: '▲'; color: var(--gold); }
+.game .dr-calls .btn[data-c="lo"]::before { content: '▼'; color: var(--gold); }
+.game .dr-calls .btn:active:not(:disabled) { translate: 0 3px; box-shadow: 0 2px 0 var(--wood); }
+.game .dr-next { gap: .7rem; }
+.game .dr-bank { display: flex; align-items: center; justify-content: center; gap: .5rem; min-height: 3.2rem; border-radius: 14px;
+  background: linear-gradient(#FFE18A, #F2A93B); border: 4px solid var(--esp); color: var(--esp); box-shadow: 0 5px 0 var(--wood);
+  font: 700 1.15rem var(--pixel); animation: dr-glow 1.8s ease-in-out infinite; }
+.game .dr-bank span { font-size: .85rem; font-weight: 500; }
+.game .dr-bank:active { translate: 0 3px; box-shadow: 0 2px 0 var(--wood); }
+@keyframes dr-glow { 50% { box-shadow: 0 5px 0 var(--wood), 0 0 0 6px rgba(242,169,59,.45); } }
+.game .dr-chain li { background: #FFF8EA; border: 3px solid var(--esp); border-radius: 10px; color: var(--esp); font: 600 .95rem var(--pixel); }
+.game .dr-chain li b { font: 700 .9rem var(--pixel); }
+.game .dr-chain li.bust { box-shadow: 0 0 0 3px var(--bad); } .game .dr-chain li.stop { box-shadow: 0 0 0 3px var(--gold); }
+@media (prefers-reduced-motion: reduce) { .game .dr-bank, .game .dr-card { animation: none !important; } }
+
+/* Missing Link: the aha. Three blue clue tiles joined by gold chain links, letter boxes like the ones on the home sign. */
+.game .lk-now { margin-top: 1rem; padding: 1.2rem 1.1rem; background: var(--cream); border: 4px solid var(--esp); border-radius: 16px;
+  box-shadow: inset 0 0 0 3px #EAD3AA, 0 6px 0 var(--wood); }
+.game .lk-clues { gap: 1rem; }
+.game .lk-clues li { position: relative; padding: .8rem 1rem; border-radius: 12px; background: var(--c); color: var(--cream);
+  border: 4px solid var(--esp); box-shadow: 0 4px 0 var(--wood); font: 700 clamp(1.6rem, 8vw, 2.1rem)/1 var(--pixel); letter-spacing: .04em; text-transform: uppercase; }
+.game .lk-clues li + li::before { content: ''; position: absolute; left: 50%; top: -1.15rem; width: .7rem; height: 1.3rem; translate: -50% 0;
+  border: 3px solid var(--esp); border-radius: 6px; background: var(--gold); }
+.game .lk-boxes i { background: #FFF8EA; border: 3px solid var(--esp); box-shadow: 0 3px 0 var(--wood); border-radius: 8px; font: 700 1.3rem var(--pixel); color: var(--esp); }
+.game .lk-type:focus-within .lk-boxes i.at { box-shadow: 0 3px 0 var(--wood), 0 0 0 3px var(--gold); animation: none; }
+.game .lk-boxes.ok i { background: var(--c); color: var(--cream); border-color: var(--esp); }
+.game .lk-boxes.miss i { background: var(--surface); color: var(--muted); }
+.game .lk-tabs button { height: 2.6rem; border-radius: 10px; background: var(--cream); border: 3px solid var(--esp); box-shadow: 0 3px 0 var(--wood);
+  font: 700 .95rem var(--pixel); color: var(--esp); }
+.game .lk-tabs button.ok { background: var(--c); color: var(--cream); }
+.game .lk-tabs button.tried { box-shadow: 0 3px 0 var(--wood), inset 0 -4px 0 var(--bad); }
+.game .lk-tabs button.on { background: var(--esp); color: var(--gold); border-color: var(--esp); box-shadow: 0 3px 0 #1E1009, 0 0 0 3px var(--gold); }
+.game .lk-tries { justify-content: center; font: 600 .85rem var(--pixel); color: var(--ink-2); }
+.game .lk-tries i { width: 14px; height: 14px; border-radius: 4px; box-shadow: none; border: 2px solid var(--esp); background: #FFF8EA; }
+.game .lk-tries i.used { background: var(--bad); }
+.game .hint-btn { background: var(--esp); color: var(--cream); box-shadow: 0 3px 0 #1E1009; font: 700 .9rem var(--pixel); border: 3px solid var(--gold); }
+.game .lk-dots i { border: 2px solid var(--esp); border-radius: 5px; background: var(--surface); }
+
+/* Ladder: calm. A real wooden ladder: two rails, a rung of letter tiles per step, the changed letter in gold. */
+.game .ld-ladder { position: relative; margin-top: 1.4rem; padding: 1rem 1.6rem; gap: .7rem; }
+.game .ld-ladder::before, .game .ld-ladder::after { content: ''; position: absolute; top: 0; bottom: 0; width: .8rem; border-radius: 6px;
+  background: #A8703E; border: 3px solid var(--esp); box-shadow: inset 3px 0 0 #C98E55; }
+.game .ld-ladder::before { left: 0; } .game .ld-ladder::after { right: 0; }
+.game .ld-rung { position: relative; }
+.game .ld-rung::before { content: ''; position: absolute; left: -1.6rem; right: -1.6rem; top: 50%; height: .6rem; translate: 0 -50%; z-index: -1;
+  background: #A8703E; border-block: 3px solid var(--esp); }
+.game .ld-rung span { border: 3px solid var(--esp); border-radius: 8px; background: #FFF8EA; color: var(--esp); font: 700 1.5rem var(--pixel);
+  box-shadow: 0 3px 0 var(--wood); }
+.game .ld-rung span.new { background: var(--gold); border-color: var(--esp); color: var(--esp); }
+.game .ld-rung.top span { background: #E7CFA6; }
+.game .ld-rung.goal span { background: var(--esp); border-color: var(--esp); color: var(--gold); }
+.game .ld-input input { border: 3px solid var(--esp); border-radius: 8px; background: #FFF8EA; color: var(--esp); font: 700 1.5rem var(--pixel);
+  letter-spacing: .5em; box-shadow: 0 3px 0 var(--wood); }
+.game .ld-input input:focus { box-shadow: 0 3px 0 var(--wood), 0 0 0 3px var(--gold); }
+.game .ld-path { color: var(--esp); font: 600 1rem var(--pixel); }
+.game .hint-btn:disabled { opacity: .45; }
+
+/* tab bar: espresso pill with a gold rim, like the home buttons */
+.tabbar { background: #3A2214 !important; border: 3px solid #F2A93B; box-shadow: 0 4px 0 #1E1009 !important; }
+.tab { color: #EBD7B5; font-family: 'Pixelify Sans', sans-serif; }
+.tab.on { background: #F2A93B; color: #3A2214; }
+.tab svg { stroke-width: 2.4; }
+
+/* You and Friends: the café street faded behind, each section on a cream signboard card */
+.game.you, .game.friends { --world: linear-gradient(rgba(246,231,203,.88), rgba(246,231,203,.94)), url(/art/home/tall-day.webp); --c: #F2A93B; }
+.game.you .you-head h1, .game.friends .page-top h1 { font-size: clamp(2.6rem, 12vw, 3.2rem); text-shadow: 3px 3px 0 var(--gold); }
+.game .you-head, .game .you-big, .game .you-sec, .game .fr-sec, .game .you-friends, .game.friends > section, .game.friends > form {
+  background: var(--cream); border: 4px solid var(--esp); border-radius: 16px; box-shadow: inset 0 0 0 3px #EAD3AA, 0 6px 0 var(--wood);
+  padding: 1rem 1.1rem; margin-top: 1rem; }
+.game .you-big { padding-block: .8rem; }
+.game .fr-me { text-align: center; }
+.game .fr-code { font: 700 2rem var(--pixel); letter-spacing: .18em; }
+.game .fr-form input, .game .fr-row input { min-width: 0; border: 3px solid var(--esp); border-radius: 12px; background: #FFF8EA; color: var(--esp);
+  font: 600 1.1rem var(--pixel); box-shadow: inset 0 3px 0 rgba(58,34,20,.1); }
+.game .fr-form input:focus, .game .fr-row input:focus { outline: none; box-shadow: 0 0 0 3px var(--gold); }
+.game .fr-row .btn, .game .fr-form .btn { border-width: 0 2rem; border-image-width: 0 2rem; font-size: .95rem; }
+.game .badges li > :first-child, .game .badges .b-mark { border-color: var(--esp) !important; }
+
+/* big moments */
+.game .bl-reveal.gemmed { position: relative; overflow: hidden; border-color: var(--gold); }
+.game .bl-reveal.gemmed::after { content: ''; position: absolute; inset: -20% auto -20% -60%; width: 40%; rotate: 20deg; pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(255,246,210,.85), transparent); animation: g-shine 1.1s .2s ease-out both; }
+@keyframes g-shine { to { left: 130%; } }
+.game .bl-reveal.gemmed .bl-gem { animation: ru-pop .4s .3s var(--spring) both; }
+.game .dr-pot.shatter { animation: dr-shatter .45s ease-in forwards; }
+@keyframes dr-shatter { 0% { scale: 1; } 25% { scale: 1.15; filter: brightness(1.4); } 100% { scale: .2; opacity: 0; rotate: -18deg; filter: grayscale(1); } }
+.game .lk-now.linked .lk-clues li + li::before { animation: lk-snap .35s var(--spring) both; background: #FFE18A; }
+.game .lk-now.linked .lk-clues li { animation: lk-glow .6s ease-out; }
+@keyframes lk-snap { 0% { scale: 1 0; } 60% { scale: 1.3; } 100% { scale: 1; } }
+@keyframes lk-glow { 40% { box-shadow: 0 4px 0 var(--wood), 0 0 0 5px var(--gold); } }
+@media (prefers-reduced-motion: reduce) { .game .bl-reveal.gemmed::after, .game .dr-pot.shatter, .game .lk-now.linked * { animation: none !important; } }

@@ -1,0 +1,44 @@
+/* The café home (Job, 2026-11-15): the player is the barista at a pick-up window. The scene is drawn in the
+   background picture's own pixels on a stage that scales to fit; the tab bar floats below it. */
+.screen.hub.cafe-home { max-width: none; padding: 0; overflow: hidden; background: #2a1a10; --tabs: calc(5.4rem + env(safe-area-inset-bottom)); }
+.ch-blur { position: fixed; inset: -40px; background: center / cover no-repeat; filter: blur(22px) brightness(.85); }
+.ch-fit { position: fixed; inset: env(safe-area-inset-top) 0 var(--tabs) 0; overflow: hidden; }
+.ch-st { position: absolute; left: 50%; top: 50%; transform-origin: center; overflow: hidden; background: center / 100% 100% no-repeat; }
+.ch-sp { position: absolute; user-select: none; -webkit-user-drag: none; pointer-events: none; }
+.ch-tap { pointer-events: auto; cursor: pointer; }
+.ch-bob { animation: ch-bob 2.6s ease-in-out infinite; }
+@keyframes ch-bob { 50% { translate: 0 -1.5%; } }
+.ch-zzz { animation: ch-zz 2.4s ease-in-out infinite; }
+@keyframes ch-zz { 0% { opacity: 0; translate: 0 10%; } 40% { opacity: 1; } 100% { opacity: 0; translate: 12% -40%; } }
+.ch-puff { animation: ch-puff 1.1s ease-out forwards; }
+@keyframes ch-puff { 0% { scale: .6; opacity: 0; } 20% { opacity: 1; } 100% { opacity: 0; translate: 0 -80px; scale: 1.2; } }
+.ch-drop, .ch-tap, .ch-zzz, .ch-sp { transition: translate .55s cubic-bezier(.5, 0, .75, 0); }
+.ch-mug { position: absolute; z-index: 10; padding: 0; background: none; border: 0; cursor: pointer;
+  transition: transform .5s cubic-bezier(.6, 0, .4, 1), translate .55s cubic-bezier(.5, 0, .75, 0); }
+.ch-mug img { display: block; width: 100%; height: 100%; pointer-events: none; }
+.ch-mug:active { scale: .95; }
+.ch-mug.sel { z-index: 16; }
+.ch-drip { position: absolute; z-index: 15; border-radius: 3px; background: #5B2E12; animation: ch-drip .25s steps(2) infinite; }
+@keyframes ch-drip { 50% { translate: 0 8%; } }
+.ch-ico { position: absolute; z-index: 20; padding: 0; border: 0; background: center / 100% 100% no-repeat; cursor: pointer; }
+.ch-ico:active { scale: .94; }
+.ch-pull { position: absolute; z-index: 20; display: flex; align-items: center; justify-content: center; white-space: nowrap; cursor: pointer;
+  border: 0; background: url(/art/ui/pill.webp) center / 100% 100% no-repeat; color: #F6E7CB; font: 700 1em 'Pixelify Sans', sans-serif;
+  letter-spacing: .04em; text-transform: uppercase; }
+.ch-pull:active { background-image: url(/art/ui/pill-down.webp); }
+.ch-foot { position: absolute; left: 0; right: 0; z-index: 20; margin: 0; text-align: center; color: #E9C9A0; font: 600 1em 'Pixelify Sans', sans-serif;
+  letter-spacing: .14em; text-transform: uppercase; }
+.ch-live { position: absolute; left: 50%; translate: -50% 0; z-index: 5; margin: 0; padding: .3em .9em; border-radius: 999px; background: #3A2214; color: #F6E7CB;
+  font: 600 22px 'Pixelify Sans', sans-serif; white-space: nowrap; }
+/* the dive: the game's colour floods in before its screen opens */
+.cafe-home::after { content: ''; position: fixed; inset: 0; z-index: 30; background: var(--dive, transparent); opacity: 0; pointer-events: none; transition: opacity .3s .35s; }
+.cafe-home.diving::after { opacity: 1; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+@media (prefers-reduced-motion: reduce) { .ch-bob, .ch-zzz, .ch-drip { animation: none; } .ch-mug, .ch-drop { transition: none; } }
+/* short landscape screens: the tab bar stands up along the right edge so the scene keeps its height */
+@media (orientation: landscape) and (max-height: 560px) {
+  .screen.hub.cafe-home { --tabs: 0px; }
+  .cafe-home .ch-fit { right: calc(5.6rem + env(safe-area-inset-right)); }
+  .cafe-home .tabbar { left: auto; right: calc(.6rem + env(safe-area-inset-right)); bottom: 50%; translate: 0 50%; flex-direction: column; }
+  .cafe-home .tab { min-width: 0; padding: .5rem .55rem; }
+}

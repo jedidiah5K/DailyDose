@@ -1,8 +1,10 @@
-import '@fontsource/instrument-serif/400.css';
-import '@fontsource/instrument-serif/400-italic.css';
-import '@fontsource-variable/geist';
-import '@fontsource-variable/geist-mono';
+import '@fontsource/pixelify-sans/400.css';
+import '@fontsource/pixelify-sans/500.css';
+import '@fontsource/pixelify-sans/600.css';
+import '@fontsource/pixelify-sans/700.css';
 import './styles.css';
+import './ui/cafe.css';
+import './ui/home.css';
 import { countdown, dayKey } from './lib/day.js';
 import { hub } from './screens/hub.js';
 import { ladder } from './screens/ladder.js';

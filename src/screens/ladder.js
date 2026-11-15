@@ -19,8 +19,9 @@ export function ladder(app) {
   app.innerHTML = `<main class="screen game ladder">
     ${gameHeader('ladder', 'Ladder', '<span class="eyebrow mono" id="steps"></span>')}
     <div class="g-play"><section id="body" class="ld-body">
-      <div class="h-intro rise">
-        <h2 class="display">One letter at a <em>time</em></h2>
+      <div class="h-intro g-intro rise">
+        <img class="g-mug" src="/art/mugs/ladder-empty.webp" alt="" width="104" height="137">
+        <h2 class="display">One letter<br>at a <em>time</em></h2>
         <p>Turn the top word into the bottom word. Change one letter per step, and every step has to be a real word. Fewest steps wins.</p>
       </div>
       <div class="h-bottom"><button class="btn wide" id="begin">Start</button></div>
@@ -86,6 +87,7 @@ export function ladder(app) {
     const beat = r.beat != null ? `Better than ${r.beat}% of players today` : r.solved ? 'You’re one of the first to finish today' : '';
     const best = !r.solved || r.steps > r.par ? `<p class="ld-path"><span class="eyebrow">A shortest ladder</span>${r.path.map(w => w.toUpperCase()).join(' → ')}</p>` : '';
     $('#bottom').innerHTML = `<div class="result ${fresh ? 'rise' : ''}">
+      <img class="g-mug" src="/art/mugs/ladder-${r.solved ? 'full' : 'empty'}.webp" alt="" width="80" height="105">
       <p class="eyebrow">${r.solved ? (r.steps === r.par ? 'Right on par' : 'Made it') : 'Not this time'}</p>
       <h2 class="display">${r.solved ? `<em>${r.steps}</em> step${r.steps === 1 ? '' : 's'}` : `Par was <em>${r.par}</em>`}</h2>
       ${best}

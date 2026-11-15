@@ -19,7 +19,8 @@ export function link(app) {
   app.innerHTML = `<main class="screen game mlink">
     ${gameHeader('link', 'Missing Link', '<span class="eyebrow mono" id="step"></span>')}
     <div class="g-play"><section id="body" class="lk-body">
-      <div class="h-intro rise">
+      <div class="h-intro g-intro rise">
+        <img class="g-mug" src="/art/mugs/link-empty.webp" alt="" width="104" height="97">
         <h2 class="display">Find the <em>link</em></h2>
         <p>Three words, one hidden word that goes with all of them, before or after. Five links, any order, three tries each.</p>
       </div>
@@ -82,12 +83,15 @@ export function link(app) {
     // a finished link moves you on to the next open one after a beat, so you see the answer first
     if (was.done && !r.result) { draw(); setTimeout(() => { if (!gone && s === r) { cur = nextOpen(k); draw(); } }, 1100); }
     else { draw(); if (!was.done) shake(); }
+    // the aha: the chain snaps together; first-try solves get the big burst
+    if (was.solved) { $('.lk-now')?.classList.add('linked'); if (was.tries.length === 1) burst('#F2A93B'); }
     if (r.result) { finish('link', r.result, day); if (r.result.solved) burst('var(--c-link)'); result(r.result, true); }
   }
 
   function result(r, fresh) {
     const beat = r.beat != null ? `Better than ${r.beat}% of players today` : 'You’re one of the first to finish today';
     $('#bottom').innerHTML = `<div class="result ${fresh ? 'rise' : ''}">
+      <img class="g-mug" src="/art/mugs/link-${r.solved ? 'full' : 'empty'}.webp" alt="" width="80" height="75">
       <p class="eyebrow">${r.solved === 5 ? 'All five linked' : `${r.solved} of 5 linked`}</p>
       <h2 class="display"><em>${r.score}</em> of 15</h2>
       <p class="lk-dots">${r.tries.map(t => `<i class="t${t}" title="${t ? `try ${t}` : 'missed'}"></i>`).join('')}</p>

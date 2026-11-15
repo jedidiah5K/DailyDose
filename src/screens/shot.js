@@ -19,8 +19,9 @@ export function shot(app) {
   app.innerHTML = `<main class="screen game shot">
     ${gameHeader('shot', 'The Shot')}
     <div class="g-play"><section id="body" class="bl-body">
-      <div class="h-intro rise">
-        <h2 class="display">One question. <em>Seven seconds.</em></h2>
+      <div class="h-intro g-intro rise">
+        <img class="g-mug" src="/art/mugs/shot-empty.webp" alt="" width="104" height="140">
+        <h2 class="display">One question.<br><em>Seven seconds.</em></h2>
         <p>No options to pick from, no second try. Type the answer before the clock runs out.</p>
       </div>
       <div class="h-bottom"><button class="btn wide" id="begin">Take the shot</button></div>
@@ -63,6 +64,7 @@ export function shot(app) {
   function result(r, fresh) {
     const beat = r.ok && r.beat != null ? `Faster than ${r.beat}% who got it` : '';
     $('#bottom').innerHTML = `<div class="result ${fresh ? 'rise' : ''}">
+      <img class="g-mug" src="/art/mugs/shot-${r.ok ? 'full' : 'empty'}.webp" alt="" width="80" height="108">
       <p class="eyebrow">${r.ok ? `Got it in ${secs(r.ms)}` : 'Missed'}</p>
       <h2 class="display"><em>${esc(r.answer)}</em></h2>
       <p class="muted">${[`${r.pct}% got today’s shot`, beat, streak('shot') > 1 ? `${streak('shot')} days in a row` : ''].filter(Boolean).join(' · ')}</p>

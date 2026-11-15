@@ -24,7 +24,7 @@ export const LINEUP = [
 ];
 export const doneTonight = () => LINEUP.filter(g => resultFor(g.k)).map(g => ({ ...g, r: resultFor(g.k) }));
 
-const SERIF = '"Instrument Serif", Georgia, serif', MONO = '"Geist Mono Variable", ui-monospace, monospace';
+const SERIF = '"Pixelify Sans", system-ui, sans-serif', MONO = SERIF; // one font everywhere, share card included
 // What each game's sticker says on the card.
 const TAG = {
   shot: r => r.ok ? `${(r.ms / 1000).toFixed(1)}S` : 'MISSED', rush: r => `${r.points} PTS`, blend: r => `${r.score} PTS`,

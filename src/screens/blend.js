@@ -25,8 +25,9 @@ export function blend(app) {
   app.innerHTML = `<main class="screen game blend">
     ${gameHeader('blend', 'Blend', '<span class="eyebrow mono" id="step"></span>')}
     <div class="g-play"><section id="body" class="bl-body">
-      <div class="h-intro rise">
-        <h2 class="display">Blend in. <em>Or don’t.</em></h2>
+      <div class="h-intro g-intro rise">
+        <img class="g-mug" src="/art/mugs/blend-empty.webp" alt="" width="104" height="72">
+        <h2 class="display">Blend in.<br><em>Or don’t.</em></h2>
         <p>Five prompts, 20 seconds each. Type the first thing that fits. Some want what everyone says, some want what nobody says.</p>
       </div>
       <div class="h-bottom"><button class="btn wide" id="begin">Start</button></div>
@@ -88,7 +89,7 @@ export function blend(app) {
     if (!r) { say('Couldn’t send that. Check your connection.'); try { s = await blendStart(); } catch (e) {} draw(); return; }
     s = r; revealK = k;
     const p = s.prompts[k];
-    if (p.gem) { SOUNDS.chime(); buzz(30); } else if (p.points >= 35) { SOUNDS.ok(); buzz(12); } else { SOUNDS.miss(); buzz(15); }
+    if (p.gem) { SOUNDS.chime(); burst('#F2A93B'); } else if (p.points >= 35) { SOUNDS.ok(); buzz(12); } else { SOUNDS.miss(); buzz(15); }
     draw();
     if (s.result) { finish('blend', s.result, day); if (s.result.score >= 250) burst('var(--c-blend)'); result(s.result, true); }
   }
@@ -98,7 +99,7 @@ export function blend(app) {
     const p = s.prompts[k];
     const what = p.late || !p.raw ? 'Time’s up' : !p.answer ? 'Not on our list' : `${p.share}% said this`;
     const top = (p.top || []).map(([a, pct]) => `<li class="${a === p.answer ? 'me' : ''}"><span>${esc(a)}</span><b>${pct}%</b><i style="--w:${pct}%"></i></li>`).join('');
-    $('#body').innerHTML = `${dots()}<div class="bl-reveal rise ${p.mode}">
+    $('#body').innerHTML = `${dots()}<div class="bl-reveal rise ${p.mode}${p.gem ? ' gemmed' : ''}">
       <p class="bl-mode">${MODE[p.mode].name} · ${esc(p.q)}</p>
       <p class="bl-you">${p.raw ? esc(p.raw) : '—'}</p>
       <p class="bl-pts"><b data-to="${p.points}">0</b> points${p.gem ? ' <span class="bl-gem">💎 Rare find</span>' : ''}</p>
@@ -115,6 +116,7 @@ export function blend(app) {
     const beat = r.beat != null ? `Better than ${r.beat}% of players today` : 'You’re one of the first to play today';
     const gems = r.gems.filter(Boolean).length;
     $('#bottom').innerHTML = `<div class="result ${fresh ? 'rise' : ''}">
+      <img class="g-mug" src="/art/mugs/blend-full.webp" alt="" width="80" height="56">
       <p class="eyebrow">${gems ? `${gems} rare find${gems > 1 ? 's' : ''}` : 'Today’s Blend'}</p>
       <h2 class="display"><em>${r.score}</em> of 500</h2>
       <p class="bl-tiles">${blendTiles(r)}</p>
