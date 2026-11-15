@@ -32,8 +32,10 @@ export async function friendsOn(el, game) {
   const rows = list.filter(f => f.results[game]).map(f => ({ name: nameOf(f), r: f.results[game] }));
   if (mine) rows.push({ name: 'You', r: mine, me: true });
   rows.sort((a, b) => SCORE[game](b.r) - SCORE[game](a.r));
+  const me = rows.findIndex(x => x.me), others = rows.length - 1;
+  const head = me < 0 ? 'Friends today' : me === 0 ? `You beat all ${others} friend${others > 1 ? 's' : ''} who played` : `You beat ${others - me} of ${others} friend${others > 1 ? 's' : ''}`;
   el.innerHTML = rows.length > 1
-    ? `<p class="eyebrow">Friends today</p><ol class="fr-board">${rows.map((x, i) => `<li class="${x.me ? 'mine' : ''}"><span class="mono">${i + 1}</span><span>${x.name}</span><b>${esc(g.big(x.r))}</b></li>`).join('')}</ol>`
+    ? `<p class="eyebrow">${head}</p><ol class="fr-board">${rows.map((x, i) => `<li class="${x.me ? 'mine' : ''}"><span class="mono">${i + 1}</span><span>${x.name}</span><b>${esc(g.big(x.r))}</b></li>`).join('')}</ol>`
     : `<p class="fr-none">None of your friends has played ${g.name} yet today.</p>`;
 }
 

@@ -1122,6 +1122,511 @@
           "paramount": "paramount plus"
         }
       }
+    ],
+    [
+      {
+        "q": "A Disney movie starring an animal",
+        "mode": "crowd",
+        "a": "the lion king 30, finding nemo 12, zootopia 10, bambi 8, dumbo 6, ratatouille 4, lady and the tramp 4, the aristocats 3, robin hood 2, one hundred and one dalmatians 2, bolt, finding dory, the fox and the hound, brother bear, chicken little, oliver and company, the rescuers, winnie the pooh, the jungle book, a bugs life, the good dinosaur, up, the little mermaid, home on the range, lilo and stitch",
+        "alias": {
+          "lion king": "the lion king",
+          "nemo": "finding nemo",
+          "aristocats": "the aristocats",
+          "dalmatians": "one hundred and one dalmatians",
+          "lady and tramp": "lady and the tramp",
+          "jungle book": "the jungle book",
+          "stitch": "lilo and stitch"
+        }
+      },
+      {
+        "q": "A food named after a place",
+        "mode": "rare",
+        "a": "hamburger 20, french fries 12, frankfurter 8, buffalo wings 6, champagne 5, parmesan 4, cheddar 4, brussels sprouts 3, bologna 3, dijon mustard 2, swiss cheese 2, peking duck 2, chicken kiev, baked alaska, philly cheesesteak, new york cheesecake, key lime pie, black forest cake, bakewell tart, eccles cake, cornish pasty, yorkshire pudding, worcestershire sauce, neapolitan ice cream, california roll, jaffa cake, bourbon, cognac, tabasco, cayenne pepper, mocha, tangerine, gouda, brie, camembert, roquefort, edam, stilton, wensleydale, hollandaise, bolognese, florentine, hawaiian pizza, spanish omelette, welsh rarebit, irish coffee, long island iced tea, manhattan, singapore sling, moscow mule, danish, boston cream pie, chicago hot dog, mississippi mud pie, buffalo mozzarella, cantaloupe, tequila, sherry, port, scotch",
+        "alias": {
+          "hamburgers": "hamburger",
+          "fries": "french fries",
+          "frankfurters": "frankfurter",
+          "buffalo wing": "buffalo wings",
+          "dijon": "dijon mustard",
+          "kiev": "chicken kiev",
+          "cheesesteak": "philly cheesesteak",
+          "cheesecake": "new york cheesecake",
+          "worcester sauce": "worcestershire sauce",
+          "neapolitan": "neapolitan ice cream",
+          "cayenne": "cayenne pepper"
+        }
+      },
+      {
+        "q": "Something in a Happy Meal",
+        "mode": "crowd",
+        "a": "fries 30, toy 25, chicken nuggets 15, hamburger 10, cheeseburger 6, apple slices 4, milk 3, juice 3, apple juice, soda, coke, box, chocolate milk, water, yogurt, go gurt, carrot sticks, ketchup, napkin, sticker, book, cookie, cuties, clementine, straw, bbq sauce",
+        "alias": {
+          "french fries": "fries",
+          "nuggets": "chicken nuggets",
+          "a toy": "toy",
+          "toys": "toy",
+          "apples": "apple slices"
+        }
+      },
+      {
+        "q": "A word that sounds like a letter",
+        "mode": "rare",
+        "a": "bee 15, sea 12, see 12, tea 10, eye 10, why 8, you 8, pea 6, are 5, oh 4, queue 4, cue 3, tee 3, ewe 2, owe 2, gee, jay, kay, ell, el, em, en, ess, ex, aye, dee, eff, aitch, zed, zee, double you, wye, yew, pee, i, ay",
+        "alias": {
+          "bees": "bee",
+          "seas": "sea",
+          "eyes": "eye",
+          "peas": "pea",
+          "cues": "cue"
+        }
+      },
+      {
+        "q": "A brand with a red logo",
+        "mode": "crowd",
+        "a": "coca cola 25, netflix 15, youtube 12, target 8, kfc 6, mcdonalds 5, lego 5, nintendo 4, red bull 3, kelloggs 3, levis, canon, toyota, honda, ferrari, virgin, pinterest, cnn, espn, heinz, pringles, colgate, adobe, tesla, mitsubishi, staples, h and m, uniqlo, marvel, nescafe, kit kat, dairy queen, pizza hut, wendys, chick fil a, red lobster, beats, airbnb, doordash, avis, budweiser, marlboro, diet coke, supreme, xbox, oral b, lays, frosties, dominos, burger king, lidl, tesco, rolex",
+        "alias": {
+          "coke": "coca cola",
+          "mcdonald": "mcdonalds",
+          "levi": "levis",
+          "hm": "h and m",
+          "kitkat": "kit kat",
+          "dominos pizza": "dominos"
+        }
+      }
+    ],
+    [
+      {
+        "q": "A Disney or Pixar villain",
+        "mode": "crowd",
+        "a": "scar 25, ursula 18, jafar 12, maleficent 10, cruella de vil 8, hades 6, captain hook 5, gaston 5, mother gothel 3, the evil queen 3, frollo 2, shere khan 2, yzma, lotso, syndrome, randall, hans, dr facilier, the queen of hearts, lady tremaine, governor ratcliffe, shan yu, clayton, sid, chef skinner, charles muntz, tamatoa, king candy, te ka, bowler hat guy, oogie boogie, madam mim, medusa, edgar, the horned king, prince john, sheriff of nottingham, ernesto de la cruz, hopper, stinky pete, zurg, magnifico",
+        "alias": {
+          "cruella": "cruella de vil",
+          "hook": "captain hook",
+          "evil queen": "the evil queen",
+          "queen of hearts": "the queen of hearts",
+          "prince hans": "hans",
+          "stepmother": "lady tremaine",
+          "ratcliffe": "governor ratcliffe",
+          "facilier": "dr facilier",
+          "horned king": "the horned king",
+          "ernesto": "ernesto de la cruz"
+        }
+      },
+      {
+        "q": "A movie with a dog in it",
+        "mode": "rare",
+        "a": "marley and me 15, beethoven 10, a dogs purpose 8, lady and the tramp 6, one hundred and one dalmatians 6, bolt 5, up 4, the secret life of pets 4, homeward bound 4, air bud 3, scooby doo 3, john wick 3, hachi 2, turner and hooch 2, white fang, lassie, old yeller, eight below, isle of dogs, frankenweenie, clifford, paw patrol, benji, the sandlot, coco, the wizard of oz, the mask, marmaduke, best in show, red dog, snow dogs, balto, all dogs go to heaven, the fox and the hound, oliver and company, a dogs journey, dog, max, togo, the call of the wild, legally blonde, cats and dogs, k nine, megan leavey, strays, wonder park",
+        "alias": {
+          "marley": "marley and me",
+          "dogs purpose": "a dogs purpose",
+          "dalmatians": "one hundred and one dalmatians",
+          "secret life of pets": "the secret life of pets",
+          "hachiko": "hachi",
+          "wizard of oz": "the wizard of oz",
+          "sandlot": "the sandlot",
+          "the mask": "the mask",
+          "call of the wild": "the call of the wild"
+        }
+      },
+      {
+        "q": "A movie set in space",
+        "mode": "crowd",
+        "a": "star wars 25, interstellar 15, gravity 8, the martian 8, alien 5, avatar 5, guardians of the galaxy 5, wall e 4, armageddon 3, star trek 3, apollo thirteen 3, lightyear, dune, passengers, prometheus, ad astra, moon, sunshine, event horizon, contact, treasure planet, lilo and stitch, the hitchhikers guide to the galaxy, spaceballs, galaxy quest, solaris, first man, hidden figures, elysium, the right stuff, life, high life, enders game, starship troopers, captain marvel, jupiter ascending, space jam, independence day, a space odyssey, aliens",
+        "alias": {
+          "martian": "the martian",
+          "guardians": "guardians of the galaxy",
+          "walle": "wall e",
+          "apollo": "apollo thirteen",
+          "hitchhikers guide to the galaxy": "the hitchhikers guide to the galaxy",
+          "space odyssey": "a space odyssey"
+        }
+      },
+      {
+        "q": "An actor who has played Batman, Spider-Man or Superman",
+        "mode": "rare",
+        "a": "tom holland 20, christian bale 15, robert pattinson 10, tobey maguire 10, andrew garfield 8, henry cavill 8, michael keaton 6, ben affleck 6, george clooney 3, christopher reeve 3, val kilmer 2, adam west 2, brandon routh, david corenswet, tom welling, dean cain, george reeves, kevin conroy, will arnett, shameik moore, jake johnson, nicolas cage, kirk alyn, lewis wilson, robert lowery, nicholas hammond",
+        "alias": {
+          "holland": "tom holland",
+          "bale": "christian bale",
+          "pattinson": "robert pattinson",
+          "tobey": "tobey maguire",
+          "garfield": "andrew garfield",
+          "cavill": "henry cavill",
+          "keaton": "michael keaton",
+          "affleck": "ben affleck",
+          "clooney": "george clooney",
+          "christopher reeves": "christopher reeve"
+        }
+      },
+      {
+        "q": "A movie snack",
+        "mode": "crowd",
+        "a": "popcorn 40, nachos 12, candy 8, hot dog 6, soda 6, pretzel 4, m and ms 4, skittles 3, twizzlers 2, sour patch kids 2, milk duds, raisinets, junior mints, chocolate, ice cream, pizza, chips, gummy bears, reeses pieces, mike and ikes, swedish fish, maltesers, revels, pick and mix, buttons, cookie dough bites, peanut butter cups, nerds, slushie, icee, coke, sweets",
+        "alias": {
+          "mms": "m and ms",
+          "pretzels": "pretzel",
+          "hot dogs": "hot dog",
+          "slushy": "slushie"
+        }
+      }
+    ],
+    [
+      {
+        "q": "Something you do on a first date",
+        "mode": "crowd",
+        "a": "dinner 25, movies 15, coffee 12, walk 8, talk 6, bowling 5, drinks 5, mini golf 3, picnic 3, kiss 3, laugh, eat, dance, arcade, museum, concert, ice skating, karaoke, beach, park, zoo, aquarium, escape room, cook, hold hands, go karting, ice cream, shopping, theme park, hike, comedy show, wine tasting, pottery class, paint and sip, netflix, bar, brunch, art gallery, axe throwing, trivia night",
+        "alias": {
+          "movie": "movies",
+          "cinema": "movies",
+          "go for a walk": "walk",
+          "get coffee": "coffee",
+          "have dinner": "dinner",
+          "minigolf": "mini golf",
+          "karting": "go karting"
+        }
+      },
+      {
+        "q": "Something you can't take on a plane",
+        "mode": "rare",
+        "a": "knife 20, gun 15, water 10, scissors 6, lighter 6, liquids 5, fireworks 4, bomb 3, explosives 2, weapons 2, gasoline, lighter fluid, bleach, aerosol, drugs, baseball bat, golf club, axe, hammer, screwdriver, razor, sword, pepper spray, taser, bear spray, matches, perfume, shampoo, sunscreen, peanut butter, nutella, jam, snow globe, paint, ammunition, bullets, propane, hoverboard, toothpaste, lotion, crowbar, nunchucks, darts, ski poles",
+        "alias": {
+          "knives": "knife",
+          "guns": "gun",
+          "water bottle": "water",
+          "liquid": "liquids",
+          "bat": "baseball bat",
+          "petrol": "gasoline",
+          "gas": "gasoline",
+          "mace": "pepper spray"
+        }
+      },
+      {
+        "q": "An excuse for being late",
+        "mode": "crowd",
+        "a": "traffic 30, overslept 15, alarm didnt go off 8, car trouble 5, flat tire 4, missed the bus 4, weather 3, lost my keys 3, sick 2, kids 2, dog, phone died, accident, construction, getting ready, couldnt find parking, wrong turn, got lost, train delay, meeting ran late, emergency, doctor, babysitter, power outage, forgot, woke up late, bus was late, snow, rain, coffee",
+        "alias": {
+          "alarm": "alarm didnt go off",
+          "bus": "missed the bus",
+          "keys": "lost my keys",
+          "parking": "couldnt find parking",
+          "train": "train delay",
+          "slept in": "overslept",
+          "flat tyre": "flat tire",
+          "car broke down": "car trouble"
+        }
+      },
+      {
+        "q": "A job that didn't exist 30 years ago",
+        "mode": "rare",
+        "a": "influencer 25, youtuber 15, app developer 8, social media manager 8, uber driver 6, content creator 5, drone pilot 4, data scientist 3, podcaster 3, streamer 3, tiktoker, blogger, vlogger, seo specialist, cloud engineer, ux designer, prompt engineer, ai engineer, esports player, crypto trader, ethical hacker, delivery rider, doordash driver, instacart shopper, airbnb host, virtual assistant, community manager, scrum master, devops engineer, ios developer, cybersecurity analyst, machine learning engineer, twitch streamer, nft artist, ev technician, growth hacker, digital marketer, ai trainer",
+        "alias": {
+          "influencers": "influencer",
+          "social media influencer": "influencer",
+          "youtube": "youtuber",
+          "uber": "uber driver",
+          "streamers": "streamer"
+        }
+      },
+      {
+        "q": "Something with a remote",
+        "mode": "crowd",
+        "a": "tv 40, air conditioner 10, garage door 8, fan 5, car 5, drone 4, toy car 4, projector 3, speaker 2, lights 2, blinds, fireplace, xbox, playstation, apple tv, roku, firestick, cable box, dvd player, ceiling fan, heater, robot, rc car, bed, gate, camera, alarm, stereo, soundbar, curtains",
+        "alias": {
+          "television": "tv",
+          "ac": "air conditioner",
+          "aircon": "air conditioner",
+          "remote control car": "toy car",
+          "garage": "garage door"
+        }
+      }
+    ],
+    [
+      {
+        "q": "A Kardashian or Jenner",
+        "mode": "crowd",
+        "a": "kim 35, kylie 20, khloe 15, kourtney 10, kendall 10, kris 6, rob 3, caitlyn 2, north, stormi, mason, penelope, reign, true, chicago, saint, psalm, dream, aire, bruce",
+        "alias": {
+          "kim kardashian": "kim",
+          "kylie jenner": "kylie",
+          "khloe kardashian": "khloe",
+          "kourtney kardashian": "kourtney",
+          "kendall jenner": "kendall",
+          "kris jenner": "kris",
+          "rob kardashian": "rob",
+          "caitlyn jenner": "caitlyn",
+          "north west": "north"
+        }
+      },
+      {
+        "q": "Something people collect",
+        "mode": "rare",
+        "a": "stamps 20, coins 18, pokemon cards 8, rocks 5, shells 5, books 4, vinyl 4, sneakers 4, comics 3, funko pops 3, lego 2, magnets, postcards, keychains, mugs, spoons, art, watches, cars, wine, stuffed animals, beanie babies, baseball cards, autographs, antiques, fossils, crystals, perfume, handbags, hats, snow globes, thimbles, video games, dvds, posters, pins, bottle caps, ticket stubs, sea glass, plants, stanley cups, labubu, sonny angels, squishmallows, trading cards, action figures, barbies",
+        "alias": {
+          "stamp": "stamps",
+          "coin": "coins",
+          "records": "vinyl",
+          "vinyl records": "vinyl",
+          "shoes": "sneakers",
+          "comic books": "comics",
+          "funko": "funko pops",
+          "cards": "trading cards",
+          "seashells": "shells",
+          "stanleys": "stanley cups",
+          "labubus": "labubu"
+        }
+      },
+      {
+        "q": "An app on almost everyone's phone",
+        "mode": "crowd",
+        "a": "whatsapp 20, instagram 18, tiktok 10, youtube 10, spotify 6, google maps 5, gmail 4, facebook 4, snapchat 3, netflix 3, uber, amazon, calculator, camera, photos, messages, chrome, safari, settings, clock, weather, calendar, notes, x, discord, zoom, outlook, google, translate, duolingo, venmo, paypal, cash app, shazam, pinterest, reddit, telegram, chatgpt, temu, waze, uber eats, doordash",
+        "alias": {
+          "insta": "instagram",
+          "maps": "google maps",
+          "twitter": "x",
+          "imessage": "messages"
+        }
+      },
+      {
+        "q": "Something yellow (not a fruit)",
+        "mode": "rare",
+        "a": "sun 20, taxi 12, school bus 10, rubber duck 8, minion 6, pikachu 5, spongebob 4, sunflower 4, corn 3, cheese 3, egg yolk 2, butter, mustard, bee, canary, chick, smiley face, highlighter, pencil, sticky note, traffic light, tennis ball, gold, daffodil, dandelion, mac and cheese, homer simpson, big bird, tweety, pac man, snapchat logo, crayon, raincoat, hard hat, sponge, popcorn, lightning, star, fries, yellow submarine, caution sign, emoji",
+        "alias": {
+          "the sun": "sun",
+          "cab": "taxi",
+          "bus": "school bus",
+          "duck": "rubber duck",
+          "minions": "minion",
+          "post it": "sticky note",
+          "smiley": "smiley face",
+          "yolk": "egg yolk",
+          "homer": "homer simpson"
+        }
+      },
+      {
+        "q": "A superhero's real name",
+        "mode": "crowd",
+        "a": "peter parker 25, bruce wayne 25, clark kent 20, tony stark 10, diana prince 4, steve rogers 4, bruce banner 3, natasha romanoff 2, barry allen 2, wade wilson, logan, miles morales, hal jordan, arthur curry, scott lang, stephen strange, carol danvers, peter quill, wanda maximoff, matt murdock, kamala khan, billy batson, dick grayson, kara danvers, jessica jones, luke cage, oliver queen, victor stone, clint barton, sam wilson, bucky barnes, tchalla, shuri, marc spector, frank castle, eddie brock, jean grey, scott summers, ororo munroe, charles xavier",
+        "alias": {
+          "parker": "peter parker",
+          "wayne": "bruce wayne",
+          "kent": "clark kent",
+          "stark": "tony stark",
+          "james howlett": "logan"
+        }
+      }
+    ],
+    [
+      {
+        "q": "A 2000s TV show",
+        "mode": "crowd",
+        "a": "friends 15, the office 12, lost 8, the oc 6, gossip girl 6, greys anatomy 6, desperate housewives 5, hannah montana 5, prison break 4, house 4, the sopranos 3, one tree hill 3, smallville 2, gilmore girls 2, scrubs 2, malcolm in the middle, lizzie mcguire, drake and josh, icarly, the suite life of zack and cody, spongebob, avatar the last airbender, american idol, survivor, csi, how i met your mother, two and a half men, everybody hates chris, family guy, glee, breaking bad, mad men, dexter, heroes, the wire, entourage, the hills, laguna beach, jersey shore, keeping up with the kardashians, americas next top model, twenty four, true blood, that so raven, wizards of waverly place",
+        "alias": {
+          "office": "the office",
+          "oc": "the oc",
+          "greys": "greys anatomy",
+          "sopranos": "the sopranos",
+          "suite life": "the suite life of zack and cody",
+          "kuwtk": "keeping up with the kardashians",
+          "kardashians": "keeping up with the kardashians",
+          "thats so raven": "that so raven"
+        }
+      },
+      {
+        "q": "A 2000s gadget",
+        "mode": "rare",
+        "a": "ipod 25, razr 10, blackberry 10, nokia 8, flip phone 6, nintendo ds 5, psp 4, wii 4, mp player 3, digital camera 3, tamagotchi 2, gameboy advance 2, camcorder, flip video, palm pilot, sidekick, zune, portable dvd player, tomtom, webcam, usb stick, iphone, kindle, netbook, guitar hero, dance mat, eyetoy, bluetooth headset, gamecube, ps two, xbox, furby, discman, walkman, pager, polaroid, beyblade",
+        "alias": {
+          "motorola razr": "razr",
+          "nokia brick": "nokia",
+          "ds": "nintendo ds",
+          "gameboy": "gameboy advance",
+          "game boy advance": "gameboy advance",
+          "palm": "palm pilot",
+          "flash drive": "usb stick",
+          "sat nav": "tomtom",
+          "gps": "tomtom",
+          "playstation two": "ps two"
+        }
+      },
+      {
+        "q": "A snack or candy from when you were a kid",
+        "mode": "crowd",
+        "a": "gushers 12, fruit by the foot 10, dunkaroos 10, lunchables 8, push pops 6, ring pops 6, warheads 5, pop rocks 4, bubble tape 4, fun dip 3, fruit roll ups 3, dippin dots, capri sun, sunny d, go gurt, pizza rolls, bagel bites, hubba bubba, airheads, nerds, laffy taffy, candy necklace, big league chew, baby bottle pop, pixy stix, tootsie roll, jolly rancher, kool aid, wonder ball, trolli, oreo os, surge, crystal pepsi, jaffa cakes, wham bar, fizzers, dib dab",
+        "alias": {
+          "fruit roll up": "fruit roll ups",
+          "ring pop": "ring pops",
+          "push pop": "push pops",
+          "capri sun": "capri sun",
+          "sunny delight": "sunny d",
+          "dunkaroo": "dunkaroos"
+        }
+      },
+      {
+        "q": "A 90s or 2000s cartoon",
+        "mode": "rare",
+        "a": "rugrats 15, spongebob 12, hey arnold 8, powerpuff girls 8, dexters laboratory 6, ed edd n eddy 6, courage the cowardly dog 5, johnny bravo 4, pokemon 4, fairly oddparents 4, kim possible 3, jimmy neutron 3, danny phantom 3, avatar the last airbender 3, phineas and ferb 2, the proud family 2, rocket power, the wild thornberrys, as told by ginger, recess, doug, arthur, digimon, dragon ball z, sailor moon, yu gi oh, beyblade, invader zim, codename kids next door, teen titans, samurai jack, ben ten, fosters home for imaginary friends, catdog, the angry beavers, animaniacs, pinky and the brain, batman the animated series, x men, rockos modern life, the magic school bus, captain planet, gargoyles, totally spies, winx club, jackie chan adventures, static shock, king of the hill, daria, scooby doo",
+        "alias": {
+          "dexters lab": "dexters laboratory",
+          "dexter": "dexters laboratory",
+          "courage": "courage the cowardly dog",
+          "the fairly oddparents": "fairly oddparents",
+          "avatar": "avatar the last airbender",
+          "kids next door": "codename kids next door",
+          "knd": "codename kids next door",
+          "fosters": "fosters home for imaginary friends",
+          "wild thornberrys": "the wild thornberrys",
+          "proud family": "the proud family",
+          "magic school bus": "the magic school bus"
+        }
+      },
+      {
+        "q": "A 2000s pop star",
+        "mode": "crowd",
+        "a": "britney spears 30, christina aguilera 10, justin timberlake 10, beyonce 8, rihanna 6, lady gaga 6, avril lavigne 5, kelly clarkson 3, nelly furtado 3, gwen stefani 3, pink, usher, akon, sean paul, ne yo, chris brown, jessica simpson, hilary duff, miley cyrus, katy perry, fergie, shakira, jennifer lopez, mariah carey, alicia keys, kanye west, eminem, nelly, ciara, ashanti, mandy moore, jojo, the pussycat dolls, destinys child, black eyed peas, nsync, backstreet boys, kylie minogue, enrique iglesias, ricky martin, robbie williams, linkin park, green day",
+        "alias": {
+          "britney": "britney spears",
+          "christina": "christina aguilera",
+          "justin": "justin timberlake",
+          "avril": "avril lavigne",
+          "gwen": "gwen stefani",
+          "jlo": "jennifer lopez",
+          "j lo": "jennifer lopez",
+          "pussycat dolls": "the pussycat dolls"
+        }
+      }
+    ],
+    [
+      {
+        "q": "A song everyone knows the words to",
+        "mode": "crowd",
+        "a": "bohemian rhapsody 25, sweet caroline 12, dont stop believin 10, mr brightside 8, wonderwall 6, happy birthday 5, i will survive 4, livin on a prayer 4, hey jude 3, africa 3, billie jean, shake it off, we will rock you, dancing queen, baby, call me maybe, thriller, ymca, macarena, despacito, uptown funk, let it go, all star, umbrella, single ladies, crazy in love, hey ya, my heart will go on, never gonna give you up, take on me, sweet child o mine, hotel california, total eclipse of the heart, i want it that way, wannabe, baby one more time, bad romance, piano man, take me home country roads, jolene, love story, rolling in the deep, stayin alive",
+        "alias": {
+          "dont stop believing": "dont stop believin",
+          "livin on a prayer": "livin on a prayer",
+          "living on a prayer": "livin on a prayer",
+          "country roads": "take me home country roads",
+          "hit me baby one more time": "baby one more time",
+          "rickroll": "never gonna give you up"
+        }
+      },
+      {
+        "q": "A song with a girl's name in the title",
+        "mode": "rare",
+        "a": "jolene 15, roxanne 10, billie jean 10, sweet caroline 8, layla 5, hey there delilah 5, valerie 4, angie 3, gloria 3, mandy 3, rosanna, peggy sue, lola, michelle, ruby, barbara ann, beth, cecilia, diana, mickey, sherry, stacys mom, proud mary, eleanor rigby, maria, jessies girl, alison, josie, rhiannon, ruby tuesday, sara, suzanne, veronica, hello mary lou, bette davis eyes, mrs robinson, lucy in the sky with diamonds, iris, ophelia, jenny, rosie, delilah, clementine, emma",
+        "alias": {
+          "delilah": "hey there delilah",
+          "stacys mum": "stacys mom",
+          "jessie": "jessies girl",
+          "lucy": "lucy in the sky with diamonds",
+          "caroline": "sweet caroline"
+        }
+      },
+      {
+        "q": "An instrument in an orchestra",
+        "mode": "crowd",
+        "a": "violin 30, cello 12, flute 10, trumpet 8, drums 6, clarinet 5, harp 5, timpani 3, oboe 3, viola 3, double bass 2, trombone 2, french horn 2, tuba 2, bassoon, piccolo, triangle, cymbals, piano, xylophone, glockenspiel, snare drum, bass drum, celesta, organ, contrabassoon, cor anglais, harpsichord, gong, tambourine, castanets, tubular bells, marimba, vibraphone, horn, saxophone",
+        "alias": {
+          "violins": "violin",
+          "drum": "drums",
+          "bass": "double bass",
+          "english horn": "cor anglais",
+          "chimes": "tubular bells"
+        }
+      },
+      {
+        "q": "A band with a colour in its name",
+        "mode": "rare",
+        "a": "green day 25, pink floyd 15, maroon five 10, the white stripes 8, black sabbath 6, red hot chili peppers 6, deep purple 5, black eyed peas 5, blackpink 4, simply red 3, red velvet 2, the black keys 2, the moody blues, black veil brides, yellowcard, the black crowes, blue oyster cult, black flag, white lies, yellow magic orchestra, deep blue something, golden earring, goldfrapp, silverchair, blue, white zombie, white town, orange juice, green river, black uhuru",
+        "alias": {
+          "maroon": "maroon five",
+          "white stripes": "the white stripes",
+          "rhcp": "red hot chili peppers",
+          "chili peppers": "red hot chili peppers",
+          "the black eyed peas": "black eyed peas",
+          "black keys": "the black keys"
+        }
+      },
+      {
+        "q": "A Michael Jackson song",
+        "mode": "crowd",
+        "a": "thriller 25, billie jean 25, beat it 12, smooth criminal 10, man in the mirror 6, black or white 5, bad 4, dont stop til you get enough 3, rock with you 2, human nature 2, remember the time, the way you make me feel, they dont care about us, heal the world, earth song, you are not alone, dirty diana, wanna be startin somethin, ben, i want you back, abc, scream, leave me alone, speed demon, liberian girl, will you be there, jam, blood on the dance floor, off the wall, pyt, shes out of my life",
+        "alias": {
+          "dont stop till you get enough": "dont stop til you get enough",
+          "wanna be starting something": "wanna be startin somethin",
+          "p y t": "pyt"
+        }
+      }
+    ],
+    [
+      {
+        "q": "Something at a theme park",
+        "mode": "crowd",
+        "a": "roller coaster 30, rides 10, churros 8, cotton candy 8, ferris wheel 6, carousel 4, water slide 3, lines 3, mascot 2, haunted house 2, souvenirs, log flume, bumper cars, teacups, drop tower, funnel cake, popcorn, ice cream, fireworks, parade, castle, map, tickets, fast pass, arcade, games, prizes, teddy bear, gift shop, hot dog, turkey leg, balloon, mickey ears, show, restroom, candy floss",
+        "alias": {
+          "rollercoaster": "roller coaster",
+          "coaster": "roller coaster",
+          "queues": "lines",
+          "queue": "lines",
+          "merry go round": "carousel",
+          "candyfloss": "candy floss"
+        }
+      },
+      {
+        "q": "Something that has keys",
+        "mode": "rare",
+        "a": "piano 25, keyboard 20, car 10, door 8, laptop 6, house 5, computer 4, typewriter 3, lock 3, safe 2, map, florida, padlock, organ, accordion, calculator, atm, cash register, answer key, locker, diary, castle, jail, mailbox, handcuffs, filing cabinet, treasure chest, hotel room, motorcycle, boat, clarinet, saxophone, flute, garage, janitor, landlord, security guard, prison guard",
+        "alias": {
+          "pianos": "piano",
+          "keyboards": "keyboard",
+          "cars": "car",
+          "doors": "door",
+          "the florida keys": "florida",
+          "florida keys": "florida"
+        }
+      },
+      {
+        "q": "Something you do on a Sunday",
+        "mode": "crowd",
+        "a": "sleep in 25, church 15, brunch 10, relax 8, nap 6, watch football 5, laundry 4, clean 4, roast dinner 3, family dinner 3, read, walk, gym, grocery shopping, meal prep, netflix, chill, rest, homework, golf, hike, garden, visit family, call mom, pray, nothing, binge watch, bake, pancakes, self care, bath, iron clothes, wash the car, sunday reset",
+        "alias": {
+          "sleep": "sleep in",
+          "lie in": "sleep in",
+          "go to church": "church",
+          "football": "watch football",
+          "cleaning": "clean",
+          "sunday roast": "roast dinner",
+          "groceries": "grocery shopping",
+          "shopping": "grocery shopping"
+        }
+      },
+      {
+        "q": "A famous person known by their initials",
+        "mode": "rare",
+        "a": "jfk 20, mlk 12, jlo 10, jk rowling 8, fdr 4, jrr tolkien 4, lbj 3, bb king 3, cs lewis 3, dj khaled 3, ksi 2, oj simpson 2, ts eliot, ee cummings, pt barnum, rbg, kd lang, ll cool j, mf doom, jj abrams, kj apa, pj harvey, pk subban, aj styles, hg wells, mj, dmx, aoc, ksi olajide, ja morant, jj watt, tj maxx, cc sabathia, ab de villiers, ms dhoni",
+        "alias": {
+          "john f kennedy": "jfk",
+          "martin luther king": "mlk",
+          "jennifer lopez": "jlo",
+          "michael jordan": "mj",
+          "rowling": "jk rowling",
+          "tolkien": "jrr tolkien"
+        }
+      },
+      {
+        "q": "Something in every horror movie",
+        "mode": "crowd",
+        "a": "jump scare 15, blood 12, killer 10, ghost 8, scream 6, knife 5, haunted house 5, mask 4, chainsaw 3, basement 3, creepy doll 3, clown, zombies, cabin in the woods, car wont start, final girl, splitting up, mirror, cat jumping out, thunderstorm, power outage, flashlight, demon, possession, priest, cemetery, ouija board, creepy kids, attic, candles, monster, vampire, werewolf, axe, chase scene, phone call, creepy music, dark",
+        "alias": {
+          "jumpscare": "jump scare",
+          "jumpscares": "jump scare",
+          "screaming": "scream",
+          "doll": "creepy doll",
+          "zombie": "zombies",
+          "cabin": "cabin in the woods",
+          "the basement": "basement",
+          "ghosts": "ghost"
+        }
+      }
     ]
   ]
 }
