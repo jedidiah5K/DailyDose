@@ -12,7 +12,7 @@ const calm = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 export const gameHeader = (k, name, right = '') => `<header class="v-top gm-top g-${k}">
   <a href="#" class="back" aria-label="Back to all games" title="Back"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></a>
-  <p class="gm-title">${icon(k)}<b>${name}</b><span>No. ${puzzleNo()}${themeToday() ? ` · ${themeToday()}` : ''}</span></p>
+  <p class="gm-title">${icon(k)}<b>${name}</b><span>No. ${puzzleNo()}${themeToday() && k !== 'shot' ? ` · ${themeToday()}` : ''}</span></p>
   <div class="gm-right">${right}<button class="gm-help" id="help" type="button" aria-label="How to play" title="How to play">?</button></div>
 </header>`;
 
