@@ -2,15 +2,101 @@
   "_note": "Rush: one category a day, 30 seconds, type as many as you can. 'use' borrows a long answer list from content/blend.json (by its q); or give 'a' and 'alias' here. Weight sets the points: 3+ = 1 point, 1 to 3 = 2 points, under 1 = 3 points (rare).",
   "from": "2026-11-14",
   "days": [
-    { "q": "US states", "use": "A US state" },
-    { "q": "Countries in Europe", "use": "A country in Europe" },
-    { "q": "Dog breeds", "use": "A dog breed" },
-    { "q": "Musical instruments", "use": "A musical instrument" },
-    { "q": "Car brands", "use": "A car brand" },
-    { "q": "Vegetables", "use": "A vegetable" },
-    { "q": "Countries in Africa", "use": "A country in Africa" },
-    { "q": "Olympic sports", "use": "An Olympic sport" },
-    { "q": "Chemical elements", "use": "A chemical element" },
-    { "q": "Bones in your body", "use": "A bone in the human body" }
+    {
+      "q": "US states",
+      "use": "A US state"
+    },
+    {
+      "q": "Countries in Europe",
+      "use": "A country in Europe"
+    },
+    {
+      "q": "Dog breeds",
+      "use": "A dog breed"
+    },
+    {
+      "q": "Musical instruments",
+      "use": "A musical instrument"
+    },
+    {
+      "q": "Car brands",
+      "use": "A car brand"
+    },
+    {
+      "q": "Vegetables",
+      "use": "A vegetable"
+    },
+    {
+      "q": "Countries in Africa",
+      "use": "A country in Africa"
+    },
+    {
+      "q": "Olympic sports",
+      "use": "An Olympic sport"
+    },
+    {
+      "q": "Chemical elements",
+      "use": "A chemical element"
+    },
+    {
+      "q": "Bones in your body",
+      "use": "A bone in the human body"
+    },
+    {
+      "q": "Marvel characters",
+      "use": "A Marvel character"
+    },
+    {
+      "q": "Pokémon",
+      "use": "A Pokémon"
+    },
+    {
+      "q": "Harry Potter characters",
+      "use": "A Harry Potter character"
+    },
+    {
+      "q": "Video games",
+      "use": "A video game"
+    },
+    {
+      "q": "Simpsons characters",
+      "use": "A Simpsons character"
+    },
+    {
+      "q": "Cartoon characters",
+      "use": "A cartoon character"
+    },
+    {
+      "q": "Rappers",
+      "use": "A rapper"
+    },
+    {
+      "q": "Movie villains",
+      "use": "A movie villain"
+    },
+    {
+      "q": "Sitcoms",
+      "use": "A sitcom"
+    },
+    {
+      "q": "Footballers",
+      "use": "A famous footballer"
+    },
+    {
+      "q": "Taylor Swift songs",
+      "use": "A Taylor Swift song"
+    },
+    {
+      "q": "Netflix shows",
+      "use": "A Netflix show"
+    },
+    {
+      "q": "Star Wars characters",
+      "use": "A Star Wars character"
+    },
+    {
+      "q": "YouTubers",
+      "use": "A famous YouTuber"
+    }
   ]
 }

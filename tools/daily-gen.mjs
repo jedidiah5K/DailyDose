@@ -42,7 +42,7 @@ function chain(p) {
   }
   bad.push(`drop: couldn't build a chain from "${p.theme}"`);
 }
-for (let i = 0; i < 9; i++) {
+for (let i = 0; i < 30; i++) {
   const p = drop.pools[i % drop.pools.length];
   rows.push(['hilo', dayAt(drop.from, i), { theme: p.theme, hi: p.hi, lo: p.lo, items: chain(p) }]);
 }
