@@ -1,7 +1,6 @@
-// The share image (the Sticker Bomb card) and the lineup it reads from.
+// The share image (the café counter card) and the lineup it reads from.
 // Spoiler-free: it shows how you did, never the answers.
 import { puzzleNo } from '../lib/day.js';
-import { stickerSvgDoc } from './stickers.js';
 import { resultFor, streak } from '../lib/store.js';
 import { clock } from '../lib/day.js';
 import { blendTiles } from '../screens/blend.js';
@@ -24,65 +23,70 @@ export const LINEUP = [
 ];
 export const doneTonight = () => LINEUP.filter(g => resultFor(g.k)).map(g => ({ ...g, r: resultFor(g.k) }));
 
-const SERIF = '"Pixelify Sans", system-ui, sans-serif', MONO = SERIF; // one font everywhere, share card included
-// What each game's sticker says on the card.
+const FONT = '"Pixelify Sans", system-ui, sans-serif';
+// What each game's mug says on the card.
 const TAG = {
-  shot: r => r.ok ? `${(r.ms / 1000).toFixed(1)}S` : 'MISSED', rush: r => `${r.points} PTS`, blend: r => `${r.score} PTS`,
-  hilo: r => r.bust ? 'BUST' : `${r.banked}`, link: r => `${r.score}/15`, ladder: r => r.solved ? (r.steps === r.par ? 'ON PAR' : `${r.steps} STEPS`) : 'GAVE UP',
+  shot: r => r.ok ? `${(r.ms / 1000).toFixed(1)}s` : 'Missed', rush: r => `${r.points} pts`, blend: r => `${r.score} pts`,
+  hilo: r => r.bust ? 'Bust' : `${r.banked}`, link: r => `${r.score}/15`, ladder: r => r.solved ? (r.steps === r.par ? 'On par' : `${r.steps} steps`) : 'Gave up',
 };
-// The pile on the card (centre x, centre y, size, tilt in a 360x640 card), drawn back to front.
-const PILE = [['shot', 84, 318, 136, -12], ['link', 262, 306, 146, 9], ['rush', 82, 492, 128, 10],
-  ['hilo', 284, 478, 128, -14], ['blend', 178, 404, 134, -3], ['ladder', 190, 540, 118, 6]];
+// Same art and rim centres as the home counter (src/screens/hub.js).
+const ART = { shot: 1, blend: 2, rush: 3, hilo: 4, link: 5, ladder: 6 };
+const RIM = { shot: .498, blend: .447, rush: .393, hilo: .393, link: .388, ladder: .498 };
+const pic = src => new Promise(res => { const i = new Image(); i.onload = () => res(i); i.onerror = () => res(null); i.src = src; });
 
-async function drawSticker(x, k, cx, cy, size, tilt, text) {
-  const img = new Image();
-  img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(stickerSvgDoc(k, Math.round(size * 1.12)));
-  try { await img.decode(); } catch (e) { return; }
-  x.save(); x.translate(cx, cy); x.rotate(tilt * Math.PI / 180);
-  x.drawImage(img, -size * 0.56, -size * 0.56, size * 1.12, size * 1.12);
-  if (text) {
-    x.fillStyle = '#FFFDF7'; x.textAlign = 'center'; x.letterSpacing = `${size * 0.005}px`;
-    x.font = `700 ${size * (text.length > 9 ? 0.085 : 0.11)}px ${MONO}`; x.fillText(text, 0, size * 0.27 + size * 0.035);
-  }
-  x.restore();
-}
-
-// The share image: the Sticker Bomb card. Your stickers for today piled on a dark card under "full dose."
-// only: a game key to share just that game (one big sticker); leave it out for the whole dose.
+// The share image: the café counter. Today's six mugs on the counter, full ones carry your score.
+// only: a game key to share just that game (one big mug); leave it out for the whole dose.
 export async function drawCard(format = 'story', only) {
-  await Promise.all([`104px ${SERIF}`, `italic 104px ${SERIF}`, `500 30px ${MONO}`, `700 30px ${MONO}`].map(f => document.fonts.load(f).catch(() => {})));
-  const S = 3, W = 360 * S, H = 640 * S;
+  const S = 3, W = 360 * S, H = 640 * S;   // drawn on a 360x640 grid, three times over
   const c = document.createElement('canvas'); c.width = W; c.height = H;
-  const x = c.getContext('2d');
+  const x = c.getContext('2d'); x.imageSmoothingEnabled = false;
   const games = doneTonight().filter(g => !only || g.k === only), all = !only && games.length === LINEUP.length, run = streak();
-  x.fillStyle = '#17151F'; x.fillRect(0, 0, W, H);
+  const hr = new Date().getHours(), A = '/art/home/';
+  const keys = only ? [only] : LINEUP.map(g => g.k);
+  const [bg, sign, pill, ...art] = await Promise.all([pic(`${A}tall-${hr >= 6 && hr < 18 ? 'day' : 'night'}.webp`), pic(A + 'sign_1.webp'), pic('/art/ui/pill.webp'),
+    ...keys.flatMap(k => [pic(`${A}mug_${ART[k] + (resultFor(k) ? 6 : 0)}.webp`), pic(`${A}coaster_${ART[k]}.webp`)]),
+    document.fonts.load(`700 40px ${FONT}`).catch(() => {})]);
 
-  // header
-  x.fillStyle = 'rgba(244,239,227,.65)'; x.font = `500 ${10 * S}px ${MONO}`; x.letterSpacing = `${1.4 * S}px`;
-  x.textAlign = 'left'; x.fillText(`THE DAILY DOSE · NO. ${puzzleNo()}`, 22 * S, 32 * S);
-  const date = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }).toUpperCase();
-  x.textAlign = 'right'; x.fillText(date, W - 22 * S, 32 * S);
-  if (run > 1) x.fillText(`${run}-DAY STREAK`, W - 22 * S, 46 * S);
-  x.textAlign = 'left'; x.letterSpacing = '0px';
+  // the café, cropped to fill the card; the counter top ends up between y 429 and 543
+  x.fillStyle = '#3A2117'; x.fillRect(0, 0, W, H);
+  if (bg) { const k = H / bg.height; x.drawImage(bg, (W - bg.width * k) / 2, 0, bg.width * k, H); }
+  if (sign) x.drawImage(sign, 180 * S - 78 * S, 22 * S, 156 * S, 156 * S * sign.height / sign.width);
 
-  // the headline: "full dose." once everything is done, else the game or the count
-  const [l1, l2] = only ? [games[0]?.name.toLowerCase() || 'today', 'dosed.'] : all ? ['full', 'dose.'] : [`${games.length} of ${LINEUP.length}`, 'dosed.'];
-  const fit = (t, italic) => { let sz = 104 * S; x.font = `${italic ? 'italic ' : ''}${sz}px ${SERIF}`; while (x.measureText(t).width > (only ? 300 : 210) * S && sz > 50 * S) { sz -= 4 * S; x.font = `${italic ? 'italic ' : ''}${sz}px ${SERIF}`; } return sz; };
-  x.fillStyle = '#F4EFE3'; fit(l1, false); x.fillText(l1, 18 * S, 124 * S);
-  x.fillStyle = '#F2C94C'; fit(l2, true); x.fillText(l2, 18 * S, 209 * S);
+  // the cream signboard: what you did today
+  const [t1, t2] = only ? [games[0]?.name || 'Daily Dose', games[0] ? games[0].big(games[0].r) : '']
+    : [all ? 'Full dose' : `${games.length} of ${LINEUP.length} shots`, run > 1 ? `${run} days in a row` : all ? 'Every shot pulled' : `${LINEUP.length - games.length} still brewing`];
+  const bx = 34 * S, by = 196 * S, bw = 292 * S, bh = 132 * S, n = 4 * S;
+  const board = (pad, col) => { x.fillStyle = col; x.beginPath(); x.moveTo(bx - pad + n, by - pad); x.lineTo(bx + bw + pad - n, by - pad); x.lineTo(bx + bw + pad - n, by - pad + n); x.lineTo(bx + bw + pad, by - pad + n);
+    x.lineTo(bx + bw + pad, by + bh + pad - n); x.lineTo(bx + bw + pad - n, by + bh + pad - n); x.lineTo(bx + bw + pad - n, by + bh + pad); x.lineTo(bx - pad + n, by + bh + pad);
+    x.lineTo(bx - pad + n, by + bh + pad - n); x.lineTo(bx - pad, by + bh + pad - n); x.lineTo(bx - pad, by - pad + n); x.lineTo(bx - pad + n, by - pad + n); x.closePath(); x.fill(); };
+  board(4 * S, '#3B2416'); board(0, '#F6E7C8');
+  x.fillStyle = 'rgba(59,36,22,.12)'; x.fillRect(bx, by + bh - 6 * S, bw, 6 * S);   // a pixel shadow along the bottom
+  x.textAlign = 'center'; x.fillStyle = '#3B2416';
+  const fit = (t, size, max) => { let sz = size * S; x.font = `700 ${sz}px ${FONT}`; while (x.measureText(t).width > max * S && sz > 9 * S) { sz -= 1 * S; x.font = `700 ${sz}px ${FONT}`; } };
+  fit(t1, 50, 260); x.fillText(t1, 180 * S, by + 60 * S);
+  x.fillStyle = '#9A4E1F'; fit(t2, 24, 260); x.fillText(t2, 180 * S, by + 94 * S);
+  x.fillStyle = 'rgba(59,36,22,.6)'; x.font = `700 ${12 * S}px ${FONT}`;
+  x.fillText(`Daily Dose #${puzzleNo()}, ${new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}`, 180 * S, by + 118 * S);
 
-  // the stickers
-  if (only && games[0]) await drawSticker(x, games[0].k, 180 * S, 400 * S, 230 * S, -6, TAG[games[0].k](games[0].r));
-  else for (const [k, cx, cy, size, tilt] of PILE) {
-    const g = games.find(v => v.k === k);
-    if (g) await drawSticker(x, k, cx * S, cy * S, size * S, tilt, TAG[k](g.r));
-  }
-  // footer: a pill with the count, and the address
-  x.font = `500 ${9 * S}px ${MONO}`; x.letterSpacing = `${0.6 * S}px`;
-  const pill = only ? 'DOSED TODAY' : `${games.length}/${LINEUP.length}${all ? ' · ALL DONE' : ''}`, pw = x.measureText(pill).width + 20 * S;
-  x.fillStyle = '#F4EFE3'; x.beginPath(); x.roundRect(22 * S, H - 40 * S, pw, 22 * S, 11 * S); x.fill();
-  x.fillStyle = '#151515'; x.fillText(pill, 32 * S, H - 25.5 * S);
-  x.fillStyle = 'rgba(244,239,227,.8)'; x.textAlign = 'right'; x.fillText(location.host.toUpperCase(), W - 22 * S, H - 25.5 * S);
+  // the mugs on the counter: full with a score once played, empty and faded if not
+  const big = !!only, slot = big ? [180] : keys.map((_, i) => 32 + 59.2 * i), base = big ? 506 : 486, mh = big ? 132 : 52;
+  keys.forEach((k, i) => {
+    const mug = art[i * 2], co = art[i * 2 + 1], g = games.find(v => v.k === k), cx = slot[i] * S;
+    const cw = mh * 1.15 * S, ch = co ? cw * co.height / co.width : 0;
+    x.globalAlpha = g ? 1 : .45;
+    if (co) x.drawImage(co, cx - cw / 2, base * S - ch, cw, ch);
+    if (mug) { const h = mh * S, w = h * mug.width / mug.height; x.drawImage(mug, cx - w * RIM[k], base * S - ch * .45 - h, w, h); }
+    x.globalAlpha = 1;
+    if (g && !big) {
+      x.font = `700 ${13 * S}px ${FONT}`; x.lineJoin = 'round'; x.lineWidth = 4 * S; x.strokeStyle = '#3B2416';
+      x.strokeText(TAG[k](g.r), cx, (base + 22) * S); x.fillStyle = '#F6E7C8'; x.fillText(TAG[k](g.r), cx, (base + 22) * S);
+    }
+  });
+
+  // the golden pill: where to play
+  const pw = 236 * S, ph = pill ? pw * pill.height / pill.width : 52 * S, py = 586 * S - ph / 2;
+  if (pill) x.drawImage(pill, 180 * S - pw / 2, py, pw, ph);
+  x.fillStyle = '#F6E7CB'; fit(location.host, 13, 160); x.fillText(location.host, 180 * S, py + ph / 2 + 4.5 * S);
   return c;
 }
 
