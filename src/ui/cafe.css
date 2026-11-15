@@ -273,3 +273,15 @@ body { font-weight: 500; }
 @keyframes lk-snap { 0% { scale: 1 0; } 60% { scale: 1.3; } 100% { scale: 1; } }
 @keyframes lk-glow { 40% { box-shadow: 0 4px 0 var(--wood), 0 0 0 5px var(--gold); } }
 @media (prefers-reduced-motion: reduce) { .game .bl-reveal.gemmed::after, .game .dr-pot.shatter, .game .lk-now.linked * { animation: none !important; } }
+
+/* badges as loyalty-card stamps, same red ink as the share card: earned = a tilted, slightly worn
+   double ring; not yet = an empty dotted spot waiting for its stamp */
+.game .badges .bdg { width: 3.8rem; height: 3.8rem; border: 2px dashed rgba(58,34,20,.28) !important; color: rgba(58,34,20,.3); background: none; }
+.game .badges .bdg.on { --ink: #B8322A; border: 3px solid var(--ink) !important; box-shadow: inset 0 0 0 3px #F6E7C8, inset 0 0 0 5px var(--ink);
+  color: var(--ink); background: rgba(184,50,42,.06); rotate: -9deg;
+  -webkit-mask: radial-gradient(circle at 70% 30%, rgba(0,0,0,.5) 0 1px, #000 1.6px) 0 0 / 6px 6px;
+  mask: radial-gradient(circle at 70% 30%, rgba(0,0,0,.5) 0 1px, #000 1.6px) 0 0 / 6px 6px; }
+.game .badges li:nth-child(3n+2) .bdg.on { rotate: 7deg; }
+.game .badges li:nth-child(3n) .bdg.on { rotate: -3deg; }
+.game .badges .bdg.on .gi { stroke-width: 2.4; }
+.game .badges .bdg b { font: 700 1.35rem/1 var(--pixel); }
