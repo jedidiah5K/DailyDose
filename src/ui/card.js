@@ -23,6 +23,7 @@ export const LINEUP = [
 ];
 export const doneTonight = () => LINEUP.filter(g => resultFor(g.k)).map(g => ({ ...g, r: resultFor(g.k) }));
 
+const SITE = 'daily-dose-azure.vercel.app';   // the game's address, printed on the card even when made on a test copy
 const FONT = '"Pixelify Sans", system-ui, sans-serif';
 // What each game's mug says on the card.
 const TAG = {
@@ -86,7 +87,7 @@ export async function drawCard(format = 'story', only) {
   // the golden pill: where to play
   const pw = 236 * S, ph = pill ? pw * pill.height / pill.width : 52 * S, py = 586 * S - ph / 2;
   if (pill) x.drawImage(pill, 180 * S - pw / 2, py, pw, ph);
-  x.fillStyle = '#F6E7CB'; fit(location.host, 13, 160); x.fillText(location.host, 180 * S, py + ph / 2 + 4.5 * S);
+  x.fillStyle = '#F6E7CB'; fit(SITE, 13, 160); x.fillText(SITE, 180 * S, py + ph / 2 + 4.5 * S);
   return c;
 }
 
