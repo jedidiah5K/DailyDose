@@ -72,7 +72,7 @@ export function blend(app) {
       <p class="bl-mode">${MODE[p.mode].name}</p>
       <h2 class="display bl-q">${esc(p.q)}</h2>
       <div class="bl-clock" aria-hidden="true"><i id="bar"></i></div><p class="bl-secs mono" id="secs"></p>
-      <form id="form" class="bl-form" autocomplete="off"><input id="w" maxlength="30" autocorrect="off" autocapitalize="none" spellcheck="false" enterkeyhint="go" placeholder="Type it…" aria-label="Your answer"><button class="btn" id="lock">Lock it in</button></form>
+      <form id="form" class="bl-form" autocomplete="off"><input id="w" maxlength="30" autocorrect="on" autocapitalize="none" spellcheck="true" enterkeyhint="go" placeholder="Type it…" aria-label="Your answer"><button class="btn" id="lock">Lock it in</button></form>
     </div>`;
     const input = $('#w');
     setTimeout(() => input.focus(), 30);

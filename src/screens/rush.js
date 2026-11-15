@@ -37,7 +37,7 @@ export function rush(app) {
     $('#body').innerHTML = `<div class="bl-now">
       <h2 class="display bl-q">${esc(s.q)}</h2>
       <div class="bl-clock" aria-hidden="true"><i id="bar"></i></div><p class="bl-secs mono" id="secs"></p>
-      <form id="form" class="bl-form ru-form" autocomplete="off"><input id="w" maxlength="30" autocorrect="off" autocapitalize="none" spellcheck="false" enterkeyhint="send" placeholder="Type one, press enter" aria-label="Your answer"><button class="btn">Add</button></form>
+      <form id="form" class="bl-form ru-form" autocomplete="off"><input id="w" maxlength="30" autocorrect="on" autocapitalize="none" spellcheck="true" enterkeyhint="send" placeholder="Type one, press enter" aria-label="Your answer"><button class="btn">Add</button></form>
       <ul class="ru-found" id="found">${chips(s.found)}</ul>
     </div>`;
     $('#step').innerHTML = `<b id="pts">${s.points}</b> pts`;

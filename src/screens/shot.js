@@ -39,7 +39,7 @@ export function shot(app) {
       <h2 class="display bl-q">${esc(s.q)}</h2>
       <p class="sh-shape" aria-label="${s.shape.join(' and ')} letters">${shape}</p>
       <div class="bl-clock" aria-hidden="true"><i id="bar"></i></div><p class="bl-secs mono" id="secs"></p>
-      <form id="form" class="bl-form" autocomplete="off"><input id="w" maxlength="30" autocorrect="off" autocapitalize="none" spellcheck="false" enterkeyhint="go" placeholder="Type it…" aria-label="Your answer"><button class="btn">Fire</button></form>
+      <form id="form" class="bl-form" autocomplete="off"><input id="w" maxlength="30" autocorrect="on" autocapitalize="none" spellcheck="true" enterkeyhint="go" placeholder="Type it…" aria-label="Your answer"><button class="btn">Fire</button></form>
     </div>`;
     const input = $('#w');
     setTimeout(() => input.focus(), 30);
