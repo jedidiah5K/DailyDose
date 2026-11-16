@@ -2,6 +2,10 @@ import '@fontsource/pixelify-sans/400.css';
 import '@fontsource/pixelify-sans/500.css';
 import '@fontsource/pixelify-sans/600.css';
 import '@fontsource/pixelify-sans/700.css';
+import '@fontsource/figtree/400.css';
+import '@fontsource/figtree/600.css';
+import '@fontsource/figtree/700.css';
+import '@fontsource/figtree/800.css';
 import './styles.css';
 import './ui/cafe.css';
 import './ui/home.css';
@@ -60,10 +64,15 @@ addEventListener('dose:finish', () => {
   fresh.forEach((id, i) => setTimeout(() => badgeToast(BADGES.find(b => b.id === id)), 2400 + i * 3200));
 });
 function badgeToast(b) {
+  // Café look (Job, 2026-11-16): a cream signboard card drops in from the top, the badge stamps down,
+  // a few sparks fly. Tap it to see all your badges; it leaves on its own after a few seconds.
   const t = document.createElement('a'); t.className = 'badge-toast'; t.href = '#me'; t.setAttribute('role', 'status');
-  t.innerHTML = `${badgeArt(b, true)}<span><span class="eyebrow">New badge</span><b>${b.name}</b></span>`;
-  document.body.appendChild(t); SOUNDS.chime(); buzz(20);
-  setTimeout(() => t.classList.add('out'), 4200); setTimeout(() => t.remove(), 4800);
+  t.innerHTML = `<span class="bt-ribbon">New badge!</span><span class="bt-stamp">${badgeArt(b, true)}<i></i><i></i><i></i><i></i></span>
+    <span class="bt-text"><b>${b.name}</b><span>${b.how}</span></span>`;
+  document.body.appendChild(t); SOUNDS.chime(); buzz([20, 60, 30]);
+  const leave = () => { t.classList.add('out'); setTimeout(() => t.remove(), 500); };
+  t.addEventListener('click', leave);
+  setTimeout(leave, 5200);
 }
 
 // Games finished on another phone (or before a reinstall) come back from the server; badges earned

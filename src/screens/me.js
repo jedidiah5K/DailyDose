@@ -71,8 +71,10 @@ export function me(app) {
     if (gone) return;
     $('#acct').innerHTML = u && !u.is_anonymous
       ? `Signed in as ${esc(u.email)} · <button class="link" id="acc" type="button">Account</button>`
-      : `Playing as a guest, saved on this phone. <button class="link" id="acc" type="button">Save your streaks</button>`;
-    $('#acc').addEventListener('click', openAccount);
+      : `<span>Playing as a guest, saved on this phone only.</span>
+         <span class="acct-cta"><button class="btn" id="acc" type="button">Sign up</button><button class="link" id="acc-in" type="button">Log in</button></span>`;
+    $('#acc').addEventListener('click', () => openAccount('new'));
+    $('#acc-in')?.addEventListener('click', () => openAccount('in'));
   }
 
   $('#rename').addEventListener('click', () => {

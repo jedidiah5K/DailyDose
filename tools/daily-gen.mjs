@@ -27,14 +27,28 @@ rush.days.forEach((d, i) => {
   rows.push(['rush', dayAt(rush.from, i), { q: d.q, answers, alias }]);
 });
 
-// Drop: a chain where neighbours are never too close to call (years 2+ apart, sizes 15-20% apart)
+// Drop: the chain gets harder as the pot grows (Job, 2026-11-16: "make questions harder").
+// Steps 1-3 warm up (years 2+ apart, sizes 15-20% apart). From step 4 the pairs get close, and from
+// step 8 very close: years 1-2 apart, sizes 5-35% apart. Never a tie, so there's always a right answer.
 const drop = read('drop.json');
-const farEnough = (p, a, b) => p.gap ? Math.abs(a - b) >= p.gap : Math.max(a, b) / Math.min(a, b) >= p.ratio;
+const diff = (p, a, b) => p.gap ? Math.abs(a - b) : Math.max(a, b) / Math.min(a, b);
+const BANDS = {   // [closest allowed, furthest allowed]; a pool with spread-out numbers can loosen it with "hard": [close, knife]
+  // for each stage: gap pools in years, ratio pools as a ratio
+  warm: { gap: [2, 99], ratio: p => [p.ratio, 9e9] },
+  close: { gap: [1, 4], ratio: p => [1.08, p.hard?.[0] ?? 1.6] },
+  knife: { gap: [1, 2], ratio: p => [1.05, p.hard?.[1] ?? 1.35] },
+};
+const stage = k => (k < 3 ? 'warm' : k < 7 ? 'close' : 'knife');
+function fits(p, k, a, b) {
+  const band = BANDS[stage(k)], d = diff(p, a, b);
+  const [lo, hi] = p.gap ? band.gap : band.ratio(p);
+  return d >= lo && d <= hi && a !== b;
+}
 function chain(p) {
-  for (let tries = 0; tries < 5000; tries++) {
+  for (let tries = 0; tries < 20000; tries++) {
     const pool = [...p.items], out = [pool.splice(randomInt(pool.length), 1)[0]];
     while (out.length < drop.chain && pool.length) {
-      const ok = pool.filter(x => farEnough(p, x[1], out.at(-1)[1]));
+      const ok = pool.filter(x => fits(p, out.length, x[1], out.at(-1)[1]));
       if (!ok.length) break;
       const pick = ok[randomInt(ok.length)]; pool.splice(pool.indexOf(pick), 1); out.push(pick);
     }

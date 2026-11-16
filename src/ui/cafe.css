@@ -1,5 +1,6 @@
-/* One font for the whole app (Job, 2026-11-15): Pixelify Sans, matching the pixel art. */
-:root { --serif: 'Pixelify Sans', system-ui, sans-serif; --sans: var(--serif); --mono: var(--serif); }
+/* Two fonts (Job, 2026-11-16: "more readable"): Pixelify Sans for titles, buttons and signs, so it still
+   matches the pixel art; Figtree for everything you read (questions, answers, labels, stats). */
+:root { --serif: 'Pixelify Sans', system-ui, sans-serif; --read: 'Figtree', system-ui, sans-serif; --sans: var(--read); --mono: var(--read); }
 body { font-weight: 500; }
 .display, em { font-style: normal; }
 
@@ -10,7 +11,7 @@ body { font-weight: 500; }
   --esp: #3A2214; --cream: #F6E7CB; --gold: #F2A93B; --wood: #6E4024;
   --ink: var(--esp); --ink-2: #5A3A22; --muted: #7D5C40; --bg: var(--cream); --surface: #EFDDBA; --tile: #E6D2AC;
   --line: #D9C29A; --line-2: var(--esp); --bad: #D8402E; --good: #2F8A4E;
-  --pixel: 'Pixelify Sans', system-ui, sans-serif; --ui: var(--pixel);
+  --pixel: 'Pixelify Sans', system-ui, sans-serif; --ui: var(--read);
   color-scheme: light; color: var(--esp); font-family: var(--ui);
   background: var(--world, var(--cream)) center / cover no-repeat;
 }
@@ -31,7 +32,7 @@ body { font-weight: 500; }
 /* type: one pixel face; weight and size do the hierarchy */
 .screen.game .display { font-family: var(--pixel); font-weight: 700; letter-spacing: 0; line-height: 1.05; }
 .screen.game em { font-style: normal; }
-.screen.game .eyebrow { font: 700 .72rem/1.3 var(--ui); letter-spacing: .16em; color: var(--ink-2); }
+.screen.game .eyebrow { font: 800 .78rem/1.3 var(--ui); letter-spacing: .1em; color: var(--ink-2); }
 .screen.game .mono { font-family: var(--ui); font-weight: 800; }
 
 /* header: square pixel buttons either side, the game's name on a dark pill in the middle */
@@ -62,7 +63,7 @@ body { font-weight: 500; }
 /* the golden pill: caps stay crisp, the middle stretches */
 .game .btn, .howto .btn { min-height: 3.6rem; padding: 0 .4rem; border-radius: 0; background: none; color: var(--cream);
   border-style: solid; border-width: 0 2.9rem; border-image: url(/art/ui/pill.webp) 0 128 fill / 0 2.9rem stretch;
-  font: 700 1.1rem/1 var(--ui); letter-spacing: .04em; text-transform: uppercase; }
+  font: 700 1.1rem/1 var(--pixel); letter-spacing: .04em; text-transform: uppercase; }
 .game .btn:active:not(:disabled), .howto .btn:active {  transform: none; border-image-source: url(/art/ui/pill-down.webp); }
 
 /* typing */
@@ -109,7 +110,7 @@ body { font-weight: 500; }
   box-shadow: inset 0 0 0 3px #4A2C17, 0 6px 0 #1E1009; }
 .game .rare .eyebrow, .game .rare .muted, .game .rare p { color: #EBD7B5; }
 .game .bl-mode { justify-self: start; display: inline-flex; align-items: center; gap: .45rem; padding: .3rem .7rem; border-radius: 999px;
-  font: 700 .75rem/1 var(--pixel); letter-spacing: .08em; text-transform: uppercase; background: var(--c); color: var(--esp); }
+  font: 700 .75rem/1 var(--read); letter-spacing: .08em; text-transform: uppercase; background: var(--c); color: var(--esp); }
 .game .bl-mode::before { content: '● ● ●'; font-size: .55rem; letter-spacing: -.05em; }
 .game .rare .bl-mode { background: var(--gold); color: var(--esp); }
 .game .rare .bl-mode::before { content: '✦'; font-size: .85rem; }
@@ -121,7 +122,7 @@ body { font-weight: 500; }
 /* progress: five little tiles, solid for crowd prompts, dashed for rare ones */
 .game .bl-dots { margin-top: .4rem; gap: .5rem; }
 .game .bl-dots li { width: 2.5rem; height: 2.5rem; border-radius: 10px; background: var(--cream); border: 3px solid var(--esp); color: var(--esp);
-  font: 700 .95rem var(--pixel); box-shadow: 0 3px 0 var(--wood); }
+  font: 700 .95rem var(--read); box-shadow: 0 3px 0 var(--wood); }
 .game .bl-dots li.rare { background: #2E1B10; color: var(--gold); border-color: var(--esp); }
 .game .bl-dots li.now { border-color: var(--gold); box-shadow: 0 3px 0 var(--wood), 0 0 0 3px var(--gold); color: var(--esp); background: #FFF3D6; }
 .game .bl-dots li.rare.now { background: #4A2C17; color: var(--gold); }
@@ -134,7 +135,7 @@ body { font-weight: 500; }
 .game .bl-gem { background: var(--gold); color: var(--esp); border: 2px solid var(--esp); font-weight: 700; }
 .game .bl-top li, .game .bl-past li { background: #FFF8EA; border: 3px solid var(--esp); border-radius: 10px; color: var(--esp); font-weight: 600; }
 .game .bl-top li i { background: color-mix(in srgb, var(--c) 45%, #FFF8EA); }
-.game .bl-top li b, .game .bl-past em { font: 700 .9rem var(--pixel); color: var(--esp); }
+.game .bl-top li b, .game .bl-past em { font: 700 .9rem var(--read); color: var(--esp); }
 .game .bl-top li.me { box-shadow: 0 0 0 3px var(--gold); }
 .game .rare .bl-top li { border-color: #4A2C17; }
 .game .bl-past span { color: var(--muted); }
@@ -147,8 +148,8 @@ body { font-weight: 500; }
 .game .gm-right .eyebrow b { color: var(--gold); font-weight: 700; }
 .game .ru-found { gap: .45rem; margin-top: .6rem; }
 .game .ru-found li { padding: .4rem .75rem; border-radius: 10px; background: #FFF8EA; border: 3px solid var(--esp); color: var(--esp);
-  font: 600 .95rem var(--pixel); box-shadow: 0 3px 0 var(--wood); }
-.game .ru-found li b { font: 700 .8rem var(--pixel); color: var(--esp); background: var(--c); border-radius: 6px; padding: .05rem .3rem; }
+  font: 700 .95rem var(--read); box-shadow: 0 3px 0 var(--wood); }
+.game .ru-found li b { font: 700 .8rem var(--read); color: var(--esp); background: var(--c); border-radius: 6px; padding: .05rem .3rem; }
 .game .ru-found li.p2 { background: #FFE0CF; }
 .game .ru-found li.p3 { background: var(--gold); box-shadow: 0 3px 0 var(--wood), 0 0 0 3px #FFF1C2; }
 .game .ru-found li.p3::before { content: '💎 '; }
@@ -164,14 +165,14 @@ body { font-weight: 500; }
 
 /* Drop: nerve. A gold pot up top, cards like a dealer's, chunky Higher/Lower, a coin-gold Bank button that glows. */
 .game .dr-pot { justify-self: center; display: flex; align-items: center; gap: .5rem; padding: .35rem .9rem .35rem .5rem; border-radius: 999px;
-  background: var(--esp); color: var(--cream); font: 700 .8rem var(--pixel); letter-spacing: .1em; text-transform: uppercase; box-shadow: 0 3px 0 #1E1009; }
+  background: var(--esp); color: var(--cream); font: 700 .8rem var(--read); letter-spacing: .1em; text-transform: uppercase; box-shadow: 0 3px 0 #1E1009; }
 .game .dr-pot::before { content: ''; width: 1.6rem; height: 1.6rem; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #FFE79A, #F2A93B 60%, #B9741E);
   border: 2px solid #1E1009; }
 .game .dr-pot b { font: 700 1.7rem var(--pixel); color: var(--gold); margin: 0; letter-spacing: 0; }
 .game .bl-now.dr { justify-items: stretch; }
 .game .dr .bl-mode { justify-self: center; }
 .game .dr-card { padding: 1rem 1.1rem; border-radius: 12px; background: #FFF8EA; border: 4px solid var(--esp); box-shadow: 0 5px 0 var(--wood); }
-.game .dr-card span { font: 600 1.3rem/1.15 var(--pixel); }
+.game .dr-card span { font: 700 1.3rem/1.15 var(--read); }
 .game .dr-card b { font: 700 1.5rem var(--pixel); color: var(--esp); background: var(--cream); border: 3px solid var(--esp); border-radius: 8px; padding: .1rem .5rem; }
 .game .dr-card.next { color: var(--cream); background: #176B42 repeating-linear-gradient(45deg, transparent 0 8px, rgba(255,255,255,.06) 8px 16px); }
 .game .dr-card.next b { background: var(--gold); color: var(--esp); font-size: 1.5rem; }
@@ -285,3 +286,39 @@ body { font-weight: 500; }
 .game .badges li:nth-child(3n) .bdg.on { rotate: -3deg; }
 .game .badges .bdg.on .gi { stroke-width: 2.4; }
 .game .badges .bdg b { font: 700 1.35rem/1 var(--pixel); }
+
+/* New-badge pop-up (Job, 2026-11-16): cream signboard card with the espresso outline, a gold ribbon,
+   and the badge stamped on with a little bounce and sparks. Replaces the old dark newspaper pill. */
+.badge-toast { position: fixed; left: 50%; top: calc(env(safe-area-inset-top) + 1rem); translate: -50% 0; z-index: 60;
+  display: flex; align-items: center; gap: .9rem; width: min(22rem, calc(100vw - 2rem)); padding: 1.1rem 1rem .9rem;
+  border-radius: 16px; background: #F6E7CB; color: #3A2214; border: 4px solid #3A2214; text-decoration: none; white-space: normal;
+  box-shadow: inset 0 0 0 3px #EAD3AA, 0 6px 0 #6E4024, 0 18px 30px -14px rgba(0,0,0,.6);
+  animation: bt-drop .55s cubic-bezier(.2, 1.6, .4, 1) both; }
+.badge-toast .bt-ribbon { position: absolute; top: -.85rem; left: 50%; translate: -50% 0; padding: .25rem .9rem; border-radius: 8px;
+  background: #F2A93B; color: #3A2214; border: 3px solid #3A2214; box-shadow: 0 3px 0 #6E4024;
+  font: 700 .85rem/1 'Pixelify Sans', sans-serif; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+.badge-toast .bt-stamp { position: relative; flex: none; display: grid; place-items: center; }
+.badge-toast .bdg { width: 3.6rem; height: 3.6rem; border: 3px solid #3A2214 !important; box-shadow: inset 0 0 0 3px #F6E7C8, 0 3px 0 #6E4024;
+  animation: bt-stamp .5s .25s cubic-bezier(.3, 1.8, .5, 1) both; }
+.badge-toast .bdg .gi { width: 1.7rem; height: 1.7rem; stroke-width: 2.4; }
+.badge-toast .bdg b { font: 700 1.4rem/1 'Pixelify Sans', sans-serif; }
+.badge-toast .bt-stamp i { position: absolute; width: .5rem; height: .5rem; background: #F2A93B; border: 2px solid #3A2214; opacity: 0;
+  animation: bt-spark .6s .55s ease-out both; }
+.badge-toast .bt-stamp i:nth-of-type(1) { --sx: -2.4rem; --sy: -1.6rem; }
+.badge-toast .bt-stamp i:nth-of-type(2) { --sx: 2.3rem; --sy: -1.8rem; }
+.badge-toast .bt-stamp i:nth-of-type(3) { --sx: -2.2rem; --sy: 1.7rem; }
+.badge-toast .bt-stamp i:nth-of-type(4) { --sx: 2.4rem; --sy: 1.5rem; }
+.badge-toast .bt-text { display: grid; gap: .2rem; min-width: 0; }
+.badge-toast .bt-text b { font: 700 1.3rem/1.1 'Pixelify Sans', sans-serif; }
+.badge-toast .bt-text span { font: 600 .9rem/1.3 'Figtree', system-ui, sans-serif; color: #5A3A22; }
+.badge-toast.out { opacity: 0; translate: -50% -1.5rem; transition: opacity .4s, translate .4s; }
+@keyframes bt-drop { from { translate: -50% -140%; } to { translate: -50% 0; } }
+@keyframes bt-stamp { from { scale: 2.2; rotate: -18deg; opacity: 0; } to { scale: 1; rotate: -6deg; opacity: 1; } }
+@keyframes bt-spark { 0% { opacity: 1; translate: 0 0; scale: 1; } 100% { opacity: 0; translate: var(--sx) var(--sy); scale: .4; } }
+
+/* account sheet: Sign up | Log in tabs; You screen guest buttons (Job, 2026-11-16) */
+.acct-tabs { display: grid; grid-template-columns: 1fr 1fr; padding: 4px; border-radius: 12px; background: #3A2214; }
+.acct-tabs button { padding: .6rem; border-radius: 9px; font: 700 1rem 'Pixelify Sans', sans-serif; color: #EBD7B5; }
+.acct-tabs button[aria-selected="true"] { background: #F2A93B; color: #3A2214; }
+.acct-cta { display: flex; align-items: center; gap: .6rem; margin-top: .6rem; }
+.ht-acct { text-align: center; font-size: .9rem; }

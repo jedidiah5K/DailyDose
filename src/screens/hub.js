@@ -10,6 +10,8 @@ import { shotLine } from './shot.js';
 import { rushLine } from './rush.js';
 import { dropLine } from './drop.js';
 import { shareDose } from '../ui/card.js';
+import { openAccount } from './account.js';
+import { sb } from '../lib/cloud.js';
 
 // The lineup, in counter order. New games plug in here: a key, a screen in main.js, a result line, a mug.
 export const GAMES = [
@@ -116,6 +118,17 @@ export function hub(app) {
     snd.addEventListener('click', () => { state.settings.sounds = !state.settings.sounds; save(); SOUNDS.tap();
       snd.style.backgroundImage = `url(${A}${state.settings.sounds ? 'btn_3' : 'btn_4'}.webp)`; snd.setAttribute('aria-pressed', String(!state.settings.sounds)); });
 
+    // guests: a Sign up / Log in pill on the awning, between the menu and sound buttons (Job, 2026-11-16:
+    // "easier to find the register"). Hidden once you have an account.
+    sb.auth.getSession().then(({ data }) => {
+      const u = data.session?.user; if (gone || (u && !u.is_anonymous)) return;
+      const acc = document.createElement('div'); acc.className = 'ch-acct';
+      acc.style.cssText = `top:${iy + is * .12}px;height:${is * .76}px;font-size:${is * .27}px`;
+      acc.innerHTML = '<button type="button" data-m="new">Sign up</button><button type="button" data-m="in">Log in</button>';
+      acc.addEventListener('click', e => { const b = e.target.closest('button'); if (b) openAccount(b.dataset.m); });
+      st.appendChild(acc);
+    }).catch(() => {});
+
     // the Pull button and the footer line in the dark strip
     const [bx, by, bw, bh] = L.button;
     const pull = document.createElement('button'); pull.className = 'ch-pull ch-drop';
@@ -210,10 +223,13 @@ export function hub(app) {
       <p class="eyebrow">Daily Dose</p><h2 class="display">Six shots a day</h2>
       <ol><li>Pick a mug, pull the shot, play the game.</li><li>Every mug fills when you finish. New shots every night at midnight, your time.</li>
       <li>${state.name ? `Playing as ${esc(state.name)}.` : 'Add a name on the You tab so friends can find you.'}</li></ol>
+      <p class="ht-acct"><button type="button" class="link" data-acct="new">Sign up</button> · <button type="button" class="link" data-acct="in">Log in</button> to keep your streaks on any phone</p>
       <p class="ht-foot"><a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a></p>
       <button class="btn wide" data-go>Back to the counter</button></div>`;
     document.body.appendChild(d);
-    d.addEventListener('click', e => { if (e.target === d || e.target.closest('.ht-x,[data-go]')) { SOUNDS.tap(); d.remove(); } });
+    d.addEventListener('click', e => {
+      const a = e.target.closest('[data-acct]'); if (a) { d.remove(); openAccount(a.dataset.acct); return; }
+      if (e.target === d || e.target.closest('.ht-x,[data-go]')) { SOUNDS.tap(); d.remove(); } });
     d.addEventListener('cancel', () => d.remove());
     d.showModal();
   }

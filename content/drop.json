@@ -735,6 +735,7 @@
     {
       "theme": "Which is heavier? (typical adult)",
       "ratio": 1.2,
+      "hard": [2.6, 1.8],
       "hi": "Heavier",
       "lo": "Lighter",
       "items": [

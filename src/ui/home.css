@@ -26,10 +26,10 @@
   border: 0; background: url(/art/ui/pill.webp) center / 100% 100% no-repeat; color: #F6E7CB; font: 700 1em 'Pixelify Sans', sans-serif;
   letter-spacing: .04em; text-transform: uppercase; }
 .ch-pull:active { background-image: url(/art/ui/pill-down.webp); }
-.ch-foot { position: absolute; left: 0; right: 0; z-index: 20; margin: 0; text-align: center; color: #E9C9A0; font: 600 1em 'Pixelify Sans', sans-serif;
+.ch-foot { position: absolute; left: 0; right: 0; z-index: 20; margin: 0; text-align: center; color: #E9C9A0; font: 700 1em 'Figtree', system-ui, sans-serif;
   letter-spacing: .14em; text-transform: uppercase; }
 .ch-live { position: absolute; left: 50%; translate: -50% 0; z-index: 5; margin: 0; padding: .3em .9em; border-radius: 999px; background: #3A2214; color: #F6E7CB;
-  font: 600 22px 'Pixelify Sans', sans-serif; white-space: nowrap; }
+  font: 700 22px 'Figtree', system-ui, sans-serif; white-space: nowrap; }
 /* the dive: espresso swirls out from the mug's rim until it fills the screen, then drains to show the game */
 .ch-coffee { position: fixed; inset: 0; z-index: 60; overflow: hidden; pointer-events: none; background: #3B1E0E;
   clip-path: circle(0 at var(--x) var(--y)); transition: clip-path .75s cubic-bezier(.6, 0, .3, 1), opacity .45s; }
@@ -63,3 +63,9 @@
   background: #F6E7CB; border-right: .16em solid #3A2214; border-bottom: .16em solid #3A2214; }
 @keyframes ch-nudge { 50% { translate: -50% calc(-100% - .35em); } }
 @media (prefers-reduced-motion: reduce) { .ch-mug img, .ch-hint { animation: none !important; } }
+
+/* guests: Sign up / Log in pill on the awning (Job, 2026-11-16) */
+.ch-acct { position: absolute; z-index: 22; left: 50%; translate: -50% 0; display: flex; align-items: stretch; border-radius: .7em; overflow: hidden;
+  background: #3A2214; border: .14em solid #F2A93B; box-shadow: 0 .18em 0 #1E1009; }
+.ch-acct button { padding: 0 .9em; font: 700 1em 'Pixelify Sans', sans-serif; color: #F6E7CB; }
+.ch-acct button[data-m="new"] { background: #F2A93B; color: #3A2214; }
