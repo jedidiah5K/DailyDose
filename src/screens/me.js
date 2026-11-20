@@ -2,7 +2,7 @@ import { tabBar } from '../ui/shell.js';
 // You: your name, your account, nights in a row, badges, and how you're doing at each game.
 // Results come from the server (so every phone you sign in on agrees), and from this phone while offline.
 import { state, streak, mergeResults, save } from '../lib/store.js';
-import { BADGES, earned, bestStreak, badgeArt } from '../lib/badges.js';
+import { shownBadges, earned, bestStreak, badgeArt } from '../lib/badges.js';
 import { LINEUP } from '../ui/card.js';
 import { clock } from '../lib/day.js';
 import { sb, getMe, hasAccount, myResults } from '../lib/cloud.js';
@@ -52,8 +52,8 @@ export function me(app) {
     const total = LINEUP.reduce((n, g) => n + Object.keys(res[g.k] || {}).length, 0);   // today's lineup only (not the retired Vault)
     $('#big').innerHTML = [['Nights in a row', streak()], ['Best run', bestStreak(res)], ['Games played', total]]
       .map(([l, v]) => `<li><b class="display">${v}</b><span>${l}</span></li>`).join('');
-    $('#bcount').textContent = `Badges · ${got.size} of ${BADGES.length}`;
-    $('#badges').innerHTML = BADGES.map(b => `<li class="${got.has(b.id) ? 'got' : ''}" title="${b.how}">${badgeArt(b, got.has(b.id))}
+    $('#bcount').textContent = `Badges · ${shownBadges(got).filter(b => got.has(b.id)).length} of ${shownBadges(got).length}`;
+    $('#badges').innerHTML = shownBadges(got).map(b => `<li class="${got.has(b.id) ? 'got' : ''}" title="${b.how}">${badgeArt(b, got.has(b.id))}
       <span class="b-name">${b.name}</span><span class="b-how">${got.has(b.id) ? 'Earned' : b.how}</span></li>`).join('');
     $('#stats').innerHTML = LINEUP.map(g => {
       const rs = Object.values(res[g.k] || {});

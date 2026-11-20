@@ -7,7 +7,7 @@ body { font-weight: 500; }
 /* Café look for the game screens (Job, 2026-11-15): each game sits in its own pixel-art backdrop,
    the board lives on a cream signboard card with a chunky espresso outline (same as the home sign),
    main actions use the golden pill button from the home screen. Visual only: no game logic here. */
-.screen.game, .howto {
+.screen.game, .howto, .sheet {
   --esp: #3A2214; --cream: #F6E7CB; --gold: #F2A93B; --wood: #6E4024;
   --ink: var(--esp); --ink-2: #5A3A22; --muted: #7D5C40; --bg: var(--cream); --surface: #EFDDBA; --tile: #E6D2AC;
   --line: #D9C29A; --line-2: var(--esp); --bad: #D8402E; --good: #2F8A4E;
@@ -15,7 +15,7 @@ body { font-weight: 500; }
   color-scheme: light; color: var(--esp); font-family: var(--ui);
   background: var(--world, var(--cream)) center / cover no-repeat;
 }
-.howto { background: var(--cream); border: 4px solid var(--esp); border-radius: 18px; box-shadow: inset 0 0 0 3px #EAD3AA, 0 6px 0 var(--wood); }
+.howto, .sheet { background: var(--cream); border: 4px solid var(--esp); border-radius: 18px; box-shadow: inset 0 0 0 3px #EAD3AA, 0 6px 0 var(--wood); }
 .howto .demo { background: var(--surface); border: 3px solid var(--esp); border-radius: 12px; }
 .howto .demo-blend p { font: 700 1.2rem var(--pixel); }
 .howto .ht-x { color: var(--esp); font-weight: 700; }
@@ -62,10 +62,10 @@ body { font-weight: 500; }
 .game .result .muted { color: var(--ink-2); }
 
 /* the golden pill: caps stay crisp, the middle stretches */
-.game .btn, .howto .btn { min-height: 3.6rem; padding: 0 .4rem; border-radius: 0; background: none; color: var(--cream);
+.game .btn, .howto .btn, .sheet .btn { min-height: 3.6rem; padding: 0 .4rem; border-radius: 0; background: none; color: var(--cream);
   border-style: solid; border-width: 0 2.9rem; border-image: url(/art/ui/pill.webp) 0 128 fill / 0 2.9rem stretch;
   font: 700 1.1rem/1 var(--pixel); letter-spacing: .04em; text-transform: uppercase; }
-.game .btn:active:not(:disabled), .howto .btn:active {  transform: none; border-image-source: url(/art/ui/pill-down.webp); }
+.game .btn:active:not(:disabled), .howto .btn:active, .sheet .btn:active {  transform: none; border-image-source: url(/art/ui/pill-down.webp); }
 
 /* typing */
 .game .bl-now, .game .bl-form { grid-template-columns: minmax(0, 1fr); }
@@ -87,7 +87,7 @@ body { font-weight: 500; }
 .game .next-in b { color: var(--esp); }
 
 /* How to play pop-up matches the card */
-.howto .display { font-family: var(--pixel, 'Pixelify Sans'); font-weight: 700; }
+.howto .display, .sheet .display { font-family: var(--pixel, 'Pixelify Sans'); font-weight: 700; }
 
 /* The Shot */
 .g-mug { width: 6.5rem; height: auto; image-rendering: auto; margin: -.2rem auto .2rem; filter: drop-shadow(0 4px 0 rgba(58,34,20,.25)); }
@@ -262,6 +262,39 @@ body { font-weight: 500; }
 .game .fr-row .btn, .game .fr-form .btn { border-width: 0 2rem; border-image-width: 0 2rem; font-size: .95rem; }
 .game .badges li > :first-child, .game .badges .b-mark { border-color: var(--esp) !important; }
 
+/* Café items instead of form boxes (Job, 2026-11-20). Your friend code is a business card. */
+.game.friends > .fr-me { position: relative; padding-top: 2.1rem; border: 3px solid var(--esp); border-radius: 6px; rotate: -1.2deg;
+  background: linear-gradient(var(--gold) 0 1.4rem, var(--esp) 0 calc(1.4rem + 3px), #FFFCF3 0); box-shadow: 0 6px 0 rgba(58,34,20,.28); }
+.game.friends > .fr-me::before { content: 'DAILY DOSE · CAFÉ REGULAR'; position: absolute; inset: .2rem 0 auto; font: 700 .72rem/1 var(--pixel); letter-spacing: .14em; color: var(--esp); }
+/* friends' results: paper notes pinned on a corkboard */
+.game.friends > .fr-sec { border: 6px solid var(--wood); border-radius: 10px; box-shadow: inset 0 0 0 2px #4A2C17, 0 6px 0 #4A2C17;
+  background: radial-gradient(#9C6A3C 15%, transparent 16%) 0 0 / 9px 9px, radial-gradient(#C99560 15%, transparent 16%) 4px 5px / 11px 11px, #B98552; }
+.game.friends > .fr-sec > .eyebrow { color: #FFF4C9; text-shadow: 0 2px 0 #4A2C17; }
+.game .fr-list { display: grid; gap: .9rem; border: 0; padding-top: .3rem; }
+.game .fr-list > li { position: relative; padding: .35rem .85rem; border: 0; background: #FFF4C9; box-shadow: 0 3px 0 rgba(58,34,20,.3); rotate: -.8deg; }
+.game .fr-list > li:nth-child(even) { rotate: .9deg; background: #FFE9DC; }
+.game .fr-list > li::before { content: ''; position: absolute; left: 50%; top: -.45rem; width: .8rem; height: .8rem; translate: -50% 0; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #FF8A7A, #D8402E 60%); box-shadow: 0 2px 0 rgba(0,0,0,.3); }
+.game .fr-list > .fr-empty { padding-block: .9rem; color: var(--esp); }
+.game .fr-list > .fr-skel { min-height: 3rem; }
+/* your numbers: a loyalty card with red-ink stamps */
+.game .you-big { position: relative; padding: 2.2rem 1rem 1rem; border-radius: 10px; text-align: center;
+  background: #EBCB98; outline: 2px dashed rgba(58,34,20,.4); outline-offset: -9px; }
+.game .you-big::before { content: 'LOYALTY CARD'; position: absolute; inset: .85rem 0 auto; font: 700 .75rem/1 var(--pixel); letter-spacing: .2em; color: var(--wood); }
+.game .you-big li { justify-items: center; }
+.game .you-big b { display: grid; place-items: center; width: 3.4rem; height: 3.4rem; border: 3px solid var(--bad); border-radius: 50%; color: var(--bad);
+  font: 700 1.6rem/1 var(--pixel); rotate: -8deg; box-shadow: inset 0 0 0 2px rgba(216,64,46,.25); }
+.game .you-big li:nth-child(2) b { rotate: 6deg; }
+.game .you-big span { color: var(--esp); font-weight: 700; }
+/* your games: the café's chalkboard menu */
+.game .you-sec:has(.you-stats) { border: 6px solid var(--wood); border-radius: 10px; box-shadow: inset 0 0 0 2px #4A2C17, 0 6px 0 #4A2C17;
+  background: radial-gradient(ellipse at 30% 20%, rgba(255,255,255,.06), transparent 60%), #2F3B30; color: #F3EAD7; }
+.game .you-sec:has(.you-stats) .eyebrow { color: #F3EAD7; }
+.game .you-stats, .game .you-stats .ys { border-color: rgba(243,234,215,.25); border-style: dashed; }
+.game .you-stats .ys-name { font-family: var(--pixel); color: #F3EAD7; }
+.game .you-sec .you-stats :is(.mono, dt) { color: rgba(243,234,215,.75) !important; }
+.game .you-stats .ys.off .ys-name { color: rgba(243,234,215,.55); }
+
 /* big moments */
 .game .bl-reveal.gemmed { position: relative; overflow: hidden; border-color: var(--gold); }
 .game .bl-reveal.gemmed::after { content: ''; position: absolute; inset: -20% auto -20% -60%; width: 40%; rotate: 20deg; pointer-events: none;
@@ -321,6 +354,14 @@ body { font-weight: 500; }
 .acct-tabs { display: grid; grid-template-columns: 1fr 1fr; padding: 4px; border-radius: 12px; background: #3A2214; }
 .acct-tabs button { padding: .6rem; border-radius: 9px; font: 700 1rem 'Pixelify Sans', sans-serif; color: #EBD7B5; }
 .acct-tabs button[aria-selected="true"] { background: #F2A93B; color: #3A2214; }
+/* the account sheet: a cream card rising from the bottom, same inputs as the game screens */
+.sheet { border-bottom: 0; border-radius: 18px 18px 0 0; }
+.sheet::backdrop { background: rgba(30, 16, 9, .55); }
+.sheet label { color: var(--ink-2); font-weight: 700; }
+.sheet input { min-height: 3.2rem; border: 3px solid var(--esp); border-radius: 12px; background: #FFF8EA; color: var(--esp); font: 600 1rem var(--read); }
+.sheet input:focus { box-shadow: 0 0 0 3px var(--gold); }
+.sheet .link { color: var(--esp); }
+.sheet .err { color: var(--bad); font-weight: 700; }
 .acct-cta { display: flex; align-items: center; gap: .6rem; margin-top: .6rem; }
 .ht-acct { text-align: center; font-size: .9rem; }
 

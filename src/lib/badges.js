@@ -30,6 +30,9 @@ export function bestStreak(results) {
   return best;
 }
 
+// Badges for retired games only show if you already earned them (they can't be won any more).
+export const shownBadges = got => BADGES.filter(b => !b.k || GAMES.includes(b.k) || got.has(b.id));
+
 export function earned(results) {
   const perNight = {};
   for (const k of GAMES) for (const d in results[k] || {}) perNight[d] = (perNight[d] || 0) + 1;
