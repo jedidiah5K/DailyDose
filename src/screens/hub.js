@@ -34,13 +34,16 @@ const esc = s => String(s).replace(/[<>&"]/g, c => `&#${c.charCodeAt(0)};`);
 const TALL = { w: 981, h: 1602, sign: [490, 600, 1.24], man: [268, 1076, 1.84], woman: [520, 1076, 1.84], teen: [765, 1076, 1.84],
   dog: [84, 1066, .92], mach: [490, 1342, 1.16], cat: [840, 1262, 1], mug: .88, co: .8, row: 1392, slots: [80, 212, 344, 636, 768, 900],
   button: [200, 1422, 580, 128], foot: [1566, 23], ico: [26, 20, 100], live: 640 };
+// the -x pictures are the same scene painted further out on every side (tools/extend-bg.py), so wide
+// or tall screens show more café instead of blurry bands: top, each side, bottom, in picture pixels
+const EXT = { wide: [300, 600, 300], tall: [400, 300, 600] };
 const WIDE = { w: 1672, h: 941, sign: [836, 330, .8], man: [612, 664, 1.56], woman: [836, 664, 1.56], teen: [1062, 664, 1.56],
   dog: [420, 656, .76], mach: [836, 814, .92], cat: [1400, 776, .84], mug: .72, co: .68, row: 814, slots: [400, 545, 690, 982, 1127, 1272],
   button: [606, 830, 460, 94], foot: [928, 12], ico: [22, 14, 66], live: 362 };
 
 export function hub(app) {
   const today = dayKey(), s = streak(), wide = innerWidth > innerHeight, L = wide ? WIDE : TALL;
-  const hr = new Date().getHours(), bg = `${wide ? 'wide' : 'tall'}-${hr >= 6 && hr < 18 ? 'day' : 'night'}`;
+  const x = EXT[wide ? 'wide' : 'tall'], hr = new Date().getHours(), bg = `${wide ? 'wide' : 'tall'}-${hr >= 6 && hr < 18 ? 'day' : 'night'}`;
   const open = g => !resultFor(g.k) && state.progress[g.k]?.day === today;
   const next = GAMES.find(open) || GAMES.find(g => !resultFor(g.k));
   // drinks you haven't seen served yet get handed over now
@@ -49,7 +52,8 @@ export function hub(app) {
 
   app.innerHTML = `<main class="screen hub cafe-home has-tabs">
     <div class="ch-blur" style="background-image:url(${A}${bg}.webp)" aria-hidden="true"></div>
-    <div class="ch-fit"><div class="ch-st" id="st" style="width:${L.w}px;height:${L.h}px;background-image:url(${A}${bg}.webp)">
+    <div class="ch-fit"><div class="ch-st" id="st" style="width:${L.w}px;height:${L.h}px">
+      <img class="ch-ext" src="${A}${bg}-x.webp" alt="" style="left:${-x[1]}px;top:${-x[0]}px;width:${L.w + 2 * x[1]}px;height:${L.h + x[0] + x[2]}px">
       <h1 class="sr-only">Daily Dose</h1>
     </div></div>
     ${tabBar('today')}

@@ -2,8 +2,8 @@
    background picture's own pixels on a stage that scales to fit; the tab bar floats below it. */
 .screen.hub.cafe-home { max-width: none; padding: 0; overflow: hidden; background: #2a1a10; --tabs: calc(5.4rem + env(safe-area-inset-bottom)); }
 .ch-blur { position: fixed; inset: -40px; background: center / cover no-repeat; filter: blur(22px) brightness(.85); }
-.ch-fit { position: fixed; inset: env(safe-area-inset-top) 0 var(--tabs) 0; overflow: hidden; }
-.ch-st { position: absolute; left: 50%; top: 50%; transform-origin: center; overflow: hidden; background: center / 100% 100% no-repeat; }
+.ch-fit { position: fixed; inset: env(safe-area-inset-top) 0 var(--tabs) 0; }   /* no clipping: the extended picture runs on under the bars */
+.ch-st { position: absolute; left: 50%; top: 50%; transform-origin: center; background: center / 100% 100% no-repeat; }
 .ch-sp { position: absolute; user-select: none; -webkit-user-drag: none; pointer-events: none; }
 .ch-tap { pointer-events: auto; cursor: pointer; }
 .ch-bob { animation: ch-bob 2.6s ease-in-out infinite; }
@@ -69,3 +69,6 @@
   background: #3A2214; border: .14em solid #F2A93B; box-shadow: 0 .18em 0 #1E1009; }
 .ch-acct button { padding: 0 .9em; font: 700 1em 'Pixelify Sans', sans-serif; color: #F6E7CB; }
 .ch-acct button[data-m="new"] { background: #F2A93B; color: #3A2214; }
+
+.ch-ext { position: absolute; z-index: 0; max-width: none; pointer-events: none; }
+.cafe-home { overflow: hidden; }
