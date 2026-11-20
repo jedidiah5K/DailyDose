@@ -32,7 +32,7 @@ export function resultButtons(k) {
   const n = nextUp(k), name = LINEUP.find(g => g.k === k).name;
   return n ? `<a class="btn wide" href="#${n.k}">Next shot: ${n.name}</a>
       <button class="link-quiet" id="share">Share ${name}</button><button class="link-quiet" id="all" hidden></button>`
-    : `<button class="btn wide" id="all">Share your whole dose</button>
+    : `<button class="btn wide" id="all">Share your dose</button>
       <button class="link-quiet" id="share">Share just ${name}</button>`;
 }
 
