@@ -4,7 +4,7 @@ import { state, save, finish, resultFor, streak } from '../lib/store.js';
 import { rushStart, rushOpen, rushAdd, rushFinish } from '../lib/cloud.js';
 import { SOUNDS, buzz } from '../ui/feedback.js';
 import { friendsOn } from './friends.js';
-import { gameHeader, wireHelp, burst, toaster, roll, esc, timerBar } from '../ui/shell.js';
+import { gameHeader, wireHelp, burst, toaster, roll, esc, timerBar, nice } from '../ui/shell.js';
 
 export const rushLine = r => `${r.found} found · ${r.points} pts${r.rare ? ` · ${r.rare} rare 💎` : ''}`;
 const LIMIT = 30000;
@@ -30,7 +30,7 @@ export function rush(app) {
   wireHelp(app, 'rush');
   const $ = q => app.querySelector(q);
   const say = toaster($('#msg'));
-  const chips = f => f.map(x => `<li class="p${x.p}">${esc(x.a)}${x.p > 1 ? `<b>+${x.p}</b>` : ''}</li>`).join('');
+  const chips = f => f.map(x => `<li class="p${x.p}">${esc(nice(x.a))}${x.p > 1 ? `<b>+${x.p}</b>` : ''}</li>`).join('');
 
   function play() {
     if (s.left_ms <= 0) { end(); return; }
@@ -58,8 +58,8 @@ export function rush(app) {
     try { r = await rushAdd(w); } catch (e) { if (/time up/.test(e.message)) return; say('Couldn’t check that one.'); return; }
     if (gone || done) return;
     s = r;
-    if (r.last.p) { SOUNDS.tap(); buzz(8); $('#found').innerHTML = chips(s.found); roll($('#pts'), s.points); if (r.last.p === 3) say(`💎 ${r.last.a}: rare, +3`); }
-    else { SOUNDS.miss(); say(r.last.a ? `Already got ${r.last.a}.` : `“${w}” isn’t on our list.`); }
+    if (r.last.p) { SOUNDS.tap(); buzz(8); $('#found').innerHTML = chips(s.found); roll($('#pts'), s.points); if (r.last.p === 3) say(`💎 ${nice(r.last.a)}: rare, +3`); }
+    else { SOUNDS.miss(); say(r.last.a ? `Already got ${nice(r.last.a)}.` : `“${w}” isn’t on our list.`); }
   }
 
   async function end() {
@@ -84,7 +84,7 @@ export function rush(app) {
       <img class="g-mug" src="/art/mugs/rush-full.webp" alt="" width="80" height="75">
       <p class="eyebrow">${r.found} found${r.rare ? ` · ${r.rare} rare 💎` : ''}</p>
       <h2 class="display"><em>${r.points}</em> points</h2>
-      ${r.missed.length ? `<p class="muted ru-missed">You missed <b>${r.missed.map(esc).join(', ')}</b></p>` : ''}
+      ${r.missed.length ? `<p class="muted ru-missed">You missed <b>${r.missed.map(x => esc(nice(x))).join(', ')}</b></p>` : ''}
       <p class="muted">${[r.beat != null ? `Better than ${r.beat}% of players today` : 'You’re one of the first to play today', streak('rush') > 1 ? `${streak('rush')} days in a row` : ''].filter(Boolean).join(' · ')}</p>
       <div class="fr-on" id="fr-on"></div>
       ${resultButtons('rush')}

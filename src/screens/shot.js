@@ -67,7 +67,7 @@ export function shot(app) {
       <img class="g-mug" src="/art/mugs/shot-${r.ok ? 'full' : 'empty'}.webp" alt="" width="80" height="108">
       <p class="eyebrow">${r.ok ? `Got it in ${secs(r.ms)}` : r.close ? 'So close! It was' : 'Missed'}</p>
       <h2 class="display"><em>${esc(r.answer)}</em></h2>
-      <p class="muted">${[`${r.pct}% got today’s shot`, beat, streak('shot') > 1 ? `${streak('shot')} days in a row` : ''].filter(Boolean).join(' · ')}</p>
+      <p class="muted">${[r.players >= 10 ? `${r.pct}% got today’s shot` : 'You’re one of the first to play today', beat, streak('shot') > 1 ? `${streak('shot')} days in a row` : ''].filter(Boolean).join(' · ')}</p>
       <div class="fr-on" id="fr-on"></div>
       ${resultButtons('shot')}
       <p class="next-in">Tomorrow’s shot in <b data-cd>${countdown()}</b></p>

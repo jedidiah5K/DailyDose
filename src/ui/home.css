@@ -24,7 +24,7 @@
 .ch-ico:active { scale: .94; }
 .ch-pull { position: absolute; z-index: 20; display: flex; align-items: center; justify-content: center; white-space: nowrap; cursor: pointer;
   border: 0; background: url(/art/ui/pill.webp) center / 100% 100% no-repeat; color: #F6E7CB; font: 700 1em 'Pixelify Sans', sans-serif;
-  letter-spacing: .04em; text-transform: uppercase; }
+  letter-spacing: .02em; }
 .ch-pull:active { background-image: url(/art/ui/pill-down.webp); }
 .ch-foot { position: absolute; left: 0; right: 0; z-index: 20; margin: 0; text-align: center; color: #E9C9A0; font: 700 1em 'Figtree', system-ui, sans-serif;
   letter-spacing: .14em; text-transform: uppercase; }

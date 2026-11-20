@@ -4,7 +4,7 @@ import { state, save, finish, resultFor, streak } from '../lib/store.js';
 import { blendStart, blendOpen, blendAnswer } from '../lib/cloud.js';
 import { SOUNDS, buzz } from '../ui/feedback.js';
 import { friendsOn } from './friends.js';
-import { gameHeader, wireHelp, burst, toaster, roll, esc, timerBar } from '../ui/shell.js';
+import { gameHeader, wireHelp, burst, toaster, roll, esc, timerBar, nice } from '../ui/shell.js';
 
 const MODE = {
   crowd: { name: 'Think like everyone', how: 'Match the answer most people give.' },
@@ -98,10 +98,10 @@ export function blend(app) {
   function reveal(k) {
     const p = s.prompts[k];
     const what = p.late || !p.raw ? 'Time’s up' : !p.answer ? 'Not on our list' : `${p.share}% said this`;
-    const top = (p.top || []).map(([a, pct]) => `<li class="${a === p.answer ? 'me' : ''}"><span>${esc(a)}</span><b>${pct}%</b><i style="--w:${pct}%"></i></li>`).join('');
+    const top = (p.top || []).map(([a, pct]) => `<li class="${a === p.answer ? 'me' : ''}"><span>${esc(nice(a))}</span><b>${pct}%</b><i style="--w:${pct}%"></i></li>`).join('');
     $('#body').innerHTML = `${dots()}<div class="bl-reveal rise ${p.mode}${p.gem ? ' gemmed' : ''}">
       <p class="bl-mode">${MODE[p.mode].name} · ${esc(p.q)}</p>
-      <p class="bl-you">${p.raw ? esc(p.raw) : '—'}</p>
+      <p class="bl-you">${p.raw ? esc(nice(p.raw)) : '—'}</p>
       <p class="bl-pts"><b data-to="${p.points}">0</b> points${p.gem ? ' <span class="bl-gem">💎 Rare find</span>' : ''}</p>
       <p class="muted">${what}</p>
       <p class="eyebrow">Most said</p><ol class="bl-top">${top}</ol>
@@ -110,7 +110,7 @@ export function blend(app) {
     $('#next')?.addEventListener('click', () => { SOUNDS.tap(); revealK = -1; draw(); });
   }
 
-  const past = () => `<ul class="bl-past">${s.prompts.map(p => `<li><span>${esc(p.q)}</span><b>${p.raw ? esc(p.raw) : '—'}</b><em>${p.points}</em></li>`).join('')}</ul>`;
+  const past = () => `<ul class="bl-past">${s.prompts.map(p => `<li><span>${esc(p.q)}</span><b>${p.raw ? esc(nice(p.raw)) : '—'}</b><em>${p.points}</em></li>`).join('')}</ul>`;
 
   function result(r, fresh) {
     const beat = r.beat != null ? `Better than ${r.beat}% of players today` : 'You’re one of the first to play today';

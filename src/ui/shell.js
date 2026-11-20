@@ -109,6 +109,21 @@ export function roll(el, to = +el.dataset.to) {
 
 export const esc = s => String(s ?? '').replace(/[<>&"]/g, c => `&#${c.charCodeAt(0)};`);
 
+// Answers are stored lowercase without punctuation ("mcdonalds"); this is how they're written on screen.
+// Unlisted answers just get capital letters (shortcut: add brand names here as content needs them).
+const SPELL = { mcdonalds: 'McDonald’s', wendys: 'Wendy’s', 'in n out': 'In-N-Out', dominos: 'Domino’s', arbys: 'Arby’s', 'carls jr': 'Carl’s Jr.',
+  hardees: 'Hardee’s', nandos: 'Nando’s', 'papa johns': 'Papa John’s', culvers: 'Culver’s', 'chick fil a': 'Chick-fil-A', hersheys: 'Hershey’s',
+  reeses: 'Reese’s', 'reeses puffs': 'Reese’s Puffs', 'reeses pieces': 'Reese’s Pieces', kelloggs: 'Kellogg’s', levis: 'Levi’s', dvds: 'DVDs',
+  mcgonagall: 'McGonagall', mclaren: 'McLaren', mcfly: 'McFly', mcflurry: 'McFlurry', mcchicken: 'McChicken', mcrib: 'McRib', mcdouble: 'McDouble',
+  'ed edd n eddy': 'Ed, Edd n Eddy', 'cap n crunch': 'Cap’n Crunch', 'bowser jr': 'Bowser Jr.', iphone: 'iPhone', ipad: 'iPad', youtube: 'YouTube', tiktok: 'TikTok' };
+const WORD = { dont: 'don’t', cant: 'can’t', wont: 'won’t', im: 'I’m', ive: 'I’ve', youre: 'you’re', didnt: 'didn’t', isnt: 'isn’t', doesnt: 'doesn’t', thats: 'that’s' };
+const NOT_ACRONYM = new Set(['mr', 'mrs', 'ms', 'dr', 'st', 'jr', 'vs']);
+export const nice = s => { s = String(s ?? '').trim(); const k = s.toLowerCase();
+  return SPELL[k] || s.split(' ').map(w => { const l = w.toLowerCase();
+    if (WORD[l]) return WORD[l][0].toUpperCase() + WORD[l].slice(1);
+    if (/^[bcdfghjklmnpqrstvwxz]{2,4}$/.test(l) && !NOT_ACRONYM.has(l)) return l.toUpperCase();
+    return w && w[0].toUpperCase() + w.slice(1); }).join(' '); };
+
 // A draining bar for timed games: calls done() once when it hits zero. Returns stop().
 export function timerBar(bar, secs, endAt, total, done) {
   const step = () => {

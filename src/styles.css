@@ -47,7 +47,7 @@ p { margin: 0; }
 @keyframes vt-in { from { opacity: 0; } }
 
 /* one kind of main button: ink black, rounded */
-.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 3.2rem; padding: 0 1.5rem; border-radius: 18px;
+.btn { text-decoration: none; display: inline-flex; align-items: center; justify-content: center; min-height: 3.2rem; padding: 0 1.5rem; border-radius: 18px;
   background: var(--ink); color: var(--bg); font-weight: 600; font-size: 1rem; transition: transform .12s, opacity .2s; }
 .btn:active:not(:disabled) { transform: scale(.97); }
 .btn:disabled { opacity: .35; cursor: default; }
