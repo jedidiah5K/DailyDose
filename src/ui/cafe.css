@@ -224,7 +224,8 @@ body { font-weight: 500; }
 .game .ld-tools .link-quiet { flex-basis: 100%; text-align: center; padding-top: .2rem; }
 /* a counter beside the name ("0/5") leaves no room for "No. 27 · theme" on small phones: drop it */
 @media (max-width: 400px) { .gm-top:has(.gm-right .eyebrow:not(:empty)) .gm-title span { display: none; } }
-.game .lk-dots i { border: 2px solid var(--esp); border-radius: 5px; background: var(--surface); }
+.game .lk-dots i { border: 2px solid var(--esp); border-radius: 5px; }
+.game .lk-dots i:not([class]) { background: var(--surface); }   /* missed; solved ones keep their t1-t3 colour */
 
 /* Ladder: calm. A real wooden ladder: two rails, a rung of letter tiles per step, the changed letter in gold. */
 .game .ld-ladder { position: relative; margin-top: 1.4rem; padding: 1rem 1.6rem; gap: .7rem; }

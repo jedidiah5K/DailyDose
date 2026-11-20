@@ -14,7 +14,7 @@ const LIMIT = 7000;
 // clock and holds the answer; the shape (letters per word) is the only hint.
 export function shot(app) {
   const day = dayKey();
-  let s = null, busy = false, gone = false, stop = () => {}, ticks = [];
+  let s = null, busy = false, gone = false, stop = () => {}, ticks = [], late = false;
   const hush = () => { ticks.forEach(clearTimeout); ticks = []; };
 
   app.innerHTML = `<main class="screen game shot">
@@ -44,7 +44,7 @@ export function shot(app) {
     </div>`;
     const input = $('#w');
     setTimeout(() => input.focus(), 30);
-    stop = timerBar($('#bar'), $('#secs'), Date.now() + s.left_ms, LIMIT, () => answer(input.value));
+    stop = timerBar($('#bar'), $('#secs'), Date.now() + s.left_ms, LIMIT, () => { late = true; answer(input.value); });
     // the last three seconds tick out loud, and the clock throbs with each one
     [3000, 2000, 1000].forEach(t => { if (s.left_ms > t) ticks.push(setTimeout(() => { SOUNDS.turn(); buzz(6); const c = $('.bl-clock'); c?.classList.remove('throb'); void c?.offsetWidth; c?.classList.add('throb'); }, s.left_ms - t)); });
     // each letter you type clicks into the next box
@@ -73,7 +73,7 @@ export function shot(app) {
     const beat = r.ok && r.beat != null && r.players >= 10 ? `Faster than ${r.beat}% who got it` : '';
     $('#bottom').innerHTML = `<div class="result ${fresh ? 'rise' : ''}">
       <img class="g-mug" src="/art/mugs/shot-${r.ok ? 'full' : 'empty'}.webp" alt="" width="80" height="108">
-      <p class="eyebrow">${r.ok ? `Got it in ${secs(r.ms)}` : r.close ? 'So close! It was' : 'Missed'}</p>
+      <p class="eyebrow">${r.ok ? `Got it in ${secs(r.ms)}` : late && fresh ? 'Out of time. It was' : r.close ? 'So close! It was' : 'Missed'}</p>
       <h2 class="display"><em>${esc(r.answer)}</em></h2>
       ${r.ok ? `<div class="sh-track" aria-hidden="true"><i style="--x:${Math.min(1, r.ms / LIMIT)}"></i><span>0s</span><span>${LIMIT / 1000}s</span></div>` : ''}
       <p class="muted">${[r.players >= 10 ? `${r.pct}% got today’s shot` : 'You’re one of the first to play today', beat, streak('shot') > 1 ? `${streak('shot')} days in a row` : ''].filter(Boolean).join(' · ')}</p>

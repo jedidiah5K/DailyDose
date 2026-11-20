@@ -15,7 +15,7 @@ export const LINEUP = [
   { k: 'blend', name: 'Blend', color: '#CF4F7D', emoji: '🥤',
     big: r => `${r.score} of 500`, small: r => blendTiles(r) + (r.beat != null ? ` · beat ${r.beat}%` : '') },
   { k: 'hilo', name: 'Drop', color: '#C99A1E', emoji: '💰',
-    big: r => r.bust ? `Busted on card ${r.rights + 2}` : `Banked ${r.banked.toLocaleString()}`, small: r => dropTiles(r) },
+    big: r => r.bust ? `Busted on call ${r.rights + 1}` : `Banked ${r.banked.toLocaleString()}`, small: r => dropTiles(r) },
   { k: 'link', name: 'Missing Link', color: '#2C9A88', emoji: '🔗',
     big: r => `${r.score} of 15`, small: r => `${r.solved} of 5 links` + (r.beat != null ? ` · beat ${r.beat}%` : '') },
   { k: 'ladder', name: 'Ladder', color: '#7D5FC6', emoji: '🪜',
@@ -30,7 +30,7 @@ export const nextUp = k => { const i = LINEUP.findIndex(g => g.k === k); return 
 // once all six are done, sharing the whole dose is. (#share and #all are wired by each game.)
 export function resultButtons(k) {
   const n = nextUp(k), name = LINEUP.find(g => g.k === k).name;
-  return n ? `<a class="btn wide" href="#${n.k}">Next shot: ${n.name}</a>
+  return n ? `<a class="btn wide" href="#${n.k}">Next: ${n.name}</a>
       <button class="link-quiet" id="share">Share ${name}</button><button class="link-quiet" id="all" hidden></button>`
     : `<button class="btn wide" id="all">Share your dose</button>
       <button class="link-quiet" id="share">Share just ${name}</button>`;

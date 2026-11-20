@@ -1,12 +1,14 @@
 // Makes Ladder puzzles for the next N days as SQL, plus the word list the server checks against.
-// Run: node tools/ladder-gen.mjs 45 > ladder.local.sql   (days already loaded are left alone)
+// Run: node tools/ladder-gen.mjs 45 [YYYY-MM-DD start] > ladder.local.sql   (days someone already played are left alone)
 // Each day: two everyday words (no plurals) whose shortest ladder is 4 to 6 steps, using only words
 // from content/words4.txt. par = that shortest number of steps; path = one way to do it.
+// The shortest ladder must need a detour (more steps than letters that differ), so it's never a straight
+// letter-by-letter swap like SIDE > HERB (playtest 2026-11-21: "no aha").
 import { readFileSync } from 'node:fs';
 import { randomInt } from 'node:crypto';
 
 const words = readFileSync(new URL('../content/words4.txt', import.meta.url), 'utf8').split(/\s+/).filter(w => /^[a-z]{4}$/.test(w));
-const set = new Set(words), days = +(process.argv[2] || 45);
+const set = new Set(words), days = +(process.argv[2] || 45), from = process.argv[3] ? Date.parse(process.argv[3]) : Date.now();
 const near = w => { const out = []; for (let i = 0; i < 4; i++) for (const c of 'abcdefghijklmnopqrstuvwxyz') { const v = w.slice(0, i) + c + w.slice(i + 1); if (v !== w && set.has(v)) out.push(v); } return out; };
 function shortest(a, b) {
   const prev = new Map([[a, null]]), q = [a];
@@ -17,14 +19,16 @@ function shortest(a, b) {
 }
 const ends = words.filter(w => !w.endsWith('s') && near(w).length >= 3), rows = [], used = new Set();
 for (let d = 0; d < days; d++) {
-  const day = new Date(Date.now() + d * 86400000).toISOString().slice(0, 10);
+  const day = new Date(from + d * 86400000).toISOString().slice(0, 10);
   for (;;) {
     const a = ends[randomInt(ends.length)], b = ends[randomInt(ends.length)], path = a !== b && !used.has(a) && !used.has(b) && shortest(a, b);
     if (!path || path.length - 1 < 4 || path.length - 1 > 6) continue;
+    if (path.length - 1 <= [...a].filter((ch, i) => ch !== b[i]).length) continue;   // needs a detour
     used.add(a); used.add(b);
     rows.push(`('ladder', '${day}', '${JSON.stringify({ start: a, end: b, par: path.length - 1, path })}'::jsonb)`);
     break;
   }
 }
 console.log(`insert into public.dose_words (word) values ${words.map(w => `('${w}')`).join(',')} on conflict do nothing;`);
-console.log(`insert into public.dose_puzzles (game, day, content) values\n${rows.join(',\n')}\non conflict (game, day) do nothing;`);
+console.log(`insert into public.dose_puzzles (game, day, content) values\n${rows.join(',\n')}\non conflict (game, day) do update set content = excluded.content
+  where not exists (select 1 from public.dose_plays p where p.game = excluded.game and p.day = excluded.day);`);

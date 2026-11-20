@@ -8,7 +8,7 @@ import { gameHeader, wireHelp, burst, toaster, roll, esc, timerBar } from '../ui
 
 const K = 'hilo';   // the old "drop" key belongs to the retired game
 export const dropTiles = r => '🟩'.repeat(r.rights) + (r.bust ? '💀' : '💰');
-export const dropLine = r => `${dropTiles(r)} ${r.bust ? `Busted on card ${r.rights + 2}` : `Banked ${r.banked.toLocaleString()}`}`;
+export const dropLine = r => `${dropTiles(r)} ${r.bust ? `Busted on call ${r.rights + 1}` : `Banked ${r.banked.toLocaleString()}`}`;
 const LIMIT = 7000;
 
 // Drop: a chain of cards with hidden numbers. Call the next one higher or lower in 7 seconds; every right
@@ -103,13 +103,13 @@ export function drop(app) {
     $('#step').textContent = r.bust ? 'bust' : r.banked.toLocaleString();
     $('#body').innerHTML = `<div class="bl-reveal"><p class="bl-mode">${esc(s.theme)}</p>
       <ol class="dr-chain">${r.chain.map((x, i) => `<li class="${i <= r.rights ? 'seen' : ''}${i === r.rights + 1 ? (r.bust ? ' bust' : ' stop') : ''}"><span>${esc(x.n)}</span><b>${esc(x.s)}</b></li>`).join('')}</ol></div>`;
-    const crowd = r.crowd != null ? `Most people stopped after ${r.crowd} right call${r.crowd === 1 ? '' : 's'}` : 'You’re one of the first to play today';
+    const crowd = r.crowd != null && r.players >= 10 ? `Most people stopped after ${r.crowd} right call${r.crowd === 1 ? '' : 's'}` : 'You’re one of the first to play today';
     $('#bottom').innerHTML = `<div class="result ${fresh ? 'rise' : ''}">
       <img class="g-mug" src="/art/mugs/hilo-${r.bust ? 'empty' : 'full'}.webp" alt="" width="80" height="66">
-      <p class="eyebrow">${r.cleared ? 'Cleared the whole chain' : r.bust ? `${late ? 'Out of time' : 'Busted'} on card ${r.rights + 2}` : `Banked after ${r.rights} right call${r.rights === 1 ? '' : 's'}`}</p>
+      <p class="eyebrow">${r.cleared ? 'Cleared the whole chain' : r.bust ? `${late ? 'Out of time' : 'Busted'} on call ${r.rights + 1}` : `Banked after ${r.rights} right call${r.rights === 1 ? '' : 's'}`}</p>
       <h2 class="display"><em>${r.banked.toLocaleString()}</em> banked</h2>
       <p class="bl-tiles">${dropTiles(r)}</p>
-      <p class="muted">${[crowd, r.beat != null ? `better than ${r.beat}%` : '', streak(K) > 1 ? `${streak(K)} days in a row` : ''].filter(Boolean).join(' · ')}</p>
+      <p class="muted">${[crowd, r.beat != null && r.players >= 10 ? `better than ${r.beat}%` : '', streak(K) > 1 ? `${streak(K)} days in a row` : ''].filter(Boolean).join(' · ')}</p>
       <div class="fr-on" id="fr-on"></div>
       ${resultButtons('hilo')}
       <p class="next-in">Tomorrow’s chain in <b data-cd>${countdown()}</b></p>

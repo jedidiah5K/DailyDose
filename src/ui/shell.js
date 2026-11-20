@@ -50,9 +50,9 @@ const HOWTO = {
     demo: `<div class="demo demo-blend"><p>US states</p><b>TEXAS · OHIO · IDAHO +3</b></div>` },
   hilo: { name: 'Drop', steps: ['Each card hides a number. Call the next card higher or lower within 7 seconds.', 'Every right call doubles your pot: 10, 20, 40, 80…', 'Bank it between cards whenever you like. One wrong call and the pot is gone.'],
     demo: `<div class="demo demo-blend"><p>Pot 80 → 160?</p><b>BANK IT · OR GO</b></div>` },
-  blend: { name: 'Blend', steps: ['Five prompts, 20 seconds each. Type the first thing that fits.', '“Think like everyone”: match the answer most people give. “Think like no one”: a real answer few people give.', 'Up to 100 points a prompt. A rare answer nobody saw coming is a 💎.'],
+  blend: { name: 'Blend', steps: ['Five prompts, 20 seconds each. Type the first thing that fits.', '“Think like everyone”: match the answer most people give. “Think like no one”: a real answer few people give. Only the rarest answers score near 100.', 'Up to 100 points a prompt. A rare answer nobody saw coming is a 💎.'],
     demo: `<div class="demo demo-blend"><p>A fruit that’s yellow</p><b>BANANA · 71%</b></div>` },
-  link: { name: 'Missing Link', steps: ['One hidden word goes with every clue. It can come before or after each clue.', 'You start with one clue. Stuck? Show another, or a wrong guess shows it for you. Up to three clues, three guesses.', 'Solve it on 1 clue for 3 points, 2 clues for 2, 3 clues for 1. Five links, any order.'],
+  link: { name: 'Missing Link', steps: ['One hidden word goes with every clue. It can come before or after each clue.', 'You start with one clue. Stuck? Show another, or a wrong guess shows it for you. Up to three clues, three guesses.', 'Solve it on 1 clue for 3 points, 2 clues for 2, 3 clues for 1. Each wrong guess costs a point too, so unsure? Ask for a clue.'],
     demo: `<div class="demo demo-link"><p><span>STAR</span><span>TRAFFIC</span><span>HOUSE</span></p><b>LIGHT</b></div>` },
 };
 

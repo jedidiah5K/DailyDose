@@ -22,7 +22,7 @@ export function link(app) {
       <div class="h-intro g-intro rise">
         <img class="g-mug" src="/art/mugs/link-empty.webp" alt="" width="104" height="97">
         <h2 class="display">Find the <em>link</em></h2>
-        <p>One hidden word goes with every clue, before or after. You start with one clue: the fewer you need, the more you score.</p>
+        <p>One hidden word goes with every clue, before or after. You start with one clue: the fewer clues and wrong guesses you need, the more you score.</p>
       </div>
       <div class="h-bottom"><button class="btn wide" id="begin">Order up</button></div>
     </section></div>
@@ -82,7 +82,7 @@ export function link(app) {
     if (w === '+') { say(''); draw(); return; }
     if (was.solved) { say(`${was.answer.toUpperCase()}. ${['On one clue!', 'Two clues.', 'Just in time.'][was.used - 1] || ''}`); SOUNDS.ok(); buzz(12); }
     else if (was.done) { say(w === '?' ? '' : `Not ${w.toUpperCase()}.`); SOUNDS.miss(); buzz(15); }
-    else { say(`Not ${w.toUpperCase()}. ${3 - was.tries.length} ${3 - was.tries.length === 1 ? 'try' : 'tries'} left${was.hint ? `. It starts with ${was.hint}.` : was.clues.length > l0 ? '. Here’s another clue.' : '.'}`); SOUNDS.miss(); buzz(15); }
+    else { say(`Not ${w.toUpperCase()} (−1 point). ${3 - was.tries.length} ${3 - was.tries.length === 1 ? 'try' : 'tries'} left${was.hint ? `. It starts with ${was.hint}.` : was.clues.length > l0 ? '. Here’s another clue.' : '.'}`); SOUNDS.miss(); buzz(15); }
     // a finished link moves you on to the next open one after a beat, so you see the answer first
     if (was.done && !r.result) { draw(); setTimeout(() => { if (!gone && s === r) { cur = nextOpen(k); draw(); } }, 1100); }
     else { draw(); if (!was.done) shake(); }

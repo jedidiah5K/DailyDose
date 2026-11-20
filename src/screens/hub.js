@@ -184,7 +184,9 @@ export function hub(app) {
 
     pull.addEventListener('click', () => {
       if (busy) return;
-      if (!sel) { SOUNDS.tap(); shareDose('story'); return; }
+      if (!sel) { SOUNDS.tap(); shareDose('story').then(r => { if (r !== 'saved' || gone) return;   // no share sheet (desktop): say what happened
+        const m = document.createElement('p'); m.className = 'ch-hint ch-complete'; m.innerHTML = 'Card saved!<small>Text copied too: paste it anywhere</small>';
+        m.style.cssText = `left:${L.w / 2}px;top:${by - bh * .4}px;font-size:${L.foot[1] * 2}px`; st.appendChild(m); later(() => m.remove(), 2600); }); return; }
       busy = true; const c = sel; SOUNDS.tap(); buzz(30);
       swap(mach, 'lever_2'); later(() => swap(mach, 'lever_1'), 1100);
       // a thin espresso stream into the mug, then steam
