@@ -5,8 +5,6 @@ import { pageHeader, tabBar } from '../ui/shell.js';
 import { getMe, setName, addFriend, removeFriend, friendsToday, hasAccount } from '../lib/cloud.js';
 import { resultFor, state, save } from '../lib/store.js';
 import { LINEUP } from '../ui/card.js';
-import { depth, tonight, GAMES } from '../lib/dive.js';
-import { dayKey } from '../lib/day.js';
 import { SOUNDS, buzz } from '../ui/feedback.js';
 
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => `&#${c.charCodeAt(0)};`);
@@ -70,8 +68,6 @@ export function nameForm(host, current, saved) {
   return f;
 }
 
-const fdeep = f => GAMES.reduce((m, k) => m + depth(k, f.results[k]), 0);
-
 export function friends(app) {
   let gone = false, me = null, list = [];
   app.innerHTML = `<main class="screen game friends has-tabs">
@@ -95,12 +91,10 @@ export function friends(app) {
 
   function drawList() {
     list.sort((a, b) => lit(b) - lit(a) || (a.name || '').localeCompare(b.name || ''));
-    // tonight's dive: each friend's depth on their note, and how many you've sunk deeper than
-    const mine = tonight(state.results, dayKey()), below = list.filter(f => fdeep(f) < mine).length;
-    $('#count').textContent = list.length ? `${list.length} friend${list.length === 1 ? '' : 's'} · today${mine && below ? ` · you sank deeper than ${below}` : ''}` : 'No friends yet';
+    $('#count').textContent = list.length ? `${list.length} friend${list.length === 1 ? '' : 's'} · today` : 'No friends yet';
     if (!list.length) { $('#list').innerHTML = '<li class="fr-empty">Send your code to a friend, or type theirs above. Then you’ll see each other’s results here every night.</li>'; return; }
     $('#list').innerHTML = list.map((f, i) => `<li class="fr-item">
-      <button class="fr-head" type="button" aria-expanded="false" data-i="${i}"><span class="fr-name">${nameOf(f)}</span>${dots(f)}<span class="fr-n mono">${fdeep(f)} m</span></button>
+      <button class="fr-head" type="button" aria-expanded="false" data-i="${i}"><span class="fr-name">${nameOf(f)}</span>${dots(f)}<span class="fr-n mono">${lit(f)}/${LINEUP.length}</span></button>
       <div class="fr-detail" hidden>
         <ul>${LINEUP.map(g => `<li style="--c:${g.color}"><span>${g.name}</span><b>${f.results[g.k] ? esc(g.big(f.results[g.k])) : '<span class="muted">Not yet</span>'}</b></li>`).join('')}</ul>
         <button class="link-quiet fr-remove" type="button" data-id="${esc(f.id)}">Remove ${nameOf(f)}</button>

@@ -2,8 +2,7 @@ import { countdown, puzzleNo, dayKey } from '../lib/day.js';
 import { state, save, resultFor, streak } from '../lib/store.js';
 import { playingToday, hasAccount, getMe } from '../lib/cloud.js';
 import { SOUNDS, buzz } from '../ui/feedback.js';
-import { tabBar, burst, roll } from '../ui/shell.js';
-import { depth, tonight, landmark, passed } from '../lib/dive.js';
+import { tabBar, burst } from '../ui/shell.js';
 import { ladderLine } from './ladder.js';
 import { linkLine } from './link.js';
 import { blendLine } from './blend.js';
@@ -214,35 +213,17 @@ export function hub(app) {
       el.dataset.busy = 1; face(el, b + 1);
       const p = put('fx_5', [pos[0], pos[1] - parseFloat(el.style.height) * .95, L.mug * .8], 8, 'ch-puff');
       later(() => { face(el, b); delete el.dataset.busy; p.remove(); }, ms); };
-    // the nightly dive (docs/dive-plan.md): how deep tonight's games have sunk you; it rolls down when you
-    // come back from a game, and each landmark you sank past pops up
-    const deep = tonight(state.results, today), was = deep - fresh.reduce((m, k) => m + depth(k, resultFor(k)), 0);
-    const spot = `left:${L.w / 2}px;top:${L.woman[1] - parseFloat(woman.style.height) * 1.02}px`;
-    const gauge = document.createElement('div'); gauge.className = 'ch-dive'; gauge.style.cssText = `${spot};font-size:${L.foot[1] * 1.6}px`;
-    gauge.innerHTML = `<b><span>${was}</span> m deep</b><small>${deep ? `past ${landmark(was)}` : 'on the foam: play a game to sink in'}</small><i style="--d:${was / 600}"></i>`;
-    st.appendChild(gauge);
-    const sank = passed(was, deep);
-    if (deep > was) later(() => {
-      roll(gauge.querySelector('span'), deep); gauge.querySelector('i').style.setProperty('--d', deep / 600);
-      later(() => { gauge.querySelector('small').textContent = `past ${landmark(deep)}`; }, 600);
-      sank.forEach((n, i) => later(() => {
-        const p = document.createElement('p'); p.className = 'ch-hint ch-complete'; p.innerHTML = `Deeper!<small>You sank past ${n}</small>`;
-        p.style.cssText = `${spot};font-size:${L.foot[1] * 2.2}px`; st.appendChild(p); gauge.style.opacity = 0; SOUNDS.drop?.();
-        later(() => p.classList.add('out'), 1200); later(() => { p.remove(); gauge.style.opacity = ''; }, 1600);
-      }, 900 + i * 1700));
-    }, 700);
     if (fresh.length) {
       const c = cups.find(x => x.g.k === fresh[0]), served = GAMES.filter(g => resultFor(g.k)).length;
       c.b.style.transition = 'none'; c.b.style.transform = at(c); void c.b.offsetWidth; c.b.style.transition = '';
       later(() => { c.b.style.transform = ''; SOUNDS.ok?.(); buzz(18); beam((served - 1) % 3, 1600); }, 450);
       // the last of the six: the café's one big moment. Everyone cheers, sparks, a sign over the counter.
       if (!next) later(() => {
-        gauge.style.opacity = 0; later(() => { gauge.style.opacity = ''; }, 4700);
         hint?.remove(); SOUNDS.fanfare(); burst('#F2A93B'); [0, 1, 2].forEach(i => later(() => beam(i, 2600), i * 160));
-        const sign = document.createElement('p'); sign.className = 'ch-hint ch-complete'; sign.innerHTML = `Dose complete!<small>${deep} m deep, down to ${landmark(deep)}</small>`;
-        sign.style.cssText = `${spot};font-size:${L.foot[1] * 3}px`;
+        const sign = document.createElement('p'); sign.className = 'ch-hint ch-complete'; sign.innerHTML = 'Dose complete!<small>All six shots served</small>';
+        sign.style.cssText = `left:${L.w / 2}px;top:${L.woman[1] - parseFloat(woman.style.height) * 1.02}px;font-size:${L.foot[1] * 3}px`;
         st.appendChild(sign); later(() => sign.classList.add('out'), 4200); later(() => sign.remove(), 4700);
-      }, 1500 + sank.length * 1700);
+      }, 1300);
       state.stickersSeen = { day: today, k: [...seen, ...fresh] }; save();
     }
 

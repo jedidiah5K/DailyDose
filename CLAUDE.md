@@ -48,7 +48,6 @@ src/lib/cloud.js         Supabase calls               src/lib/store.js          
 src/screens/me.js        You: name, account, stats    src/lib/badges.js         badges, worked out from results (nothing stored)
 src/screens/friends.js   friend codes, friends list, friends on result screens and the home row
 src/ui/card.js           LINEUP: each game's name, colour and result line (share card, friends, stats)
-src/lib/dive.js          the nightly dive: each result as 0-100 m of depth, landmarks (docs/dive-plan.md)
 tools/*-gen.mjs          make puzzle content as SQL (random secret per run; output *.local.sql is gitignored)
 ```
 
