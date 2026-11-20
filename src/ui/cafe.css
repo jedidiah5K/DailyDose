@@ -412,3 +412,39 @@ body { font-weight: 500; }
   .screen.game.has-tabs .tabbar { left: auto; right: calc(.6rem + env(safe-area-inset-right)); bottom: 50%; translate: 0 50%; flex-direction: column; }
   .screen.game.has-tabs .tab { min-width: 0; padding: .5rem .55rem; }
 }
+
+/* Rush: quick answers build a streak; new answers pop in; at the end the missed ones drop in faded */
+.game .ru-combo { display: inline-block; margin-left: 1rem; color: var(--bad); font: 700 1rem var(--pixel); }
+.game .ru-combo.pop { animation: ru-combo .3s cubic-bezier(.2, 1.6, .4, 1); display: inline-block; }
+@keyframes ru-combo { from { scale: 1.8; } }
+.game .ru-found li.new { animation: ru-new .28s cubic-bezier(.2, 1.5, .4, 1); }
+@keyframes ru-new { from { scale: .3; opacity: 0; } }
+.game .bl-now.kick { animation: ru-kick .22s ease-out; }
+@keyframes ru-kick { 30% { translate: -3px 1px; } 60% { translate: 3px -1px; } }
+.game .ru-found li.ghost { background: transparent; color: var(--muted); border: 2px dashed var(--muted); box-shadow: none;
+  animation: ru-drop .35s calc(.5s + var(--i) * .12s) cubic-bezier(.3, 1.4, .5, 1) both; }
+@keyframes ru-drop { from { translate: 0 -24px; opacity: 0; } }
+.game .ru-legend { margin: .3rem 0 0; font-size: .8rem; color: var(--muted); }
+@media (prefers-reduced-motion: reduce) { .game :is(.ru-combo.pop, .ru-found li.new, .bl-now.kick, .ru-found li.ghost) { animation: none; } }
+
+/* Drop: the face-down card wobbles before it turns; the pot glows hotter as it grows */
+.game .dr-card.next.deciding { animation: dr-decide .45s ease-in-out; }
+@keyframes dr-decide { 20% { rotate: -2deg; } 45% { rotate: 2deg; scale: 1.03; } 70% { rotate: -1deg; } }
+.game .dr-pot { transition: box-shadow .3s; }
+.game .dr-pot.heat-1 { box-shadow: 0 3px 0 #1E1009, 0 0 0 3px rgba(242,169,59,.5); }
+.game .dr-pot.heat-2 { box-shadow: 0 3px 0 #1E1009, 0 0 14px 3px rgba(242,169,59,.7); }
+.game .dr-pot.heat-3 { box-shadow: 0 3px 0 #1E1009, 0 0 18px 5px rgba(240,96,43,.75); animation: dr-hot 1s ease-in-out infinite; }
+.game .dr-pot.heat-4 { box-shadow: 0 3px 0 #1E1009, 0 0 24px 8px rgba(216,64,46,.85); animation: dr-hot .6s ease-in-out infinite; }
+@keyframes dr-hot { 50% { scale: 1.06; } }
+@media (prefers-reduced-motion: reduce) { .game :is(.dr-card.next.deciding, .dr-pot) { animation: none !important; } }
+.game .dr-pot.shatter[class] { animation: dr-shatter .45s ease-in forwards; }   /* a bust beats the glow */
+
+/* Blend: the top answers wait until your number lands, then slide in one by one with their bars filling */
+.game .bl-reveal .bl-share { font: 700 1.15em var(--pixel); color: var(--esp); }
+.game .bl-reveal:not(.landed) :is(.bl-top, .bl-top + *, .eyebrow) { visibility: hidden; }
+.game .bl-reveal.landed .bl-top li { animation: bl-in .3s calc(var(--n, 0) * .15s) cubic-bezier(.2, 1.3, .4, 1) both; }
+.game .bl-reveal.landed .bl-top li i { animation: bl-bar .6s calc(.1s + var(--n, 0) * .15s) ease-out both; }
+.game .bl-top li:nth-child(2) { --n: 1; } .game .bl-top li:nth-child(3) { --n: 2; }
+@keyframes bl-in { from { translate: -14px 0; opacity: 0; } }
+@keyframes bl-bar { from { width: 0; } }
+@media (prefers-reduced-motion: reduce) { .game .bl-reveal.landed .bl-top li, .game .bl-reveal.landed .bl-top li i { animation: none; } }

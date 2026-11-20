@@ -89,7 +89,6 @@ export function blend(app) {
     if (!r) { say('Couldn’t send that. Check your connection.'); try { s = await blendStart(); } catch (e) {} draw(); return; }
     s = r; revealK = k;
     const p = s.prompts[k];
-    if (p.gem) { SOUNDS.chime(); burst('#F2A93B'); } else if (p.points >= 35) { SOUNDS.ok(); buzz(12); } else { SOUNDS.miss(); buzz(15); }
     draw();
     if (s.result) { finish('blend', s.result, day); if (s.result.score >= 250) burst('var(--c-blend)'); result(s.result, true); }
   }
@@ -97,7 +96,7 @@ export function blend(app) {
   // After each answer: your points, how many said it, and the top three you were up against.
   function reveal(k) {
     const p = s.prompts[k];
-    const what = p.late || !p.raw ? 'Time’s up' : !p.answer ? 'Not on our list' : `${p.share}% said this`;
+    const what = p.late || !p.raw ? 'Time’s up' : !p.answer ? 'Not on our list' : '<b class="bl-share">0</b>% said this';
     const top = (p.top || []).map(([a, pct]) => `<li class="${a === p.answer ? 'me' : ''}"><span>${esc(nice(a))}</span><b>${pct}%</b><i style="--w:${pct}%"></i></li>`).join('');
     $('#body').innerHTML = `${dots()}<div class="bl-reveal rise ${p.mode}${p.gem ? ' gemmed' : ''}">
       <p class="bl-mode">${MODE[p.mode].name} · ${esc(p.q)}</p>
@@ -106,14 +105,25 @@ export function blend(app) {
       <p class="muted">${what}</p>
       <p class="eyebrow">Most said</p><ol class="bl-top">${top}</ol>
     </div>${s.result ? '' : `<div class="h-bottom"><button class="btn wide" id="next">${k + 1 < s.n ? 'Next prompt' : 'See your score'}</button></div>`}`;
-    roll($('[data-to]'));
+    // the reveal: "% said this" spins up like a slot and slows at the end, then the points land with
+    // their sound, then the top answers slide in
+    const share = $('.bl-share'), box = $('.bl-reveal');
+    const land = () => { box?.classList.add('landed'); roll($('[data-to]'));
+      if (p.gem) { SOUNDS.chime(); burst('#F2A93B'); } else if (p.points >= 35) { SOUNDS.ok(); buzz(12); } else { SOUNDS.miss(); buzz(15); } };
+    if (!share || matchMedia('(prefers-reduced-motion: reduce)').matches) { if (share) share.textContent = p.share; land(); }
+    else { const t0 = performance.now(); let last = -1;
+      const f = t => { if (!share.isConnected) return;
+        const x = Math.min(1, (t - t0) / 1100), v = Math.round(p.share * (1 - (1 - x) ** 3));
+        if (v !== last) { share.textContent = v; if (Math.floor(v / 4) !== Math.floor(last / 4)) SOUNDS.tick(); last = v; }
+        x < 1 ? requestAnimationFrame(f) : land(); };
+      requestAnimationFrame(f); }
     $('#next')?.addEventListener('click', () => { SOUNDS.tap(); revealK = -1; draw(); });
   }
 
   const past = () => `<ul class="bl-past">${s.prompts.map(p => `<li><span>${esc(p.q)}</span><b>${p.raw ? esc(nice(p.raw)) : '—'}</b><em>${p.points}</em></li>`).join('')}</ul>`;
 
   function result(r, fresh) {
-    const beat = r.beat != null ? `Better than ${r.beat}% of players today` : 'You’re one of the first to play today';
+    const beat = r.beat != null && r.players >= 10 ? `Better than ${r.beat}% of players today` : 'You’re one of the first to play today';
     const gems = r.gems.filter(Boolean).length;
     $('#bottom').innerHTML = `<div class="result ${fresh ? 'rise' : ''}">
       <img class="g-mug" src="/art/mugs/blend-full.webp" alt="" width="80" height="56">

@@ -66,6 +66,8 @@ export const SOUNDS = {
   launch: play(() => { noise(0, .18, .05, 1400); tone(320, 0, .18, 'sine', .06, 640); }),
   sink: play(() => { tone(880, 0, .12, 'triangle', .1); tone(1318.5, .08, .5, 'triangle', .09); tone(1760, .16, .6, 'sine', .05); noise(0, .05, .1, 5000); }),
   miss: play(() => { tone(220, 0, .25, 'sine', .12, 150); }),
+  // Drop: a heartbeat while a card waits for your call (lub-dub)
+  beat: play(() => { tone(62, 0, .12, 'sine', .2, 45); tone(58, .17, .1, 'sine', .14, 42); }),
   // all six done: a rising arpeggio with a sparkle on top
   fanfare: play(() => { [523.25, 659.25, 783.99, 1046.5, 1318.51].forEach((f, i) => tone(f, i * .09, .7, 'triangle', .07)); tone(2093, .5, .8, 'sine', .03); }),
   ok: play(() => { tone(988, 0, .1, 'triangle', .1); tone(1480, .05, .14, 'sine', .05); }),

@@ -84,7 +84,7 @@ export function ladder(app) {
   }
 
   function result(r, fresh) {
-    const beat = r.beat != null ? `Better than ${r.beat}% of players today` : r.solved ? 'You’re one of the first to finish today' : '';
+    const beat = r.beat != null && r.players >= 10 ? `Better than ${r.beat}% of players today` : r.solved ? 'You’re one of the first to finish today' : '';
     const best = !r.solved || r.steps > r.par ? `<p class="ld-path"><span class="eyebrow">A shortest ladder</span>${r.path.map(w => w.toUpperCase()).join(' → ')}</p>` : '';
     $('#bottom').innerHTML = `<div class="result ${fresh ? 'rise' : ''}">
       <img class="g-mug" src="/art/mugs/ladder-${r.solved ? 'full' : 'empty'}.webp" alt="" width="80" height="105">

@@ -91,7 +91,7 @@ export function link(app) {
   }
 
   function result(r, fresh) {
-    const beat = r.beat != null ? `Better than ${r.beat}% of players today` : 'You’re one of the first to finish today';
+    const beat = r.beat != null && r.players >= 10 ? `Better than ${r.beat}% of players today` : 'You’re one of the first to finish today';
     $('#bottom').innerHTML = `<div class="result ${fresh ? 'rise' : ''}">
       <img class="g-mug" src="/art/mugs/link-${r.solved ? 'full' : 'empty'}.webp" alt="" width="80" height="75">
       <p class="eyebrow">${r.solved === 5 ? 'All five linked' : `${r.solved} of 5 linked`}</p>

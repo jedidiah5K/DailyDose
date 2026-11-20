@@ -14,6 +14,7 @@ const LIMIT = 30000;
 export function rush(app) {
   const day = dayKey();
   let s = null, gone = false, done = false, stop = () => {}, queue = Promise.resolve();
+  let combo = 0, lastHit = 0;   // answers in quick succession build a streak (feel only: points don't change)
 
   app.innerHTML = `<main class="screen game rush">
     ${gameHeader('rush', 'Rush', '<span class="eyebrow mono" id="step"></span>')}
@@ -30,13 +31,13 @@ export function rush(app) {
   wireHelp(app, 'rush');
   const $ = q => app.querySelector(q);
   const say = toaster($('#msg'));
-  const chips = f => f.map(x => `<li class="p${x.p}">${esc(nice(x.a))}${x.p > 1 ? `<b>+${x.p}</b>` : ''}</li>`).join('');
+  const chips = (f, fresh) => f.map((x, i) => `<li class="p${x.p}${fresh && i === f.length - 1 ? ' new' : ''}">${esc(nice(x.a))}${x.p > 1 ? `<b>+${x.p}</b>` : ''}</li>`).join('');
 
   function play() {
     if (s.left_ms <= 0) { end(); return; }
     $('#body').innerHTML = `<div class="bl-now">
       <h2 class="display bl-q">${esc(s.q)}</h2>
-      <div class="bl-clock" aria-hidden="true"><i id="bar"></i></div><p class="bl-secs mono" id="secs"></p>
+      <div class="bl-clock" aria-hidden="true"><i id="bar"></i></div><p class="bl-secs mono"><span id="secs"></span><b class="ru-combo" id="combo" aria-live="polite"></b></p>
       <form id="form" class="bl-form ru-form" autocomplete="off"><input id="w" maxlength="30" autocorrect="on" autocapitalize="none" spellcheck="true" enterkeyhint="send" placeholder="Type one, press enter" aria-label="Your answer"><button class="btn">Add</button></form>
       <ul class="ru-found" id="found">${chips(s.found)}</ul>
     </div>`;
@@ -58,8 +59,17 @@ export function rush(app) {
     try { r = await rushAdd(w); } catch (e) { if (/time up/.test(e.message)) return; say('Couldn’t check that one.'); return; }
     if (gone || done) return;
     s = r;
-    if (r.last.p) { SOUNDS.tap(); buzz(8); $('#found').innerHTML = chips(s.found); roll($('#pts'), s.points); if (r.last.p === 3) say(`💎 ${nice(r.last.a)}: rare, +3`); }
-    else { SOUNDS.miss(); say(r.last.a ? `Already got ${nice(r.last.a)}.` : `“${w}” isn’t on our list.`); }
+    if (r.last.p) {
+      const now = Date.now(); combo = now - lastHit < 3500 ? combo + 1 : 1; lastHit = now;
+      SOUNDS.link(combo); buzz(combo > 2 ? 14 : 8); $('#found').innerHTML = chips(s.found, true); streakFx(); roll($('#pts'), s.points); if (r.last.p === 3) say(`💎 ${nice(r.last.a)}: rare, +3`); }
+    else { combo = 0; streakFx(); SOUNDS.miss(); say(r.last.a ? `Already got ${nice(r.last.a)}.` : `“${w}” isn’t on our list.`); }
+  }
+
+  // the streak badge grows with each quick answer; three or more gives the board a little kick
+  function streakFx() {
+    const b = $('#combo'), now = $('.bl-now'); if (!b) return;
+    b.textContent = combo > 1 ? `×${combo} streak` : ''; b.classList.remove('pop'); void b.offsetWidth; if (combo > 1) b.classList.add('pop');
+    if (combo > 2 && now) { now.classList.remove('kick'); void now.offsetWidth; now.classList.add('kick'); }
   }
 
   async function end() {
@@ -79,13 +89,12 @@ export function rush(app) {
   function draw() {
     const r = s.result;
     $('#step').textContent = `${r.points} pts`;
-    $('#body').innerHTML = `<div class="bl-reveal"><p class="bl-mode">${esc(s.q)}</p><ul class="ru-found">${chips(s.found)}</ul></div>`;
+    $('#body').innerHTML = `<div class="bl-reveal"><p class="bl-mode">${esc(s.q)}</p><ul class="ru-found">${chips(s.found)}${r.missed.map((m, i) => `<li class="ghost" style="--i:${i}">${esc(nice(m))}</li>`).join('')}</ul>${r.missed.length ? '<p class="ru-legend">Faded ones: answers you missed</p>' : ''}</div>`;
     $('#bottom').innerHTML = `<div class="result rise">
       <img class="g-mug" src="/art/mugs/rush-full.webp" alt="" width="80" height="75">
       <p class="eyebrow">${r.found} found${r.rare ? ` · ${r.rare} rare 💎` : ''}</p>
       <h2 class="display"><em>${r.points}</em> points</h2>
-      ${r.missed.length ? `<p class="muted ru-missed">You missed <b>${r.missed.map(x => esc(nice(x))).join(', ')}</b></p>` : ''}
-      <p class="muted">${[r.beat != null ? `Better than ${r.beat}% of players today` : 'You’re one of the first to play today', streak('rush') > 1 ? `${streak('rush')} days in a row` : ''].filter(Boolean).join(' · ')}</p>
+      <p class="muted">${[r.beat != null && r.players >= 10 ? `Better than ${r.beat}% of players today` : 'You’re one of the first to play today', streak('rush') > 1 ? `${streak('rush')} days in a row` : ''].filter(Boolean).join(' · ')}</p>
       <div class="fr-on" id="fr-on"></div>
       ${resultButtons('rush')}
       <p class="next-in">Tomorrow’s category in <b data-cd>${countdown()}</b></p>

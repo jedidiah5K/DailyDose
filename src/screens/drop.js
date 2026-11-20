@@ -16,7 +16,10 @@ const LIMIT = 7000;
 // The server holds the numbers and the clock; a card's number shows only after you call it.
 export function drop(app) {
   const day = dayKey();
-  let s = null, busy = false, gone = false, stop = () => {};
+  let s = null, busy = false, gone = false, stop = () => {}, beat = 0;
+  // the bigger the pot, the faster the heart: a lub-dub while a card waits for your call
+  const heart = step => { clearInterval(beat); SOUNDS.beat(); beat = setInterval(() => SOUNDS.beat(), Math.max(420, 1000 - step * 70)); };
+  const calm = () => clearInterval(beat);
 
   app.innerHTML = `<main class="screen game drop">
     ${gameHeader(K, 'Drop', '<span class="eyebrow mono" id="step"></span>')}
@@ -36,12 +39,12 @@ export function drop(app) {
   const fail = () => say(navigator.onLine ? 'Couldn’t reach the server. Try again.' : 'You’re offline. Drop needs a connection.');
 
   function draw(flash) {
-    stop();
+    stop(); calm();
     if (s.result) return done(s.result, flash);
     const last = s.chain.at(-1), step = s.calls.length;
     $('#step').textContent = `${step}/${s.len - 1}`;
     const head = `<p class="bl-mode">${esc(s.theme)}</p>
-      <p class="dr-pot">Pot <b id="pot">${flash === 'ok' ? s.pot / 2 : s.pot}</b></p>
+      <p class="dr-pot heat-${Math.min(4, Math.floor(s.calls.length / 2))}">Pot <b id="pot">${flash === 'ok' ? s.pot / 2 : s.pot}</b></p>
       <div class="dr-card ${flash || ''}"><span>${esc(last.n)}</span><b>${esc(last.s)}</b></div>`;
     if (s.next) {
       $('#body').innerHTML = `<div class="bl-now dr">${head}
@@ -51,6 +54,7 @@ export function drop(app) {
       app.querySelectorAll('[data-c]').forEach(b => b.addEventListener('click', () => call(b.dataset.c)));
       if (s.next.left_ms <= 0) return call('out');
       stop = timerBar($('#bar'), $('#secs'), Date.now() + s.next.left_ms, LIMIT, () => call('out'));
+      heart(step);
     } else {
       $('#body').innerHTML = `<div class="bl-now dr">${head}</div>
         <div class="h-bottom dr-next"><button class="btn wide" id="next">${step ? 'Next card' : 'Turn the first card'}</button>
@@ -68,9 +72,13 @@ export function drop(app) {
   }
 
   async function call(dir) {
-    if (busy) return; busy = true; stop();
+    if (busy) return; busy = true; stop(); calm();
+    // a beat of suspense: the face-down card wobbles before it turns over
+    app.querySelector('.dr-card.next')?.classList.add('deciding');
+    const wait = new Promise(t => setTimeout(t, 450));
     let r;
     for (let i = 0; i < 3 && !r; i++) { try { r = await hiloCall(dir); } catch (e) { if (/no card open/.test(e.message)) break; await new Promise(t => setTimeout(t, 500)); } }
+    await wait;
     busy = false;
     if (gone) return;
     if (!r) { fail(); try { s = await hiloStart(); draw(); } catch (e) {} return; }
@@ -124,5 +132,5 @@ export function drop(app) {
 
   $('#begin').addEventListener('click', () => { SOUNDS.tap(); buzz(); load(); });
   if (resultFor(K) || state.progress[K]?.day === day) load();
-  return () => { gone = true; stop(); };
+  return () => { gone = true; stop(); calm(); };
 }
