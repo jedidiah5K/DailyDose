@@ -61,7 +61,14 @@ addEventListener('dose:finish', () => {
   const fresh = [...earned(state.results)].filter(id => !state.badges.includes(id));
   if (!fresh.length) return;
   state.badges.push(...fresh); save();
-  fresh.forEach((id, i) => setTimeout(() => badgeToast(BADGES.find(b => b.id === id)), 2400 + i * 3200));
+  waiting.push(...fresh);
+});
+// New badges wait until you're back at the counter, so they never cover a result (playtest 2026-11-20).
+let waiting = [];
+addEventListener('hashchange', () => {
+  const name = location.hash.slice(1);
+  if (!waiting.length || (Object.hasOwn(SCREENS, name) && name !== 'hub')) return;
+  waiting.splice(0).forEach((id, i) => setTimeout(() => badgeToast(BADGES.find(b => b.id === id)), 2600 + i * 3200));
 });
 function badgeToast(b) {
   // Café look (Job, 2026-11-16): a cream signboard card drops in from the top, the badge stamps down,

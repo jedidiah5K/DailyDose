@@ -15,7 +15,7 @@ export const LINEUP = [
   { k: 'blend', name: 'Blend', color: '#CF4F7D', emoji: '🥤',
     big: r => `${r.score} of 500`, small: r => blendTiles(r) + (r.beat != null ? ` · beat ${r.beat}%` : '') },
   { k: 'hilo', name: 'Drop', color: '#C99A1E', emoji: '💰',
-    big: r => r.bust ? `Busted at ${r.rights + 1}` : `Banked ${r.banked.toLocaleString()}`, small: r => dropTiles(r) },
+    big: r => r.bust ? `Busted on card ${r.rights + 2}` : `Banked ${r.banked.toLocaleString()}`, small: r => dropTiles(r) },
   { k: 'link', name: 'Missing Link', color: '#2C9A88', emoji: '🔗',
     big: r => `${r.score} of 15`, small: r => `${r.solved} of 5 links` + (r.beat != null ? ` · beat ${r.beat}%` : '') },
   { k: 'ladder', name: 'Ladder', color: '#7D5FC6', emoji: '🪜',

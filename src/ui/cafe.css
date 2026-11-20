@@ -184,8 +184,6 @@ body { font-weight: 500; }
 .game .dr-calls .btn { border-image: none; border: 4px solid var(--esp); border-radius: 14px; background: var(--c); color: var(--cream);
   box-shadow: 0 5px 0 var(--wood); padding: 0 .6rem; gap: .4rem; text-transform: none; font-size: 1.2rem; }
 .game .dr-calls .btn[data-c="lo"] { background: #4A2C17; }
-.game .dr-calls .btn[data-c="hi"]::before { content: '▲'; color: var(--gold); }
-.game .dr-calls .btn[data-c="lo"]::before { content: '▼'; color: var(--gold); }
 .game .dr-calls .btn:active:not(:disabled) { translate: 0 3px; box-shadow: 0 2px 0 var(--wood); }
 .game .dr-next { gap: .7rem; }
 .game .dr-bank { display: flex; align-items: center; justify-content: center; gap: .5rem; min-height: 3.2rem; border-radius: 14px;
@@ -480,3 +478,6 @@ body { font-weight: 500; }
 .game .ld-rung.climb { animation: ld-climb .3s cubic-bezier(.2, 1.4, .4, 1); }
 @keyframes ld-climb { from { translate: 0 18px; opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .game .ld-rung.climb { animation: none; } }
+
+/* Letter tiles in a plain bold face: in the pixel font B read as G, C as O and E as € (playtest 2026-11-20) */
+.game :is(.ld-rung span, .lk-boxes i, .sh-shape i, .lk-clues li) { font-family: var(--read); font-weight: 800; letter-spacing: .02em; }

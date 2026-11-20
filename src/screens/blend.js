@@ -27,7 +27,7 @@ export function blend(app) {
     <div class="g-play"><section id="body" class="bl-body">
       <div class="h-intro g-intro rise">
         <img class="g-mug" src="/art/mugs/blend-empty.webp" alt="" width="104" height="72">
-        <h2 class="display">Blend in.<br><em>Or don’t.</em></h2>
+        <h2 class="display">Blend in. <br><em>Or don’t.</em></h2>
         <p>Five prompts, 20 seconds each. Type the first thing that fits. Some want what everyone says, some want what nobody says.</p>
       </div>
       <div class="h-bottom"><button class="btn wide" id="begin">Order up</button></div>
@@ -45,7 +45,7 @@ export function blend(app) {
   function draw() {
     stop();
     const k = s.prompts.length - 1, cur = s.prompts[k];
-    $('#step').textContent = s.result ? `${s.result.score}/500` : `${Math.min(s.prompts.filter(p => p.done).length + 1, s.n)}/${s.n}`;
+    $('#step').textContent = s.result ? `${s.result.score}/500` : `${revealK >= 0 ? revealK + 1 : Math.min(s.prompts.filter(p => p.done).length + 1, s.n)}/${s.n}`;
     if (s.result && revealK < 0) { $('#body').innerHTML = dots() + past(); return; }
     if (revealK >= 0) return reveal(revealK);
     if (cur && !cur.done) return play(k, cur);

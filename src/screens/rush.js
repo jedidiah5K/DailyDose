@@ -21,7 +21,7 @@ export function rush(app) {
     <div class="g-play"><section id="body" class="bl-body">
       <div class="h-intro g-intro rise">
         <img class="g-mug" src="/art/mugs/rush-empty.webp" alt="" width="104" height="98">
-        <h2 class="display">Thirty seconds.<br><em>Go.</em></h2>
+        <h2 class="display">Thirty seconds. <br><em>Go.</em></h2>
         <p>One category. Type as many as you can, one at a time. Rare ones are worth more.</p>
       </div>
       <div class="h-bottom"><button class="btn wide" id="begin">Order up</button></div>

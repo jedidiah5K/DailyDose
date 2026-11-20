@@ -8,7 +8,7 @@ import { gameHeader, wireHelp, burst, toaster, roll, esc, timerBar } from '../ui
 
 const K = 'hilo';   // the old "drop" key belongs to the retired game
 export const dropTiles = r => '🟩'.repeat(r.rights) + (r.bust ? '💀' : '💰');
-export const dropLine = r => `${dropTiles(r)} ${r.bust ? `Busted at ${r.rights + 1}` : `Banked ${r.banked.toLocaleString()}`}`;
+export const dropLine = r => `${dropTiles(r)} ${r.bust ? `Busted on card ${r.rights + 2}` : `Banked ${r.banked.toLocaleString()}`}`;
 const LIMIT = 7000;
 
 // Drop: a chain of cards with hidden numbers. Call the next one higher or lower in 7 seconds; every right
@@ -16,7 +16,7 @@ const LIMIT = 7000;
 // The server holds the numbers and the clock; a card's number shows only after you call it.
 export function drop(app) {
   const day = dayKey();
-  let s = null, busy = false, gone = false, stop = () => {}, beat = 0;
+  let s = null, busy = false, gone = false, stop = () => {}, beat = 0, late = false;
   // the bigger the pot, the faster the heart: a lub-dub while a card waits for your call
   const heart = step => { clearInterval(beat); SOUNDS.beat(); beat = setInterval(() => SOUNDS.beat(), Math.max(420, 1000 - step * 70)); };
   const calm = () => clearInterval(beat);
@@ -26,7 +26,7 @@ export function drop(app) {
     <div class="g-play"><section id="body" class="bl-body">
       <div class="h-intro g-intro rise">
         <img class="g-mug" src="/art/mugs/hilo-empty.webp" alt="" width="104" height="85">
-        <h2 class="display">Bank it,<br>or <em>let it ride.</em></h2>
+        <h2 class="display">Bank it, <br>or <em>let it ride.</em></h2>
         <p>Higher or lower, 7 seconds a card. Every right call doubles your pot. Stop whenever you like. One wrong call and you lose it all.</p>
       </div>
       <div class="h-bottom"><button class="btn wide" id="begin">Order up</button></div>
@@ -85,7 +85,7 @@ export function drop(app) {
     s = r;
     const ok = s.calls.at(-1)?.ok;
     if (ok) { SOUNDS.ok(); buzz(12); } else { SOUNDS.miss(); buzz([30, 40, 30]); app.querySelector('.dr-pot')?.classList.add('shatter'); }
-    if (dir === 'out') say('Time’s up.');
+    if (dir === 'out') { late = true; say('Time’s up.'); }
     // let the pot shatter first; taps stay locked until the result shows
     if (ok) draw('ok'); else { busy = true; setTimeout(() => { busy = false; if (!gone) draw('bust'); }, 450); }
   }
@@ -106,7 +106,7 @@ export function drop(app) {
     const crowd = r.crowd != null ? `Most people stopped after ${r.crowd} right call${r.crowd === 1 ? '' : 's'}` : 'You’re one of the first to play today';
     $('#bottom').innerHTML = `<div class="result ${fresh ? 'rise' : ''}">
       <img class="g-mug" src="/art/mugs/hilo-${r.bust ? 'empty' : 'full'}.webp" alt="" width="80" height="66">
-      <p class="eyebrow">${r.cleared ? 'Cleared the whole chain' : r.bust ? `Busted on card ${r.rights + 2}` : `Banked after ${r.rights} right call${r.rights === 1 ? '' : 's'}`}</p>
+      <p class="eyebrow">${r.cleared ? 'Cleared the whole chain' : r.bust ? `${late ? 'Out of time' : 'Busted'} on card ${r.rights + 2}` : `Banked after ${r.rights} right call${r.rights === 1 ? '' : 's'}`}</p>
       <h2 class="display"><em>${r.banked.toLocaleString()}</em> banked</h2>
       <p class="bl-tiles">${dropTiles(r)}</p>
       <p class="muted">${[crowd, r.beat != null ? `better than ${r.beat}%` : '', streak(K) > 1 ? `${streak(K)} days in a row` : ''].filter(Boolean).join(' · ')}</p>

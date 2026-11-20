@@ -21,7 +21,7 @@ export function ladder(app) {
     <div class="g-play"><section id="body" class="ld-body">
       <div class="h-intro g-intro rise">
         <img class="g-mug" src="/art/mugs/ladder-empty.webp" alt="" width="104" height="137">
-        <h2 class="display">One letter<br>at a <em>time</em></h2>
+        <h2 class="display">One letter <br>at a <em>time</em></h2>
         <p>Turn the top word into the bottom word. Change one letter per step, and every step has to be a real word. Fewest steps wins.</p>
       </div>
       <div class="h-bottom"><button class="btn wide" id="begin">Order up</button></div>
@@ -35,7 +35,8 @@ export function ladder(app) {
   let toastT = 0;
   const say = t => { const m = $('#msg'); m.textContent = t; m.classList.remove('pop'); void m.offsetWidth; m.classList.add('pop'); clearTimeout(toastT); if (t) toastT = setTimeout(() => { m.textContent = ''; }, 2800); };
   // a wrong or rejected word shakes the ladder
-  const shake = () => { const b = $('#body'); b.classList.remove('nope'); void b.offsetWidth; b.classList.add('nope'); };
+  // …and selects the word, so typing the next try replaces it instead of doing nothing
+  const shake = () => { const b = $('#body'); b.classList.remove('nope'); void b.offsetWidth; b.classList.add('nope'); $('#w')?.select(); };
 
   // A rung, with the letter that changed from the rung above lit up.
   // Letters already matching the goal word glow, so every good step visibly gets you closer.

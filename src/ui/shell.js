@@ -3,7 +3,9 @@
 import { puzzleNo, dayKey } from '../lib/day.js';
 
 // Themed days (Job, 2026-11-15): the day's puzzles lean into one topic.
-const THEMES = { 1: 'Movie Monday', 4: 'Throwback Thursday', 5: 'Music Friday' };
+// Only Rush and Drop puzzles follow the theme, so only they show it. Friday has no music puzzles yet
+// (playtest 2026-11-20: "Music Friday" over African countries read as a bug); add 5: 'Music Friday' back once it does.
+const THEMES = { 1: 'Movie Monday', 4: 'Throwback Thursday' }, THEMED = ['rush', 'hilo'];
 export const themeToday = () => THEMES[new Date(`${dayKey()}T12:00`).getDay()] || '';
 import { icon } from './icons.js';
 import { SOUNDS, buzz } from './feedback.js';
@@ -12,7 +14,7 @@ const calm = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 export const gameHeader = (k, name, right = '') => `<header class="v-top gm-top g-${k}">
   <a href="#" class="back" aria-label="Back to all games" title="Back"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></a>
-  <p class="gm-title">${icon(k)}<b>${name}</b><span>No. ${puzzleNo()}${themeToday() && k !== 'shot' ? `<small>${themeToday()}</small>` : ''}</span></p>
+  <p class="gm-title">${icon(k)}<b>${name}</b><span>No. ${puzzleNo()}${themeToday() && THEMED.includes(k) ? `<small>${themeToday()}</small>` : ''}</span></p>
   <div class="gm-right">${right}<button class="gm-help" id="help" type="button" aria-label="How to play" title="How to play">?</button></div>
 </header>`;
 
@@ -75,8 +77,8 @@ export function howTo(k) {
 export function wireHelp(app, k) {
   const help = app.querySelector('#help');
   help?.addEventListener('click', () => { SOUNDS.tap(); howTo(k); });
-  // only if the player is still on this game when the timer fires
-  try { if (!localStorage.getItem(`dose:seen:${k}`)) { localStorage.setItem(`dose:seen:${k}`, '1'); setTimeout(() => location.hash === `#${k}` && howTo(k), 350); } } catch (e) {}
+  // no pop-up on a first visit any more: the intro card already explains the game, and two screens
+  // before playing was one too many (playtest 2026-11-20). The "?" opens it any time.
 }
 
 // Finish: a burst of sparks in the game's colour from the middle of the screen.

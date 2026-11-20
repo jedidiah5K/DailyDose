@@ -29,8 +29,9 @@ export async function user() {
 }
 export const isGuest = async () => (await sb.auth.getSession()).data.session?.user?.is_anonymous !== false;
 
-// How many people played anything today. Works without signing in.
+// How many people played anything today. Signed-in players only (guests count once their session exists).
 export async function playingToday() {
+  if (!(await sb.auth.getSession()).data.session) return null;
   const { data, error } = await sb.rpc('dose_players_today');
   if (error) throw error;
   return data;

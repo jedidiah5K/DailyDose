@@ -22,7 +22,7 @@ export function shot(app) {
     <div class="g-play"><section id="body" class="bl-body">
       <div class="h-intro g-intro rise">
         <img class="g-mug" src="/art/mugs/shot-empty.webp" alt="" width="104" height="140">
-        <h2 class="display">One question.<br><em>Seven seconds.</em></h2>
+        <h2 class="display">One question. <br><em>Seven seconds.</em></h2>
         <p>No options to pick from, no second try. Type the answer before the clock runs out.</p>
       </div>
       <div class="h-bottom"><button class="btn wide" id="begin">Order up</button></div>
@@ -70,7 +70,7 @@ export function shot(app) {
   }
 
   function result(r, fresh) {
-    const beat = r.ok && r.beat != null ? `Faster than ${r.beat}% who got it` : '';
+    const beat = r.ok && r.beat != null && r.players >= 10 ? `Faster than ${r.beat}% who got it` : '';
     $('#bottom').innerHTML = `<div class="result ${fresh ? 'rise' : ''}">
       <img class="g-mug" src="/art/mugs/shot-${r.ok ? 'full' : 'empty'}.webp" alt="" width="80" height="108">
       <p class="eyebrow">${r.ok ? `Got it in ${secs(r.ms)}` : r.close ? 'So close! It was' : 'Missed'}</p>
