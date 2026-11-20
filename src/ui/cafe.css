@@ -22,12 +22,12 @@ body { font-weight: 500; }
 /* café game colours everywhere a game shows its colour (icons, pop-up demos) */
 .g-shot { --c: #FFC93C; } .g-blend { --c: #FF8A5B; } .g-rush { --c: #F0452B; } .g-hilo { --c: #1F9A5D; } .g-link { --c: #3D6FD9; } .g-ladder { --c: #C9A46A; }
 .g-shot, .g-blend, .g-ladder, .game.shot, .game.blend, .game.ladder { --on-c: #3A2214; }
-.game.shot { --c: #FFC93C; --world: url(/art/worlds/shot.webp); }
-.game.blend { --c: #FF8A5B; --world: url(/art/worlds/blend.webp); }
-.game.rush { --c: #F0452B; --world: url(/art/worlds/rush.webp); }
-.game.drop { --c: #1F9A5D; --world: url(/art/worlds/hilo.webp); }
-.game.mlink { --c: #3D6FD9; --world: url(/art/worlds/link.webp); }
-.game.ladder { --c: #C9A46A; --world: url(/art/worlds/ladder.webp); }
+.game.shot { --c: #FFC93C; --world: url(/art/worlds/shot-cafe.webp); }
+.game.blend { --c: #FF8A5B; --world: url(/art/worlds/blend-cafe.webp); }
+.game.rush { --c: #F0452B; --world: url(/art/worlds/rush-cafe.webp); }
+.game.drop { --c: #1F9A5D; --world: url(/art/worlds/hilo-cafe.webp); }
+.game.mlink { --c: #3D6FD9; --world: url(/art/worlds/link-cafe.webp); }
+.game.ladder { --c: #C9A46A; --world: url(/art/worlds/ladder-cafe.webp); }
 
 /* type: one pixel face; weight and size do the hierarchy */
 .screen.game .display { font-family: var(--pixel); font-weight: 700; letter-spacing: 0; line-height: 1.05; }
