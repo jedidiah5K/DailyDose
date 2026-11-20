@@ -23,6 +23,19 @@ export const LINEUP = [
 ];
 export const doneTonight = () => LINEUP.filter(g => resultFor(g.k)).map(g => ({ ...g, r: resultFor(g.k) }));
 
+// The next game still to play tonight, going round the counter from this one; null once the dose is done.
+export const nextUp = k => { const i = LINEUP.findIndex(g => g.k === k); return [...LINEUP.slice(i + 1), ...LINEUP.slice(0, i)].find(g => !resultFor(g.k)) || null; };
+
+// Every result screen ends the same way: the next shot is the main button while games are left;
+// once all six are done, sharing the whole dose is. (#share and #all are wired by each game.)
+export function resultButtons(k) {
+  const n = nextUp(k), name = LINEUP.find(g => g.k === k).name;
+  return n ? `<a class="btn wide" href="#${n.k}">Next shot: ${n.name}</a>
+      <button class="link-quiet" id="share">Share ${name}</button><button class="link-quiet" id="all" hidden></button>`
+    : `<button class="btn wide" id="all">Share your whole dose</button>
+      <button class="link-quiet" id="share">Share just ${name}</button>`;
+}
+
 const SITE = 'daily-dose-azure.vercel.app';   // the game's address, printed on the card even when made on a test copy
 const FONT = '"Pixelify Sans", system-ui, sans-serif';
 // What each game's mug says on the card.

@@ -12,7 +12,7 @@ const calm = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 export const gameHeader = (k, name, right = '') => `<header class="v-top gm-top g-${k}">
   <a href="#" class="back" aria-label="Back to all games" title="Back"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></a>
-  <p class="gm-title">${icon(k)}<b>${name}</b><span>No. ${puzzleNo()}${themeToday() && k !== 'shot' ? ` · ${themeToday()}` : ''}</span></p>
+  <p class="gm-title">${icon(k)}<b>${name}</b><span>No. ${puzzleNo()}${themeToday() && k !== 'shot' ? `<small>${themeToday()}</small>` : ''}</span></p>
   <div class="gm-right">${right}<button class="gm-help" id="help" type="button" aria-label="How to play" title="How to play">?</button></div>
 </header>`;
 
@@ -73,8 +73,10 @@ export function howTo(k) {
 
 // The "?" button, and the first visit to each game opens the pop-up by itself.
 export function wireHelp(app, k) {
-  app.querySelector('#help')?.addEventListener('click', () => { SOUNDS.tap(); howTo(k); });
-  try { if (!localStorage.getItem(`dose:seen:${k}`)) { localStorage.setItem(`dose:seen:${k}`, '1'); setTimeout(() => howTo(k), 350); } } catch (e) {}
+  const help = app.querySelector('#help');
+  help?.addEventListener('click', () => { SOUNDS.tap(); howTo(k); });
+  // only if the player is still on this game when the timer fires
+  try { if (!localStorage.getItem(`dose:seen:${k}`)) { localStorage.setItem(`dose:seen:${k}`, '1'); setTimeout(() => location.hash === `#${k}` && howTo(k), 350); } } catch (e) {}
 }
 
 // Finish: a burst of sparks in the game's colour from the middle of the screen.

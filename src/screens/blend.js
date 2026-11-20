@@ -1,5 +1,5 @@
 import { dayKey, countdown, clock } from '../lib/day.js';
-import { shareDose } from '../ui/card.js';
+import { shareDose, resultButtons } from '../ui/card.js';
 import { state, save, finish, resultFor, streak } from '../lib/store.js';
 import { blendStart, blendOpen, blendAnswer } from '../lib/cloud.js';
 import { SOUNDS, buzz } from '../ui/feedback.js';
@@ -30,7 +30,7 @@ export function blend(app) {
         <h2 class="display">Blend in.<br><em>Or don’t.</em></h2>
         <p>Five prompts, 20 seconds each. Type the first thing that fits. Some want what everyone says, some want what nobody says.</p>
       </div>
-      <div class="h-bottom"><button class="btn wide" id="begin">Start</button></div>
+      <div class="h-bottom"><button class="btn wide" id="begin">Order up</button></div>
     </section></div>
     <div class="g-side"><p class="v-msg top" id="msg" role="status"></p><section id="bottom"></section></div>
   </main>`;
@@ -122,10 +122,9 @@ export function blend(app) {
       <p class="bl-tiles">${blendTiles(r)}</p>
       <p class="muted">${[beat, streak('blend') > 1 ? `${streak('blend')} days in a row` : ''].filter(Boolean).join(' · ')}</p>
       <div class="fr-on" id="fr-on"></div>
-      <button class="btn wide" id="share">Share Blend</button>
-      <button class="link-quiet" id="all">Share today’s whole dose</button>
+      ${resultButtons('blend')}
       <p class="next-in">Tomorrow’s prompts in <b data-cd>${countdown()}</b></p>
-      <a class="link center" href="#">All games</a>
+      <a class="link center" href="#">Back to the counter</a>
     </div>`;
     if (fresh) SOUNDS.chime();
     const send = only => async () => { SOUNDS.tap(); if (await shareDose('story', only) === 'saved') say('Image saved and the text copied. Paste it anywhere.'); };

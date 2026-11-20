@@ -1,5 +1,5 @@
 import { dayKey, puzzleNo, countdown, clock } from '../lib/day.js';
-import { shareDose } from '../ui/card.js';
+import { shareDose, resultButtons } from '../ui/card.js';
 import { state, save, finish, resultFor, streak } from '../lib/store.js';
 import { ladderStart, ladderStep } from '../lib/cloud.js';
 import { SOUNDS, buzz } from '../ui/feedback.js';
@@ -24,7 +24,7 @@ export function ladder(app) {
         <h2 class="display">One letter<br>at a <em>time</em></h2>
         <p>Turn the top word into the bottom word. Change one letter per step, and every step has to be a real word. Fewest steps wins.</p>
       </div>
-      <div class="h-bottom"><button class="btn wide" id="begin">Start</button></div>
+      <div class="h-bottom"><button class="btn wide" id="begin">Order up</button></div>
     </section></div>
     <aside class="g-side">    <p class="v-msg top" id="msg" role="status"></p>
     <section id="bottom"></section></aside>
@@ -93,10 +93,9 @@ export function ladder(app) {
       ${best}
       <p class="muted">${[beat, r.solved ? `in ${clock(r.ms)}` : '', streak('ladder') > 1 ? `${streak('ladder')} days in a row` : ''].filter(Boolean).join(' · ')}</p>
       <div class="fr-on" id="fr-on"></div>
-      <button class="btn wide" id="share">Share Ladder</button>
-      <button class="link-quiet" id="all">Share today’s whole dose</button>
+      ${resultButtons('ladder')}
       <p class="next-in">Tomorrow’s ladder in <b data-cd>${countdown()}</b></p>
-      <a class="link center" href="#">All games</a>
+      <a class="link center" href="#">Back to the counter</a>
     </div>`;
     if (fresh) { r.solved ? SOUNDS.chime() : SOUNDS.miss(); buzz(r.solved ? 30 : 10); }
     const send = (fmt, only) => async () => { SOUNDS.tap(); if (await shareDose(fmt, only) === 'saved') say('Image saved and the text copied. Paste it anywhere.'); };

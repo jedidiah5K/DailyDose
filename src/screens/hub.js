@@ -2,7 +2,7 @@ import { countdown, puzzleNo, dayKey } from '../lib/day.js';
 import { state, save, resultFor, streak } from '../lib/store.js';
 import { playingToday, hasAccount, getMe } from '../lib/cloud.js';
 import { SOUNDS, buzz } from '../ui/feedback.js';
-import { tabBar } from '../ui/shell.js';
+import { tabBar, burst } from '../ui/shell.js';
 import { ladderLine } from './ladder.js';
 import { linkLine } from './link.js';
 import { blendLine } from './blend.js';
@@ -207,13 +207,23 @@ export function hub(app) {
     });
 
     if (next) pick(cups[GAMES.indexOf(next)], true); else label.textContent = 'Get your dose card';
-    // a drink you just finished gets served: it slides from the spout to its coaster and the regular beams
+    // a drink you just finished gets served: it slides from the spout to its coaster and the next regular
+    // in the queue beams (the man, then the woman, then the teen, round again)
+    const beam = (i, ms) => { const [el, b] = crowd[i], pos = [L.man, L.woman, L.teen][i];
+      el.dataset.busy = 1; face(el, b + 1);
+      const p = put('fx_5', [pos[0], pos[1] - parseFloat(el.style.height) * .95, L.mug * .8], 8, 'ch-puff');
+      later(() => { face(el, b); delete el.dataset.busy; p.remove(); }, ms); };
     if (fresh.length) {
-      const c = cups.find(x => x.g.k === fresh[0]);
+      const c = cups.find(x => x.g.k === fresh[0]), served = GAMES.filter(g => resultFor(g.k)).length;
       c.b.style.transition = 'none'; c.b.style.transform = at(c); void c.b.offsetWidth; c.b.style.transition = '';
-      later(() => { c.b.style.transform = ''; man.dataset.busy = 1; face(man, 2); SOUNDS.ok?.(); buzz(18);
-        const p = put('fx_5', [L.man[0], L.man[1] - parseFloat(man.style.height) * .95, L.mug * .8], 8, 'ch-puff');
-        later(() => { face(man, 1); delete man.dataset.busy; p.remove(); }, 1600); }, 450);
+      later(() => { c.b.style.transform = ''; SOUNDS.ok?.(); buzz(18); beam((served - 1) % 3, 1600); }, 450);
+      // the last of the six: the café's one big moment. Everyone cheers, sparks, a sign over the counter.
+      if (!next) later(() => {
+        hint?.remove(); SOUNDS.fanfare(); burst('#F2A93B'); [0, 1, 2].forEach(i => later(() => beam(i, 2600), i * 160));
+        const sign = document.createElement('p'); sign.className = 'ch-hint ch-complete'; sign.innerHTML = 'Dose complete!<small>All six shots served</small>';
+        sign.style.cssText = `left:${L.w / 2}px;top:${L.woman[1] - parseFloat(woman.style.height) * 1.02}px;font-size:${L.foot[1] * 3}px`;
+        st.appendChild(sign); later(() => sign.classList.add('out'), 4200); later(() => sign.remove(), 4700);
+      }, 1300);
       state.stickersSeen = { day: today, k: [...seen, ...fresh] }; save();
     }
 

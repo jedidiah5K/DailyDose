@@ -1,5 +1,5 @@
 import { dayKey, countdown } from '../lib/day.js';
-import { shareDose } from '../ui/card.js';
+import { shareDose, resultButtons } from '../ui/card.js';
 import { state, save, finish, resultFor, streak } from '../lib/store.js';
 import { rushStart, rushOpen, rushAdd, rushFinish } from '../lib/cloud.js';
 import { SOUNDS, buzz } from '../ui/feedback.js';
@@ -23,7 +23,7 @@ export function rush(app) {
         <h2 class="display">Thirty seconds.<br><em>Go.</em></h2>
         <p>One category. Type as many as you can, one at a time. Rare ones are worth more.</p>
       </div>
-      <div class="h-bottom"><button class="btn wide" id="begin">Start the clock</button></div>
+      <div class="h-bottom"><button class="btn wide" id="begin">Order up</button></div>
     </section></div>
     <div class="g-side"><p class="v-msg top" id="msg" role="status"></p><section id="bottom"></section></div>
   </main>`;
@@ -87,10 +87,9 @@ export function rush(app) {
       ${r.missed.length ? `<p class="muted ru-missed">You missed <b>${r.missed.map(esc).join(', ')}</b></p>` : ''}
       <p class="muted">${[r.beat != null ? `Better than ${r.beat}% of players today` : 'You’re one of the first to play today', streak('rush') > 1 ? `${streak('rush')} days in a row` : ''].filter(Boolean).join(' · ')}</p>
       <div class="fr-on" id="fr-on"></div>
-      <button class="btn wide" id="share">Share Rush</button>
-      <button class="link-quiet" id="all">Share today’s whole dose</button>
+      ${resultButtons('rush')}
       <p class="next-in">Tomorrow’s category in <b data-cd>${countdown()}</b></p>
-      <a class="link center" href="#">All games</a>
+      <a class="link center" href="#">Back to the counter</a>
     </div>`;
     const send = only => async () => { SOUNDS.tap(); if (await shareDose('story', only) === 'saved') say('Image saved and the text copied. Paste it anywhere.'); };
     $('#share').addEventListener('click', send('rush'));

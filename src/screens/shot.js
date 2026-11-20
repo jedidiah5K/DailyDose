@@ -1,5 +1,5 @@
 import { dayKey, countdown } from '../lib/day.js';
-import { shareDose } from '../ui/card.js';
+import { shareDose, resultButtons } from '../ui/card.js';
 import { state, save, finish, resultFor, streak } from '../lib/store.js';
 import { shotStart, shotOpen, shotAnswer } from '../lib/cloud.js';
 import { SOUNDS, buzz } from '../ui/feedback.js';
@@ -24,7 +24,7 @@ export function shot(app) {
         <h2 class="display">One question.<br><em>Seven seconds.</em></h2>
         <p>No options to pick from, no second try. Type the answer before the clock runs out.</p>
       </div>
-      <div class="h-bottom"><button class="btn wide" id="begin">Take the shot</button></div>
+      <div class="h-bottom"><button class="btn wide" id="begin">Order up</button></div>
     </section></div>
     <div class="g-side"><p class="v-msg top" id="msg" role="status"></p><section id="bottom"></section></div>
   </main>`;
@@ -69,10 +69,9 @@ export function shot(app) {
       <h2 class="display"><em>${esc(r.answer)}</em></h2>
       <p class="muted">${[`${r.pct}% got today’s shot`, beat, streak('shot') > 1 ? `${streak('shot')} days in a row` : ''].filter(Boolean).join(' · ')}</p>
       <div class="fr-on" id="fr-on"></div>
-      <button class="btn wide" id="share">Share The Shot</button>
-      <button class="link-quiet" id="all">Share today’s whole dose</button>
+      ${resultButtons('shot')}
       <p class="next-in">Tomorrow’s shot in <b data-cd>${countdown()}</b></p>
-      <a class="link center" href="#">All games</a>
+      <a class="link center" href="#">Back to the counter</a>
     </div>`;
     const send = only => async () => { SOUNDS.tap(); if (await shareDose('story', only) === 'saved') say('Image saved and the text copied. Paste it anywhere.'); };
     $('#share').addEventListener('click', send('shot'));

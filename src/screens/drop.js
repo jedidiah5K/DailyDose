@@ -1,5 +1,5 @@
 import { dayKey, countdown } from '../lib/day.js';
-import { shareDose } from '../ui/card.js';
+import { shareDose, resultButtons } from '../ui/card.js';
 import { state, save, finish, resultFor, streak } from '../lib/store.js';
 import { hiloStart, hiloOpen, hiloCall, hiloBank } from '../lib/cloud.js';
 import { SOUNDS, buzz } from '../ui/feedback.js';
@@ -26,7 +26,7 @@ export function drop(app) {
         <h2 class="display">Bank it,<br>or <em>let it ride.</em></h2>
         <p>Higher or lower, 7 seconds a card. Every right call doubles your pot. Stop whenever you like. One wrong call and you lose it all.</p>
       </div>
-      <div class="h-bottom"><button class="btn wide" id="begin">Deal me in</button></div>
+      <div class="h-bottom"><button class="btn wide" id="begin">Order up</button></div>
     </section></div>
     <div class="g-side"><p class="v-msg top" id="msg" role="status"></p><section id="bottom"></section></div>
   </main>`;
@@ -103,10 +103,9 @@ export function drop(app) {
       <p class="bl-tiles">${dropTiles(r)}</p>
       <p class="muted">${[crowd, r.beat != null ? `better than ${r.beat}%` : '', streak(K) > 1 ? `${streak(K)} days in a row` : ''].filter(Boolean).join(' · ')}</p>
       <div class="fr-on" id="fr-on"></div>
-      <button class="btn wide" id="share">Share Drop</button>
-      <button class="link-quiet" id="all">Share today’s whole dose</button>
+      ${resultButtons('hilo')}
       <p class="next-in">Tomorrow’s chain in <b data-cd>${countdown()}</b></p>
-      <a class="link center" href="#">All games</a>
+      <a class="link center" href="#">Back to the counter</a>
     </div>`;
     const send = only => async () => { SOUNDS.tap(); if (await shareDose('story', only) === 'saved') say('Image saved and the text copied. Paste it anywhere.'); };
     $('#share').addEventListener('click', send(K));

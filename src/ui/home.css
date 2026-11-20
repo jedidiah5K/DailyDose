@@ -62,6 +62,13 @@
 .ch-hint::after { content: ''; position: absolute; left: calc(50% + var(--tx, 0px)); bottom: -.55em; width: .8em; height: .8em; translate: -50% 0; rotate: 45deg;
   background: #F6E7CB; border-right: .16em solid #3A2214; border-bottom: .16em solid #3A2214; }
 @keyframes ch-nudge { 50% { translate: -50% calc(-100% - .35em); } }
+/* Dose complete: the hint bubble's look, bigger, no arrow, popping in and fading out */
+.ch-complete { display: grid; justify-items: center; gap: .15em; padding: .5em 1em; text-align: center; animation: ch-pop .35s cubic-bezier(.2, 1.4, .4, 1) both;
+  transition: opacity .4s; }
+.ch-complete::after { display: none; }
+.ch-complete small { font-size: .45em; font-weight: 600; color: #6E4024; }
+.ch-complete.out { opacity: 0; }
+@keyframes ch-pop { from { scale: .4; opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .ch-mug img, .ch-hint { animation: none !important; } }
 
 /* guests: Sign up / Log in pill on the awning (Job, 2026-11-16) */
