@@ -412,3 +412,16 @@ body { font-weight: 500; }
   .screen.game.has-tabs .tabbar { left: auto; right: calc(.6rem + env(safe-area-inset-right)); bottom: 50%; translate: 0 50%; flex-direction: column; }
   .screen.game.has-tabs .tab { min-width: 0; padding: .5rem .55rem; }
 }
+
+/* The nightly dive: depth line on results, gauge and "sank past" pop-up on home */
+.dive-line { justify-self: center; margin: .2rem 0 .3rem; padding: .4rem .85rem; border-radius: 999px; background: #3A2214; color: #F6E7CB;
+  font: 600 .85rem/1.3 'Figtree', system-ui, sans-serif; text-align: center; box-shadow: 0 3px 0 #1E1009; }
+.dive-line b { color: #F2A93B; font: 700 1rem 'Pixelify Sans', sans-serif; }
+.ch-dive { position: absolute; z-index: 21; display: grid; justify-items: center; gap: .15em; min-width: 9em; translate: -50% -100%; margin: 0;
+  padding: .45em .9em .6em; border-radius: .7em; background: #3A2214; color: #F6E7CB; border: .14em solid #F2A93B; box-shadow: 0 .2em 0 #1E1009;
+  pointer-events: none; transition: opacity .25s; }
+.ch-dive b { font: 700 1.25em/1 'Pixelify Sans', sans-serif; } .ch-dive b span { color: #F2A93B; }
+.ch-dive small { font: 600 .62em/1.2 'Figtree', system-ui, sans-serif; color: #E9C9A0; white-space: nowrap; }
+.ch-dive i { position: relative; width: 100%; height: .3em; margin-top: .2em; border-radius: 99px; background: rgba(246,231,203,.2); overflow: hidden; }
+.ch-dive i::after { content: ''; position: absolute; inset: 0; background: #F2A93B; transform-origin: left; transform: scaleX(var(--d, 0)); transition: transform .8s cubic-bezier(.2,.8,.2,1); }
+@media (prefers-reduced-motion: reduce) { .ch-dive i::after { transition: none; } }

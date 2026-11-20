@@ -1,7 +1,9 @@
 // The share image (the café counter card) and the lineup it reads from.
 // Spoiler-free: it shows how you did, never the answers.
 import { puzzleNo } from '../lib/day.js';
-import { resultFor, streak } from '../lib/store.js';
+import { resultFor, streak, state } from '../lib/store.js';
+import { depth, tonight, landmark } from '../lib/dive.js';
+import { dayKey } from '../lib/day.js';
 import { clock } from '../lib/day.js';
 import { blendTiles } from '../screens/blend.js';
 import { dropTiles } from '../screens/drop.js';
@@ -28,12 +30,16 @@ export const nextUp = k => { const i = LINEUP.findIndex(g => g.k === k); return 
 
 // Every result screen ends the same way: the next shot is the main button while games are left;
 // once all six are done, sharing the whole dose is. (#share and #all are wired by each game.)
+// How far this game sank you, and where tonight's dive has got to.
+export const diveLine = k => { const m = tonight(state.results, dayKey());
+  return `<p class="dive-line"><b>+${depth(k, resultFor(k))} m</b> · ${m} m deep, past ${landmark(m)}</p>`; };
+
 export function resultButtons(k) {
   const n = nextUp(k), name = LINEUP.find(g => g.k === k).name;
-  return n ? `<a class="btn wide" href="#${n.k}">Next shot: ${n.name}</a>
+  return diveLine(k) + (n ? `<a class="btn wide" href="#${n.k}">Next shot: ${n.name}</a>
       <button class="link-quiet" id="share">Share ${name}</button><button class="link-quiet" id="all" hidden></button>`
-    : `<button class="btn wide" id="all">Share your whole dose</button>
-      <button class="link-quiet" id="share">Share just ${name}</button>`;
+    : `<button class="btn wide" id="all">Share your dose</button>
+      <button class="link-quiet" id="share">Share just ${name}</button>`);
 }
 
 const SITE = 'daily-dose-azure.vercel.app';   // the game's address, printed on the card even when made on a test copy
@@ -68,7 +74,7 @@ export async function drawCard(format = 'story', only) {
 
   // the cream signboard: what you did today
   const [t1, t2] = only ? [games[0]?.name || 'Daily Dose', games[0] ? games[0].big(games[0].r) : '']
-    : [all ? 'Full dose' : `${games.length} of ${LINEUP.length} shots`, run > 1 ? `${run} days in a row` : all ? 'Every shot pulled' : `${LINEUP.length - games.length} still brewing`];
+    : [all ? 'Full dose' : `${games.length} of ${LINEUP.length} shots`, `${tonight(state.results, dayKey())} m deep` + (run > 1 ? ` · ${run} days in a row` : '')];
   // a full dose turns the board into a loyalty card, one stamp per game
   const bx = 34 * S, by = (all ? 186 : 196) * S, bw = 292 * S, bh = (all ? 166 : 132) * S, n = 4 * S;
   const board = (pad, col) => { x.fillStyle = col; x.beginPath(); x.moveTo(bx - pad + n, by - pad); x.lineTo(bx + bw + pad - n, by - pad); x.lineTo(bx + bw + pad - n, by - pad + n); x.lineTo(bx + bw + pad, by - pad + n);
@@ -126,7 +132,7 @@ export async function drawCard(format = 'story', only) {
   return c;
 }
 
-export const shareText = only => [`DAILY DOSE #${puzzleNo()}`, ...doneTonight().filter(g => !only || g.k === only).map(g => `${g.emoji} ${g.name}: ${g.big(g.r)}`), location.origin].join('\n');
+export const shareText = only => [`DAILY DOSE #${puzzleNo()}`, ...(only ? [] : [`☕ ${tonight(state.results, dayKey())} m deep, past ${landmark(tonight(state.results, dayKey()))}`]), ...doneTonight().filter(g => !only || g.k === only).map(g => `${g.emoji} ${g.name}: ${g.big(g.r)}`), location.origin].join('\n');
 
 // Share the image (and text) through the phone's share sheet; where that's not possible, save the image and copy the text.
 export async function shareDose(format = 'story', only) {
