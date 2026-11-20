@@ -220,6 +220,12 @@ body { font-weight: 500; }
 .game .lk-tries i { width: 14px; height: 14px; border-radius: 4px; box-shadow: none; border: 2px solid var(--esp); background: #FFF8EA; }
 .game .lk-tries i.used { background: var(--bad); }
 .game .hint-btn { background: var(--esp); color: var(--cream); box-shadow: 0 3px 0 #1E1009; font: 700 .9rem var(--pixel); border: 3px solid var(--gold); }
+.game .hint-btn { white-space: nowrap; padding: .55rem .95rem; }
+/* helper buttons sit in one neat row; the quiet "give up" link gets its own line under them */
+.game .ld-tools { flex-wrap: wrap; gap: .6rem; margin-top: 1rem; }
+.game .ld-tools .link-quiet { flex-basis: 100%; text-align: center; padding-top: .2rem; }
+/* a counter beside the name ("0/5") leaves no room for "No. 27 · theme" on small phones: drop it */
+@media (max-width: 400px) { .gm-top:has(.gm-right .eyebrow:not(:empty)) .gm-title span { display: none; } }
 .game .lk-dots i { border: 2px solid var(--esp); border-radius: 5px; background: var(--surface); }
 
 /* Ladder: calm. A real wooden ladder: two rails, a rung of letter tiles per step, the changed letter in gold. */
@@ -387,6 +393,7 @@ body { font-weight: 500; }
     column-gap: 1.2rem; row-gap: .5rem; align-content: center; }
   .game :is(.bl-now, .lk-now, .ld-body) > * { grid-column: 1; margin-block: 0; }
   .game :is(.bl-now, .lk-now, .ld-body) > :is(.bl-clock, .bl-secs, .bl-form, .lk-form, .lk-tries, .dr-calls, .dr-bank, .ld-tools, .h-bottom) { grid-column: 2; }
+  .game .lk-tabs { grid-template-columns: repeat(5, 3rem); margin-top: .4rem; }
   /* How to play: wide, title + demo on the left, the rules and Got it on the right */
   .howto { width: min(100% - 2rem, 46rem); }
   .howto .ht-in { display: grid; grid-template-columns: 1fr 1fr; column-gap: 1.4rem; row-gap: 0; align-items: start; padding: 1rem 1.2rem; }
