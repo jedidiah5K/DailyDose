@@ -62,7 +62,8 @@ export function link(app) {
     if (done || l.done) return;
     const input = $('#w');
     if (matchMedia('(hover: hover)').matches) setTimeout(() => input.focus(), 50);
-    input.addEventListener('input', () => { input.value = input.value.replace(/[^a-z]/gi, '').toUpperCase(); $('#boxes').innerHTML = boxes(input.value); });
+    input.addEventListener('input', () => { input.value = input.value.replace(/[^a-z]/gi, '').toUpperCase(); $('#boxes').innerHTML = boxes(input.value);
+      app.querySelectorAll('#boxes i')[input.value.length - 1]?.classList.add('in'); SOUNDS.tick(); });
     $('#form').addEventListener('submit', e => { e.preventDefault(); guess(input.value); });
   }
 
@@ -86,7 +87,9 @@ export function link(app) {
     if (was.done && !r.result) { draw(); setTimeout(() => { if (!gone && s === r) { cur = nextOpen(k); draw(); } }, 1100); }
     else { draw(); if (!was.done) shake(); }
     // the aha: the chain snaps together; first-try solves get the big burst
-    if (was.solved) { $('.lk-now')?.classList.add('linked'); if (was.used === 1) burst('#F2A93B'); }
+    // the answer flips in letter by letter, each a note higher; a clue earned by a miss drops in
+    if (was.solved) { $('.lk-now')?.classList.add('linked', 'reveal'); [...was.answer].forEach((_, i) => setTimeout(() => SOUNDS.link(i + 1), 120 + i * 90)); if (was.used === 1) burst('#F2A93B'); }
+    else if (!was.done && was.clues.length > l0) app.querySelector('.lk-clues li:last-child')?.classList.add('fresh');
     if (r.result) { finish('link', r.result, day); if (r.result.solved) burst('var(--c-link)'); result(r.result, true); }
   }
 

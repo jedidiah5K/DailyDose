@@ -38,7 +38,9 @@ export function ladder(app) {
   const shake = () => { const b = $('#body'); b.classList.remove('nope'); void b.offsetWidth; b.classList.add('nope'); };
 
   // A rung, with the letter that changed from the rung above lit up.
-  const rung = (w, prev, cls = '') => `<li class="ld-rung ${cls}">${[...w].map((ch, i) => `<span class="${prev && prev[i] !== ch ? 'new' : ''}">${ch}</span>`).join('')}</li>`;
+  // Letters already matching the goal word glow, so every good step visibly gets you closer.
+  const rung = (w, prev, cls = '') => `<li class="ld-rung ${cls}">${[...w].map((ch, i) => `<span class="${prev && prev[i] !== ch ? 'new' : ''}${cls !== 'goal' && s.end[i] === ch ? ' hit' : ''}">${ch}</span>`).join('')}</li>`;
+  const hits = w => [...w].filter((ch, i) => s.end[i] === ch).length;
 
   function draw() {
     const chain = s.chain, done = !!s.result;
@@ -76,10 +78,12 @@ export function ladder(app) {
     busy = false;
     if (gone) return;
     say('');
-    const grew = r.chain.length > s.chain.length;
+    const grew = r.chain.length > s.chain.length, closer = grew && hits(r.chain.at(-1)) > hits(s.chain.at(-1));
     s = r;
-    if (grew) { SOUNDS.link(r.chain.length); buzz(10); } else SOUNDS.tap();
+    // a step that lands another goal letter rings higher and harder than a sideways step
+    if (grew) { SOUNDS.link(closer ? 3 + hits(r.chain.at(-1)) : 1); buzz(closer ? 18 : 8); } else SOUNDS.tap();
     draw();
+    if (grew) [...app.querySelectorAll('.ld-ladder .ld-rung:not(.ld-input):not(.goal)')].pop()?.classList.add('climb');
     if (r.result) { finish('ladder', r.result, day); if (r.result.solved) burst('var(--c-ladder)'); result(r.result, true); }
   }
 
