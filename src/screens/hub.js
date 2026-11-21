@@ -23,8 +23,8 @@ export const GAMES = [
   { k: 'ladder', name: 'Ladder', c: '#EFE3C8', share: r => `🪜 ${ladderLine(r)}` },
 ];
 // Each game's mug and coaster in the art sheet, and where its rim is centred (handles push the picture off-centre).
-const ART = { shot: 1, blend: 2, rush: 3, hilo: 4, link: 5, ladder: 6 };
-const RIM = { shot: .498, blend: .447, rush: .393, hilo: .393, link: .388, ladder: .498 };
+const ART = { shot: 1, blend: 2, rush: 3, hilo: 4, link: 5, ladder: 6, emoji: 13, imposter: 14 };   // full mug = art + 6
+const RIM = { shot: .498, blend: .447, rush: .393, hilo: .393, link: .388, ladder: .498, emoji: .498, imposter: .393 };
 const SHOW_PLAYERS_FROM = 25;   // below this many players we keep quiet; "3 playing" reads like an empty room
 const A = '/art/home/';
 const esc = s => String(s).replace(/[<>&"]/g, c => `&#${c.charCodeAt(0)};`);
@@ -70,7 +70,7 @@ export function hub(app) {
   const load = n => new Promise(r => { const i = new Image(); i.onload = i.onerror = () => r(I[n] = i); i.src = `${A}${n}.webp`; });
   const names = ['sign_1', 'lever_1', 'lever_2', 'lever_5', 'lever_7', 'lever_8', 'fx_5', 'btn_2', 'btn_3', 'btn_4',
     ...[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(i => 'face_' + i), ...[1, 2, 3, 4, 5].map(i => 'malt_' + i),
-    'cat_1', 'cat_2', 'cat_3', 'cat_4', 'cat_6', ...[1, 2, 3, 4, 5, 6].map(i => 'coaster_' + i), ...[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(i => 'mug_' + i)];
+    'cat_1', 'cat_2', 'cat_3', 'cat_4', 'cat_6', ...Object.values(ART).flatMap(a => ['coaster_' + a, 'mug_' + a, 'mug_' + (a + 6)])];
 
   // put an image so its bottom-centre sits at (x, y); swap() changes pose and keeps that point
   function put(n, [x, y, sc], z, cls = '') {

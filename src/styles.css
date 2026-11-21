@@ -655,8 +655,7 @@ p { margin: 0; }
 @media (prefers-reduced-motion: reduce) { .qu-card.flip { animation: none; } }
 
 /* ---------- Emoji Decode + Imposter (prototypes) ---------- */
-.g-emoji, .game.emoji { --c: #E0602F; --on-c: #fff; } .g-imposter, .game.imposter { --c: #C2334F; --on-c: #fff; }
-.game.emoji, .game.imposter { --world: url(/art/worlds/ladder-cafe.webp); }
+/* colours and backdrops live in src/ui/cafe.css with the other games */
 .em-body, .im-body { display: flex; flex-direction: column; flex: 1; gap: .7rem; margin-top: 1rem; }
 .em-card, .im-card { background: var(--cream); border: 4px solid var(--esp); border-radius: 16px; box-shadow: inset 0 0 0 3px #EAD3AA, 0 6px 0 var(--wood); padding: 1.1rem 1rem; display: grid; gap: .8rem; text-align: center; }
 .em-row { display: flex; justify-content: center; gap: .25rem; margin: .2rem 0; }

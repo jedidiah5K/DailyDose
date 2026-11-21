@@ -9,6 +9,8 @@ export const ICONS = {
   rush: '<circle cx="12" cy="13.5" r="7.5"/><path d="M12 13.5V9.5M10 2.5h4M18.5 6.5l1.5-1.5"/>',
   hilo: '<path d="M12 3v18M7 8l5-5 5 5M7 16l5 5 5-5"/>',
   blend: '<circle cx="9" cy="9.5" r="5.5"/><circle cx="15" cy="9.5" r="5.5"/><circle cx="12" cy="15" r="5.5"/>',
+  emoji: '<circle cx="12" cy="12" r="9"/><path d="M8 14.5c1 1.8 2.4 2.5 4 2.5s3-.7 4-2.5M9 9.5v1M15 9.5v1"/>',
+  imposter: '<path d="M2 12s3.5-6.5 10-6.5S22 12 22 12s-3.5 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
   anagram: '<rect x="2.5" y="8" width="8" height="8" rx="1.5"/><rect x="13.5" y="8" width="8" height="8" rx="1.5"/><path d="M6.5 5.5c2-3 9-3 11 0M17.5 18.5c-2 3-9 3-11 0"/>',
 };
 export const icon = (k, cls = '') => `<svg class="gi ${cls}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[k] || ''}</svg>`;

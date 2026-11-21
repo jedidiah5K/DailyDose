@@ -28,6 +28,9 @@ body { font-weight: 500; }
 .game.drop { --c: #1F9A5D; --world: url(/art/worlds/hilo-cafe.webp); }
 .game.mlink { --c: #3D6FD9; --world: url(/art/worlds/link-cafe.webp); }
 .game.ladder { --c: #C9A46A; --world: url(/art/worlds/ladder-cafe.webp); }
+.g-emoji, .game.emoji { --c: #E0602F; --on-c: #fff; } .g-imposter, .game.imposter { --c: #C2334F; --on-c: #fff; }
+.game.emoji { --world: url(/art/worlds/emoji-cafe.webp); }
+.game.imposter { --world: url(/art/worlds/imposter-cafe.webp); }
 
 /* type: one pixel face; weight and size do the hierarchy */
 .screen.game .display { font-family: var(--pixel); font-weight: 700; letter-spacing: 0; line-height: 1.05; }
@@ -482,3 +485,17 @@ body { font-weight: 500; }
 
 /* Letter tiles in a plain bold face: in the pixel font B read as G, C as O and E as € (playtest 2026-11-20) */
 .game :is(.ld-rung span, .lk-boxes i, .sh-shape i, .lk-clues li) { font-family: var(--read); font-weight: 800; letter-spacing: .02em; }
+
+/* Emoji Decode: "I should know this". Emoji sit like tiles on the counter; the dots get a dark pill so they read on the backdrop. */
+.game .em-row span { box-shadow: 0 3px 0 var(--esp); background: #FFF8EA; }
+.game .em-row span.off { box-shadow: none; }
+.game .em-dots { width: fit-content; margin: 0 auto; padding: .4rem .7rem; border-radius: 99px; background: rgba(58, 34, 20, .6); }
+.game .em-dots i { border-color: var(--cream); }
+
+/* Imposter: snap and aha. Names are chunky press-down tiles; the right one stamps green, a wrong one shakes. */
+.game .im-name { background: #FFF8EA; box-shadow: 0 4px 0 var(--esp); transition: transform .08s, box-shadow .08s; }
+.game .im-name:active:not(:disabled) { transform: translateY(3px); box-shadow: 0 1px 0 var(--esp); }
+.game .im-name.odd { box-shadow: 0 4px 0 #145C38; }
+.game .im-name.wrong { box-shadow: 0 4px 0 #7A1A1A; animation: nope .35s; }
+.game .im-name.same { box-shadow: 0 2px 0 var(--esp); }
+@media (prefers-reduced-motion: reduce) { .game .im-name.wrong { animation: none; } }

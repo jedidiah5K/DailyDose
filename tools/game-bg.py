@@ -4,7 +4,7 @@
 from PIL import Image, ImageFilter, ImageEnhance
 
 SRC = 'public/art/home/tall-day.webp'
-COLORS = {'shot': '#FFC93C', 'blend': '#FF8A5B', 'rush': '#F0452B', 'hilo': '#1F9A5D', 'link': '#3D6FD9', 'ladder': '#C9A46A'}
+COLORS = {'shot': '#FFC93C', 'blend': '#FF8A5B', 'rush': '#F0452B', 'hilo': '#1F9A5D', 'link': '#3D6FD9', 'ladder': '#C9A46A', 'emoji': '#E0602F', 'imposter': '#C2334F'}
 
 base = Image.open(SRC).convert('RGB').resize((490, 801), Image.LANCZOS)   # half size: it's blurred anyway
 base = base.filter(ImageFilter.GaussianBlur(9))
