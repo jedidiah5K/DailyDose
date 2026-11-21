@@ -499,3 +499,4 @@ body { font-weight: 500; }
 .game .im-name.wrong { box-shadow: 0 4px 0 #7A1A1A; animation: nope .35s; }
 .game .im-name.same { box-shadow: 0 2px 0 var(--esp); }
 @media (prefers-reduced-motion: reduce) { .game .im-name.wrong { animation: none; } }
+.game .im-name.picked { transform: translateY(3px); box-shadow: 0 1px 0 var(--esp); background: color-mix(in srgb, var(--c) 18%, #FFF8EA); }
