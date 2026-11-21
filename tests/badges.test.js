@@ -10,10 +10,11 @@ test('badges come from results: firsts, full nights and game feats', () => {
     rewire: { [day]: { ms: 50000, stars: 3 } }, hunch: { [day]: { points: 200, hits: 5 } },
     tangle: { [day]: { ms: 25000 } },
     ladder: { [day]: { solved: true, steps: 6, par: 5 } }, shot: { [day]: { ok: true, ms: 4000 } }, rush: { [day]: { points: 20, found: 12, rare: 1 } }, hilo: { [day]: { banked: 80, rights: 3 } }, link: { [day]: { score: 15, solved: 5 } }, blend: { [day]: { score: 300, gems: [false, true, false, false, false] } },
+    emoji: { [day]: { score: 20, solved: 5 } }, imposter: { [day]: { score: 4 } },
   };
   const got = earned(all);
-  for (const id of ['first', 'full', 'par', 'quick', 'bullseye', 'nimble', 'linked']) expect(got.has(id)).toBe(true);
-  for (const id of ['week', 'shortest', 'regular', 'rarefinds']) expect(got.has(id)).toBe(false);
+  for (const id of ['first', 'full', 'par', 'quick', 'bullseye', 'nimble', 'linked', 'decoder']) expect(got.has(id)).toBe(true);
+  for (const id of ['week', 'shortest', 'regular', 'rarefinds', 'unfooled']) expect(got.has(id)).toBe(false);
   expect(earned({ blend: { [day]: { score: 400, gems: [false, true, false, true, false] } } }).has('rarefinds')).toBe(true);
 });
 

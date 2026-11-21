@@ -3,11 +3,11 @@ import { state, save, resultFor, streak } from '../lib/store.js';
 import { playingToday, hasAccount, getMe } from '../lib/cloud.js';
 import { SOUNDS, buzz } from '../ui/feedback.js';
 import { tabBar, burst } from '../ui/shell.js';
-import { ladderLine } from './ladder.js';
+import { emojiLine } from './emoji.js';
 import { linkLine } from './link.js';
 import { blendLine } from './blend.js';
 import { shotLine } from './shot.js';
-import { rushLine } from './rush.js';
+import { imposterLine } from './imposter.js';
 import { dropLine } from './drop.js';
 import { shareDose } from '../ui/card.js';
 import { openAccount } from './account.js';
@@ -16,11 +16,11 @@ import { sb } from '../lib/cloud.js';
 // The lineup, in counter order. New games plug in here: a key, a screen in main.js, a result line, a mug.
 export const GAMES = [
   { k: 'shot', name: 'The Shot', c: '#FFC93C', share: r => `🎯 ${shotLine(r)}` },
-  { k: 'rush', name: 'Rush', c: '#F0452B', share: r => `⏱️ ${rushLine(r)}` },
+  { k: 'imposter', name: 'Imposter', c: '#C2334F', share: r => `🕵️ ${imposterLine(r)}` },
   { k: 'blend', name: 'Blend', c: '#FF8A5B', share: r => `🥤 ${blendLine(r)}` },
   { k: 'hilo', name: 'Drop', c: '#1F9A5D', share: r => `💰 ${dropLine(r)}` },
   { k: 'link', name: 'Missing Link', c: '#3D6FD9', share: r => `🔗 ${linkLine(r)}` },
-  { k: 'ladder', name: 'Ladder', c: '#EFE3C8', share: r => `🪜 ${ladderLine(r)}` },
+  { k: 'emoji', name: 'Emoji Decode', c: '#E0602F', share: r => `😀 ${emojiLine(r)}` },
 ];
 // Each game's mug and coaster in the art sheet, and where its rim is centred (handles push the picture off-centre).
 const ART = { shot: 1, blend: 2, rush: 3, hilo: 4, link: 5, ladder: 6, emoji: 13, imposter: 14 };   // full mug = art + 6

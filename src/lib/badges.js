@@ -3,7 +3,7 @@
 import { countStreak } from './store.js';
 import { icon } from '../ui/icons.js';
 
-const GAMES = ['shot', 'rush', 'blend', 'hilo', 'link', 'ladder'];   // today's lineup (retired games keep their old badges)
+const GAMES = ['shot', 'imposter', 'blend', 'hilo', 'link', 'emoji'];   // today's lineup (retired games keep their old badges)
 const any = (results, k, test) => Object.values(results[k] || {}).some(test);
 
 export const BADGES = [
@@ -18,6 +18,8 @@ export const BADGES = [
   { id: 'nimble', k: 'tangle', name: 'Nimble fingers', how: 'Untangle a knot in under 30 seconds', test: r => any(r, 'tangle', x => x.ms < 30000) },
   { id: 'linked', k: 'link', name: 'Perfect links', how: 'All five links on one clue each', test: r => any(r, 'link', x => x.score === 15) },
   { id: 'rarefinds', k: 'blend', name: 'Rare finds', how: 'Two rare finds in one Blend', test: r => any(r, 'blend', x => (x.gems || []).filter(Boolean).length >= 2) },
+  { id: 'decoder', k: 'emoji', name: 'Decoder', how: 'All five Emoji Decodes in one night', test: r => any(r, 'emoji', x => x.solved === 5) },
+  { id: 'unfooled', k: 'imposter', name: 'Nobody fooled you', how: 'Spot all five imposters', test: r => any(r, 'imposter', x => x.score === 5) },
   { id: 'shortest', k: 'ladder', name: 'Shortest way', how: 'Finish Ladder in par steps', test: r => any(r, 'ladder', x => x.solved && x.steps === x.par) },
 ];
 

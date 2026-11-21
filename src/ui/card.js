@@ -5,21 +5,24 @@ import { resultFor, streak } from '../lib/store.js';
 import { clock } from '../lib/day.js';
 import { blendTiles } from '../screens/blend.js';
 import { dropTiles } from '../screens/drop.js';
+import { emojiLine } from '../screens/emoji.js';
+import { imposterLine } from '../screens/imposter.js';
 
 // Finished games for today, as lines for the card and the text share. Add new games here.
+// Benched 2026-11-21 (Job): Rush and Ladder left the lineup for Imposter and Emoji Decode; their screens and old results stay.
 export const LINEUP = [
   { k: 'shot', name: 'The Shot', color: '#3F7FC4', emoji: '🎯',
     big: r => r.ok ? `Got it in ${(r.ms / 1000).toFixed(1)}s` : 'Missed', small: r => `${r.pct}% got today’s shot` },
-  { k: 'rush', name: 'Rush', color: '#DD7444', emoji: '⏱️',
-    big: r => `${r.points} points`, small: r => `${r.found} found` + (r.rare ? ` · ${r.rare} rare` : '') + (r.beat != null ? ` · beat ${r.beat}%` : '') },
+  { k: 'imposter', name: 'Imposter', color: '#C2334F', emoji: '🕵️',
+    big: r => `${r.score} of 5`, small: r => imposterLine(r) + (r.beat != null ? ` · beat ${r.beat}%` : '') },
   { k: 'blend', name: 'Blend', color: '#CF4F7D', emoji: '🥤',
     big: r => `${r.score} of 500`, small: r => blendTiles(r) + (r.beat != null ? ` · beat ${r.beat}%` : '') },
   { k: 'hilo', name: 'Drop', color: '#C99A1E', emoji: '💰',
     big: r => r.bust ? `Busted on call ${r.rights + 1}` : `Banked ${r.banked.toLocaleString()}`, small: r => dropTiles(r) },
   { k: 'link', name: 'Missing Link', color: '#2C9A88', emoji: '🔗',
     big: r => `${r.score} of 15`, small: r => `${r.solved} of 5 links` + (r.beat != null ? ` · beat ${r.beat}%` : '') },
-  { k: 'ladder', name: 'Ladder', color: '#7D5FC6', emoji: '🪜',
-    big: r => r.solved ? `${r.steps} steps` : 'Gave up', small: r => `Par ${r.par}` + (r.beat != null ? ` · beat ${r.beat}%` : '') },
+  { k: 'emoji', name: 'Emoji Decode', color: '#E0602F', emoji: '😀',
+    big: r => `${r.score} of 25`, small: r => emojiLine(r) + (r.beat != null ? ` · beat ${r.beat}%` : '') },
 ];
 export const doneTonight = () => LINEUP.filter(g => resultFor(g.k)).map(g => ({ ...g, r: resultFor(g.k) }));
 
