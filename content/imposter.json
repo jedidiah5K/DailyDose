@@ -1,0 +1,41 @@
+{
+  "note": "Imposter (prototype): five rounds a day. 'names' lists the three that share the link first, the imposter last (the screen shuffles them). Every link must be true and leave only one imposter. Needs Job's review.",
+  "from": "2026-11-21",
+  "days": [
+    [
+      { "names": ["Drake", "The Weeknd", "Justin Bieber", "Rihanna"], "link": "Canadian. Rihanna is from Barbados." },
+      { "names": ["Instagram", "WhatsApp", "Facebook", "TikTok"], "link": "Owned by Meta. TikTok isn't." },
+      { "names": ["Beyoncé", "Kelly Rowland", "Michelle Williams", "Ciara"], "link": "Destiny's Child. Ciara was never in it." },
+      { "names": ["Harry Styles", "Niall Horan", "Louis Tomlinson", "Ed Sheeran"], "link": "One Direction. Ed Sheeran wrote songs for them but wasn't in the band." },
+      { "names": ["Zendaya", "Tom Holland", "Benedict Cumberbatch", "Jacob Elordi"], "link": "In Marvel films. Jacob Elordi isn't." }
+    ],
+    [
+      { "names": ["Mario", "Luigi", "Yoshi", "Sonic"], "link": "Nintendo characters. Sonic is Sega's." },
+      { "names": ["Kim", "Khloé", "Kourtney", "Kylie"], "link": "Kardashians. Kylie is a Jenner." },
+      { "names": ["Sprite", "Fanta", "Coca-Cola", "Pepsi"], "link": "Made by the Coca-Cola Company. Pepsi is the rival." },
+      { "names": ["Taylor Swift", "Billie Eilish", "Ariana Grande", "Adele"], "link": "American. Adele is British." },
+      { "names": ["Toy Story", "Finding Nemo", "Up", "Shrek"], "link": "Pixar films. Shrek is DreamWorks." }
+    ],
+    [
+      { "names": ["Messi", "Ronaldo", "Neymar", "LeBron"], "link": "Footballers. LeBron plays basketball." },
+      { "names": ["Netflix", "Hulu", "Disney+", "Spotify"], "link": "Video streaming. Spotify is music and podcasts." },
+      { "names": ["Batman", "Superman", "Wonder Woman", "Iron Man"], "link": "DC heroes. Iron Man is Marvel." },
+      { "names": ["Burna Boy", "Wizkid", "Davido", "Drake"], "link": "Nigerian. Drake is Canadian." },
+      { "names": ["iPhone", "iPad", "MacBook", "Galaxy"], "link": "Made by Apple. Galaxy is Samsung." }
+    ],
+    [
+      { "names": ["Harry", "Hermione", "Ron", "Frodo"], "link": "Harry Potter. Frodo is from The Lord of the Rings." },
+      { "names": ["X (Twitter)", "Tesla", "SpaceX", "Amazon"], "link": "Run by Elon Musk. Amazon is Jeff Bezos's." },
+      { "names": ["SpongeBob", "Patrick", "Squidward", "Bugs Bunny"], "link": "Live in Bikini Bottom. Bugs Bunny doesn't." },
+      { "names": ["Monopoly", "Uno", "Scrabble", "Minecraft"], "link": "Board and card games. Minecraft is a video game." },
+      { "names": ["Rihanna", "Kylie Jenner", "Selena Gomez", "Taylor Swift"], "link": "Have their own make-up brand (Fenty Beauty, Kylie Cosmetics, Rare Beauty). Taylor Swift doesn't." }
+    ],
+    [
+      { "names": ["Ross", "Rachel", "Monica", "Sheldon"], "link": "Friends. Sheldon is from The Big Bang Theory." },
+      { "names": ["YouTube", "Gmail", "Google Maps", "Bing"], "link": "Owned by Google. Bing is Microsoft's." },
+      { "names": ["Pikachu", "Charmander", "Squirtle", "Kirby"], "link": "Pokémon. Kirby has his own games." },
+      { "names": ["Paris", "Tokyo", "London", "Sydney"], "link": "Capital cities. Australia's capital is Canberra." },
+      { "names": ["Barbie", "Oppenheimer", "Wonka", "Titanic"], "link": "Came out in 2023. Titanic is from 1997." }
+    ]
+  ]
+}

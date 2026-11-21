@@ -19,6 +19,8 @@ import { rush } from './screens/rush.js';
 import { drop } from './screens/drop.js';
 import { me } from './screens/me.js';
 import { queue } from './screens/queue.js';
+import { emoji } from './screens/emoji.js';
+import { imposter } from './screens/imposter.js';
 import { friends } from './screens/friends.js';
 import { state, save, mergeResults } from './lib/store.js';
 import { hasAccount, myResults } from './lib/cloud.js';
@@ -26,7 +28,7 @@ import { BADGES, earned, badgeArt } from './lib/badges.js';
 import { SOUNDS, buzz } from './ui/feedback.js';
 
 const app = document.getElementById('app');
-const SCREENS = { hub, shot, rush, blend, hilo: drop, link, ladder, me, friends, queue };   // queue: prototype, reachable only at #queue
+const SCREENS = { hub, shot, rush, blend, hilo: drop, link, ladder, me, friends, queue, emoji, imposter };   // prototypes, reachable only by their hash
 let cleanup = null;
 
 // Hash routes (#rewire) so the back button and shared links work without a server.

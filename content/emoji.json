@@ -1,0 +1,41 @@
+{
+  "note": "Emoji Decode (prototype): five a day. Emojis go from vague to giveaway; you start with two. 'a' = accepted answers. Needs Job's review.",
+  "from": "2026-11-21",
+  "days": [
+    [
+      { "cat": "movie", "e": ["💑", "🎻", "🌊", "💎", "🧊", "🚢"], "a": ["titanic"] },
+      { "cat": "show", "e": ["🚲", "🧇", "🔦", "🙃", "👧", "👾"], "a": ["stranger things"] },
+      { "cat": "song", "e": ["👨‍👩‍👧", "🎶", "🌊", "👶", "🎵", "🦈"], "a": ["baby shark"] },
+      { "cat": "internet", "e": ["🥶", "🎥", "💦", "🪣", "🧊", "🏆"], "a": ["ice bucket challenge"] },
+      { "cat": "celeb", "e": ["🎤", "🃏", "⭐", "🥩", "👗", "👑"], "a": ["lady gaga", "gaga"] }
+    ],
+    [
+      { "cat": "movie", "e": ["🦉", "🧹", "🏰", "🧙", "👓", "⚡"], "a": ["harry potter"] },
+      { "cat": "show", "e": ["🍪", "💰", "🟢", "🔴", "🎮", "🦑"], "a": ["squid game"] },
+      { "cat": "song", "e": ["🌾", "🎵", "🤠", "🐴", "🏙️", "🛣️"], "a": ["old town road"] },
+      { "cat": "internet", "e": ["🖼️", "🙅", "😒", "😠", "🐱", "😾"], "a": ["grumpy cat"] },
+      { "cat": "celeb", "e": ["🏆", "🙌", "🐐", "7️⃣", "⚽", "🇵🇹"], "a": ["ronaldo", "cristiano ronaldo", "cr7"] }
+    ],
+    [
+      { "cat": "movie", "e": ["🌅", "🎶", "🐗", "🐒", "👑", "🦁"], "a": ["lion king", "the lion king"] },
+      { "cat": "show", "e": ["🌊", "🍔", "🐿️", "⭐", "🍍", "🧽"], "a": ["spongebob", "spongebob squarepants"] },
+      { "cat": "song", "e": ["💃", "🕺", "🔥", "🔔", "📱", "📞"], "a": ["hotline bling"] },
+      { "cat": "internet", "e": ["🗳️", "🕵️", "🔪", "🚀", "👨‍🚀", "📮"], "a": ["among us"] },
+      { "cat": "celeb", "e": ["🎤", "💍", "🤠", "🍋", "👑", "🐝"], "a": ["beyonce"] }
+    ],
+    [
+      { "cat": "movie", "e": ["🏝️", "💧", "🚙", "🦕", "🏞️", "🦖"], "a": ["jurassic park", "jurassic world"] },
+      { "cat": "show", "e": ["📺", "🛋️", "⚛️", "👨‍👩‍👧‍👦", "💛", "🍩"], "a": ["simpsons", "the simpsons"] },
+      { "cat": "song", "e": ["🎵", "💃", "❤️", "🧡", "🫵", "📐"], "a": ["shape of you"] },
+      { "cat": "internet", "e": ["📰", "🔤", "5️⃣", "⬛", "🟨", "🟩"], "a": ["wordle"] },
+      { "cat": "celeb", "e": ["🔋", "👽", "🐦", "❌", "🚗", "🚀"], "a": ["elon musk", "elon", "musk"] }
+    ],
+    [
+      { "cat": "movie", "e": ["🌊", "🦈", "🐢", "🐟", "🔍", "🐠"], "a": ["finding nemo", "nemo"] },
+      { "cat": "show", "e": ["❄️", "🔥", "🗡️", "🐉", "👑", "🪑"], "a": ["game of thrones", "got"] },
+      { "cat": "song", "e": ["🎵", "🕶️", "💃", "🇰🇷", "🐴", "🕺"], "a": ["gangnam style"] },
+      { "cat": "internet", "e": ["🚶", "🗺️", "📱", "⚾", "⚡", "🐭"], "a": ["pokemon go"] },
+      { "cat": "celeb", "e": ["🎤", "💔", "✨", "🧣", "🐍", "1️⃣3️⃣"], "a": ["taylor swift", "taylor"] }
+    ]
+  ]
+}
