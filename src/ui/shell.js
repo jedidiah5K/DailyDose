@@ -52,6 +52,8 @@ const HOWTO = {
     demo: `<div class="demo demo-blend"><p>Pot 80 → 160?</p><b>BANK IT · OR GO</b></div>` },
   blend: { name: 'Blend', steps: ['Five prompts, 20 seconds each. Type the first thing that fits.', '“Think like everyone”: match the answer most people give. “Think like no one”: a real answer few people give. Only the rarest answers score near 100.', 'Up to 100 points a prompt. A rare answer nobody saw coming is a 💎.'],
     demo: `<div class="demo demo-blend"><p>A fruit that’s yellow</p><b>BANANA · 71%</b></div>` },
+  queue: { name: 'Queue', steps: ['Put five things in order, like oldest to youngest.', 'Tap two cards to swap them, then Serve.', 'Right spots turn green and lock. The rest show an arrow: move up or move down.', 'Five tries to get the whole queue right.'],
+    demo: `<div class="demo"><p>🟩⬛⬛🟩⬛</p><p>🟩🟩⬛🟩🟩</p><p>🟩🟩🟩🟩🟩</p></div>` },
   link: { name: 'Missing Link', steps: ['One hidden word goes with every clue. It can come before or after each clue.', 'You start with one clue. Stuck? Show another, or a wrong guess shows it for you. Up to three clues, three guesses.', 'Solve it on 1 clue for 3 points, 2 clues for 2, 3 clues for 1. Each wrong guess costs a point too, so unsure? Ask for a clue.'],
     demo: `<div class="demo demo-link"><p><span>STAR</span><span>TRAFFIC</span><span>HOUSE</span></p><b>LIGHT</b></div>` },
 };

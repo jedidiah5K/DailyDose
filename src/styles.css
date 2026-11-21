@@ -631,3 +631,25 @@ p { margin: 0; }
 .dr-chain li.seen { opacity: 1; } .dr-chain li b { font: 600 .85rem var(--mono); white-space: nowrap; }
 .dr-chain li.bust { opacity: 1; box-shadow: inset 0 0 0 2px var(--bad); } .dr-chain li.stop { opacity: 1; box-shadow: inset 0 0 0 2px var(--c); }
 .ru-missed b { text-transform: capitalize; }
+
+/* ---------- Queue (prototype) ---------- */
+.g-queue, .game.queue { --c: #1C9C9C; --on-c: #fff; }
+.game.queue { --world: url(/art/worlds/ladder-cafe.webp); }
+.qu-body { display: flex; flex-direction: column; flex: 1; gap: .4rem; margin-top: 1rem; background: var(--cream); border: 4px solid var(--esp); border-radius: 16px; box-shadow: inset 0 0 0 3px #EAD3AA, 0 6px 0 var(--wood); padding: 1rem; }
+.qu-body:has(.h-intro) { background: none; border: 0; box-shadow: none; padding: 0; }
+.qu-ask { text-align: center; font-size: 1.6rem; margin: 0 0 .2rem; }
+.qu-end { text-align: center; margin: 0; font: 700 .75rem var(--read); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.qu-list { list-style: none; margin: 0; padding: 0; display: grid; gap: .45rem; }
+.qu-card { width: 100%; min-height: 3.4rem; display: flex; align-items: center; justify-content: space-between; gap: .6rem; padding: .5rem .9rem; border: 3px solid var(--esp); border-radius: 12px; background: var(--surface); color: var(--esp); font: 700 1.05rem var(--read); text-align: left; cursor: pointer; transition: transform .15s var(--spring), background .15s; touch-action: manipulation; }
+.qu-card:active:not(:disabled) { transform: scale(.97); }
+.qu-card.on { background: var(--gold); transform: translateY(-3px); box-shadow: 0 4px 0 var(--wood); }
+.qu-card.ok { background: var(--good); border-color: var(--good); color: #fff; cursor: default; }
+.qu-card.up, .qu-card.down { background: var(--tile); }
+.qu-card b { font: 700 1.5rem var(--pixel); }
+.qu-card small { font: 600 .85rem var(--read); opacity: .85; white-space: nowrap; }
+.qu-card.flip { animation: qu-flip .42s var(--d) both; }
+@keyframes qu-flip { 0% { transform: rotateX(0); } 50% { transform: rotateX(90deg); } 100% { transform: rotateX(0); } }
+.qu-hint { text-align: center; margin: .3rem 0 0; color: var(--ink-2); font-size: .9rem; }
+.qu-grid { display: grid; gap: .1rem; justify-content: center; margin: .6rem 0 1rem; font-size: 1.3rem; line-height: 1.2; }
+.qu-grid p { margin: 0; letter-spacing: .1em; }
+@media (prefers-reduced-motion: reduce) { .qu-card.flip { animation: none; } }
